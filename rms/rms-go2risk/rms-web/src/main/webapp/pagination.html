@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" ng-app id="ng-app">
+<head>
+<meta charset="ISO-8859-1">
+<title>AngularJS Pagination Example</title>
+
+<style>
+table, th, td {
+	border: 1px solid grey;
+	border-collapse: collapse;
+	padding: 5px;
+}
+
+table tr:nth-child(odd) {
+	background-color: #f2f2f2;
+}
+
+table tr:nth-child(even) {
+	background-color: #ffffff;
+}
+</style>
+
+<script src="js/angular.js"></script>
+
+<script>
+function PaginationCtrlAjax($scope, $http)
+{
+	$http({method: 'GET', url: 'http://localhost:8088/rmsrest/p/test/pagination'}).success(function(data)
+	{
+		$scope.pagedata = data; // response data 
+	});
+}
+</script>
+<style>
+body {
+	font-family: arial;
+	font-size: 12px
+}
+
+.postBody {
+	padding: 10px;
+	width: 550px;
+	border-bottom: dashed 2px #dedede
+}
+
+.postBody a {
+	color: #333333;
+	text-decoration: none
+}
+
+.postBody a:hover {
+	color: #006699;
+	background-color: #dedede
+}
+
+.time {
+	margin: 10px 0px 10px 0px;
+	color: #006699;
+}
+</style>
+
+</head>
+<body>
+
+	<h3>Pagination:</h3>
+	<div id="ng-app" ng-app ng-controller="PaginationCtrlAjax">
+		Search: <input type="text" ng-model="search.$">
+		<hr>
+		<table>
+			<tr>
+				<th>ID</th>
+				<th>Type</th>
+				<th>Description</th>
+				<th>Created Date</th>
+				<th>Created By</th>
+				<th>Last Updated Date</th>
+				<th>Last Updated By</th>				
+			</tr>
+			<tr ng-repeat="page in pagedata | filter:search">
+				<td>{{page.id}}</td>
+				<td>{{page.type}}</td>
+				<td>{{page.description}}</td>				
+				<td>{{page.created}}</td>
+				<td>{{page.createdBy}}</td>
+				<td>{{page.lastUpdated}}</td>
+				<td>{{page.lastUpdatedBy}}</td>
+			</tr>
+		</table>
+	</div>	
+
+</body>
+</html>

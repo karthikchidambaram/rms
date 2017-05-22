@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Logout Page</title>
+<script language="JavaScript" type="text/javascript">
+
+function myLogoutFormSubmit() {
+
+	var loginId = document.getElementById("txtUserLoginId").value;
+	var formActionString = "/rmsrest/p/login/do-logout/";
+	
+	if (loginId.trim().length <= 0) {
+		alert("User login id cannot be null or empty.");
+		document.getElementById("txtUserLoginId").focus();
+		return false;
+	} 
+
+	document.getElementById("logoutForm").action = formActionString + loginId; 
+	document.getElementById("logoutForm").submit();
+}
+
+</script>
+</head>
+<body>
+	<form name="logoutForm" id="logoutForm" method="post">
+		<h1>Logout Page</h1>
+		<hr>
+		<table id="tableLogout">
+			<tbody>
+				<tr>
+					<td>Enter user login id: </td>
+					<td><input type="text" name="txtUserLoginId" id="txtUserLoginId" size="25" maxlength="40"></td>
+					<td><input type="button" name="btnSubmit" id="btnSubmit" value="Submit" onClick="return myLogoutFormSubmit()"></td>
+					<td><input type="reset" name="btnReset" id="btnReset" value="Reset"></td>
+				</tr>
+			</tbody>
+		</table>
+
+	</form>
+</body>
+</html>

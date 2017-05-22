@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+				http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+	<!-- Convert an Department Attribues to/from an PaginationRO -->
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.test.Pagination</class-a>
+		<class-b>com.i2g.rms.rest.model.test.PaginationRO</class-b>
+	</mapping>
+	
+</mappings>

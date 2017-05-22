@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+	<sql-query name="GET_DEPT_DETAILS">
+		<![CDATA[
+			SELECT 
+				DNAME, DEPTNO, LOC
+			FROM
+				RMS_TEST_DEPT
+		]]>
+		<return-scalar column="DNAME" type="string" />
+		<return-scalar column="DEPTNO" type="string" />
+		<return-scalar column="LOC" type="string" />
+	</sql-query>
+
+</hibernate-mapping>

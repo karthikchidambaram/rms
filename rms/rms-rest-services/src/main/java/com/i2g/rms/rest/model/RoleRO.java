@@ -1,0 +1,55 @@
+package com.i2g.rms.rest.model;
+
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+/**
+ * REST Object for returning role details to the REST client.
+ * 
+ * @since 1.0.0
+ * @author Karthikeyan Chidambaram
+ * @author RMS Development Team
+ */
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class RoleRO extends AbstractEntityRO {
+
+	private long _id;
+	private String _roleName;
+	private String _roleDescription;
+	private Set<PermissionRO> _permissions;
+
+	public long getId() {
+		return _id;
+	}
+
+	public void setId(long id) {
+		_id = id;
+	}
+
+	public String getRoleName() {
+		return _roleName;
+	}
+
+	public void setRoleName(String roleName) {
+		_roleName = roleName;
+	}
+
+	public String getRoleDescription() {
+		return _roleDescription;
+	}
+
+	public void setRoleDescription(String roleDescription) {
+		_roleDescription = roleDescription;
+	}
+
+	public Set<PermissionRO> getPermissions() {
+		return _permissions;
+	}
+
+	public void setPermissions(Set<PermissionRO> permissions) {
+		_permissions = permissions;
+	}
+}

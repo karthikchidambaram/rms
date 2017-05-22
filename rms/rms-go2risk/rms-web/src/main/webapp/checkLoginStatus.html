@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Test Page - Check Login Status</title>
+
+<script language="JavaScript" type="text/javascript">
+
+function myFormSubmit() {
+
+	var loginId = document.getElementById("txtLoginId").value;
+	var formActionString = "";
+	
+	if (loginId.trim().length <= 0) {
+		alert("Please enter user login id to proceed.");
+		document.getElementById("txtLoginId").focus();
+		return false;
+	} 
+
+	formActionString = "/rmsrest/p/login/check-login-status/" + loginId;
+	document.getElementById("formCheckLoginStatus").action = formActionString; 
+	document.getElementById("formCheckLoginStatus").submit();
+}
+
+</script>
+
+</head>
+<body>
+	<form name="formCheckLoginStatus" id="formCheckLoginStatus" method="post">
+
+		<h1>Check Login Status</h1>
+
+		<hr>
+
+		<table>
+			<tr>
+				<td>Enter user login id here to check: </td>
+				<td><input type="text" name="txtLoginId" id="txtLoginId" size="25" maxlength="40"></td>
+				<td><input type="button" name="btnSubmitbutton" id="btnSubmitButton" value="Submit" onClick="return myFormSubmit()"></td>
+				<td><input type="reset" name="btnReset" id="btnReset" value="Reset"></td>
+			</tr>
+		</table>
+
+	</form>
+</body>
+</html>

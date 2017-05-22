@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html ng-app="dept">
+<head>
+<meta charset="ISO-8859-1">
+<title>AngularJS Sample Page</title>
+<style>
+table, th, td {
+	border: 1px solid grey;
+	border-collapse: collapse;
+	padding: 5px;
+}
+
+table tr:nth-child(odd) {
+	background-color: #f2f2f2;
+}
+
+table tr:nth-child(even) {
+	background-color: #ffffff;
+}
+</style>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+<script src="js/dept.js"></script>
+</head>
+<body>
+
+	<p>
+		<b>Making a RESTful web service call from a HTML page using
+			AngularJS framework.</b>
+	</p>
+
+	<hr>
+
+	<div ng-controller="Dept">
+		<table width="50%" align="center">
+			<tr>
+				<th colspan="2" align="center">Department Detail</th>
+			</tr>
+			<tr>
+				<td>Department ID:</td>
+				<td>{{deptDtls.id}}</td>
+			</tr>
+			<tr>
+				<td>Department Number:</td>
+				<td>{{deptDtls.deptNo}}</td>
+			</tr>
+			<tr>
+				<td>Department Name:</td>
+				<td>{{deptDtls.dname}}</td>
+			</tr>
+			<tr>
+				<td>Department Location:</td>
+				<td>{{deptDtls.loc}}</td>
+			</tr>
+		</table>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+						   http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+						   http://www.springframework.org/schema/context 
+						   http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<description>
+		Spring application context for creating Ehcache instances
+		to support
+		second level caching in Hibernate.
+	</description>
+
+	<!-- Region factory for integrating Ehcache with Hibernate -->
+	<bean id="ehcacheRegionFactory"
+		class="com.i2g.rms.persistence.support.EhcacheBeanRegionFactory"
+		depends-on="roleCache, permissionCache, rolePermisionCache, userCache, groupCache, userGroupCache, userDetailsCache, userUserDetailsCache, passwordHistoryCache, userPasswordHistoryCache">
+		<property name="cacheManager" ref="hibernateCacheManager" />
+	</bean>
+
+	<!-- Cache manager for mainaining second level caches for Hibernate -->
+	<bean id="hibernateCacheManager" class="net.sf.ehcache.CacheManager">
+		<constructor-arg>
+			<bean class="net.sf.ehcache.config.Configuration">
+				<property name="name" value="cacheManager.hibernate" />
+			</bean>
+		</constructor-arg>
+	</bean>
+
+	<!-- Second level cache for Role entities -->
+	<bean id="roleCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+		<property name="cacheManager" ref="hibernateCacheManager" />
+		<property name="cacheName" value="com.i2g.rms.domain.model.Role" />
+		<property name="overflowToDisk" value="false" />
+		<property name="timeToLive" value="0" />
+		<property name="timeToIdle" value="0" />
+		<property name="eternal" value="true" />
+		<property name="maxElementsInMemory" value="1000" />
+	</bean>
+	<!-- Second level cache for Permission entities -->
+	<bean id="permissionCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+		<property name="cacheManager" ref="hibernateCacheManager" />
+		<property name="cacheName" value="com.i2g.rms.domain.model.Permission" />
+		<property name="overflowToDisk" value="false" />
+		<property name="timeToLive" value="0" />
+		<property name="timeToIdle" value="0" />
+		<property name="eternal" value="true" />
+		<property name="maxElementsInMemory" value="1000" />
+	</bean>
+	<bean id="rolePermisionCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+		<property name="cacheManager" ref="hibernateCacheManager" />
+		<property name="cacheName" value="com.i2g.rms.domain.model.Role.permissions" />
+		<property name="overflowToDisk" value="false" />
+		<property name="timeToLive" value="0" />
+		<property name="timeToIdle" value="0" />
+		<property name="eternal" value="true" />
+		<property name="maxElementsInMemory" value="1000" />
+	</bean>
+
+	<!-- Second level cache for User entities -->
+	<bean id="userCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+		<property name="cacheManager" ref="hibernateCacheManager" />
+		<property name="cacheName" value="com.i2g.rms.domain.model.User" />
+		<property name="overflowToDisk" value="false" />
+		<property name="timeToLive" value="0" />
+		<property name="timeToIdle" value="0" />
+		<property name="eternal" value="true" />
+		<property name="maxElementsInMemory" value="1000" />
+	</bean>
+	<bean id="groupCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+		<property name="cacheManager" ref="hibernateCacheManager" />
+		<property name="cacheName" value="com.i2g.rms.domain.model.Group" />
+		<property name="overflowToDisk" value="false" />
+		<property name="timeToLive" value="0" />
+		<property name="timeToIdle" value="0" />
+		<property name="eternal" value="true" />
+		<property name="maxElementsInMemory" value="1000" />
+	</bean>
+	<bean id="userGroupCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+		<property name="cacheManager" ref="hibernateCacheManager" />
+		<property name="cacheName" value="com.i2g.rms.domain.model.User.groups" />
+		<property name="overflowToDisk" value="false" />
+		<property name="timeToLive" value="0" />
+		<property name="timeToIdle" value="0" />
+		<property name="eternal" value="true" />
+		<property name="maxElementsInMemory" value="1000" />
+	</bean>
+	<bean id="userDetailsCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+		<property name="cacheManager" ref="hibernateCacheManager" />
+		<property name="cacheName" value="com.i2g.rms.domain.model.UserDetails" />
+		<property name="overflowToDisk" value="false" />
+		<property name="timeToLive" value="0" />
+		<property name="timeToIdle" value="0" />
+		<property name="eternal" value="true" />
+		<property name="maxElementsInMemory" value="1000" />
+	</bean>
+	<bean id="userUserDetailsCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+		<property name="cacheManager" ref="hibernateCacheManager" />
+		<property name="cacheName" value="com.i2g.rms.domain.model.User.userDetails" />
+		<property name="overflowToDisk" value="false" />
+		<property name="timeToLive" value="0" />
+		<property name="timeToIdle" value="0" />
+		<property name="eternal" value="true" />
+		<property name="maxElementsInMemory" value="1000" />
+	</bean>
+	<bean id="passwordHistoryCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+		<property name="cacheManager" ref="hibernateCacheManager" />
+		<property name="cacheName" value="com.i2g.rms.domain.model.PasswordHistory" />
+		<property name="overflowToDisk" value="false" />
+		<property name="timeToLive" value="0" />
+		<property name="timeToIdle" value="0" />
+		<property name="eternal" value="true" />
+		<property name="maxElementsInMemory" value="1000" />
+	</bean>
+	<bean id="userPasswordHistoryCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+		<property name="cacheManager" ref="hibernateCacheManager" />
+		<property name="cacheName"
+			value="com.i2g.rms.domain.model.User.passwordHistory" />
+		<property name="overflowToDisk" value="false" />
+		<property name="timeToLive" value="0" />
+		<property name="timeToIdle" value="0" />
+		<property name="eternal" value="true" />
+		<property name="maxElementsInMemory" value="1000" />
+	</bean>
+
+</beans>

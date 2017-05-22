@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Login Page</title>
+
+<script language="JavaScript" type="text/javascript">
+
+function myLoginFormSubmit() {
+
+	var loginId = document.getElementById("txtUserLoginId").value;
+	var password = document.getElementById("txtUserPassword").value;
+	var formActionString = "/rmsrest/p/login/do-login-html";
+	
+	if (loginId.trim().length <= 0) {
+		alert("User login id cannot be null or empty.");
+		document.getElementById("txtUserLoginId").focus();
+		return false;
+	} 
+
+	if (password.trim().length <= 0) {
+		alert("User password cannot be null or empty.");
+		document.getElementById("txtUserPassword").focus();
+		return false;
+	}
+
+	document.getElementById("formLogin").action = formActionString; 
+	document.getElementById("formLogin").submit();
+}
+
+</script>
+
+</head>
+<body>
+
+	<form id="formLogin" name="formLogin" method="post">
+
+		<h1>Login Page</h1>
+
+		<hr>
+
+		<table id="tableLogin">
+			<tbody>
+				<tr>
+					<td>User Login ID: </td>
+					<td><input type="text" id="txtUserLoginId" name="txtUserLoginId" size="25" maxlength="40"></td>
+				</tr>
+				<tr>
+					<td>Passowrd: </td>
+					<td><input type="password" id="txtUserPassword" name="txtUserPassword" size="26" maxlength="40"></td>
+				</tr>
+				<tr align="center">
+					<td colspan="2">
+						<input type="button" name="btnSubmit" id="btnSubmit" value="Submit" onClick="return myLoginFormSubmit()">
+						<input type="reset" name="btnReset" id="btnReset" value="Reset">
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+	</form>
+
+</body>
+</html>
