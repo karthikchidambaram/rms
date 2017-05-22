@@ -3,10 +3,12 @@
 	xsi:schemaLocation="
 				http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
 
-	<!-- Mapping for table maintenance objects -->
+	<!-- Table maintenance -->
 	<mapping>
-		<class-a>com.i2g.rms.domain.model.tablemaintenance.EntryPoint</class-a>
-		<class-b>com.i2g.rms.rest.model.tablemaintenance.EntryPointRO</class-b>
+		<class-a>com.i2g.rms.domain.model.tablemaintenance.EntryPoint
+		</class-a>
+		<class-b>com.i2g.rms.rest.model.tablemaintenance.EntryPointRO
+		</class-b>
 	</mapping>
 
 </mappings>

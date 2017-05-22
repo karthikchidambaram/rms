@@ -14,9 +14,9 @@
 		<class-a>com.i2g.rms.domain.model.PasswordHistory</class-a>
 		<class-b>com.i2g.rms.rest.model.PasswordHistoryRO</class-b>
 		<field-exclude>
-           <a>user</a>
-           <b>user</b>
-        </field-exclude>
+			<a>user</a>
+			<b>user</b>
+		</field-exclude>
 	</mapping>
 
 	<mapping>
@@ -38,9 +38,9 @@
 		<class-a>com.i2g.rms.domain.model.UserDetails</class-a>
 		<class-b>com.i2g.rms.rest.model.UserDetailsRO</class-b>
 		<field-exclude>
-           <a>user</a>
-           <b>user</b>
-        </field-exclude>
+			<a>user</a>
+			<b>user</b>
+		</field-exclude>
 	</mapping>
 
 </mappings>

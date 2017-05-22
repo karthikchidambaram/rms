@@ -8,19 +8,19 @@
 		<class-a>com.i2g.rms.domain.model.test.Department</class-a>
 		<class-b>com.i2g.rms.rest.model.test.DepartmentRO</class-b>
 	</mapping>
-	
+
 	<mapping>
 		<class-a>com.i2g.rms.domain.model.test.MyDepartment</class-a>
 		<class-b>com.i2g.rms.rest.model.test.MyDepartmentRO</class-b>
 	</mapping>
-	
+
 	<mapping>
 		<class-a>com.i2g.rms.domain.model.test.MyEmployee</class-a>
 		<class-b>com.i2g.rms.rest.model.test.MyEmployeeRO</class-b>
 		<field-exclude>
-           <a>department</a>
-           <b>department</b>
-        </field-exclude>
+			<a>department</a>
+			<b>department</b>
+		</field-exclude>
 	</mapping>
-	
+
 </mappings>

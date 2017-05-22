@@ -8,5 +8,5 @@
 		<class-a>com.i2g.rms.domain.model.test.Pagination</class-a>
 		<class-b>com.i2g.rms.rest.model.test.PaginationRO</class-b>
 	</mapping>
-	
+
 </mappings>
