@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.i2g.rms.rest.mapping.MapperService;
+import com.i2g.rms.service.exception.ResourceNotFoundException;
 import com.i2g.rms.service.exception.ResourceNotValidException;
 import com.i2g.rms.service.message.MessageBuilder;
 
@@ -156,6 +157,24 @@ public abstract class AbstractRestService {
 	protected void validateDescription(final String description) {
 		if (description == null || description.trim().isEmpty()) {
 			throw new ResourceNotValidException(_messageBuilder.build(RestMessage.DESCRIPTION_NULL_OR_EMPTY));
+		}
+	}
+	
+	protected void validateTableName(final String tableName) {
+		if (tableName == null || tableName.trim().isEmpty()) {
+			throw new ResourceNotValidException(_messageBuilder.build(RestMessage.TABLE_NAME_NULL_OR_EMPTY));
+		}
+	}
+
+	protected void validateOperation(final String operation) {
+		if (operation == null || operation.trim().isEmpty()) {
+			throw new ResourceNotValidException(_messageBuilder.build(RestMessage.OPERATION_NULL_OR_EMPTY));
+		}
+	}
+
+	protected void validateObjectArray(final List<Object[]> objects) {
+		if (objects == null || objects.isEmpty()) {
+			throw new ResourceNotFoundException(_messageBuilder.build(RestMessage.OBJECT_ARRAY_NULL_OR_EMPTY));
 		}
 	}
 }

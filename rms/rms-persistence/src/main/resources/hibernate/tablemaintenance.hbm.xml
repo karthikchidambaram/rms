@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	
+	<!-- Queries for Entry Point --> 
+	<sql-query name="TableMaintenance.entry-point.get">
+		<![CDATA[
+			SELECT
+				ENTY_PNT_CDE,
+				ENTY_PNT_DESC
+			FROM
+				RMS_IND_ENTY_PNT
+			ORDER BY
+				UPPER(ENTY_PNT_DESC)
+		]]>
+		<return-scalar column="ENTY_PNT_CDE" type="string" />
+		<return-scalar column="ENTY_PNT_DESC" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.entry-point.getByCode">
+		<![CDATA[
+			SELECT
+				ENTY_PNT_CDE,
+				ENTY_PNT_DESC
+			FROM
+				RMS_IND_ENTY_PNT
+			WHERE
+				ENTY_PNT_CDE = :CODE
+		]]>
+		<return-scalar column="ENTY_PNT_CDE" type="string" />
+		<return-scalar column="ENTY_PNT_DESC" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.entry-point.create">
+		<![CDATA[
+			INSERT INTO RMS_IND_ENTY_PNT (
+				ENTY_PNT_CDE, 
+				ENTY_PNT_DESC, 
+				CRET_DTM, 
+				CRET_LGN_UID, 
+				LST_UPDT_DTM, 
+				LST_UPDT_LGN_UID
+			)
+			VALUES (
+				:CODE, 
+				:DESCRIPTION, 
+				:CREATED_DT, 
+				:CREATED_BY, 
+				:UPDATED_DT, 
+				:UPDATED_BY
+			)
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.entry-point.update">
+		<![CDATA[
+			UPDATE RMS_IND_ENTY_PNT
+				SET 
+				ENTY_PNT_DESC = :DESCRIPTION,
+				LST_UPDT_DTM = :UPDATED_DT, 
+				LST_UPDT_LGN_UID = :UPDATED_BY
+			WHERE 
+				ENTY_PNT_CDE = :CODE
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.entry-point.delete">
+		<![CDATA[
+			DELETE 
+				FROM RMS_IND_ENTY_PNT
+			WHERE 
+				ENTY_PNT_CDE IN (:CODES)
+		]]>
+	</sql-query>
+
+</hibernate-mapping>

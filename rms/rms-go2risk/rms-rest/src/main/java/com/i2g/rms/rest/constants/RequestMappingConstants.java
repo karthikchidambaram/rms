@@ -66,10 +66,24 @@ public interface RequestMappingConstants {
 	/** Table Maintenance Requests */
 	String TABLE_MAINTENANCE 		= SECURED + "/table-maintenance";
 	
-	/** Entry Point Request Mappings */
-	String GET_ENTRY_POINTS 		= TABLE_MAINTENANCE + "/entry-point/entry-points";
-	String GET_ENTRY_POINT_BY_CODE 	= TABLE_MAINTENANCE + "/entry-point/{code}";
-	String CREATE_ENTRY_POINT 		= TABLE_MAINTENANCE + "/entry-point/create-entry-point";
-	String UPDATE_ENTRY_POINT 		= TABLE_MAINTENANCE + "/entry-point/update-entry-point";
-	String DELETE_ENTRY_POINT 		= TABLE_MAINTENANCE + "/entry-point/delete-entry-point/{code}";
+	/** Entry Point Request Mappings (Testing purpose URLs) */
+	String TEST_GET_ENTRY_POINTS 			= TABLE_MAINTENANCE + "/test-entry-point/entry-points";
+	String TEST_GET_ENTRY_POINT_BY_CODE 	= TABLE_MAINTENANCE + "/test-entry-point/{code}";
+	String TEST_CREATE_ENTRY_POINT 			= TABLE_MAINTENANCE + "/test-entry-point/create-entry-point";
+	String TEST_UPDATE_ENTRY_POINT 			= TABLE_MAINTENANCE + "/test-entry-point/update-entry-point";
+	String TEST_DELETE_ENTRY_POINT 			= TABLE_MAINTENANCE + "/test-entry-point/delete-entry-point/{code}";
+	
+	/** Entry Point Request Mappings (Generic Approach) */
+	String GET_ENTRY_POINTS			= TABLE_MAINTENANCE + "/entry-point/get/{tableName}/{operation}";
+	String GET_ENTRY_POINT_BY_CODE 	= TABLE_MAINTENANCE + "/entry-point/getByCode/{tableName}/{operation}/{code}";
+	String CREATE_ENTRY_POINT 		= TABLE_MAINTENANCE + "/entry-point/create";
+	String UPDATE_ENTRY_POINT 		= TABLE_MAINTENANCE + "/entry-point/update";
+	String DELETE_ENTRY_POINT 		= TABLE_MAINTENANCE + "/entry-point/delete";
+	
+	/** Generic approach for all table maintenance operations */
+	String GET_TABLE_MAINTENANCE_DATA 			= TABLE_MAINTENANCE + "/get/{tableName}/{operation}";
+	String GET_TABLE_MAINTENANCE_DATA_BY_CODE 	= TABLE_MAINTENANCE + "/getByCode/{tableName}/{operation}/{code}";
+	String CREATE_TABLE_MAINTENANCE_DATA 		= TABLE_MAINTENANCE + "/create/{tableName}/{operation}";
+	String UPDATE_TABLE_MAINTENANCE_DATA 		= TABLE_MAINTENANCE + "/update/{tableName}/{operation}";
+	String DELETE_TABLE_MAINTENANCE_DATA 		= TABLE_MAINTENANCE + "/delete/{tableName}/{operation}";
 }

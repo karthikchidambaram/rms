@@ -29,7 +29,14 @@ public enum RestMessage implements MessageKey {
 	/** Table Maintenance Error Codes */
 	INPUT_OBJECT_NULL_OR_EMPTY(1011),
 	CODE_NULL_OR_EMPTY(1012),
-	DESCRIPTION_NULL_OR_EMPTY(1013);
+	DESCRIPTION_NULL_OR_EMPTY(1013),
+	TABLE_NAME_NULL_OR_EMPTY(1014),
+	OPERATION_NULL_OR_EMPTY(1015),
+	OBJECT_ARRAY_NULL_OR_EMPTY(1016),
+	CREATE_TABLE_MAINTENANCE_RECORD_FAILED(1017),
+	DELETE_OPERATION_FAILED(1018),
+	NOT_ALL_RECORDS_WERE_DELETED(1019)
+	;
 	
 	/** Primary key ID of Rest Message ID entity in persistent store for retrieval. */
 	private final Integer _id;

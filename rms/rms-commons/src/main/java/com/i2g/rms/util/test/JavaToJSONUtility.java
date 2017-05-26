@@ -2,11 +2,13 @@ package com.i2g.rms.util.test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.i2g.rms.util.model.EntryPointRO;
+import com.i2g.rms.util.model.TableMaintenanceRO;
 
 public class JavaToJSONUtility {
 
@@ -37,10 +39,25 @@ public class JavaToJSONUtility {
 	}
 
 	private Object createObject() {
-		EntryPointRO entryPointRO = new EntryPointRO();
-		entryPointRO.setId("FIRE_ESCAPE");
-		entryPointRO.setDescription("Fire Escape");
-		return entryPointRO;
+		
+		TableMaintenanceRO tableMaintenanceRO = new TableMaintenanceRO();
+		
+		tableMaintenanceRO.setCode("Code");
+		tableMaintenanceRO.setDescription("Description");
+		tableMaintenanceRO.setOperation("Operation");
+		tableMaintenanceRO.setTableName("Table Name");
+		
+		List<String> codes = new ArrayList<>();
+		String s1 = "Code 1";
+		String s2 = "Code 2";
+		String s3 = "Code 3";
+		codes.add(s1);
+		codes.add(s2);
+		codes.add(s3);
+		
+		tableMaintenanceRO.setCodes(codes);
+		
+		return tableMaintenanceRO;
 	}
 
 	public static void main(String args[]) {

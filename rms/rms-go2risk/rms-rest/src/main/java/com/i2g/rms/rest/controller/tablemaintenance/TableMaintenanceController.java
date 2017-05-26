@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.i2g.rms.rest.constants.RequestMappingConstants;
 import com.i2g.rms.rest.controller.AbstractRestController;
 import com.i2g.rms.rest.model.tablemaintenance.EntryPointRO;
+import com.i2g.rms.rest.model.tablemaintenance.TableMaintenanceRO;
 import com.i2g.rms.rest.service.tablemaintenance.TableMaintenanceRestService;
 
 /**
@@ -35,29 +36,56 @@ public class TableMaintenanceController extends AbstractRestController {
 	
 
 	/** Methods related to Entry Point */
-	@RequestMapping(value = RequestMappingConstants.GET_ENTRY_POINTS, method = RequestMethod.GET)
+	@RequestMapping(value = RequestMappingConstants.TEST_GET_ENTRY_POINTS, method = RequestMethod.GET)
 	public List<EntryPointRO> getEntryPoints() {
 		return _tableMaintenanceRestService.getEntryPoints();
 	}
 
-	@RequestMapping(value = RequestMappingConstants.GET_ENTRY_POINT_BY_CODE, method = RequestMethod.GET)
+	@RequestMapping(value = RequestMappingConstants.TEST_GET_ENTRY_POINT_BY_CODE, method = RequestMethod.GET)
 	public EntryPointRO getEntryPointByCode(@PathVariable final String code) {
 		return _tableMaintenanceRestService.getEntryPointByCode(code);
 	}
 
-	@RequestMapping(value = RequestMappingConstants.CREATE_ENTRY_POINT, method = RequestMethod.POST)
+	@RequestMapping(value = RequestMappingConstants.TEST_CREATE_ENTRY_POINT, method = RequestMethod.POST)
 	public EntryPointRO createEntryPoint(final @Valid @RequestBody EntryPointRO entryPointRO) {
 		return _tableMaintenanceRestService.createEntryPoint(entryPointRO);
 	}
 
-	@RequestMapping(value = RequestMappingConstants.UPDATE_ENTRY_POINT, method = RequestMethod.PUT)
+	@RequestMapping(value = RequestMappingConstants.TEST_UPDATE_ENTRY_POINT, method = RequestMethod.PUT)
 	public EntryPointRO updateEntryPoint(final @Valid @RequestBody EntryPointRO entryPointRO) {
 		return _tableMaintenanceRestService.updateEntryPoint(entryPointRO);
 	}
 
-	@RequestMapping(value = RequestMappingConstants.DELETE_ENTRY_POINT, method = RequestMethod.DELETE)
+	@RequestMapping(value = RequestMappingConstants.TEST_DELETE_ENTRY_POINT, method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteEntryPoint(@PathVariable final String code) {
 		_tableMaintenanceRestService.deleteEntryPoint(code);
 	}
+	
+	@RequestMapping(value = RequestMappingConstants.GET_TABLE_MAINTENANCE_DATA, method = RequestMethod.GET)
+	public List<TableMaintenanceRO> get(@PathVariable final String tableName, @PathVariable final String operation) {
+		return _tableMaintenanceRestService.get(tableName, operation);
+	}
+	
+	@RequestMapping(value = RequestMappingConstants.GET_TABLE_MAINTENANCE_DATA_BY_CODE, method = RequestMethod.GET)
+	public TableMaintenanceRO getByCode(@PathVariable final String tableName, @PathVariable final String operation, @PathVariable final String code) {
+		return _tableMaintenanceRestService.getByCode(tableName, operation, code);
+	}
+	
+	@RequestMapping(value = RequestMappingConstants.CREATE_TABLE_MAINTENANCE_DATA, method = RequestMethod.POST)
+	public TableMaintenanceRO create(final @Valid @RequestBody TableMaintenanceRO tableMaintenanceRO, @PathVariable final String tableName, @PathVariable final String operation) {
+		return _tableMaintenanceRestService.create(tableMaintenanceRO, tableName, operation);
+	}
+	
+	@RequestMapping(value = RequestMappingConstants.UPDATE_TABLE_MAINTENANCE_DATA, method = RequestMethod.PUT)
+	public TableMaintenanceRO update(final @Valid @RequestBody TableMaintenanceRO tableMaintenanceRO, @PathVariable final String tableName, @PathVariable final String operation) {
+		return _tableMaintenanceRestService.update(tableMaintenanceRO, tableName, operation);
+	}
+	
+	@RequestMapping(value = RequestMappingConstants.DELETE_TABLE_MAINTENANCE_DATA, method = RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void delete(final @Valid @RequestBody TableMaintenanceRO tableMaintenanceRO, @PathVariable final String tableName, @PathVariable final String operation) {
+		_tableMaintenanceRestService.delete(tableMaintenanceRO, tableName, operation);
+	}
+	
 }
