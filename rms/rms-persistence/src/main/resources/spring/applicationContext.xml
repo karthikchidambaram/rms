@@ -34,10 +34,12 @@
 		<property name="maxActive" value="10" />
 	</bean>
 
-	<bean id="sessionFactory"
-		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"></property>
-
+		<property name="entityInterceptor">
+			<!-- Set the interceptor to add audit information to database -->
+			<bean class="com.i2g.rms.domain.support.AuditInterceptor"/>
+		</property>
 		<property name="mappingLocations" value="classpath*:hibernate/*.hbm.xml" />
 		<property name="packagesToScan" value="com.i2g.rms.**" />
 		

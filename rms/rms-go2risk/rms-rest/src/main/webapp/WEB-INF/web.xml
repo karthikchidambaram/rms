@@ -57,6 +57,16 @@
 	<filter-mapping>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>/s/*</url-pattern>
-	</filter-mapping>	
+	</filter-mapping>
+	
+	<filter>
+		<description>Auditor Filter</description>
+		<filter-name>audit</filter-name>
+		<filter-class>com.i2g.rms.service.auditor.AuditorFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>audit</filter-name>
+		<url-pattern>/s/*</url-pattern>
+	</filter-mapping>
 	 
 </web-app>

@@ -21,6 +21,31 @@
 
 	<build>
 		<plugins>
+			<!-- Resource plugin to generate build properties -->
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>rms-build-properties</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/classes/com/i2g/rms/util</outputDirectory>
+							<resources>
+								<resource>
+									<directory>src/main/resources/com/i2g/rms/util</directory>
+									<filtering>true</filtering>
+									<includes>
+										<include>**/*</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<!-- Generate a packaged test jar available for other projects -->
 			<plugin>
 				<artifactId>maven-jar-plugin</artifactId>
@@ -41,6 +66,16 @@
 	</build>
 
 	<dependencies>
+
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>javax.validation</groupId>

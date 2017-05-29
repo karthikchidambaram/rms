@@ -1,6 +1,5 @@
 package com.i2g.rms.persistence.dao.tablemaintenance;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -89,11 +88,6 @@ public class EntryPointDaoImpl extends AbstractHibernateDao<String, EntryPoint> 
 		validateDescription(description);
 		// Create the new object (record)
 		EntryPoint entryPoint = new EntryPoint(code, description);
-		LocalDateTime now = getCurrentTimestamp();
-		entryPoint.setCreated(now);
-		entryPoint.setCreatedBy("SYSTEM");
-		entryPoint.setLastUpdated(now);
-		entryPoint.setLastUpdatedBy("SYSTEM");
 		// Issue save
 		save(entryPoint);
 		return entryPoint;
@@ -123,11 +117,7 @@ public class EntryPointDaoImpl extends AbstractHibernateDao<String, EntryPoint> 
 
 		// Set the new value(s).
 		entryPoint.setDescription(description);
-		LocalDateTime now = getCurrentTimestamp();
-		entryPoint.setCreated(now);
-		entryPoint.setCreatedBy("SYSTEM");
-		entryPoint.setLastUpdated(now);
-		entryPoint.setLastUpdatedBy("SYSTEM");
+		
 		// Issue update
 		update(entryPoint);
 		return entryPoint;

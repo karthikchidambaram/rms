@@ -18,6 +18,7 @@
 		<jboss.jaxrpc.api.version>1.0.1.Final</jboss.jaxrpc.api.version>
 		<jboss.jaxrs.api.version>1.0.1.Final</jboss.jaxrs.api.version>
 		<jboss.jaxb.api.version>1.0.4.Final</jboss.jaxb.api.version>
+		<spring.aspects.version>4.3.8.RELEASE</spring.aspects.version>
 	</properties>
 
 	<!-- Defines the build of the rms-services project -->
@@ -248,6 +249,13 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-ldap</artifactId>
 			<version>${spring.security.version}</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-aspects -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-aspects</artifactId>
+		    <version>${spring.aspects.version}</version>		    
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.codehaus.jackson/jackson-core-asl -->

@@ -18,9 +18,9 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationEn
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-	
+
 	private final Logger _logger = LoggerFactory.getLogger(SecurityConfig.class);
-	
+
 	private static String REALM_NAME = "RESTFUL_REALM";
 
 	@Autowired
@@ -29,34 +29,33 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
 		_logger.info("Inside SecurityConfig.configure(AuthenticationManagerBuilder auth)");
-		
+
 		auth.userDetailsService(userDetailsService);
 	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		_logger.info("Inside SecurityConfig.configure(HttpSecurity http)");
-		
-		http.csrf()
-		.disable()
+
+		http
+		.csrf().disable()
 		.exceptionHandling()
 		.authenticationEntryPoint(getBasicAuthEntryPoint())
 		.and()
 		.authorizeRequests()
+		.antMatchers("/p/**").permitAll()
 		.antMatchers("/s/**").hasAnyAuthority("ADMIN", "USER", "TESTER")
-	  	.anyRequest()
-		.authenticated()
+		.anyRequest().authenticated()
 		.and()
-		.httpBasic()
-		.realmName(REALM_NAME)
+		.httpBasic().realmName(REALM_NAME)
 		.and()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
-	
+
 	@Bean
 	public BasicAuthenticationEntryPoint getBasicAuthEntryPoint() {
 		_logger.info("Inside SecurityConfig.getBasicAuthEntryPoint()");
-		
+
 		BasicAuthenticationEntryPoint basicAuthEntryPoint = new BasicAuthenticationEntryPoint();
 		basicAuthEntryPoint.setRealmName(REALM_NAME);
 		return basicAuthEntryPoint;

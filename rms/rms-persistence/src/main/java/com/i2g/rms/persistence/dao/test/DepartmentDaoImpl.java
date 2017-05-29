@@ -71,15 +71,12 @@ public class DepartmentDaoImpl extends AbstractHibernateDao<Long, Department> im
 	@Override
 	public Department createDepartment(final Long deptNo, final String dname, final String loc) {
 		final Department department = new Department.Builder().setDeptNo(deptNo).setDname(dname).setLoc(loc).build();
-
 		LocalDateTime now = getCurrentTimestamp();
 		department.setCreated(now);
-		department.setCreatedBy("SYSTEM");
+		department.setCreatedBy("ADMIN");
 		department.setLastUpdated(now);
-		department.setLastUpdatedBy("SYSTEM");
-
+		department.setLastUpdatedBy("ADMIN");
 		save(department);
-
 		return department;
 	}
 
@@ -89,10 +86,8 @@ public class DepartmentDaoImpl extends AbstractHibernateDao<Long, Department> im
 			throw new IllegalStateException("Department does not exist.");
 		}
 		LocalDateTime now = getCurrentTimestamp();
-		department.setCreated(now);
-		department.setCreatedBy("SYSTEM");
 		department.setLastUpdated(now);
-		department.setLastUpdatedBy("SYSTEM");
+		department.setLastUpdatedBy("ADMIN");
 		update(department);
 		return department;
 	}
