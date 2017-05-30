@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.i2g.rms.rest.constants.RequestMappingConstants;
-import com.i2g.rms.rest.controller.test.TestAbstractRestController;
 import com.i2g.rms.rest.model.PasswordHistoryRO;
 import com.i2g.rms.rest.service.PasswordHistoryRestService;
 
@@ -20,7 +19,7 @@ import com.i2g.rms.rest.service.PasswordHistoryRestService;
  *
  */
 @RestController
-public class PasswordHistoryController extends TestAbstractRestController {
+public class PasswordHistoryController extends AbstractRestController {
 
 	@Autowired
 	private PasswordHistoryRestService _passwordHistoryRestService;

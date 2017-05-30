@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.i2g.rms.rest.constants.RequestMappingConstants;
-import com.i2g.rms.rest.controller.test.TestAbstractRestController;
 import com.i2g.rms.rest.model.GroupRO;
 import com.i2g.rms.rest.service.GroupRestService;
 
@@ -20,7 +19,7 @@ import com.i2g.rms.rest.service.GroupRestService;
  *
  */
 @RestController
-public class GroupController extends TestAbstractRestController {
+public class GroupController extends AbstractRestController {
 
 	@Autowired
 	private GroupRestService _groupRestService;

@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 
 import com.i2g.rms.domain.model.User;
 import com.i2g.rms.persistence.dao.test.LoginDao;
-import com.i2g.rms.service.AbstractService;
 
 /**
  * Back-end service for group related functions.
@@ -15,7 +14,7 @@ import com.i2g.rms.service.AbstractService;
  *
  */
 @Service
-public class TestLoginServiceImpl extends AbstractService implements TestLoginService {
+public class TestLoginServiceImpl extends TestAbstractService implements TestLoginService {
 
 	@Autowired
 	private LoginDao _loginDao;

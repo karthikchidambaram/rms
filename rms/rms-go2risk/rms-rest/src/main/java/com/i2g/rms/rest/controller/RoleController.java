@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.i2g.rms.rest.constants.RequestMappingConstants;
-import com.i2g.rms.rest.controller.test.TestAbstractRestController;
 import com.i2g.rms.rest.model.RoleRO;
 import com.i2g.rms.rest.service.RoleRestService;
 
@@ -20,7 +19,7 @@ import com.i2g.rms.rest.service.RoleRestService;
  *
  */
 @RestController
-public class RoleController extends TestAbstractRestController {
+public class RoleController extends AbstractRestController {
 	@Autowired
 	private RoleRestService _roleRestService;
 	

@@ -16,7 +16,6 @@ import com.i2g.rms.persistence.dao.test.DepartmentDao;
 import com.i2g.rms.persistence.dao.test.HibernateEHCacheMainTest;
 import com.i2g.rms.persistence.dao.test.MyDepartmentDao;
 import com.i2g.rms.persistence.dao.test.PaginationDao;
-import com.i2g.rms.service.AbstractService;
 
 /**
  * Back-end test service layer which will work with domain objects.
@@ -26,7 +25,7 @@ import com.i2g.rms.service.AbstractService;
  *
  */
 @Service
-public class TestServiceImpl extends AbstractService implements TestService {
+public class TestServiceImpl extends TestAbstractService implements TestService {
 	
 	private final Logger _logger = LoggerFactory.getLogger(TestServiceImpl.class);
 

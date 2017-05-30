@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.i2g.rms.rest.constants.RequestMappingConstants;
-import com.i2g.rms.rest.controller.test.TestAbstractRestController;
 import com.i2g.rms.rest.model.UserDetailsRO;
 import com.i2g.rms.rest.service.UserDetailsRestService;
 
@@ -20,7 +19,7 @@ import com.i2g.rms.rest.service.UserDetailsRestService;
  *
  */
 @RestController
-public class UserDetailsController extends TestAbstractRestController {
+public class UserDetailsController extends AbstractRestController {
 
 	@Autowired
 	private UserDetailsRestService _userDetailsRestService;

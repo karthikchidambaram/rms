@@ -43,6 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.authenticationEntryPoint(getBasicAuthEntryPoint())
 		.and()
 		.authorizeRequests()
+		.antMatchers("/resources/**").permitAll()
 		.antMatchers("/p/**").permitAll()
 		.antMatchers("/s/**").hasAnyAuthority("ADMIN", "USER", "TESTER")
 		.anyRequest().authenticated()

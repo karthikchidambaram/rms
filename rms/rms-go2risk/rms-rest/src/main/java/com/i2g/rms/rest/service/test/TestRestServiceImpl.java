@@ -18,7 +18,6 @@ import com.i2g.rms.rest.model.test.MyDepartmentRO;
 import com.i2g.rms.rest.model.test.MyEmployeeRO;
 import com.i2g.rms.rest.model.test.PaginationRO;
 import com.i2g.rms.rest.model.test.TestMessageRO;
-import com.i2g.rms.rest.service.AbstractRestService;
 import com.i2g.rms.rest.service.RestMessage;
 import com.i2g.rms.service.exception.ResourceNotFoundException;
 import com.i2g.rms.service.exception.ResourceNotValidException;
@@ -32,7 +31,7 @@ import com.i2g.rms.service.test.TestService;
  *
  */
 @Service
-public class TestRestServiceImpl extends AbstractRestService implements TestRestService {
+public class TestRestServiceImpl extends TestAbstractRestService implements TestRestService {
 
 	private final Logger _logger = LoggerFactory.getLogger(TestRestServiceImpl.class);
 

@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.i2g.rms.domain.model.User;
 import com.i2g.rms.rest.model.UserRO;
 import com.i2g.rms.rest.model.test.LoginRO;
-import com.i2g.rms.rest.service.AbstractRestService;
 import com.i2g.rms.rest.service.RestMessage;
 import com.i2g.rms.service.exception.ResourceNotValidException;
 import com.i2g.rms.service.test.TestLoginService;
@@ -34,7 +33,7 @@ import com.i2g.rms.util.security.RMSSecurityProperties;
  *
  */
 @Service
-public class TestLoginRestServiceImpl extends AbstractRestService implements TestLoginRestService {
+public class TestLoginRestServiceImpl extends TestAbstractRestService implements TestLoginRestService {
 
 	private final Logger _logger = LoggerFactory.getLogger(TestLoginRestServiceImpl.class);
 	

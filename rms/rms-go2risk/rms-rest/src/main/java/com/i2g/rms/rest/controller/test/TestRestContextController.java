@@ -28,7 +28,7 @@ public class TestRestContextController extends TestAbstractRestController {
 	private TestRestContextService _testRestContextService;
 	
 	@RequestMapping(value = RequestMappingConstants.TEST_CONTEXT_PARAMS, method = RequestMethod.GET)
-	public TestContextParamsRO testContextParams(HttpServletRequest request, HttpServletResponse response) {
+	public TestContextParamsRO testContextParams(final HttpServletRequest request, final HttpServletResponse response) {
 		return _testRestContextService.testContextParams(request, response);
 	}
 }

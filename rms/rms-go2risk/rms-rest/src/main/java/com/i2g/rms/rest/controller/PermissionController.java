@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.i2g.rms.rest.constants.RequestMappingConstants;
-import com.i2g.rms.rest.controller.test.TestAbstractRestController;
 import com.i2g.rms.rest.model.PermissionRO;
 import com.i2g.rms.rest.service.PermissionRestService;
 
@@ -20,7 +19,7 @@ import com.i2g.rms.rest.service.PermissionRestService;
  *
  */
 @RestController
-public class PermissionController extends TestAbstractRestController {
+public class PermissionController extends AbstractRestController {
 	@Autowired
 	private PermissionRestService _permissionRestService;
 	

@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.i2g.rms.rest.model.test.TestContextParamsRO;
-import com.i2g.rms.rest.service.AbstractRestService;
 
 /**
  * Rest services for testing context params.
@@ -19,7 +18,7 @@ import com.i2g.rms.rest.service.AbstractRestService;
  *
  */
 @Service
-public class TestRestContextServiceImpl extends AbstractRestService implements TestRestContextService {
+public class TestRestContextServiceImpl extends TestAbstractRestService implements TestRestContextService {
 
 	private final Logger _logger = LoggerFactory.getLogger(TestRestContextServiceImpl.class);
 
