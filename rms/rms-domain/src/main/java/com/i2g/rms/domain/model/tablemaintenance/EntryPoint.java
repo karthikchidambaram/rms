@@ -21,7 +21,7 @@ import com.i2g.rms.domain.model.AbstractDataModel;
  * @author RMS Development Team
  */
 @Entity
-@Table(name = "RMS_IND_ENTY_PNT")
+@Table(name = "RMS_ENTY_PNT")
 public class EntryPoint extends AbstractDataModel<String> implements Serializable {
 
 	/**
@@ -60,9 +60,9 @@ public class EntryPoint extends AbstractDataModel<String> implements Serializabl
 	}
 
 	@Id
-	@Column(name = "ENTY_PNT_CDE", unique = true, updatable = false, nullable = false, length = 10)
+	@Column(name = "CDE", unique = true, updatable = false, nullable = false, length = 16)
 	@NotNull
-	@Size(min = 1, max = 10)
+	@Size(min = 1, max = 16)
 	@Override
 	public String getId() {
 		return _id;
@@ -89,7 +89,7 @@ public class EntryPoint extends AbstractDataModel<String> implements Serializabl
 	 * 
 	 * @return description of entry point
 	 */
-	@Column(name = "ENTY_PNT_DESC", nullable = false, length = 100)
+	@Column(name = "DSCPTN", nullable = false, length = 100)
 	@NotNull
 	@Size(max = 100)
 	public String getDescription() {

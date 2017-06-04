@@ -8,34 +8,34 @@
 	<sql-query name="TableMaintenance.entry-point.get">
 		<![CDATA[
 			SELECT
-				ENTY_PNT_CDE,
-				ENTY_PNT_DESC
+				CDE,
+				DSCPTN
 			FROM
-				RMS_IND_ENTY_PNT
+				RMS_ENTY_PNT
 			ORDER BY
-				UPPER(ENTY_PNT_DESC)
+				UPPER(DSCPTN)
 		]]>
-		<return-scalar column="ENTY_PNT_CDE" type="string" />
-		<return-scalar column="ENTY_PNT_DESC" type="string" />		
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
 	</sql-query>	
 	<sql-query name="TableMaintenance.entry-point.getByCode">
 		<![CDATA[
 			SELECT
-				ENTY_PNT_CDE,
-				ENTY_PNT_DESC
+				CDE,
+				DSCPTN
 			FROM
-				RMS_IND_ENTY_PNT
+				RMS_ENTY_PNT
 			WHERE
-				ENTY_PNT_CDE = :CODE
+				CDE = :CODE
 		]]>
-		<return-scalar column="ENTY_PNT_CDE" type="string" />
-		<return-scalar column="ENTY_PNT_DESC" type="string" />		
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
 	</sql-query>	
 	<sql-query name="TableMaintenance.entry-point.create">
 		<![CDATA[
-			INSERT INTO RMS_IND_ENTY_PNT (
-				ENTY_PNT_CDE, 
-				ENTY_PNT_DESC, 
+			INSERT INTO RMS_ENTY_PNT (
+				CDE, 
+				DSCPTN, 
 				CRET_DTM, 
 				CRET_LGN_UID, 
 				LST_UPDT_DTM, 
@@ -53,21 +53,21 @@
 	</sql-query>	
 	<sql-query name="TableMaintenance.entry-point.update">
 		<![CDATA[
-			UPDATE RMS_IND_ENTY_PNT
+			UPDATE RMS_ENTY_PNT
 				SET 
-				ENTY_PNT_DESC = :DESCRIPTION,
+				DSCPTN = :DESCRIPTION,
 				LST_UPDT_DTM = :UPDATED_DT, 
 				LST_UPDT_LGN_UID = :UPDATED_BY
 			WHERE 
-				ENTY_PNT_CDE = :CODE
+				CDE = :CODE
 		]]>
 	</sql-query>	
 	<sql-query name="TableMaintenance.entry-point.delete">
 		<![CDATA[
-			DELETE 
-				FROM RMS_IND_ENTY_PNT
+			DELETE FROM 
+				RMS_ENTY_PNT
 			WHERE 
-				ENTY_PNT_CDE IN (:CODES)
+				CDE IN (:CODES)
 		]]>
 	</sql-query>
 

@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.i2g.rms.domain.model.User;
+import com.i2g.rms.rest.constants.RequestMappingConstants;
 import com.i2g.rms.rest.model.UserRO;
 import com.i2g.rms.rest.service.UserRestService;
+import com.i2g.rms.rest.service.test.TestStatelessAuthenticationRestService;
 import com.i2g.rms.service.security.stateless.UserAuthentication;
 
 @RestController
@@ -19,6 +21,9 @@ public class TestStatelessAuthenticationController {
 	
 	@Autowired
 	private UserRestService _userRestService;
+	@Autowired
+	private TestStatelessAuthenticationRestService _testStatelessAuthenticationRestService;
+	
 	
 	@RequestMapping(value = "/p/api/users/current", method = RequestMethod.GET)
 	public User getCurrent() {
@@ -32,5 +37,15 @@ public class TestStatelessAuthenticationController {
 	@RequestMapping(value = "/s/admin/api/users", method = RequestMethod.GET)
 	public List<UserRO> getUsers() {
 		return _userRestService.getUsers();
+	}
+	
+	@RequestMapping(value = "/p/api/login", method = RequestMethod.POST)
+	public String doLogin() {
+		return "Success!";
+	}
+	
+	@RequestMapping(value = RequestMappingConstants.LOGIN_ACTION_STATELESS, method = RequestMethod.POST)
+	public String doLoginStateless() {
+		return "To do..";
 	}
 }

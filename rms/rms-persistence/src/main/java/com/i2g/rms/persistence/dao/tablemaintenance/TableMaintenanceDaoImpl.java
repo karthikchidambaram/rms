@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.i2g.rms.domain.support.Auditor;
+
 /**
  * Implementation class for Dao interfaces which belongs to table maintenance
  * functionalities.
@@ -74,14 +76,15 @@ public class TableMaintenanceDaoImpl extends AbstractTableMaintenance implements
 	@SuppressWarnings("deprecation")
 	@Override
 	public int create(final String tableName, final String operation, final String code, final String description) {		
-		java.sql.Timestamp currentTimestamp = getCurrentTimeStamp();		
+		java.sql.Timestamp currentTimestamp = getCurrentTimeStamp();
+		String author = Auditor.getName();
 		return getSession().getNamedQuery(getSqlQueryName(tableName, operation))
 				.setParameter("CODE", Objects.requireNonNull(code, "Code cannot be null or emtpy."))
 				.setParameter("DESCRIPTION", Objects.requireNonNull(description, "Description cannot be null or emtpy."))
 				.setTimestamp("CREATED_DT", currentTimestamp)
-				.setParameter("CREATED_BY", "ADMIN")
+				.setParameter("CREATED_BY", author)
 				.setTimestamp("UPDATED_DT", currentTimestamp)
-				.setParameter("UPDATED_BY", "ADMIN")
+				.setParameter("UPDATED_BY", author)
 				.executeUpdate();
 	}
 	
@@ -93,12 +96,13 @@ public class TableMaintenanceDaoImpl extends AbstractTableMaintenance implements
 	@SuppressWarnings("deprecation")
 	@Override
 	public int update(final String tableName, final String operation, final String code, final String description) {		
-		java.sql.Timestamp currentTimestamp = getCurrentTimeStamp();		
+		java.sql.Timestamp currentTimestamp = getCurrentTimeStamp();
+		String author = Auditor.getName();
 		return getSession().getNamedQuery(getSqlQueryName(tableName, operation))
 				.setParameter("CODE", Objects.requireNonNull(code, "Code cannot be null or emtpy."))
 				.setParameter("DESCRIPTION", Objects.requireNonNull(description, "Description cannot be null or emtpy."))
 				.setTimestamp("UPDATED_DT", currentTimestamp)
-				.setParameter("UPDATED_BY", "ADMIN")
+				.setParameter("UPDATED_BY", author)
 				.executeUpdate();
 	}
 	

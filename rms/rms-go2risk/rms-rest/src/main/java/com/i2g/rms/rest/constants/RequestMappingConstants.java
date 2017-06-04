@@ -16,7 +16,8 @@ public interface RequestMappingConstants {
 	String LOGIN_ACTION_BASIC 		= LOGIN + "/do-login-basic";
 	String LOGIN_STATUS_CHECK 		= LOGIN + "/check-login-status/{loginId}";
 	String LOGOUT_ACTION 			= LOGIN + "/do-logout/{loginId}";
-	String GET_ENCRYPTED_PASSWORD	= LOGIN + "/get-encrypted-password"; 
+	String GET_ENCRYPTED_PASSWORD	= LOGIN + "/get-encrypted-password";
+	String LOGIN_ACTION_STATELESS	= LOGIN + "/do-login-stateless";
 	
 	
 	/** Group */

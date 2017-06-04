@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,6 +13,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 
 @Configuration
@@ -29,8 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
 		_logger.info("Inside SecurityConfig.configure(AuthenticationManagerBuilder auth)");
-
-		auth.userDetailsService(userDetailsService);
+		auth.authenticationProvider(authenticationProvider());		
 	}
 
 	@Override
@@ -43,9 +45,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.authenticationEntryPoint(getBasicAuthEntryPoint())
 		.and()
 		.authorizeRequests()
+		//public area
+		.antMatchers("/").permitAll()
+		.antMatchers("/favicon.ico").permitAll()
 		.antMatchers("/resources/**").permitAll()
 		.antMatchers("/p/**").permitAll()
-		.antMatchers("/s/**").hasAnyAuthority("ADMIN", "USER", "TESTER")
+		//secured area
+		.antMatchers("/s/**").hasAnyAuthority("ADMIN", "USER", "TESTER", "CLAIMS_HANDLER", "SUPERVISOR", "INVESTIGATOR")
 		.anyRequest().authenticated()
 		.and()
 		.httpBasic().realmName(REALM_NAME)
@@ -56,9 +62,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public BasicAuthenticationEntryPoint getBasicAuthEntryPoint() {
 		_logger.info("Inside SecurityConfig.getBasicAuthEntryPoint()");
-
 		BasicAuthenticationEntryPoint basicAuthEntryPoint = new BasicAuthenticationEntryPoint();
 		basicAuthEntryPoint.setRealmName(REALM_NAME);
 		return basicAuthEntryPoint;
-	}	
+	}
+	
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		_logger.info("Inside SecurityConfig.passwordEncoder()");
+		return new BCryptPasswordEncoder();
+	}
+	
+	@Bean
+	public DaoAuthenticationProvider authenticationProvider() {
+		_logger.info("Inside SecurityConfig.authenticationProvider()");
+		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+		authenticationProvider.setUserDetailsService(userDetailsService);
+		authenticationProvider.setPasswordEncoder(passwordEncoder());
+		return authenticationProvider;
+	}
 }
