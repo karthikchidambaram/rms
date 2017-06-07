@@ -38,25 +38,24 @@ public class EntryPoint extends AbstractDataModel<String> implements Serializabl
 	}
 
 	/**
-	 * Creates a new instance of {@code EntryPoint} with the specified entry
-	 * point code.
+	 * Creates a new instance of {@code EntryPoint} with the specified code.
 	 * 
-	 * @param entryPointCode
+	 * @param code
 	 */
-	public EntryPoint(final String entryPointCode) {
-		_id = Objects.requireNonNull(entryPointCode, "Entry point code cannot be null.");
+	public EntryPoint(final String code) {
+		_id = Objects.requireNonNull(code, "Entry point code cannot be null.");
 	}
-	
+
 	/**
-	 * Creates a new instance of {@code EntryPoint} with the specified entry
-	 * point code and description.
+	 * Creates a new instance of {@code EntryPoint} with the specified code and
+	 * description.
 	 * 
-	 * @param entryPointCode
-	 * @param entryPointDescription
+	 * @param code
+	 * @param description
 	 */
-	public EntryPoint(final String entryPointCode, final String entryPointDescription) {
-		_id = Objects.requireNonNull(entryPointCode, "Entry point code cannot be null.");
-		_description = Objects.requireNonNull(entryPointDescription, "Entry point description cannot be null.");
+	public EntryPoint(final String code, final String description) {
+		_id = Objects.requireNonNull(code, "Entry point code cannot be null.");
+		_description = Objects.requireNonNull(description, "Entry point description cannot be null.");
 	}
 
 	@Id
@@ -75,7 +74,7 @@ public class EntryPoint extends AbstractDataModel<String> implements Serializabl
 	 * <strong>Note:</strong> This method has protected access to prevent
 	 * callers from manually setting the primary key ID; Hibernate has access to
 	 * invoke this method when populating an entity. When creating a new entry
-	 * point, the appropriate constructor should be invoked.
+	 * the appropriate constructor should be invoked.
 	 * </p>
 	 * 
 	 * @param id
@@ -85,9 +84,9 @@ public class EntryPoint extends AbstractDataModel<String> implements Serializabl
 	}
 
 	/**
-	 * Returns the description of the Entry Point.
+	 * Returns the description.
 	 * 
-	 * @return description of entry point
+	 * @return description
 	 */
 	@Column(name = "DSCPTN", nullable = false, length = 100)
 	@NotNull
@@ -95,11 +94,11 @@ public class EntryPoint extends AbstractDataModel<String> implements Serializabl
 	public String getDescription() {
 		return _description;
 	}
-	
+
 	/**
-	 * Sets the description of the entry point code.
+	 * Sets the description.
 	 * 
-	 * @param description 
+	 * @param description
 	 */
 	public void setDescription(String description) {
 		_description = description;
@@ -117,6 +116,6 @@ public class EntryPoint extends AbstractDataModel<String> implements Serializabl
 
 	@Override
 	public String toString() {
-		return "Entry Point Code: " + _id + ", Entry Point Description: " + _description;
+		return "Code: " + _id + ", Description: " + _description;
 	}
 }

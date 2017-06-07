@@ -34,109 +34,109 @@ public class MyEmployee implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private Integer empNo;
-	private String eName;
-	private String job;
-	private Integer mgr;
-	private Date hireDate;
-	private Float sal;
-	private Float comm;
-	private MyDepartment department;
+	private Integer _empNo;
+	private String _eName;
+	private String _job;
+	private Integer _mgr;
+	private Date _hireDate;
+	private Float _sal;
+	private Float _comm;
+	private MyDepartment _department;
 
 	public MyEmployee() {
 	}
 
 	public MyEmployee(final Integer empNo, final String eName, final String job, final Date hireDate, final Float sal) {
-		this.empNo = empNo;
-		this.eName = eName;
-		this.job = job;
-		this.hireDate = hireDate;
-		this.sal = sal;
+		_empNo = empNo;
+		_eName = eName;
+		_job = job;
+		_hireDate = hireDate;
+		_sal = sal;
 	}
 
 	public MyEmployee(final Integer empNo, final String eName, final String job, final Date hireDate, final Float sal,
 			final MyDepartment department) {
-		this.empNo = empNo;
-		this.eName = eName;
-		this.job = job;
-		this.hireDate = hireDate;
-		this.sal = sal;
-		this.department = department;
+		_empNo = empNo;
+		_eName = eName;
+		_job = job;
+		_hireDate = hireDate;
+		_sal = sal;
+		_department = department;
 	}
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "EMPNO", unique = true, nullable = false)
 	public Integer getEmpNo() {
-		return empNo;
+		return _empNo;
 	}
 
 	public void setEmpNo(Integer empNo) {
-		this.empNo = empNo;
+		_empNo = empNo;
 	}
 
 	@Column(name = "ENAME", length = 10)
 	public String getEName() {
-		return eName;
+		return _eName;
 	}
 
 	public void setEName(String eName) {
-		this.eName = eName;
+		_eName = eName;
 	}
 
 	@Column(name = "JOB", length = 9)
 	public String getJob() {
-		return job;
+		return _job;
 	}
 
 	public void setJob(String job) {
-		this.job = job;
+		_job = job;
 	}
 
 	@Column(name = "MGR")
 	public Integer getMgr() {
-		return mgr;
+		return _mgr;
 	}
 
 	public void setMgr(Integer mgr) {
-		this.mgr = mgr;
+		_mgr = mgr;
 	}
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "HIREDATE")
 	public Date getHireDate() {
-		return hireDate;
+		return _hireDate;
 	}
 
 	public void setHireDate(Date hireDate) {
-		this.hireDate = hireDate;
+		_hireDate = hireDate;
 	}
 
 	@Column(name = "SAL")
 	public Float getSal() {
-		return sal;
+		return _sal;
 	}
 
 	public void setSal(Float sal) {
-		this.sal = sal;
+		_sal = sal;
 	}
 
 	@Column(name = "COMM")
 	public Float getComm() {
-		return comm;
+		return _comm;
 	}
 
 	public void setComm(Float comm) {
-		this.comm = comm;
+		_comm = comm;
 	}
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "DEPTNO")
 	public MyDepartment getDepartment() {
-		return department;
+		return _department;
 	}
 
 	public void setDepartment(MyDepartment department) {
-		this.department = department;
+		_department = department;
 	}
 }

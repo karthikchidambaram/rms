@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.i2g.rms.rest.model.AbstractEntityRO;
 
 /**
- * REST Object for returning entry point details to the REST client.
+ * REST Object for returning table maintenance details to the REST client.
  * 
  * @since 1.0.0
  * @author Karthikeyan Chidambaram

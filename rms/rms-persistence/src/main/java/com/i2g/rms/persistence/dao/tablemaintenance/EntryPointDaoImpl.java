@@ -58,7 +58,7 @@ public class EntryPointDaoImpl extends AbstractHibernateDao<String, EntryPoint> 
 
 	/**
 	 * Method which will return table maintenance object for the given
-	 * {@code code}. A typical table maintenace object will be a code and
+	 * {@code code}. A typical table maintenance object will be a code and
 	 * description pair.
 	 * 
 	 * @return entryPoint
@@ -66,10 +66,10 @@ public class EntryPointDaoImpl extends AbstractHibernateDao<String, EntryPoint> 
 	@SuppressWarnings("deprecation")
 	@Override
 	public EntryPoint getByCode(final String code) {
-		// Validate input parameter(s)
+		// Validate input parameter(s) if any..
 		validateCode(code);
 		return (EntryPoint) applySearch(getSession().createCriteria(_modelType)
-				.add(Restrictions.eq("id", Objects.requireNonNull(code, "Entry point code cannot be null"))))
+				.add(Restrictions.eq("id", Objects.requireNonNull(code, "Code cannot be null or empty."))))
 						.uniqueResult();
 	}
 
@@ -83,14 +83,14 @@ public class EntryPointDaoImpl extends AbstractHibernateDao<String, EntryPoint> 
 	 */
 	@Override
 	public EntryPoint create(final String code, final String description) {
-		// Validate input parameter(s)
+		// Validate input parameter(s) if any..
 		validateCode(code);
 		validateDescription(description);
 		// Create the new object (record)
-		EntryPoint entryPoint = new EntryPoint(code, description);
+		EntryPoint object = new EntryPoint(code, description);
 		// Issue save
-		save(entryPoint);
-		return entryPoint;
+		save(object);
+		return object;
 	}
 
 	/**
@@ -107,20 +107,17 @@ public class EntryPointDaoImpl extends AbstractHibernateDao<String, EntryPoint> 
 	 */
 	@Override
 	public EntryPoint update(final String code, final String description) {
-		// Validate input parameter(s)
+		// Validate input parameter(s) if any..
 		validateCode(code);
 		validateDescription(description);
-
 		// Check if the record exists before issuing the update.
-		EntryPoint entryPoint = getByCode(code);
-		validateObject(entryPoint);
-
+		EntryPoint object = getByCode(code);
+		validateObject(object);
 		// Set the new value(s).
-		entryPoint.setDescription(description);
-		
+		object.setDescription(description);		
 		// Issue update
-		update(entryPoint);
-		return entryPoint;
+		update(object);
+		return object;
 	}
 
 	/**
@@ -130,12 +127,12 @@ public class EntryPointDaoImpl extends AbstractHibernateDao<String, EntryPoint> 
 	 */
 	@Override
 	public void delete(final String code) {
-		// Validate input parameter
+		// Validate input parameter(s) if any..
 		validateCode(code);
-		EntryPoint entryPoint = getByCode(code);
+		EntryPoint object = getByCode(code);
 		// Check if the object exists in database before issuing the delete
-		validateObject(entryPoint);
+		validateObject(object);
 		// Issue delete
-		super.delete(entryPoint);
+		super.delete(object);
 	}
 }

@@ -5,10 +5,108 @@
 
 	<!-- Table maintenance -->
 	<mapping>
-		<class-a>com.i2g.rms.domain.model.tablemaintenance.EntryPoint
-		</class-a>
-		<class-b>com.i2g.rms.rest.model.tablemaintenance.EntryPointRO
-		</class-b>
+		<class-a>com.i2g.rms.domain.model.tablemaintenance.AccidentLocation</class-a>
+		<class-b>com.i2g.rms.rest.model.tablemaintenance.AccidentLocationRO</class-b>
+	</mapping>
+
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.tablemaintenance.AccidentLocationDetails</class-a>
+		<class-b>com.i2g.rms.rest.model.tablemaintenance.AccidentLocationDetailsRO</class-b>
+	</mapping>
+
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.tablemaintenance.AssetCategory</class-a>
+		<class-b>com.i2g.rms.rest.model.tablemaintenance.AssetCategoryRO</class-b>
+	</mapping>
+
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.tablemaintenance.ClaimRequestRegistrationType</class-a>
+		<class-b>com.i2g.rms.rest.model.tablemaintenance.ClaimRequestRegistrationTypeRO</class-b>
+	</mapping>
+
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.tablemaintenance.ClaimStatus</class-a>
+		<class-b>com.i2g.rms.rest.model.tablemaintenance.ClaimStatusRO</class-b>
+	</mapping>
+
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.tablemaintenance.ClaimType</class-a>
+		<class-b>com.i2g.rms.rest.model.tablemaintenance.ClaimTypeRO</class-b>
+	</mapping>
+
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeatures</class-a>
+		<class-b>com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeaturesRO</class-b>
+	</mapping>
+
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeaturesDetail</class-a>
+		<class-b>com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeaturesDetailRO</class-b>
+	</mapping>
+
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.tablemaintenance.EmployeeType</class-a>
+		<class-b>com.i2g.rms.rest.model.tablemaintenance.EmployeeTypeRO</class-b>
+	</mapping>
+	
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.tablemaintenance.EntryPoint</class-a>
+		<class-b>com.i2g.rms.rest.model.tablemaintenance.EntryPointRO</class-b>
+	</mapping>
+
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.tablemaintenance.EventType</class-a>
+		<class-b>com.i2g.rms.rest.model.tablemaintenance.EventTypeRO</class-b>
+	</mapping>
+
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.tablemaintenance.ExternalAgency</class-a>
+		<class-b>com.i2g.rms.rest.model.tablemaintenance.ExternalAgencyRO</class-b>
+	</mapping>
+
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.tablemaintenance.IncidentLocation</class-a>
+		<class-b>com.i2g.rms.rest.model.tablemaintenance.IncidentLocationRO</class-b>
+	</mapping>
+
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.tablemaintenance.IncidentLocationDetails</class-a>
+		<class-b>com.i2g.rms.rest.model.tablemaintenance.IncidentLocationDetailsRO</class-b>
+	</mapping>
+
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.tablemaintenance.IncidentType</class-a>
+		<class-b>com.i2g.rms.rest.model.tablemaintenance.IncidentTypeRO</class-b>
+	</mapping>
+
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.tablemaintenance.InjuryCause</class-a>
+		<class-b>com.i2g.rms.rest.model.tablemaintenance.InjuryCauseRO</class-b>
+	</mapping>
+
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.tablemaintenance.InjuryType</class-a>
+		<class-b>com.i2g.rms.rest.model.tablemaintenance.InjuryTypeRO</class-b>
+	</mapping>
+
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.tablemaintenance.InjuryTypeDetails</class-a>
+		<class-b>com.i2g.rms.rest.model.tablemaintenance.InjuryTypeDetailsRO</class-b>
+	</mapping>
+
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.tablemaintenance.InjuryTypeDetailsSpec</class-a>
+		<class-b>com.i2g.rms.rest.model.tablemaintenance.InjuryTypeDetailsSpecRO</class-b>
+	</mapping>
+
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.tablemaintenance.SuspectType</class-a>
+		<class-b>com.i2g.rms.rest.model.tablemaintenance.SuspectTypeRO</class-b>
+	</mapping>
+
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.tablemaintenance.WeaponInvolved</class-a>
+		<class-b>com.i2g.rms.rest.model.tablemaintenance.WeaponInvolvedRO</class-b>
 	</mapping>
 
 </mappings>
