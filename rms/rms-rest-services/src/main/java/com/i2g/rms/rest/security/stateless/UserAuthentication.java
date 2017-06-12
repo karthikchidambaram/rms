@@ -1,4 +1,4 @@
-package com.i2g.rms.service.security.stateless;
+package com.i2g.rms.rest.security.stateless;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,13 +23,13 @@ public class UserAuthentication implements Authentication {
 	private final User _user;
 	private boolean _authenticated = true;
 	
-	public UserAuthentication(User user) {
+	public UserAuthentication(final User user) {
 		_user = user;
 	}
 	
 	@Override
 	public String getName() {
-		return _user.getLoginId();
+		return _user.getUsername();
 	}
 
 	@Override

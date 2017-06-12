@@ -34,6 +34,7 @@ import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Immutable;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -83,6 +84,18 @@ public class User extends AbstractDataModel<Long> implements Serializable {
 	@Transient
 	private String _username;
 	
+	/*@NotNull
+	private boolean accountExpired;
+	@NotNull
+	private boolean accountLocked;
+	@NotNull
+	private boolean credentialsExpired;
+	@NotNull
+	private boolean accountEnabled;	
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER, orphanRemoval = true)
+	@Transient
+	private Set<UserAuthority> authorities;*/
 	
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -152,6 +165,7 @@ public class User extends AbstractDataModel<Long> implements Serializable {
 
 	public void setLoginId(String loginId) {
 		_loginId = loginId;
+		_username = loginId;
 	}
 
 	@Column(name = "USR_PWD", nullable = false)
@@ -229,8 +243,9 @@ public class User extends AbstractDataModel<Long> implements Serializable {
 		_status = status;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "user")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "user")
 	@Fetch(FetchMode.SUBSELECT)
+	@JsonIgnoreProperties("user")
 	public Set<UserDetails> getUserDetails() {
 		return _userDetails;
 	}
@@ -307,10 +322,19 @@ public class User extends AbstractDataModel<Long> implements Serializable {
 	 */
 	protected void setRoles(final Set<Role> roles) {
 		_roles = roles;
+		//grantRole(roles);
 	}
+	
+	/*public void grantRole(final Set<Role> roles) {
+		if (_authorities == null) {
+			_authorities = new HashSet<UserAuthority>();
+		}
+		_authorities = buildCustomUserAuthority(roles);
+	}*/
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "user")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "user")
 	@Fetch(FetchMode.SUBSELECT)
+	@JsonIgnoreProperties("user")
 	public Set<PasswordHistory> getPasswordHistory() {
 		return _passwordHistory;
 	}
@@ -434,11 +458,77 @@ public class User extends AbstractDataModel<Long> implements Serializable {
 
 	@Transient
 	public String getUsername() {
-		return _loginId;
+		return _username;
 	}
 	
 	@Transient
 	public void setUsername(String username) {
+		_username = username;
 		_loginId = username;
-	}	
+	}
+	
+	/*@Transient
+	public Set<UserAuthority> getAuthorities() {
+		return _authorities;
+	}*/
+	
+	/*
+	@Override
+	@JsonIgnore
+	@NotNull
+	public boolean isAccountNonExpired() {
+		return !accountExpired;
+	}
+
+	@Override
+	@JsonIgnore
+	@NotNull
+	public boolean isAccountNonLocked() {
+		return !accountLocked;
+	}
+
+	@Override
+	@JsonIgnore
+	@NotNull
+	public boolean isCredentialsNonExpired() {
+		return !credentialsExpired;
+	}
+
+	@Override
+	@JsonIgnore
+	@NotNull
+	public boolean isEnabled() {
+		return !accountEnabled;
+	}
+	
+	private List<GrantedAuthority> buildUserAuthority(Set<Role> roles) {
+		Set<GrantedAuthority> setAuths = new HashSet<GrantedAuthority>();
+		Set<UserAuthority> userAuthorities = new HashSet<UserAuthority>();
+		
+		// Build user's authorities
+		for (Role role : roles) {
+			
+			UserAuthority userAuthority = new UserAuthority();
+			userAuthority.setAuthority(role.getRoleName());
+			userAuthority.setUser(this);
+			userAuthorities.add(userAuthority);
+			
+			setAuths.add(new SimpleGrantedAuthority(role.getRoleName()));
+		}
+
+		List<GrantedAuthority> results = new ArrayList<GrantedAuthority>(setAuths);
+		return results;
+	}*/
+	
+	/*private Set<UserAuthority> buildCustomUserAuthority(Set<Role> roles) {
+		Set<UserAuthority> userAuthorities = new HashSet<UserAuthority>();		
+		// Build user's authorities
+		for (Role role : roles) {			
+			UserAuthority userAuthority = new UserAuthority();
+			userAuthority.setAuthority(role.getRoleName());
+			userAuthority.setUser(this);
+			userAuthorities.add(userAuthority);			
+		}		
+		return userAuthorities;
+	}*/
 }

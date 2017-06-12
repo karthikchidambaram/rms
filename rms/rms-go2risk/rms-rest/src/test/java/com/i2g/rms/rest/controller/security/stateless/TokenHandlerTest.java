@@ -13,7 +13,7 @@ import org.junit.Test;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.i2g.rms.domain.model.User;
-import com.i2g.rms.service.security.stateless.TokenHandler;
+import com.i2g.rms.rest.security.stateless.TokenHandler;
 
 public class TokenHandlerTest {
 	

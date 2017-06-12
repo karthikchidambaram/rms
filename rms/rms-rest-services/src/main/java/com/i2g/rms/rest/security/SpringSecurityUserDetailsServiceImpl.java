@@ -1,4 +1,4 @@
-package com.i2g.rms.service.security;
+package com.i2g.rms.rest.security;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 
 import com.i2g.rms.domain.model.Role;
 import com.i2g.rms.domain.model.User.UserStatus;
-import com.i2g.rms.persistence.dao.UserDao;
+import com.i2g.rms.service.UserService;
 
 @Service
 public class SpringSecurityUserDetailsServiceImpl implements UserDetailsService {
@@ -27,7 +27,7 @@ public class SpringSecurityUserDetailsServiceImpl implements UserDetailsService 
 	private final Logger _logger = LoggerFactory.getLogger(SpringSecurityUserDetailsServiceImpl.class);
 	
 	@Autowired
-	private UserDao _userDao;
+	private UserService _userService;
 	
 	private final AccountStatusUserDetailsChecker detailsChecker = new AccountStatusUserDetailsChecker();
 
@@ -35,7 +35,7 @@ public class SpringSecurityUserDetailsServiceImpl implements UserDetailsService 
 	public UserDetails loadUserByUsername(String loginId) throws UsernameNotFoundException {
 		_logger.info("Inside SpringSecurityUserDetailsServiceImpl.loadUserByUsername()");
 		
-		final com.i2g.rms.domain.model.User domainUser = _userDao.getUserByUserLoginId(loginId);
+		final com.i2g.rms.domain.model.User domainUser = _userService.getUserByUserLoginId(loginId);
 
 		if (domainUser == null) {
 			throw new UsernameNotFoundException("Invalid username and/or password");
@@ -45,6 +45,18 @@ public class SpringSecurityUserDetailsServiceImpl implements UserDetailsService 
 		User springUser = buildUserForAuthentication(domainUser, authorities);
 		detailsChecker.check(springUser);
 		return springUser;
+	}
+	
+	public final com.i2g.rms.domain.model.User loadDomainUserByUsername(final String username) throws UsernameNotFoundException {
+		_logger.info("Inside SpringSecurityUserDetailsServiceImpl.loadDomainUserByUsername()");
+		
+		final com.i2g.rms.domain.model.User domainUser = _userService.getUserByUserLoginId(username);
+		
+		if (domainUser == null) {
+			throw new UsernameNotFoundException("User not found.");
+		}
+		
+		return domainUser;
 	}
 
 	// Converts com.i2g.rms.domain.model.User user to
@@ -72,13 +84,4 @@ public class SpringSecurityUserDetailsServiceImpl implements UserDetailsService 
 
 		return results;
 	}
-
-	public UserDao getUserDao() {
-		return _userDao;
-	}
-
-	public void setUserDao(UserDao userDao) {
-		_userDao = userDao;
-	}
-
 }

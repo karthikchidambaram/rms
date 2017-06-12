@@ -17,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.i2g.rms.domain.model.User;
 import com.i2g.rms.domain.support.Auditor;
 
 /**
@@ -47,13 +48,15 @@ public class AuditorFilter implements Filter {
 		// to verify a valid user exists in context and set it accordingly
 		final HttpServletRequest httpRequest = (HttpServletRequest) request;
 		if (!HttpMethod.OPTIONS.name().equals(httpRequest.getMethod())) {
+			
 			final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			if (!(auth.getPrincipal() instanceof UserDetails)) {
+			
+			if ((auth == null) || !(auth.getDetails() instanceof User)) {
 				throw new IllegalStateException("AuditorFilter: Security configuration error");
 			}
 
 			// Set username in auditing contexts
-			final UserDetails user = (UserDetails) auth.getPrincipal();
+			final User user = (User) auth.getDetails();
 			Auditor.setName(user.getUsername());
 			_logger.info("Auditor name has been set: " + Auditor.getName());
 		}

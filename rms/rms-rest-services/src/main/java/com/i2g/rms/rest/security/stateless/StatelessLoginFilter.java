@@ -1,4 +1,4 @@
-package com.i2g.rms.service.security.stateless;
+package com.i2g.rms.rest.security.stateless;
 
 import java.io.IOException;
 
@@ -12,20 +12,20 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.i2g.rms.domain.model.User;
+import com.i2g.rms.rest.security.SpringSecurityUserDetailsServiceImpl;
 
 public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter {
 	
 	private final TokenAuthenticationService tokenAuthenticationService;
-	private final UserDetailsService userDetailsService;
+	private final SpringSecurityUserDetailsServiceImpl userDetailsService;
 
 	protected StatelessLoginFilter(String urlMapping, TokenAuthenticationService tokenAuthenticationService,
-			UserDetailsService userDetailsService, AuthenticationManager authManager) {
+			SpringSecurityUserDetailsServiceImpl userDetailsService, AuthenticationManager authManager) {
 		super(new AntPathRequestMatcher(urlMapping));
 		this.userDetailsService = userDetailsService;
 		this.tokenAuthenticationService = tokenAuthenticationService;
@@ -47,7 +47,7 @@ public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter
 			FilterChain chain, Authentication authentication) throws IOException, ServletException {
 
 		// Lookup the complete User object from the database and create an Authentication for it
-		final User authenticatedUser = (User) userDetailsService.loadUserByUsername(authentication.getName());
+		final User authenticatedUser = userDetailsService.loadDomainUserByUsername(authentication.getName());
 		final UserAuthentication userAuthentication = new UserAuthentication(authenticatedUser);
 
 		// Add the custom token as HTTP header to the response

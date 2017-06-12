@@ -1,4 +1,4 @@
-package com.i2g.rms.service.security.stateless;
+package com.i2g.rms.rest.security.stateless;
 
 import java.io.IOException;
 

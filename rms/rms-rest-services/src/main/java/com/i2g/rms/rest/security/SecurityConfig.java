@@ -1,4 +1,4 @@
-package com.i2g.rms.service.security;
+package com.i2g.rms.rest.security;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,14 +12,13 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 
-@Configuration
+/*@Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true)*/
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private final Logger _logger = LoggerFactory.getLogger(SecurityConfig.class);
@@ -27,7 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private static String REALM_NAME = "RESTFUL_REALM";
 
 	@Autowired
-	private UserDetailsService userDetailsService;
+	private SpringSecurityUserDetailsServiceImpl userDetailsService;
 
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {

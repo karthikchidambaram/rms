@@ -18,6 +18,8 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Immutable;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Entity representation of User Details table.
  * 
@@ -154,6 +156,7 @@ public class UserDetails extends AbstractDataModel<Long> implements Serializable
 
 	@ManyToOne
 	@JoinColumn(name = "USR_ID")
+	@JsonIgnoreProperties("userDetails")
 	public User getUser() {
 		return _user;
 	}

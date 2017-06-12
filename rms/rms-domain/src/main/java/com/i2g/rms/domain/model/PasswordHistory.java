@@ -18,6 +18,8 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Immutable;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Entity representation of Password History table.
  * 
@@ -123,6 +125,7 @@ public class PasswordHistory extends AbstractDataModel<Long> implements Serializ
 
 	@ManyToOne
 	@JoinColumn(name = "USR_ID")
+	@JsonIgnoreProperties("passwordHistory")
 	public User getUser() {
 		return _user;
 	}

@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
-import com.i2g.rms.service.security.stateless.TokenAuthenticationService;
+import com.i2g.rms.rest.security.stateless.TokenAuthenticationService;
 
 /**
  * Rest services for statless authentication approach.

@@ -1,4 +1,4 @@
-package com.i2g.rms.service.security.stateless;
+package com.i2g.rms.rest.security.stateless;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -13,10 +13,12 @@ import javax.xml.bind.DatatypeConverter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.i2g.rms.domain.model.User;
+import com.i2g.rms.rest.mapping.CustomObjectMapper;
 
 public class TokenHandler {
 	
@@ -27,6 +29,22 @@ public class TokenHandler {
 	private static final String SEPARATOR_SPLITTER = "\\.";
 
 	private final Mac hmac;
+	
+	private CustomObjectMapper _customObjectMapper;
+	
+	public CustomObjectMapper getCustomObjectMapper() {
+		if (_customObjectMapper != null) {
+			return _customObjectMapper;
+		} else {
+			CustomObjectMapper customObjectMapper = new CustomObjectMapper();
+			setCustomObjectMapper(customObjectMapper);
+			return customObjectMapper;
+		}
+	}
+
+	public void setCustomObjectMapper(CustomObjectMapper customObjectMapper) {
+		_customObjectMapper = customObjectMapper;
+	}
 
 	public TokenHandler(byte[] secretKey) {
 		try {
@@ -70,7 +88,7 @@ public class TokenHandler {
 
 	private User fromJSON(final byte[] userBytes) {
 		try {
-			return new ObjectMapper().readValue(new ByteArrayInputStream(userBytes), User.class);
+			return getCustomObjectMapper().readValue(new ByteArrayInputStream(userBytes), User.class);
 		} catch (IOException e) {
 			throw new IllegalStateException(e);
 		}
@@ -78,7 +96,7 @@ public class TokenHandler {
 
 	private byte[] toJSON(User user) {
 		try {
-			return new ObjectMapper().writeValueAsBytes(user);
+			return getCustomObjectMapper().writeValueAsBytes(user);
 		} catch (JsonProcessingException e) {
 			throw new IllegalStateException(e);
 		}

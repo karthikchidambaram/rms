@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.i2g.rms.domain.model.User;
 import com.i2g.rms.rest.constants.RequestMappingConstants;
 import com.i2g.rms.rest.model.UserRO;
+import com.i2g.rms.rest.security.stateless.UserAuthentication;
 import com.i2g.rms.rest.service.UserRestService;
 import com.i2g.rms.rest.service.test.TestStatelessAuthenticationRestService;
-import com.i2g.rms.service.security.stateless.UserAuthentication;
 
 @RestController
 public class TestStatelessAuthenticationController {

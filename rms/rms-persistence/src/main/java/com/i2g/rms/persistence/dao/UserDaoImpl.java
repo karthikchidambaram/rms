@@ -54,7 +54,6 @@ public class UserDaoImpl extends AbstractHibernateDao<Long, User> implements Use
 	// Method to return user identified by given user login id.
 	@SuppressWarnings("deprecation")
 	@Override
-	@Transactional
 	public User getUserByUserLoginId(final String loginId) {
 		return (User) getSession().createCriteria(_modelType).add(
 				Restrictions.eq("loginId", Objects.requireNonNull(loginId, "User login id cannot be null or empty.")))
