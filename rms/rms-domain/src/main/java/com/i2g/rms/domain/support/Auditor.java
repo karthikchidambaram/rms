@@ -109,7 +109,7 @@ public final class Auditor {
 	 */
 	public static void clear() {
 		CALLER_THREAD_CONTEXT.remove();
-		LOGGER.trace("Cleared audit name");
+		LOGGER.trace("Cleared audit name.");
 	}
 
 }

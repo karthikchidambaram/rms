@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -21,6 +20,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 
 import com.i2g.rms.rest.security.SpringSecurityUserDetailsServiceImpl;
+import com.i2g.rms.rest.service.PasswordRelatedRestService;
+import com.i2g.rms.util.security.RMSSecurityProperties;
 
 @Configuration
 @EnableWebSecurity
@@ -29,13 +30,12 @@ public class StatelessAuthenticationSecurityConfig extends WebSecurityConfigurer
 
 	private final Logger _logger = LoggerFactory.getLogger(StatelessAuthenticationSecurityConfig.class);
 	
-	private static String STATELESS_REALM_NAME = "STATELESS_RESTFUL_REALM";
-
 	@Autowired
 	private SpringSecurityUserDetailsServiceImpl userDetailsService;
-
 	@Autowired
 	private TokenAuthenticationService tokenAuthenticationService;
+	@Autowired
+	private PasswordRelatedRestService passwordRelatedRestService;
 
 	public StatelessAuthenticationSecurityConfig() {
 		super(true);
@@ -45,55 +45,38 @@ public class StatelessAuthenticationSecurityConfig extends WebSecurityConfigurer
 	protected void configure(HttpSecurity http) throws Exception {
 		
 		http
-		.csrf().disable().
-        sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).
-        and().
-        authorizeRequests()
-		
-		// common mappings
+		.csrf().disable()
+		.exceptionHandling()
+		.authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+		.and()
+		.servletApi().and()
+		.authorizeRequests()
+		//public area
 		.antMatchers("/").permitAll()
 		.antMatchers("/favicon.ico").permitAll()
 		.antMatchers("/resources/**").permitAll()
-		
-		// allow anonymous POSTs to login
-		.antMatchers(HttpMethod.POST, "/p/api/login").permitAll()
-		// allow anonymous GETs to API
-		.antMatchers(HttpMethod.GET, "/p/api/**").permitAll()
-		
-		// public area
 		.antMatchers("/p/**").permitAll()
-		// secured area
-		.antMatchers("/s/admin/**").hasAuthority("ADMIN")
+		//secured area
 		.antMatchers("/s/**").hasAnyAuthority("ADMIN", "USER", "TESTER", "CLAIMS_HANDLER", "SUPERVISOR", "INVESTIGATOR")
-		
-		.anyRequest().authenticated().and()
+		.anyRequest().authenticated()
+		.and()
 		.anonymous().and()
-		.exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+		.httpBasic().realmName(RMSSecurityProperties.STATELESS_REALM_NAME)
 		.and()
-		.servletApi().and()
-		.headers().cacheControl();
+		.headers().cacheControl().and()
+		.and()
+		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		
 		// custom JSON based authentication by POST of {"username":"<name>","password":"<password>"} which sets the token header upon authentication
-		http.addFilterBefore(new StatelessLoginFilter("/p/api/login", tokenAuthenticationService, userDetailsService, authenticationManager()), UsernamePasswordAuthenticationFilter.class)
+		http.addFilterBefore(new StatelessLoginFilter("/p/api/login", 
+							tokenAuthenticationService, 
+							userDetailsService,
+							passwordRelatedRestService,
+							authenticationManager()), UsernamePasswordAuthenticationFilter.class)
+		
 		// custom Token based authentication based on the header
 		// previously given to the client
 		.addFilterBefore(new StatelessAuthenticationFilter(tokenAuthenticationService), UsernamePasswordAuthenticationFilter.class);
-		
-		
-		/*
-		http
-		.csrf().disable()
-		.authorizeRequests()
-		.antMatchers("/p/api/login").permitAll()
-		.antMatchers("/p/**").permitAll()
-		.antMatchers("/s/**").hasAnyAuthority("ADMIN", "USER", "TESTER", "CLAIMS_HANDLER", "SUPERVISOR", "INVESTIGATOR")
-		.and()
-		// custom JSON based authentication by POST of {"username":"<name>","password":"<password>"} which sets the token header upon authentication
-		.addFilterBefore(new StatelessLoginFilter("/p/api/login", tokenAuthenticationService, userDetailsService, authenticationManager()), UsernamePasswordAuthenticationFilter.class)
-		// custom Token based authentication based on the header
-		// previously given to the client
-		.addFilterBefore(new StatelessAuthenticationFilter(tokenAuthenticationService), UsernamePasswordAuthenticationFilter.class);
-		*/
 	}
 
 	@Bean
@@ -140,7 +123,7 @@ public class StatelessAuthenticationSecurityConfig extends WebSecurityConfigurer
 	public BasicAuthenticationEntryPoint getBasicAuthEntryPoint() {
 		_logger.info("Inside StatelessAuthenticationSecurityConfig.getBasicAuthEntryPoint()");
 		BasicAuthenticationEntryPoint basicAuthEntryPoint = new BasicAuthenticationEntryPoint();
-		basicAuthEntryPoint.setRealmName(STATELESS_REALM_NAME);
+		basicAuthEntryPoint.setRealmName(RMSSecurityProperties.STATELESS_REALM_NAME);
 		return basicAuthEntryPoint;
 	}		
 }

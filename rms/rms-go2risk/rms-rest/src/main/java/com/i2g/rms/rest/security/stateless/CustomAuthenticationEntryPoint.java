@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
+import com.i2g.rms.util.security.RMSSecurityProperties;
+
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
 	
 	private final Logger _logger = LoggerFactory.getLogger(CustomAuthenticationEntryPoint.class);
@@ -22,11 +24,10 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 		
 		_logger.info("Inside CustomAuthenticationEntryPoint.commence()");
 		
-		response.setContentType("application/vnd.captech-v1.0+json");
-		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+		response.setContentType(RMSSecurityProperties.APPLICATION_RESPONSE_TYPE);
+		response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 		PrintWriter out = response.getWriter();
-		out.print(
-				"{\"message\":\"Full authentication is required to access this resource.\", \"access-denied\":true,\"cause\":\"NOT AUTHENTICATED\"}");
+		out.print(RMSSecurityProperties.USER_NOT_AUTHENTICATED_MSG);
 		out.flush();
 		out.close();
 	}

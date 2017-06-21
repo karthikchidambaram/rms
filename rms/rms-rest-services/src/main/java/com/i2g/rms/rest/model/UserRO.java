@@ -30,6 +30,8 @@ public class UserRO extends AbstractEntityRO {
 	private Set<PasswordHistoryRO> _passwordHistory;
 	private Set<GroupRO> _groups;
 	private Set<RoleRO> _roles;
+	private long _expires;
+	private String _username;
 
 	public long getId() {
 		return _id;
@@ -45,6 +47,7 @@ public class UserRO extends AbstractEntityRO {
 
 	public void setLoginId(String loginId) {
 		_loginId = loginId;
+		_username = loginId;
 	}
 
 	public String getPassword() {
@@ -134,9 +137,30 @@ public class UserRO extends AbstractEntityRO {
 	public void setRoles(Set<RoleRO> roles) {
 		_roles = roles;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Id: " + _id + ", Login Id: " + _loginId + ", First Name: " + _firstName + ", Last Name: " + _lastName;
+	}
+
+	public long getExpires() {
+		return _expires;
+	}
+
+	public void setExpires(long expires) {
+		_expires = expires;
+	}
+
+	public String getUsername() {
+		return _username;
+	}
+
+	public void setUsername(String username) {
+		_username = username;
+		_loginId = username;
+	}
+
+	public boolean hasRole(String roleName) {
+		return getRoles().contains(roleName);
 	}
 }

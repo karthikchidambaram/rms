@@ -11,13 +11,14 @@ public interface RequestMappingConstants {
 	String LOGIN 					= PUBLIC + "/login";
 	String SECURED_LOGIN			= SECURED + "/login";
 	
-	String LOGIN_ACTION 			= LOGIN + "/do-login";
-	String LOGIN_ACTION_FROM_HTML 	= LOGIN + "/do-login-html";
-	String LOGIN_ACTION_BASIC 		= LOGIN + "/do-login-basic";
-	String LOGIN_STATUS_CHECK 		= LOGIN + "/check-login-status/{loginId}";
-	String LOGOUT_ACTION 			= LOGIN + "/do-logout/{loginId}";
-	String GET_ENCRYPTED_PASSWORD	= LOGIN + "/get-encrypted-password";
-	String LOGIN_ACTION_STATELESS	= LOGIN + "/do-login-stateless";
+	String LOGIN_ACTION 				= LOGIN + "/do-login";
+	String LOGIN_ACTION_FROM_HTML 		= LOGIN + "/do-login-html";
+	String LOGIN_ACTION_BASIC 			= LOGIN + "/do-login-basic";
+	String LOGIN_STATUS_CHECK 			= LOGIN + "/check-login-status/{loginId}";
+	String LOGOUT_ACTION 				= LOGIN + "/do-logout/{loginId}";
+	String GET_RMS_ENCRYPTED_PASSWORD	= LOGIN + "/get-rms-encrypted-password";
+	String GET_RMS_BCRYPT_PASSWORD		= LOGIN + "/get-rms-bcrypt-password";
+	String LOGIN_ACTION_STATELESS		= LOGIN + "/do-login-stateless";
 	
 	
 	/** Group */

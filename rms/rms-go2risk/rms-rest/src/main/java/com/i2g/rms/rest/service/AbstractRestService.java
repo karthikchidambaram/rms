@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -159,7 +161,7 @@ public abstract class AbstractRestService {
 			throw new ResourceNotValidException(_messageBuilder.build(RestMessage.DESCRIPTION_NULL_OR_EMPTY));
 		}
 	}
-	
+
 	protected void validateTableName(final String tableName) {
 		if (tableName == null || tableName.trim().isEmpty()) {
 			throw new ResourceNotValidException(_messageBuilder.build(RestMessage.TABLE_NAME_NULL_OR_EMPTY));
@@ -175,6 +177,31 @@ public abstract class AbstractRestService {
 	protected void validateObjectArray(final List<Object[]> objects) {
 		if (objects == null || objects.isEmpty()) {
 			throw new ResourceNotFoundException(_messageBuilder.build(RestMessage.OBJECT_ARRAY_NULL_OR_EMPTY));
+		}
+	}
+
+	protected void validateUsername(final String username) {
+		if (username == null || username.trim().isEmpty()) {
+			throw new ResourceNotValidException(_messageBuilder.build(RestMessage.USER_LOGIN_ID_NULL_OR_EMPTY));
+		}
+	}
+
+	protected void validatePassword(final String password) {
+		if (password == null || password.trim().isEmpty()) {
+			throw new ResourceNotValidException(_messageBuilder.build(RestMessage.PASSWORD_NULL_OR_EMPTY));
+		}
+	}
+
+	protected void validateRequest(final HttpServletRequest request) {
+		// Check if the request is valid
+		if (request == null) {
+			throw new ResourceNotValidException(_messageBuilder.build(RestMessage.REQUEST_OBJECT_NULL_OR_EMPTY));
+		}
+	}
+
+	protected void validateCredentials(final String[] credentials) {
+		if (credentials == null) {
+			throw new ResourceNotValidException(_messageBuilder.build(RestMessage.CREDENTIALS_NOT_PRESENT_IN_REQUEST));
 		}
 	}
 }

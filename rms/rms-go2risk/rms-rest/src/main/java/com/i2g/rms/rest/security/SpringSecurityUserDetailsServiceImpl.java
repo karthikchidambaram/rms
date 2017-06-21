@@ -27,18 +27,18 @@ public class SpringSecurityUserDetailsServiceImpl implements UserDetailsService 
 	private final Logger _logger = LoggerFactory.getLogger(SpringSecurityUserDetailsServiceImpl.class);
 	
 	@Autowired
-	private UserService _userService;
+	private UserService _userService;	
 	
 	private final AccountStatusUserDetailsChecker detailsChecker = new AccountStatusUserDetailsChecker();
 
 	@Override
-	public UserDetails loadUserByUsername(String loginId) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(final String loginId) throws UsernameNotFoundException {
 		_logger.info("Inside SpringSecurityUserDetailsServiceImpl.loadUserByUsername()");
 		
 		final com.i2g.rms.domain.model.User domainUser = _userService.getUserByUserLoginId(loginId);
 
 		if (domainUser == null) {
-			throw new UsernameNotFoundException("Invalid username and/or password");
+			throw new UsernameNotFoundException("Invalid username and/or password.");
 		}
 		
 		List<GrantedAuthority> authorities = buildUserAuthority(domainUser.getRoles());
@@ -50,25 +50,24 @@ public class SpringSecurityUserDetailsServiceImpl implements UserDetailsService 
 	public final com.i2g.rms.domain.model.User loadDomainUserByUsername(final String username) throws UsernameNotFoundException {
 		_logger.info("Inside SpringSecurityUserDetailsServiceImpl.loadDomainUserByUsername()");
 		
-		final com.i2g.rms.domain.model.User domainUser = _userService.getUserByUserLoginId(username);
+		final com.i2g.rms.domain.model.User user = _userService.getUserByUserLoginId(username);
 		
-		if (domainUser == null) {
+		if (user == null) {
 			throw new UsernameNotFoundException("User not found.");
 		}
 		
-		return domainUser;
+		return user;
 	}
 
-	// Converts com.i2g.rms.domain.model.User user to
-	// org.springframework.security.core.userdetails.User
-	private User buildUserForAuthentication(com.i2g.rms.domain.model.User domainUser, List<GrantedAuthority> authorities) {
+	// Converts com.i2g.rms.domain.model.User to org.springframework.security.core.userdetails.User
+	private User buildUserForAuthentication(final com.i2g.rms.domain.model.User user, final List<GrantedAuthority> authorities) {
 		_logger.info("Inside SpringSecurityUserDetailsServiceImpl.buildUserForAuthentication()");
 		boolean enabled = false;
 		
-		if (domainUser.getStatus().equals(UserStatus.ACTIVE)) {
+		if (user.getStatus().equals(UserStatus.ACTIVE)) {
 			enabled = true;
 		}
-		return new User(domainUser.getLoginId(), domainUser.getPassword(), enabled, true, true, true, authorities);
+		return new User(user.getUsername(), user.getPassword(), enabled, true, true, true, authorities);
 	}
 
 	private List<GrantedAuthority> buildUserAuthority(Set<Role> roles) {

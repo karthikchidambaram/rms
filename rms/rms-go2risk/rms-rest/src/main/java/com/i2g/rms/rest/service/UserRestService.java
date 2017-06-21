@@ -12,5 +12,9 @@ import com.i2g.rms.rest.model.UserRO;
  *
  */
 public interface UserRestService {
+	
 	public List<UserRO> getUsers();
+	
+	public UserRO getUserByUserLoginId(final String loginId);
+	
 }

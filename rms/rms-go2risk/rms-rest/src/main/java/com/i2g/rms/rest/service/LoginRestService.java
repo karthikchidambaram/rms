@@ -11,7 +11,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  */
 public interface LoginRestService {
-	
-	public String getEncryptedPassword(final HttpServletRequest request, final HttpServletResponse response);
-	
+
+	public String getRMSEncryptedPasswordTest(final HttpServletRequest request, final HttpServletResponse response);
+
+	public String getRMSBCryptPasswordTest(final HttpServletRequest request, final HttpServletResponse response);
 }

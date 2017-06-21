@@ -82,20 +82,7 @@ public class User extends AbstractDataModel<Long> implements Serializable {
 	@Transient
 	private long _expires;
 	@Transient
-	private String _username;
-	
-	/*@NotNull
-	private boolean accountExpired;
-	@NotNull
-	private boolean accountLocked;
-	@NotNull
-	private boolean credentialsExpired;
-	@NotNull
-	private boolean accountEnabled;	
-	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER, orphanRemoval = true)
-	@Transient
-	private Set<UserAuthority> authorities;*/
+	private String _username;	
 	
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -104,10 +91,12 @@ public class User extends AbstractDataModel<Long> implements Serializable {
 	}
 	
 	public User(String loginId) {
+		_username = loginId;
 		_loginId = loginId;
 	}
 
 	public User(String loginId, Date expires) {
+		_username = loginId;
 		_loginId = loginId;
 		_expires = expires.getTime();
 	}
@@ -124,6 +113,7 @@ public class User extends AbstractDataModel<Long> implements Serializable {
 		_password = Objects.requireNonNull(builder._password, "Password cannot be null");
 		_firstName = Objects.requireNonNull(builder._firstName, "First name cannot be null");
 		_status = Objects.requireNonNull(builder._status, "Status code cannot be null");
+		_username = Objects.requireNonNull(builder._username, "Username cannot be null");
 	}
 
 	/**
@@ -321,16 +311,8 @@ public class User extends AbstractDataModel<Long> implements Serializable {
 	 * @param roles
 	 */
 	protected void setRoles(final Set<Role> roles) {
-		_roles = roles;
-		//grantRole(roles);
-	}
-	
-	/*public void grantRole(final Set<Role> roles) {
-		if (_authorities == null) {
-			_authorities = new HashSet<UserAuthority>();
-		}
-		_authorities = buildCustomUserAuthority(roles);
-	}*/
+		_roles = roles;		
+	}	
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "user")
 	@Fetch(FetchMode.SUBSELECT)
@@ -375,7 +357,8 @@ public class User extends AbstractDataModel<Long> implements Serializable {
 		private String _password;
 		private String _firstName;
 		private UserStatus _status;
-
+		private String _username;
+		
 		/**
 		 * Builds a new immutable instance of user.
 		 * 
@@ -439,6 +422,17 @@ public class User extends AbstractDataModel<Long> implements Serializable {
 			_status = status;
 			return this;
 		}
+		
+		/**
+		 * Sets the specified {@code username}.
+		 * 
+		 * @param username
+		 * @return this builder
+		 */
+		public Builder setUsername(final String username) {
+			_username = username;
+			return this;
+		}
 	}
 	
 	@Transient
@@ -465,70 +459,5 @@ public class User extends AbstractDataModel<Long> implements Serializable {
 	public void setUsername(String username) {
 		_username = username;
 		_loginId = username;
-	}
-	
-	/*@Transient
-	public Set<UserAuthority> getAuthorities() {
-		return _authorities;
-	}*/
-	
-	/*
-	@Override
-	@JsonIgnore
-	@NotNull
-	public boolean isAccountNonExpired() {
-		return !accountExpired;
-	}
-
-	@Override
-	@JsonIgnore
-	@NotNull
-	public boolean isAccountNonLocked() {
-		return !accountLocked;
-	}
-
-	@Override
-	@JsonIgnore
-	@NotNull
-	public boolean isCredentialsNonExpired() {
-		return !credentialsExpired;
-	}
-
-	@Override
-	@JsonIgnore
-	@NotNull
-	public boolean isEnabled() {
-		return !accountEnabled;
-	}
-	
-	private List<GrantedAuthority> buildUserAuthority(Set<Role> roles) {
-		Set<GrantedAuthority> setAuths = new HashSet<GrantedAuthority>();
-		Set<UserAuthority> userAuthorities = new HashSet<UserAuthority>();
-		
-		// Build user's authorities
-		for (Role role : roles) {
-			
-			UserAuthority userAuthority = new UserAuthority();
-			userAuthority.setAuthority(role.getRoleName());
-			userAuthority.setUser(this);
-			userAuthorities.add(userAuthority);
-			
-			setAuths.add(new SimpleGrantedAuthority(role.getRoleName()));
-		}
-
-		List<GrantedAuthority> results = new ArrayList<GrantedAuthority>(setAuths);
-		return results;
-	}*/
-	
-	/*private Set<UserAuthority> buildCustomUserAuthority(Set<Role> roles) {
-		Set<UserAuthority> userAuthorities = new HashSet<UserAuthority>();		
-		// Build user's authorities
-		for (Role role : roles) {			
-			UserAuthority userAuthority = new UserAuthority();
-			userAuthority.setAuthority(role.getRoleName());
-			userAuthority.setUser(this);
-			userAuthorities.add(userAuthority);			
-		}		
-		return userAuthorities;
-	}*/
+	}	
 }

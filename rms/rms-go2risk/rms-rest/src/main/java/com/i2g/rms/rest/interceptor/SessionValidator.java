@@ -12,16 +12,26 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import com.i2g.rms.rest.controller.test.TestAbstractRestController;
 import com.i2g.rms.util.security.RMSSecurityProperties;
 
+/**
+ * The purpose of this class is to intercept every request and authenticate user
+ * before every request. Of course this is not a very good model but developed
+ * only for testing purposes. Need to remove it at last.
+ * 
+ * @author Karthikeyan Chidambaram
+ *
+ */
+//TODO This is not being used, need to remove at last.
 public class SessionValidator extends HandlerInterceptorAdapter {
-	
+
 	/** {@code Logger} instance. */
 	private final Logger _logger = LoggerFactory.getLogger(SessionValidator.class);
-	
+
 	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+			throws Exception {
 		_logger.info("Inside session validator..");
 		HttpSession session = request.getSession();
-		
+
 		if (!(((HandlerMethod) handler).getBean() instanceof TestAbstractRestController)) {
 			if (session == null || session.getAttribute(RMSSecurityProperties.RMS_USER_CONTEXT) == null) {
 				_logger.info("SessionValidator: Invalid session! Please login to proceed.");

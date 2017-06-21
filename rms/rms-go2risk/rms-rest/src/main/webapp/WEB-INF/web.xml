@@ -53,7 +53,6 @@
 		<filter-name>springSecurityFilterChain</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
 	</filter>
-
 	<filter-mapping>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>/*</url-pattern>
@@ -62,10 +61,20 @@
 	<filter>
 		<description>Auditor Filter</description>
 		<filter-name>audit</filter-name>
-		<filter-class>com.i2g.rms.service.auditor.AuditorFilter</filter-class>
+		<filter-class>com.i2g.rms.rest.filter.AuditorFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>audit</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<filter>
+		<description>Session Filter</description>
+		<filter-name>sessionFilter</filter-name>
+		<filter-class>com.i2g.rms.rest.filter.SessionFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>sessionFilter</filter-name>
 		<url-pattern>/s/*</url-pattern>
 	</filter-mapping>
 	 

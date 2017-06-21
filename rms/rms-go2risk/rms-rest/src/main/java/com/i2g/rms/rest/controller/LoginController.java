@@ -24,8 +24,13 @@ public class LoginController extends AbstractRestController {
 	@Autowired
 	private LoginRestService _loginRestService;
 	
-	@RequestMapping(value = RequestMappingConstants.GET_ENCRYPTED_PASSWORD, method = RequestMethod.POST)
-	public String getEncryptedPassword(final HttpServletRequest request, final HttpServletResponse response) {
-		return _loginRestService.getEncryptedPassword(request, response);
+	@RequestMapping(value = RequestMappingConstants.GET_RMS_ENCRYPTED_PASSWORD, method = RequestMethod.POST)
+	public String getRMSEncryptedPasswordTest(final HttpServletRequest request, final HttpServletResponse response) {
+		return _loginRestService.getRMSEncryptedPasswordTest(request, response);
+	}
+	
+	@RequestMapping(value = RequestMappingConstants.GET_RMS_BCRYPT_PASSWORD, method = RequestMethod.POST)
+	public String getRMSBCryptPasswordTest(final HttpServletRequest request, final HttpServletResponse response) {
+		return _loginRestService.getRMSBCryptPasswordTest(request, response);
 	}
 }

@@ -18,27 +18,39 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.i2g.rms.domain.model.User;
 import com.i2g.rms.rest.security.SpringSecurityUserDetailsServiceImpl;
+import com.i2g.rms.rest.service.PasswordRelatedRestService;
 
 public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter {
 	
 	private final TokenAuthenticationService tokenAuthenticationService;
 	private final SpringSecurityUserDetailsServiceImpl userDetailsService;
+	private final PasswordRelatedRestService passwordRelatedRestService;
 
-	protected StatelessLoginFilter(String urlMapping, TokenAuthenticationService tokenAuthenticationService,
-			SpringSecurityUserDetailsServiceImpl userDetailsService, AuthenticationManager authManager) {
+	protected StatelessLoginFilter(final String urlMapping, 
+									final TokenAuthenticationService tokenAuthenticationService,
+									final SpringSecurityUserDetailsServiceImpl userDetailsService,
+									final PasswordRelatedRestService passwordRelatedRestService,
+									final AuthenticationManager authManager) {
 		super(new AntPathRequestMatcher(urlMapping));
 		this.userDetailsService = userDetailsService;
 		this.tokenAuthenticationService = tokenAuthenticationService;
+		this.passwordRelatedRestService = passwordRelatedRestService;
 		setAuthenticationManager(authManager);
 	}
 
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException, IOException, ServletException {
-
-		final User user = new ObjectMapper().readValue(request.getInputStream(), User.class);
-		final UsernamePasswordAuthenticationToken loginToken = new UsernamePasswordAuthenticationToken(
-				user.getUsername(), user.getPassword());
+		
+		//final User user = new ObjectMapper().readValue(request.getInputStream(), User.class);
+		//final UsernamePasswordAuthenticationToken loginToken = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
+		
+		// Parse the credentials from the request
+		final String[] credentials = passwordRelatedRestService.getCredentialsFromRequest(request);
+		final String username = credentials[0];
+		final String password = credentials[1];
+		final UsernamePasswordAuthenticationToken loginToken = new UsernamePasswordAuthenticationToken(username, password);
+		
 		return getAuthenticationManager().authenticate(loginToken);
 	}
 
@@ -47,7 +59,7 @@ public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter
 			FilterChain chain, Authentication authentication) throws IOException, ServletException {
 
 		// Lookup the complete User object from the database and create an Authentication for it
-		final User authenticatedUser = userDetailsService.loadDomainUserByUsername(authentication.getName());
+		final com.i2g.rms.domain.model.User authenticatedUser = userDetailsService.loadDomainUserByUsername(authentication.getName());
 		final UserAuthentication userAuthentication = new UserAuthentication(authenticatedUser);
 
 		// Add the custom token as HTTP header to the response
@@ -55,6 +67,5 @@ public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter
 
 		// Add the authentication to the Security context
 		SecurityContextHolder.getContext().setAuthentication(userAuthentication);
-	}
-	
+	}	
 }

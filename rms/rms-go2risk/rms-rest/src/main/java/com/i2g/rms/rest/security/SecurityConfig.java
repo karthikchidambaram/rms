@@ -16,14 +16,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 
+import com.i2g.rms.util.security.RMSSecurityProperties;
+
 /*@Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)*/
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	private final Logger _logger = LoggerFactory.getLogger(SecurityConfig.class);
-
-	private static String REALM_NAME = "RESTFUL_REALM";
+	private final Logger _logger = LoggerFactory.getLogger(SecurityConfig.class);	
 
 	@Autowired
 	private SpringSecurityUserDetailsServiceImpl userDetailsService;
@@ -53,7 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers("/s/**").hasAnyAuthority("ADMIN", "USER", "TESTER", "CLAIMS_HANDLER", "SUPERVISOR", "INVESTIGATOR")
 		.anyRequest().authenticated()
 		.and()
-		.httpBasic().realmName(REALM_NAME)
+		.httpBasic().realmName(RMSSecurityProperties.REALM_NAME)
 		.and()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
@@ -62,7 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public BasicAuthenticationEntryPoint getBasicAuthEntryPoint() {
 		_logger.info("Inside SecurityConfig.getBasicAuthEntryPoint()");
 		BasicAuthenticationEntryPoint basicAuthEntryPoint = new BasicAuthenticationEntryPoint();
-		basicAuthEntryPoint.setRealmName(REALM_NAME);
+		basicAuthEntryPoint.setRealmName(RMSSecurityProperties.REALM_NAME);
 		return basicAuthEntryPoint;
 	}
 	
