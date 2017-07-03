@@ -2,11 +2,14 @@ package com.i2g.rms.rest.service.test;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import com.i2g.rms.rest.security.stateless.TokenAuthenticationService;
+import com.i2g.rms.domain.model.User;
+import com.i2g.rms.rest.model.UserContextRO;
+import com.i2g.rms.rest.model.UserRO;
+import com.i2g.rms.rest.security.stateless.UserAuthentication;
 
 /**
  * Rest services for statless authentication approach.
@@ -20,15 +23,18 @@ public class TestStatelessAuthenticationRestServiceImpl extends TestAbstractRest
 		implements TestStatelessAuthenticationRestService {
 	
 	private final Logger _logger = LoggerFactory.getLogger(TestStatelessAuthenticationRestServiceImpl.class);
-	@Autowired
-	private TokenAuthenticationService _tokenAuthenticationService;
-	@Autowired
-	private UserDetailsService _userDetailsService;
 	
 	@Override
-	public String checkLoginStatus() {
-		// TODO Auto-generated method stub
-		return null;
+	public UserContextRO doLogin() {
+		UserContextRO userContextRO = new UserContextRO();
+		User user = (User) getUserDetailsFromContext();
+		if (user != null) {			
+			UserRO userRO = _mapperService.map(user, UserRO.class);
+			userContextRO.setFirstName(userRO.getFirstName());
+			userContextRO.setLastName(userRO.getLastName());
+			userContextRO.setUserId(userRO.getLoginId());
+			userContextRO.setRoles(getRolesOfAuthenticatedUser(userRO.getRoles()));
+		}		
+		return userContextRO;
 	}
-
 }

@@ -1,5 +1,7 @@
 package com.i2g.rms.rest.service.test;
 
+import com.i2g.rms.rest.model.UserContextRO;
+
 /**
  * Rest Service Interface for stateless and JWT based login approach.
  * 
@@ -9,6 +11,6 @@ package com.i2g.rms.rest.service.test;
  */
 public interface TestStatelessAuthenticationRestService {
 
-	public String checkLoginStatus();
-
+	public UserContextRO doLogin();
+	
 }

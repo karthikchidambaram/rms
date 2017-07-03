@@ -1,24 +1,14 @@
-package com.i2g.rms.rest.security;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+package com.i2g.rms.rest.security.stateless;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AccountStatusUserDetailsChecker;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.i2g.rms.domain.model.Role;
-import com.i2g.rms.domain.model.User.UserStatus;
+import com.i2g.rms.domain.model.User;
 import com.i2g.rms.service.UserService;
 
 @Service
@@ -31,7 +21,7 @@ public class SpringSecurityUserDetailsServiceImpl implements UserDetailsService 
 	
 	private final AccountStatusUserDetailsChecker detailsChecker = new AccountStatusUserDetailsChecker();
 
-	@Override
+	/*@Override
 	public UserDetails loadUserByUsername(final String loginId) throws UsernameNotFoundException {
 		_logger.info("Inside SpringSecurityUserDetailsServiceImpl.loadUserByUsername()");
 		
@@ -45,8 +35,9 @@ public class SpringSecurityUserDetailsServiceImpl implements UserDetailsService 
 		User springUser = buildUserForAuthentication(domainUser, authorities);
 		detailsChecker.check(springUser);
 		return springUser;
-	}
+	}*/
 	
+	/*
 	public final com.i2g.rms.domain.model.User loadDomainUserByUsername(final String username) throws UsernameNotFoundException {
 		_logger.info("Inside SpringSecurityUserDetailsServiceImpl.loadDomainUserByUsername()");
 		
@@ -58,7 +49,19 @@ public class SpringSecurityUserDetailsServiceImpl implements UserDetailsService 
 		
 		return user;
 	}
+	*/
+	
+	@Override
+	public final User loadUserByUsername(final String username) throws UsernameNotFoundException {
+		final User user = _userService.getUserByUserLoginId(username);
+		if (user == null) {
+			throw new UsernameNotFoundException("User not found.");
+		}
+		detailsChecker.check(user);
+		return user;
+	}
 
+	/*
 	// Converts com.i2g.rms.domain.model.User to org.springframework.security.core.userdetails.User
 	private User buildUserForAuthentication(final com.i2g.rms.domain.model.User user, final List<GrantedAuthority> authorities) {
 		_logger.info("Inside SpringSecurityUserDetailsServiceImpl.buildUserForAuthentication()");
@@ -83,4 +86,5 @@ public class SpringSecurityUserDetailsServiceImpl implements UserDetailsService 
 
 		return results;
 	}
+	*/
 }

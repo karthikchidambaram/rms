@@ -19,6 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.i2g.rms.domain.model.User;
 import com.i2g.rms.domain.support.Auditor;
+import com.i2g.rms.rest.security.stateless.UserAuthentication;
 
 /**
  * Implementation of JEE {@link Filter} for setting the username in the domain
@@ -52,12 +53,22 @@ public class AuditorFilter implements Filter {
 		final HttpServletResponse httpResponse = (HttpServletResponse) response;
 		if (!HttpMethod.OPTIONS.name().equals(httpRequest.getMethod())) {
 			String username = "Anonymous";
-			final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			if ((auth != null) && (auth.getDetails() instanceof User)) {
-				// Set username in auditing contexts
-				final User user = (User) auth.getDetails();
-				if (user != null) {
-					username = user.getUsername();
+			final Authentication auth = SecurityContextHolder.getContext().getAuthentication();			
+			if (auth != null) {				
+				if (auth instanceof UserAuthentication) {					
+					final User user = (User) auth.getDetails();
+					if (user != null) {
+						// Set username in auditing contexts
+						username = user.getUsername();
+					}
+				} else {
+					if (auth.getPrincipal() instanceof User) {
+						final User user = (User) auth.getPrincipal();
+						if (user != null) {
+							// Set username in auditing contexts
+							username = user.getUsername();
+						}
+					}
 				}
 			}
 			Auditor.setName(username);

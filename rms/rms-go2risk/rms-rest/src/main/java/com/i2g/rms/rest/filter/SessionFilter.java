@@ -19,6 +19,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.i2g.rms.domain.model.User;
+import com.i2g.rms.rest.security.stateless.UserAuthentication;
 
 /**
  * Implementation of JEE {@link Filter} for checking if the user is
@@ -48,9 +49,31 @@ public class SessionFilter implements Filter {
 		// to verify a valid user exists in context.
 		final HttpServletRequest httpRequest = (HttpServletRequest) request;
 		final HttpServletResponse httpResponse = (HttpServletResponse) response;
+		
 		if (!HttpMethod.OPTIONS.name().equals(httpRequest.getMethod())) {
-			final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			if ((auth == null) || !(auth.getDetails() instanceof User)) {
+			
+			boolean authenticated = false;
+			final Authentication auth = SecurityContextHolder.getContext().getAuthentication();			
+			
+			if (auth != null) {				
+				if (auth instanceof UserAuthentication) {					
+					final User user = (User) auth.getDetails();
+					if ((user != null) && (user.getUsername() != null) && !(user.getUsername().isEmpty())) {
+						// User is authenticated
+						authenticated = true;
+					}
+				} else {
+					if (auth.getPrincipal() instanceof User) {
+						final User user = (User) auth.getPrincipal();
+						if ((user != null) && (user.getUsername() != null) && !(user.getUsername().isEmpty())) {
+							// User is authenticated
+							authenticated = true;
+						}
+					}
+				}
+			}
+			
+			if (!authenticated) {
 				_logger.error("Exception at SessionFilter: Unauthorized user tried to access secured resource.");
 				throw new AccessDeniedException("SessionFilter: Full authentication is required to access this resource.");
 			}

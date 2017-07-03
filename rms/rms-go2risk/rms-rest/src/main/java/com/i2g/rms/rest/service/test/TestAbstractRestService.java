@@ -3,13 +3,18 @@ package com.i2g.rms.rest.service.test;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.i2g.rms.domain.model.User;
 import com.i2g.rms.rest.mapping.MapperService;
+import com.i2g.rms.rest.model.RoleRO;
+import com.i2g.rms.rest.security.stateless.UserAuthentication;
 import com.i2g.rms.rest.service.RestMessage;
 import com.i2g.rms.service.exception.ResourceNotFoundException;
 import com.i2g.rms.service.exception.ResourceNotValidException;
@@ -170,5 +175,26 @@ public abstract class TestAbstractRestService {
 		if (objects == null || objects.isEmpty()) {
 			throw new ResourceNotFoundException(_messageBuilder.build(RestMessage.OBJECT_ARRAY_NULL_OR_EMPTY));
 		}
+	}
+	
+	protected List<String> getRolesOfAuthenticatedUser(final Set<RoleRO> roleROs) {
+		List<String> roles = new ArrayList<>();
+		if (roleROs != null && !roleROs.isEmpty()) {
+			for (RoleRO roleRO : roleROs) {
+				roles.add(roleRO.getRoleName());
+			}
+		}
+		return roles;
+	}
+	
+	protected User getUserFromContext() {
+		User user = null;
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (auth != null) {
+			if (auth instanceof UserAuthentication) {
+				user = (User) auth.getDetails();
+			}
+		}
+		return user;
 	}
 }

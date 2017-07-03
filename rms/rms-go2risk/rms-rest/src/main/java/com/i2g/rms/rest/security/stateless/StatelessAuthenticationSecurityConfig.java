@@ -17,9 +17,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 
-import com.i2g.rms.rest.security.SpringSecurityUserDetailsServiceImpl;
 import com.i2g.rms.rest.service.PasswordRelatedRestService;
 import com.i2g.rms.util.security.RMSSecurityProperties;
 
@@ -55,6 +53,7 @@ public class StatelessAuthenticationSecurityConfig extends WebSecurityConfigurer
 		.antMatchers("/").permitAll()
 		.antMatchers("/favicon.ico").permitAll()
 		.antMatchers("/resources/**").permitAll()
+		.antMatchers("/**").permitAll()
 		.antMatchers("/p/**").permitAll()
 		//secured area
 		.antMatchers("/s/**").hasAnyAuthority("ADMIN", "USER", "TESTER", "CLAIMS_HANDLER", "SUPERVISOR", "INVESTIGATOR")
@@ -96,13 +95,7 @@ public class StatelessAuthenticationSecurityConfig extends WebSecurityConfigurer
 	protected UserDetailsService userDetailsService() {
 		_logger.info("Inside StatelessAuthenticationSecurityConfig.userDetailsService()");
 		return userDetailsService;
-	}
-	
-	@Autowired
-	public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
-		_logger.info("Inside StatelessAuthenticationSecurityConfig.configureGlobalSecurity(AuthenticationManagerBuilder auth)");
-		auth.authenticationProvider(authenticationProvider());
-	}
+	}	
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -117,13 +110,5 @@ public class StatelessAuthenticationSecurityConfig extends WebSecurityConfigurer
 		authenticationProvider.setUserDetailsService(userDetailsService);
 		authenticationProvider.setPasswordEncoder(passwordEncoder());
 		return authenticationProvider;
-	}
-	
-	@Bean
-	public BasicAuthenticationEntryPoint getBasicAuthEntryPoint() {
-		_logger.info("Inside StatelessAuthenticationSecurityConfig.getBasicAuthEntryPoint()");
-		BasicAuthenticationEntryPoint basicAuthEntryPoint = new BasicAuthenticationEntryPoint();
-		basicAuthEntryPoint.setRealmName(RMSSecurityProperties.STATELESS_REALM_NAME);
-		return basicAuthEntryPoint;
-	}		
+	}			
 }

@@ -1,8 +1,11 @@
 package com.i2g.rms.domain.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -32,6 +35,8 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Immutable;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -50,7 +55,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @DynamicUpdate
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "userCache")
-public class User extends AbstractDataModel<Long> implements Serializable {
+public class User extends AbstractDataModel<Long> implements Serializable, org.springframework.security.core.userdetails.UserDetails {
 
 	/**
 	 * 
@@ -73,7 +78,7 @@ public class User extends AbstractDataModel<Long> implements Serializable {
 	private String _prefix;
 	private String _suffix;
 	private UserStatus _status;
-	private Set<UserDetails> _userDetails = new HashSet<UserDetails>(0);
+	private Set<com.i2g.rms.domain.model.UserDetails> _userDetails = new HashSet<com.i2g.rms.domain.model.UserDetails>(0);
 	private Set<PasswordHistory> _passwordHistory = new HashSet<PasswordHistory>(0);
 	/** Set of Group associated with the user. */
 	private Set<Group> _groups = new HashSet<Group>(0);
@@ -82,7 +87,27 @@ public class User extends AbstractDataModel<Long> implements Serializable {
 	@Transient
 	private long _expires;
 	@Transient
-	private String _username;	
+	private String _username;
+	
+	@NotNull
+	@Transient
+	private boolean _accountExpired;
+
+	@NotNull
+	@Transient
+	private boolean _accountLocked;
+
+	@NotNull
+	@Transient
+	private boolean _credentialsExpired;
+
+	@NotNull
+	@Transient
+	private boolean _accountEnabled;
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER, orphanRemoval = true)
+	@Transient
+	private Set<UserAuthority> _authorities;
 	
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -236,11 +261,11 @@ public class User extends AbstractDataModel<Long> implements Serializable {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "user")
 	@Fetch(FetchMode.SUBSELECT)
 	@JsonIgnoreProperties("user")
-	public Set<UserDetails> getUserDetails() {
+	public Set<com.i2g.rms.domain.model.UserDetails> getUserDetails() {
 		return _userDetails;
 	}
 
-	public void setUserDetails(Set<UserDetails> userDetails) {
+	public void setUserDetails(Set<com.i2g.rms.domain.model.UserDetails> userDetails) {
 		_userDetails = userDetails;
 	}
 
@@ -459,5 +484,52 @@ public class User extends AbstractDataModel<Long> implements Serializable {
 	public void setUsername(String username) {
 		_username = username;
 		_loginId = username;
-	}	
+	}
+
+	@Override
+	@JsonIgnore
+	@Transient
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return buildUserAuthority(getRoles());
+	}
+
+	@Override
+	@JsonIgnore
+	@Transient
+	public boolean isAccountNonExpired() {
+		return !_accountExpired;
+	}
+
+	@Override
+	@JsonIgnore
+	@Transient
+	public boolean isAccountNonLocked() {
+		return !_accountLocked;
+	}
+
+	@Override
+	@JsonIgnore
+	@Transient
+	public boolean isCredentialsNonExpired() {
+		return !_credentialsExpired;
+	}
+
+	@Override
+	@JsonIgnore
+	@Transient
+	public boolean isEnabled() {
+		return !_accountEnabled;
+	}
+	
+	private List<GrantedAuthority> buildUserAuthority(Set<Role> roles) {
+		Set<GrantedAuthority> setAuths = new HashSet<GrantedAuthority>();
+
+		// Build user's authorities
+		for (Role role : roles) {
+			setAuths.add(new SimpleGrantedAuthority(role.getRoleName()));
+		}
+
+		List<GrantedAuthority> results = new ArrayList<GrantedAuthority>(setAuths);
+		return results;
+	}
 }

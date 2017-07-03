@@ -8,10 +8,14 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
 
 public class StatelessAuthenticationFilter extends GenericFilterBean {
+	
+	private final Logger _logger = LoggerFactory.getLogger(StatelessAuthenticationFilter.class);
 
 	private final TokenAuthenticationService tokenAuthenticationService;
 
@@ -20,10 +24,9 @@ public class StatelessAuthenticationFilter extends GenericFilterBean {
 	}
 
 	@Override
-	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException,
-			ServletException {
-		SecurityContextHolder.getContext().setAuthentication(
-				tokenAuthenticationService.getAuthentication((HttpServletRequest) req));
+	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
+		_logger.info("StatelessAuthenticationFilter.doFilter(");
+		SecurityContextHolder.getContext().setAuthentication(tokenAuthenticationService.getAuthentication((HttpServletRequest) req));
 		chain.doFilter(req, res); // always continue
 	}
 }

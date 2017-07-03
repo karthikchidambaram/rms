@@ -22,6 +22,8 @@
 		<hibernate.entitymanager.version>5.2.8.Final</hibernate.entitymanager.version>
 		<hibernate.validator.version>5.4.0.Final</hibernate.validator.version>
 		<hibernate.ehcache.version>5.2.8.Final</hibernate.ehcache.version>
+		<spring.security.config.version>4.2.2.RELEASE</spring.security.config.version>
+		<spring.security.core.version>4.2.2.RELEASE</spring.security.core.version>
 
 	</properties>
 
@@ -237,6 +239,19 @@
 		<dependency>
 			<groupId>aopalliance</groupId>
 			<artifactId>aopalliance</artifactId>			
+		</dependency>
+		
+		<!-- Spring security dependencies -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>${spring.security.core.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${spring.security.config.version}</version>
 		</dependency>
 
 	</dependencies>

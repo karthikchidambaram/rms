@@ -48,13 +48,15 @@ public class PasswordRelatedRestServiceImpl extends AbstractRestService implemen
 		// First attempt to pull out Basic Authentication credentials
 		final String basicAuthHeader = request.getHeader("Authorization");
 		if( basicAuthHeader != null && basicAuthHeader.startsWith("Basic ") ) {
+			//credentials = getBasicAuthHeader(basicAuthHeader);
 			return getBasicAuthHeader(basicAuthHeader);
+		//Second attempt to retrieve username and password from request header
+		} else if (request.getHeader("username") != null && request.getHeader("password") != null) {
+			return new String[] {request.getHeader("username"), request.getHeader("password")};
+		// Fall back to retrieve username and password from request params
+		} else {
+			return new String[] {request.getParameter("username"), request.getParameter("password")};
 		}
-		
-		// Otherwise fall back to explicit username/password headers
-		final String username = request.getHeader("username");
-		final String password = request.getHeader("password");
-		return new String[]{username, password};
 	}
 	
 	/**

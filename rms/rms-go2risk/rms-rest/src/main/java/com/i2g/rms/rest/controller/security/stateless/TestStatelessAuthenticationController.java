@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.i2g.rms.domain.model.User;
 import com.i2g.rms.rest.constants.RequestMappingConstants;
+import com.i2g.rms.rest.model.UserContextRO;
 import com.i2g.rms.rest.model.UserRO;
 import com.i2g.rms.rest.security.stateless.UserAuthentication;
 import com.i2g.rms.rest.service.UserRestService;
@@ -40,8 +41,8 @@ public class TestStatelessAuthenticationController {
 	}
 	
 	@RequestMapping(value = "/p/api/login", method = RequestMethod.POST)
-	public String doLogin() {
-		return "Success!";
+	public UserContextRO doLogin() {
+		return _testStatelessAuthenticationRestService.doLogin();
 	}
 	
 	@RequestMapping(value = RequestMappingConstants.LOGIN_ACTION_STATELESS, method = RequestMethod.POST)
