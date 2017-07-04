@@ -2,7 +2,7 @@
 <html lang="en" ng-app id="ng-app">
 <head>
 <meta charset="ISO-8859-1">
-<title>AngularJS Pagination Example</title>
+<title>AngularJS ng-repeat Example</title>
 
 <style>
 table, th, td {
@@ -20,14 +20,14 @@ table tr:nth-child(even) {
 }
 </style>
 
-<script src="js/angular.js"></script>
+<script src="../resources/js/angular.js"></script>
 
 <script>
-function PaginationCtrlAjax($scope, $http)
+function DeptCtrlAjax($scope, $http)
 {
-	$http({method: 'GET', url: 'http://localhost:8088/rmsrest/p/test/pagination'}).success(function(data)
+	$http({method: 'GET', url: 'http://localhost:8088/rmsrest/p/test/department/departments'}).success(function(data)
 	{
-		$scope.pagedata = data; // response data 
+		$scope.depts = data; // response data 
 	});
 }
 </script>
@@ -62,28 +62,22 @@ body {
 </head>
 <body>
 
-	<h3>Pagination:</h3>
-	<div id="ng-app" ng-app ng-controller="PaginationCtrlAjax">
+	<h3>Department Details:</h3>
+	<div id="ng-app" ng-app ng-controller="DeptCtrlAjax">
 		Search: <input type="text" ng-model="search.$">
 		<hr>
 		<table>
 			<tr>
 				<th>ID</th>
-				<th>Type</th>
-				<th>Description</th>
-				<th>Created Date</th>
-				<th>Created By</th>
-				<th>Last Updated Date</th>
-				<th>Last Updated By</th>				
+				<th>Number</th>
+				<th>Name</th>
+				<th>Location</th>
 			</tr>
-			<tr ng-repeat="page in pagedata | filter:search">
-				<td>{{page.id}}</td>
-				<td>{{page.type}}</td>
-				<td>{{page.description}}</td>				
-				<td>{{page.created}}</td>
-				<td>{{page.createdBy}}</td>
-				<td>{{page.lastUpdated}}</td>
-				<td>{{page.lastUpdatedBy}}</td>
+			<tr ng-repeat="dept in depts | filter:search">
+				<td>{{dept.id}}</td>
+				<td>{{dept.deptNo}}</td>
+				<td>{{dept.dname}}</td>
+				<td>{{dept.loc}}</td>
 			</tr>
 		</table>
 	</div>	

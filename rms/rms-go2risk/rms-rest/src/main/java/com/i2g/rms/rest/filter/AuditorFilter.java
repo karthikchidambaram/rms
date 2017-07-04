@@ -58,15 +58,19 @@ public class AuditorFilter implements Filter {
 				if (auth instanceof UserAuthentication) {					
 					final User user = (User) auth.getDetails();
 					if (user != null) {
-						// Set username in auditing contexts
-						username = user.getUsername();
+						if ((user.getUsername() != null) && !(user.getUsername().isEmpty()) && !(user.getUsername().equalsIgnoreCase("anonymousUser"))) {
+							// Set username in auditing contexts
+							username = user.getUsername();
+						}
 					}
 				} else {
 					if (auth.getPrincipal() instanceof User) {
 						final User user = (User) auth.getPrincipal();
 						if (user != null) {
-							// Set username in auditing contexts
-							username = user.getUsername();
+							if ((user.getUsername() != null) && !(user.getUsername().isEmpty()) && !(user.getUsername().equalsIgnoreCase("anonymousUser"))) {
+								// Set username in auditing contexts
+								username = user.getUsername();
+							}
 						}
 					}
 				}

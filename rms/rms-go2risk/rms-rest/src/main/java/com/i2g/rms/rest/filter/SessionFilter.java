@@ -58,16 +58,20 @@ public class SessionFilter implements Filter {
 			if (auth != null) {				
 				if (auth instanceof UserAuthentication) {					
 					final User user = (User) auth.getDetails();
-					if ((user != null) && (user.getUsername() != null) && !(user.getUsername().isEmpty())) {
-						// User is authenticated
-						authenticated = true;
+					if (user != null) {
+						if ((user.getUsername() != null) && !(user.getUsername().isEmpty()) && !(user.getUsername().equalsIgnoreCase("anonymousUser"))) {
+							// User is authenticated
+							authenticated = true;
+						}
 					}
 				} else {
 					if (auth.getPrincipal() instanceof User) {
 						final User user = (User) auth.getPrincipal();
-						if ((user != null) && (user.getUsername() != null) && !(user.getUsername().isEmpty())) {
-							// User is authenticated
-							authenticated = true;
+						if (user != null) {
+							if ((user.getUsername() != null) && !(user.getUsername().isEmpty()) && !(user.getUsername().equalsIgnoreCase("anonymousUser"))) {
+								// User is authenticated
+								authenticated = true;
+							}
 						}
 					}
 				}
