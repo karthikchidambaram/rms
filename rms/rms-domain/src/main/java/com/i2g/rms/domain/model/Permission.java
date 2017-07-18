@@ -27,7 +27,7 @@ import org.hibernate.annotations.Immutable;
 @Table(name = "RMS_PRMSN")
 @Immutable
 @Cacheable
-@Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region="userCache")
+@Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "userCache")
 public class Permission extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * 
@@ -53,7 +53,8 @@ public class Permission extends AbstractDataModel<Long> implements Serializable 
 	private Permission(final Builder builder) {
 		_id = Objects.requireNonNull(builder._id, "ID cannot be null");
 		_permissionName = Objects.requireNonNull(builder._permissionName, "Permission name cannot be null");
-		_permissionDescription = Objects.requireNonNull(builder._permissionDescription, "Permission Description cannot be null");
+		_permissionDescription = Objects.requireNonNull(builder._permissionDescription,
+				"Permission Description cannot be null");
 	}
 
 	/**
@@ -84,7 +85,7 @@ public class Permission extends AbstractDataModel<Long> implements Serializable 
 	protected void setId(final long id) {
 		_id = id;
 	}
-	
+
 	@Column(name = "PRMSN_NAM")
 	@Size(min = 1, max = 20, message = "Permission name must be between {min} and {max} characters")
 	public String getPermissionName() {
@@ -94,7 +95,7 @@ public class Permission extends AbstractDataModel<Long> implements Serializable 
 	public void setPermissionName(String permissionName) {
 		_permissionName = permissionName;
 	}
-	
+
 	@Column(name = "PRMSN_DESC")
 	@Size(min = 1, max = 64, message = "Permission description must be between {min} and {max} characters")
 	public String getPermissionDescription() {

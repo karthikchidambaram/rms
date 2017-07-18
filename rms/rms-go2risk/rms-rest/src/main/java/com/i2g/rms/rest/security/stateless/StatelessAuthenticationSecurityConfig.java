@@ -56,7 +56,7 @@ public class StatelessAuthenticationSecurityConfig extends WebSecurityConfigurer
 		.antMatchers("/**").permitAll()
 		.antMatchers("/p/**").permitAll()
 		//secured area
-		.antMatchers("/s/**").hasAnyAuthority("ADMIN", "USER", "TESTER", "CLAIMS_HANDLER", "SUPERVISOR", "INVESTIGATOR")
+		.antMatchers("/s/**").hasAnyAuthority("ADMIN", "USER", "CLAIMS_HANDLER", "SUPERVISOR", "INVESTIGATOR")
 		.anyRequest().authenticated()
 		.and()
 		.anonymous().and()

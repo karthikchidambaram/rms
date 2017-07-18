@@ -16,7 +16,6 @@ public class PasswordHistoryRO extends AbstractEntityRO {
 
 	private long _id;
 	private String _password;
-	private String _reasonCode;
 	private String _reasonDescription;
 	private UserRO _user;
 
@@ -24,7 +23,7 @@ public class PasswordHistoryRO extends AbstractEntityRO {
 		return _id;
 	}
 
-	public void setId(long id) {
+	public void setId(final long id) {
 		_id = id;
 	}
 
@@ -32,23 +31,15 @@ public class PasswordHistoryRO extends AbstractEntityRO {
 		return _password;
 	}
 
-	public void setPassword(String password) {
+	public void setPassword(final String password) {
 		_password = password;
-	}
-
-	public String getReasonCode() {
-		return _reasonCode;
-	}
-
-	public void setReasonCode(String reasonCode) {
-		_reasonCode = reasonCode;
 	}
 
 	public String getReasonDescription() {
 		return _reasonDescription;
 	}
 
-	public void setReasonDescription(String reasonDescription) {
+	public void setReasonDescription(final String reasonDescription) {
 		_reasonDescription = reasonDescription;
 	}
 

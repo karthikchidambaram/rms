@@ -20,12 +20,12 @@ public class RoleRO extends AbstractEntityRO {
 	private String _roleName;
 	private String _roleDescription;
 	private Set<PermissionRO> _permissions;
-
+	
 	public long getId() {
 		return _id;
 	}
 
-	public void setId(long id) {
+	public void setId(final long id) {
 		_id = id;
 	}
 
@@ -33,7 +33,7 @@ public class RoleRO extends AbstractEntityRO {
 		return _roleName;
 	}
 
-	public void setRoleName(String roleName) {
+	public void setRoleName(final String roleName) {
 		_roleName = roleName;
 	}
 
@@ -41,7 +41,7 @@ public class RoleRO extends AbstractEntityRO {
 		return _roleDescription;
 	}
 
-	public void setRoleDescription(String roleDescription) {
+	public void setRoleDescription(final String roleDescription) {
 		_roleDescription = roleDescription;
 	}
 
@@ -49,7 +49,7 @@ public class RoleRO extends AbstractEntityRO {
 		return _permissions;
 	}
 
-	public void setPermissions(Set<PermissionRO> permissions) {
+	public void setPermissions(final Set<PermissionRO> permissions) {
 		_permissions = permissions;
-	}
+	}	
 }

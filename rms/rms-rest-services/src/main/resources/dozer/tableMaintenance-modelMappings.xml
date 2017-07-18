@@ -105,8 +105,8 @@
 	</mapping>
 
 	<mapping>
-		<class-a>com.i2g.rms.domain.model.tablemaintenance.WeaponInvolved</class-a>
-		<class-b>com.i2g.rms.rest.model.tablemaintenance.WeaponInvolvedRO</class-b>
+		<class-a>com.i2g.rms.domain.model.tablemaintenance.WeaponType</class-a>
+		<class-b>com.i2g.rms.rest.model.tablemaintenance.WeaponTypeRO</class-b>
 	</mapping>
 
 </mappings>

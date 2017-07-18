@@ -13,7 +13,7 @@ import com.i2g.rms.rest.model.AbstractEntityRO;
  */
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class WeaponInvolvedRO extends AbstractEntityRO {
+public class WeaponTypeRO extends AbstractEntityRO {
 
 	private String _id;
 	private String _description;

@@ -8,29 +8,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.i2g.rms.domain.model.UserDetails;
+import com.i2g.rms.domain.model.InvestigationTeam;
 import com.i2g.rms.persistence.hibernate.AbstractHibernateDao;
 
 /**
- * Implementation class for UserDetailsDao
+ * Implementation class for RoleDao
  * 
  * @since 1.0.0
  * @author Karthikeyan Chidambaram
  *
  */
 @Repository
-public class UserDetailsDaoImpl extends AbstractHibernateDao<Long, UserDetails> implements UserDetailsDao {
+public class InvestigationTeamDaoImpl extends AbstractHibernateDao<Long, InvestigationTeam> implements InvestigationTeamDao {
 
-	private final Logger _logger = LoggerFactory.getLogger(UserDetailsDaoImpl.class);
+	private final Logger _logger = LoggerFactory.getLogger(InvestigationTeamDaoImpl.class);
 
 	@Autowired
 	private HibernateTemplate _hibernateTemplate;
 
 	/**
-	 * Creates a new instance of {@link UserDetailsDaoImpl}.
+	 * Creates a new instance of {@link InvestigationTeamDaoImpl}.
 	 */
-	private UserDetailsDaoImpl() {
-		super(UserDetails.class);
+	private InvestigationTeamDaoImpl() {
+		super(InvestigationTeam.class);
 	}
 
 	public HibernateTemplate getHibernateTemplate() {
@@ -41,10 +41,10 @@ public class UserDetailsDaoImpl extends AbstractHibernateDao<Long, UserDetails> 
 		_hibernateTemplate = hibernateTemplate;
 	}
 
-	// Method to return all user details
-	@SuppressWarnings("deprecation")
+	// Method to return all investigation teams
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<UserDetails> getUserDetails() {
-		return (List<UserDetails>) applySearch(getSession().createCriteria(_modelType)).list();
+	public List<InvestigationTeam> getInvestigationTeams() {
+		return (List<InvestigationTeam>) applySearch(getSession().createCriteria(_modelType)).list();
 	}
 }

@@ -23,7 +23,7 @@ import com.i2g.rms.rest.model.tablemaintenance.InjuryTypeDetailsSpecRO;
 import com.i2g.rms.rest.model.tablemaintenance.InjuryTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.SuspectTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.TableMaintenanceRO;
-import com.i2g.rms.rest.model.tablemaintenance.WeaponInvolvedRO;
+import com.i2g.rms.rest.model.tablemaintenance.WeaponTypeRO;
 
 /**
  * Rest Service Interface for all table maintenance objects.
@@ -181,11 +181,11 @@ public interface TableMaintenanceRestService {
 	public SuspectTypeRO updateSuspectType(final SuspectTypeRO suspectTypeRO);
 	public void deleteSuspectType(final String code);
 
-	/** Methods related to Weapon Involved */
-	public List<WeaponInvolvedRO> getWeaponsInvolved();
-	public WeaponInvolvedRO getWeaponInvolvedByCode(final String code);
-	public WeaponInvolvedRO createWeaponInvolved(final WeaponInvolvedRO weaponInvolvedRO);
-	public WeaponInvolvedRO updateWeaponInvolved(final WeaponInvolvedRO weaponInvolvedRO);
-	public void deleteWeaponInvolved(final String code);
+	/** Methods related to Weapon Type */
+	public List<WeaponTypeRO> getWeaponTypes();
+	public WeaponTypeRO getWeaponTypeByCode(final String code);
+	public WeaponTypeRO createWeaponType(final WeaponTypeRO weaponInvolvedRO);
+	public WeaponTypeRO updateWeaponType(final WeaponTypeRO weaponInvolvedRO);
+	public void deleteWeaponType(final String code);
 	
 }

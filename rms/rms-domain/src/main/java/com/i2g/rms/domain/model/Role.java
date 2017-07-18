@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.Cacheable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -46,8 +47,8 @@ public class Role extends AbstractDataModel<Long> implements Serializable {
 	private String _roleName;
 	private String _roleDescription;
 	/** Set of permissions associated with the role. */
-	private Set<Permission> _permissions = new HashSet<Permission>(0);
-
+	private Set<Permission> _permissions = new HashSet<Permission>(0);	
+	
 	/**
 	 * Default empty constructor required for Hibernate.
 	 */
@@ -117,11 +118,11 @@ public class Role extends AbstractDataModel<Long> implements Serializable {
 	
 	/**
 	 * Returns the set of {@code Permission}s which are associated with this
-	 * role.  Any associated permissions are eagerly fetched by Hibernate.
+	 * role.
 	 * 
 	 * @return set of associated permissions
 	 */
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(
 			name = "RMS_RLE_PRMSN",
 			joinColumns = @JoinColumn(name = "RLE_ID"),

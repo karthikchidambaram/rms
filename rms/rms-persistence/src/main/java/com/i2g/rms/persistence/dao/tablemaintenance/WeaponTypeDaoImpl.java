@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.i2g.rms.domain.model.tablemaintenance.WeaponInvolved;
+import com.i2g.rms.domain.model.tablemaintenance.WeaponType;
 import com.i2g.rms.persistence.hibernate.AbstractHibernateDao;
 
 /**
@@ -22,18 +22,18 @@ import com.i2g.rms.persistence.hibernate.AbstractHibernateDao;
  *
  */
 @Repository
-public class WeaponInvolvedDaoImpl extends AbstractHibernateDao<String, WeaponInvolved> implements WeaponInvolvedDao {
+public class WeaponTypeDaoImpl extends AbstractHibernateDao<String, WeaponType> implements WeaponTypeDao {
 
-	private final Logger _logger = LoggerFactory.getLogger(WeaponInvolvedDaoImpl.class);
+	private final Logger _logger = LoggerFactory.getLogger(WeaponTypeDaoImpl.class);
 
 	@Autowired
 	private HibernateTemplate _hibernateTemplate;
 
 	/**
-	 * Creates a new instance of {@link WeaponInvolvedDaoImpl}.
+	 * Creates a new instance of {@link WeaponTypeDaoImpl}.
 	 */
-	private WeaponInvolvedDaoImpl() {
-		super(WeaponInvolved.class);
+	private WeaponTypeDaoImpl() {
+		super(WeaponType.class);
 	}
 
 	public HibernateTemplate getHibernateTemplate() {
@@ -52,8 +52,8 @@ public class WeaponInvolvedDaoImpl extends AbstractHibernateDao<String, WeaponIn
 	 */
 	@SuppressWarnings({ "deprecation", "unchecked" })
 	@Override
-	public List<WeaponInvolved> get() {
-		return (List<WeaponInvolved>) applySearch(getSession().createCriteria(_modelType)).list();
+	public List<WeaponType> get() {
+		return (List<WeaponType>) applySearch(getSession().createCriteria(_modelType)).list();
 	}
 
 	/**
@@ -65,10 +65,10 @@ public class WeaponInvolvedDaoImpl extends AbstractHibernateDao<String, WeaponIn
 	 */
 	@SuppressWarnings("deprecation")
 	@Override
-	public WeaponInvolved getByCode(final String code) {
+	public WeaponType getByCode(final String code) {
 		// Validate input parameter(s) if any..
 		validateCode(code);
-		return (WeaponInvolved) applySearch(getSession().createCriteria(_modelType)
+		return (WeaponType) applySearch(getSession().createCriteria(_modelType)
 				.add(Restrictions.eq("id", Objects.requireNonNull(code, "Code cannot be null or empty."))))
 						.uniqueResult();
 	}
@@ -82,12 +82,12 @@ public class WeaponInvolvedDaoImpl extends AbstractHibernateDao<String, WeaponIn
 	 * @return a table maintenance object.
 	 */
 	@Override
-	public WeaponInvolved create(final String code, final String description) {
+	public WeaponType create(final String code, final String description) {
 		// Validate input parameter(s) if any..
 		validateCode(code);
 		validateDescription(description);
 		// Create the new object (record)
-		WeaponInvolved object = new WeaponInvolved(code, description);
+		WeaponType object = new WeaponType(code, description);
 		// Issue save
 		save(object);
 		return object;
@@ -106,12 +106,12 @@ public class WeaponInvolvedDaoImpl extends AbstractHibernateDao<String, WeaponIn
 	 * @return a table maintenance object.
 	 */
 	@Override
-	public WeaponInvolved update(final String code, final String description) {
+	public WeaponType update(final String code, final String description) {
 		// Validate input parameter(s) if any..
 		validateCode(code);
 		validateDescription(description);
 		// Check if the record exists before issuing the update.
-		WeaponInvolved object = getByCode(code);
+		WeaponType object = getByCode(code);
 		validateObject(object);
 		// Set the new value(s).
 		object.setDescription(description);		
@@ -129,7 +129,7 @@ public class WeaponInvolvedDaoImpl extends AbstractHibernateDao<String, WeaponIn
 	public void delete(final String code) {
 		// Validate input parameter(s) if any..
 		validateCode(code);
-		WeaponInvolved object = getByCode(code);
+		WeaponType object = getByCode(code);
 		// Check if the object exists in database before issuing the delete
 		validateObject(object);
 		// Issue delete

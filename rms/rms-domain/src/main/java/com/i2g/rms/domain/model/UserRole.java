@@ -3,7 +3,6 @@ package com.i2g.rms.domain.model;
 import java.io.Serializable;
 import java.util.Objects;
 
-import javax.persistence.Cacheable;
 import javax.persistence.Embeddable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -11,10 +10,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Immutable;
 
 /**
  * Relational entity for representing the relationship between a {@link User}
@@ -26,9 +21,6 @@ import org.hibernate.annotations.Immutable;
  */
 @Entity
 @Table(name = "RMS_USR_RLE")
-@Immutable
-@Cacheable
-@Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "userCache")
 public class UserRole extends AbstractDataModel<UserRole.PrimaryKey> implements Serializable {
 
 	/**
@@ -88,7 +80,7 @@ public class UserRole extends AbstractDataModel<UserRole.PrimaryKey> implements 
 
 	@Override
 	public String toString() {
-		return "User-Role: " + _id.getUser().getLoginId() + " -> " + _id.getRole().getRoleName();
+		return "User -> Role: " + _id.getUser().getLoginId() + " -> " + _id.getRole().getRoleName();
 	}
 
 	/**
@@ -167,3 +159,4 @@ public class UserRole extends AbstractDataModel<UserRole.PrimaryKey> implements 
 
 	}
 }
+

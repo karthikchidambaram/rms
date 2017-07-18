@@ -40,7 +40,6 @@ public class PasswordHistory extends AbstractDataModel<Long> implements Serializ
 	/** Primary surrogate key ID of User table. */
 	private long _id;
 	private String _password;
-	private String _reasonCode;
 	private String _reasonDescription;
 	private User _user;
 
@@ -59,7 +58,6 @@ public class PasswordHistory extends AbstractDataModel<Long> implements Serializ
 	private PasswordHistory(final Builder builder) {
 		_id = Objects.requireNonNull(builder._id, "ID cannot be null");
 		_password = Objects.requireNonNull(builder._password, "Password cannot be null");
-		_reasonCode = Objects.requireNonNull(builder._reasonCode, "Password change reason code cannot be null");
 		_reasonDescription = Objects.requireNonNull(builder._reasonDescription, "Password change reason description cannot be null");
 		_user = Objects.requireNonNull(builder._user, "User (Object) cannot be null. Foreign Key Constraint Violation.");
 	}
@@ -103,17 +101,7 @@ public class PasswordHistory extends AbstractDataModel<Long> implements Serializ
 		_password = password;
 	}
 
-	@Column(name = "PWD_RSN_CDE")
-	@Size(min = 1, max = 20, message = "Password change reason code must be between {min} and {max} characters")
-	public String getReasonCode() {
-		return _reasonCode;
-	}
-
-	public void setReasonCode(String reasonCode) {
-		_reasonCode = reasonCode;
-	}
-
-	@Column(name = "PWD_RSN_DESC")
+	@Column(name = "PWD_CHG_RSN_DESC")
 	@Size(min = 1, max = 64, message = "Password change reason description must be between {min} and {max} characters")
 	public String getReasonDescription() {
 		return _reasonDescription;
@@ -142,7 +130,6 @@ public class PasswordHistory extends AbstractDataModel<Long> implements Serializ
 
 		private Long _id;
 		private String _password;
-		private String _reasonCode;
 		private String _reasonDescription;
 		private User _user;
 
@@ -168,11 +155,6 @@ public class PasswordHistory extends AbstractDataModel<Long> implements Serializ
 
 		public Builder setPassword(final String password) {
 			_password = password;
-			return this;
-		}
-
-		public Builder setReasonName(final String reasonCode) {
-			_reasonCode = reasonCode;
 			return this;
 		}
 

@@ -20,11 +20,6 @@ public interface RequestMappingConstants {
 	String GET_RMS_BCRYPT_PASSWORD		= LOGIN + "/get-rms-bcrypt-password";
 	String LOGIN_ACTION_STATELESS		= LOGIN + "/do-login-stateless";
 	
-	
-	/** Group */
-	String GROUP 					= SECURED + "/group";
-	String GET_ALL_GROUPS 			= GROUP + "/groups";
-	
 	/** Password History */
 	String PASSWORD_HISTORY 			= SECURED + "/password-history";
 	String GET_ALL_PASSWORD_HISTORIES 	= PASSWORD_HISTORY + "/password-histories";
@@ -37,13 +32,13 @@ public interface RequestMappingConstants {
 	String ROLE 			= SECURED + "/role";
 	String GET_ALL_ROLES 	= ROLE + "/roles";
 	
+	/** Investigation Team */
+	String INVESTIGATION_TEAM			= SECURED + "/investigation-team";
+	String GET_ALL_INVESTIGATION_TEAMS 	= INVESTIGATION_TEAM + "/investigation-teams";
+	
 	/** User */
 	String USER 			= SECURED + "/user";
-	String GET_ALL_USERS 	= USER + "/users";
-	
-	/** User Details */
-	String USER_DETAILS 			= SECURED + "/user-detail";
-	String GET_ALL_USER_DETAILS 	= USER_DETAILS + "/user-details";
+	String GET_ALL_USERS 	= USER + "/users";	
 	
 	/** Testing purpose URLs */
 	String TEST 								= PUBLIC + "/test";
@@ -220,10 +215,11 @@ public interface RequestMappingConstants {
 	String UPDATE_SUSPECT_TYPE 				= TABLE_MAINTENANCE + "/suspect-type/update-suspect-type";
 	String DELETE_SUSPECT_TYPE 				= TABLE_MAINTENANCE + "/suspect-type/delete-suspect-type/{code}";
 	
-	/** Weapon Involved Request Mappings */
-	String GET_WEAPONS_INVOLVED				= TABLE_MAINTENANCE + "/weapon-involved/weapons-involved";
-	String GET_WEAPON_INVOLVED_BY_CODE 		= TABLE_MAINTENANCE + "/weapon-involved/{code}";
-	String CREATE_WEAPON_INVOLVED			= TABLE_MAINTENANCE + "/weapon-involved/create-weapon-involved";
-	String UPDATE_WEAPON_INVOLVED			= TABLE_MAINTENANCE + "/weapon-involved/update-weapon-involved";
-	String DELETE_WEAPON_INVOLVED			= TABLE_MAINTENANCE + "/weapon-involved/delete-weapon-involved/{code}";
+	/** Weapon Type Request Mappings */
+	String GET_WEAPON_TYPES				= TABLE_MAINTENANCE + "/weapon-type/weapons-types";
+	String GET_WEAPON_TYPE_BY_CODE 		= TABLE_MAINTENANCE + "/weapon-type/{code}";
+	String CREATE_WEAPON_TYPE			= TABLE_MAINTENANCE + "/weapon-type/create-weapon-type";
+	String UPDATE_WEAPON_TYPE			= TABLE_MAINTENANCE + "/weapon-type/update-weapon-type";
+	String DELETE_WEAPON_TYPE			= TABLE_MAINTENANCE + "/weapon-type/delete-weapon-type/{code}";
+	
 }

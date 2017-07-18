@@ -23,21 +23,19 @@ public class UserRO extends AbstractEntityRO {
 	private String _firstName;
 	private String _lastName;
 	private String _middleName;
-	private String _prefix;
+	private String _title;
 	private String _suffix;
 	private UserStatus _status;
-	private Set<UserDetailsRO> _userDetails;
 	private Set<PasswordHistoryRO> _passwordHistory;
-	private Set<GroupRO> _groups;
 	private Set<RoleRO> _roles;
 	private long _expires;
-	private String _username;
+	private String _username;	 
 
 	public long getId() {
 		return _id;
 	}
 
-	public void setId(long id) {
+	public void setId(final long id) {
 		_id = id;
 	}
 
@@ -45,7 +43,7 @@ public class UserRO extends AbstractEntityRO {
 		return _loginId;
 	}
 
-	public void setLoginId(String loginId) {
+	public void setLoginId(final String loginId) {
 		_loginId = loginId;
 		_username = loginId;
 	}
@@ -54,7 +52,7 @@ public class UserRO extends AbstractEntityRO {
 		return _password;
 	}
 
-	public void setPassword(String password) {
+	public void setPassword(final String password) {
 		_password = password;
 	}
 
@@ -62,7 +60,7 @@ public class UserRO extends AbstractEntityRO {
 		return _firstName;
 	}
 
-	public void setFirstName(String firstName) {
+	public void setFirstName(final String firstName) {
 		_firstName = firstName;
 	}
 
@@ -70,7 +68,7 @@ public class UserRO extends AbstractEntityRO {
 		return _lastName;
 	}
 
-	public void setLastName(String lastName) {
+	public void setLastName(final String lastName) {
 		_lastName = lastName;
 	}
 
@@ -78,23 +76,23 @@ public class UserRO extends AbstractEntityRO {
 		return _middleName;
 	}
 
-	public void setMiddleName(String middleName) {
+	public void setMiddleName(final String middleName) {
 		_middleName = middleName;
 	}
 
-	public String getPrefix() {
-		return _prefix;
+	public String getTitle() {
+		return _title;
 	}
 
-	public void setPrefix(String prefix) {
-		_prefix = prefix;
+	public void setTitle(final String title) {
+		_title = title;
 	}
 
 	public String getSuffix() {
 		return _suffix;
 	}
 
-	public void setSuffix(String suffix) {
+	public void setSuffix(final String suffix) {
 		_suffix = suffix;
 	}
 
@@ -102,39 +100,23 @@ public class UserRO extends AbstractEntityRO {
 		return _status;
 	}
 
-	public void setStatus(UserStatus status) {
+	public void setStatus(final UserStatus status) {
 		_status = status;
-	}
-
-	public Set<UserDetailsRO> getUserDetails() {
-		return _userDetails;
-	}
-
-	public void setUserDetails(Set<UserDetailsRO> userDetails) {
-		_userDetails = userDetails;
 	}
 
 	public Set<PasswordHistoryRO> getPasswordHistory() {
 		return _passwordHistory;
 	}
 
-	public void setPasswordHistory(Set<PasswordHistoryRO> passwordHistory) {
+	public void setPasswordHistory(final Set<PasswordHistoryRO> passwordHistory) {
 		_passwordHistory = passwordHistory;
-	}
-
-	public Set<GroupRO> getGroups() {
-		return _groups;
-	}
-
-	public void setGroups(Set<GroupRO> groups) {
-		_groups = groups;
 	}
 
 	public Set<RoleRO> getRoles() {
 		return _roles;
 	}
 
-	public void setRoles(Set<RoleRO> roles) {
+	public void setRoles(final Set<RoleRO> roles) {
 		_roles = roles;
 	}
 
@@ -147,7 +129,7 @@ public class UserRO extends AbstractEntityRO {
 		return _expires;
 	}
 
-	public void setExpires(long expires) {
+	public void setExpires(final long expires) {
 		_expires = expires;
 	}
 
@@ -155,12 +137,12 @@ public class UserRO extends AbstractEntityRO {
 		return _username;
 	}
 
-	public void setUsername(String username) {
+	public void setUsername(final String username) {
 		_username = username;
 		_loginId = username;
 	}
 
-	public boolean hasRole(String roleName) {
+	public boolean hasRole(final String roleName) {
 		return getRoles().contains(roleName);
-	}
+	}	
 }

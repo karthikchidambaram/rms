@@ -26,7 +26,7 @@ import com.i2g.rms.domain.model.tablemaintenance.InjuryType;
 import com.i2g.rms.domain.model.tablemaintenance.InjuryTypeDetails;
 import com.i2g.rms.domain.model.tablemaintenance.InjuryTypeDetailsSpec;
 import com.i2g.rms.domain.model.tablemaintenance.SuspectType;
-import com.i2g.rms.domain.model.tablemaintenance.WeaponInvolved;
+import com.i2g.rms.domain.model.tablemaintenance.WeaponType;
 import com.i2g.rms.persistence.dao.tablemaintenance.AccidentLocationDao;
 import com.i2g.rms.persistence.dao.tablemaintenance.AccidentLocationDetailsDao;
 import com.i2g.rms.persistence.dao.tablemaintenance.AssetCategoryDao;
@@ -48,7 +48,7 @@ import com.i2g.rms.persistence.dao.tablemaintenance.InjuryTypeDetailsDao;
 import com.i2g.rms.persistence.dao.tablemaintenance.InjuryTypeDetailsSpecDao;
 import com.i2g.rms.persistence.dao.tablemaintenance.SuspectTypeDao;
 import com.i2g.rms.persistence.dao.tablemaintenance.TableMaintenanceDao;
-import com.i2g.rms.persistence.dao.tablemaintenance.WeaponInvolvedDao;
+import com.i2g.rms.persistence.dao.tablemaintenance.WeaponTypeDao;
 import com.i2g.rms.service.AbstractService;
 
 /**
@@ -103,7 +103,7 @@ public class TableMaintenaceServiceImpl extends AbstractService implements Table
 	@Autowired
 	private SuspectTypeDao _suspectTypeDao;
 	@Autowired
-	private WeaponInvolvedDao _weaponInvolvedDao;
+	private WeaponTypeDao _weaponInvolvedDao;
 		
 	/** Generic Dao class for all table maintenance activities */
 	@Autowired
@@ -704,31 +704,31 @@ public class TableMaintenaceServiceImpl extends AbstractService implements Table
 
 	@Override
 	@Transactional
-	public List<WeaponInvolved> getWeaponsInvolved() {
+	public List<WeaponType> getWeaponTypes() {
 		return _weaponInvolvedDao.get();
 	}
 
 	@Override
 	@Transactional
-	public WeaponInvolved getWeaponInvolvedByCode(String code) {
+	public WeaponType getWeaponTypeByCode(String code) {
 		return _weaponInvolvedDao.getByCode(code);
 	}
 
 	@Override
 	@Transactional
-	public WeaponInvolved createWeaponInvolved(String code, String description) {
+	public WeaponType createWeaponType(String code, String description) {
 		return _weaponInvolvedDao.create(code, description);
 	}
 
 	@Override
 	@Transactional
-	public WeaponInvolved updateWeaponInvolved(String code, String description) {
+	public WeaponType updateWeaponType(String code, String description) {
 		return _weaponInvolvedDao.update(code, description);
 	}
 
 	@Override
 	@Transactional
-	public void deleteWeaponInvolved(String code) {
+	public void deleteWeaponType(String code) {
 		_weaponInvolvedDao.delete(code);		
 	}
 }

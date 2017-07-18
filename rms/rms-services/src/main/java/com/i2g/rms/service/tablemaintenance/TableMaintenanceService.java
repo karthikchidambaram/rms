@@ -22,7 +22,7 @@ import com.i2g.rms.domain.model.tablemaintenance.InjuryType;
 import com.i2g.rms.domain.model.tablemaintenance.InjuryTypeDetails;
 import com.i2g.rms.domain.model.tablemaintenance.InjuryTypeDetailsSpec;
 import com.i2g.rms.domain.model.tablemaintenance.SuspectType;
-import com.i2g.rms.domain.model.tablemaintenance.WeaponInvolved;
+import com.i2g.rms.domain.model.tablemaintenance.WeaponType;
 
 /**
  * Service interface for all table maintenance operations.
@@ -180,11 +180,11 @@ public interface TableMaintenanceService {
 	public SuspectType updateSuspectType(final String code, final String description);
 	public void deleteSuspectType(final String code);
 	
-	/** Methods related to Weapon Involved */
-	public List<WeaponInvolved> getWeaponsInvolved();
-	public WeaponInvolved getWeaponInvolvedByCode(final String code);
-	public WeaponInvolved createWeaponInvolved(final String code, final String description);
-	public WeaponInvolved updateWeaponInvolved(final String code, final String description);
-	public void deleteWeaponInvolved(final String code);
+	/** Methods related to Weapon Type */
+	public List<WeaponType> getWeaponTypes();
+	public WeaponType getWeaponTypeByCode(final String code);
+	public WeaponType createWeaponType(final String code, final String description);
+	public WeaponType updateWeaponType(final String code, final String description);
+	public void deleteWeaponType(final String code);
 
 }

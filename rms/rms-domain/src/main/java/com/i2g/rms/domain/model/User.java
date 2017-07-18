@@ -75,19 +75,16 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	private String _firstName;
 	private String _lastName;
 	private String _middleName;
-	private String _prefix;
+	private String _title;
 	private String _suffix;
 	private UserStatus _status;
-	private Set<com.i2g.rms.domain.model.UserDetails> _userDetails = new HashSet<com.i2g.rms.domain.model.UserDetails>(0);
 	private Set<PasswordHistory> _passwordHistory = new HashSet<PasswordHistory>(0);
-	/** Set of Group associated with the user. */
-	private Set<Group> _groups = new HashSet<Group>(0);
 	/** Set of Roles associated with the user. */
 	private Set<Role> _roles = new HashSet<Role>(0);
 	@Transient
 	private long _expires;
 	@Transient
-	private String _username;
+	private String _username;	
 	
 	@NotNull
 	@Transient
@@ -105,7 +102,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	@Transient
 	private boolean _accountEnabled;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER, orphanRemoval = true)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY, orphanRemoval = true)
 	@Transient
 	private Set<UserAuthority> _authorities;
 	
@@ -170,7 +167,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 		_id = id;
 	}
 
-	@Column(name = "USR_LGN_ID", nullable = false, updatable = false)
+	@Column(name = "LGN_ID", nullable = false, updatable = false)
 	@NotNull
 	@Unique
 	@Size(min = 1, max = 40, message = "User login ID must be between {min} and {max} characters")
@@ -183,7 +180,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 		_username = loginId;
 	}
 
-	@Column(name = "USR_PWD", nullable = false)
+	@Column(name = "PWD", nullable = false)
 	@NotNull
 	@Size(min = 1, max = 128, message = "User password must be between {min} and {max} characters")
 	@JsonIgnore
@@ -196,7 +193,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 		_password = password;
 	}
 	
-	@Column(name = "USR_FNAME", nullable = false)
+	@Column(name = "FNAME", nullable = false)
 	@NotNull
 	@Size(min = 1, max = 50, message = "User first name must be between {min} and {max} characters")
 	public String getFirstName() {
@@ -207,7 +204,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 		_firstName = firstName;
 	}
 
-	@Column(name = "USR_LNAME")
+	@Column(name = "LNAME")
 	@Size(min = 1, max = 50, message = "User last name must be between {min} and {max} characters")
 	public String getLastName() {
 		return _lastName;
@@ -217,7 +214,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 		_lastName = lastName;
 	}
 
-	@Column(name = "USR_MNAME")
+	@Column(name = "MNAME")
 	@Size(min = 1, max = 50, message = "User middle name must be between {min} and {max} characters")
 	public String getMiddleName() {
 		return _middleName;
@@ -227,17 +224,17 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 		_middleName = middleName;
 	}
 
-	@Column(name = "USR_PFIX")
-	@Size(min = 1, max = 32, message = "User name prefix must be between {min} and {max} characters")
-	public String getPrefix() {
-		return _prefix;
+	@Column(name = "TITLE")
+	@Size(min = 1, max = 32, message = "User title must be between {min} and {max} characters")
+	public String getTitle() {
+		return _title;
 	}
 
-	public void setPrefix(String prefix) {
-		_prefix = prefix;
+	public void setTitle(String title) {
+		_title = title;
 	}
 
-	@Column(name = "USR_SFIX")
+	@Column(name = "NAM_SUFFIX")
 	@Size(min = 1, max = 32, message = "User name suffix must be between {min} and {max} characters")
 	public String getSuffix() {
 		return _suffix;
@@ -247,7 +244,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 		_suffix = suffix;
 	}
 
-	@Column(name = "USR_STS_CDE", nullable = false)
+	@Column(name = "STS_FLG", nullable = false)
 	@Size(min = 1, max = 10, message = "User status code must be between {min} and {max} characters")
 	@Enumerated(EnumType.STRING)
 	public UserStatus getStatus() {
@@ -258,59 +255,12 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 		_status = status;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "user")
-	@Fetch(FetchMode.SUBSELECT)
-	@JsonIgnoreProperties("user")
-	public Set<com.i2g.rms.domain.model.UserDetails> getUserDetails() {
-		return _userDetails;
-	}
-
-	public void setUserDetails(Set<com.i2g.rms.domain.model.UserDetails> userDetails) {
-		_userDetails = userDetails;
-	}
-
 	/**
-	 * Returns the set of {@code Group}s which are associated with this user.
-	 * Any associated groups are eagerly fetched by Hibernate.
-	 * 
-	 * @return set of associated groups
-	 */
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(
-			name = "RMS_USR_GRP",
-			joinColumns = @JoinColumn(name = "USR_ID"),
-			inverseJoinColumns = @JoinColumn(name = "GRP_ID")
-	)
-	@Fetch(FetchMode.SUBSELECT)
-	@Immutable
-	@Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region="userCache")
-	public Set<Group> getGroups() {
-		return _groups;
-	}
-
-	/**
-	 * Sets the set of {@code groups} which are associated to this user.
-	 * 
-	 * <p>
-	 * <strong>Note:</strong> This method has protected access to prevent
-	 * callers from manually setting the groups as Groups should never be
-	 * created/updated programmatically; Hibernate has access to invoke this
-	 * method when populating an entity.
-	 * </p>
-	 * 
-	 * @param groups
-	 */
-	protected void setGroups(final Set<Group> groups) {
-		_groups = groups;
-	}
-
-	/**
-	 * Returns the set of {@code Role}s which are associated with this user. Any
-	 * associated roles are eagerly fetched by Hibernate.
+	 * Returns the set of {@code Role}s which are associated with this user.
 	 * 
 	 * @return set of associated roles
 	 */
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(
 			name = "RMS_USR_RLE",
 			joinColumns = @JoinColumn(name = "USR_ID"),

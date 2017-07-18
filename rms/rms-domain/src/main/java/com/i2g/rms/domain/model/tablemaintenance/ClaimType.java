@@ -21,7 +21,7 @@ import com.i2g.rms.domain.model.AbstractDataModel;
  * @author RMS Development Team
  */
 @Entity
-@Table(name = "RMS_CLAIM_TYP")
+@Table(name = "RMS_CLIM_TYP")
 public class ClaimType extends AbstractDataModel<String> implements Serializable {
 
 	/**

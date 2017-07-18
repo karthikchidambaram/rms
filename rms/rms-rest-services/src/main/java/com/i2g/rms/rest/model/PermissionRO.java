@@ -1,5 +1,8 @@
 package com.i2g.rms.rest.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -18,12 +21,13 @@ public class PermissionRO extends AbstractEntityRO {
 	private long _id;
 	private String _permissionName;
 	private String _permissionDescription;
+	private Set<RoleRO> _roles = new HashSet<RoleRO>(0);
 
 	public long getId() {
 		return _id;
 	}
 
-	public void setId(long id) {
+	public void setId(final long id) {
 		_id = id;
 	}
 
@@ -31,7 +35,7 @@ public class PermissionRO extends AbstractEntityRO {
 		return _permissionName;
 	}
 
-	public void setPermissionName(String permissionName) {
+	public void setPermissionName(final String permissionName) {
 		_permissionName = permissionName;
 	}
 
@@ -39,7 +43,15 @@ public class PermissionRO extends AbstractEntityRO {
 		return _permissionDescription;
 	}
 
-	public void setPermissionDescription(String permissionDescription) {
+	public void setPermissionDescription(final String permissionDescription) {
 		_permissionDescription = permissionDescription;
+	}
+
+	public Set<RoleRO> getRoles() {
+		return _roles;
+	}
+
+	public void setRoles(final Set<RoleRO> roles) {
+		_roles = roles;
 	}
 }

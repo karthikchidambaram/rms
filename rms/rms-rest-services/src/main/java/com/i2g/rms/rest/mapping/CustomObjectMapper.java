@@ -11,12 +11,14 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module.Feature;
 
-/* Custom Object Mapper to handle default JSON serialization/deserialization of all objects
-*
-* @since 1.0.0
-* @author Karthikeyan Chidambaram
-* @author RMS Development Team
-*/
+/**
+ * Custom Object Mapper to handle default JSON serialization/deserialization of
+ * all objects
+ *
+ * @since 1.0.0
+ * @author Karthikeyan Chidambaram
+ * @author RMS Development Team
+ */
 @Service("customObjectMapper")
 public class CustomObjectMapper extends ObjectMapper {
 
@@ -36,7 +38,7 @@ public class CustomObjectMapper extends ObjectMapper {
 		// allowing fields marked transient (such as IDs) to be serialized.
 		Hibernate5Module hibernateModule = new Hibernate5Module();
 		hibernateModule.disable(Feature.USE_TRANSIENT_ANNOTATION);
-		registerModule(hibernateModule);
+		registerModule(hibernateModule);		
 	}
 
 }

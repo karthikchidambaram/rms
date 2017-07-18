@@ -13,7 +13,7 @@ import javax.validation.constraints.Size;
 import com.i2g.rms.domain.model.AbstractDataModel;
 
 /**
- * Entity for representing allowable values for the drop down "Weapon Involved" in
+ * Entity for representing allowable values for the drop down "Accident Type" in
  * Incident Details tab page.
  * 
  * @since 1.0.0
@@ -21,8 +21,8 @@ import com.i2g.rms.domain.model.AbstractDataModel;
  * @author RMS Development Team
  */
 @Entity
-@Table(name = "RMS_WPN_INVLD")
-public class WeaponInvolved extends AbstractDataModel<String> implements Serializable {
+@Table(name = "RMS_ACC_TYP")
+public class AccidentType extends AbstractDataModel<String> implements Serializable {
 
 	/**
 	 * 
@@ -34,28 +34,28 @@ public class WeaponInvolved extends AbstractDataModel<String> implements Seriali
 	/**
 	 * Default empty constructor required for Hibernate.
 	 */
-	public WeaponInvolved() {
+	public AccidentType() {
 	}
 
 	/**
-	 * Creates a new instance of {@code WeaponInvolved} with the specified code.
+	 * Creates a new instance of {@code AccidentType} with the specified code.
 	 * 
 	 * @param code
 	 */
-	public WeaponInvolved(final String code) {
-		_id = Objects.requireNonNull(code, "Weapon involved code cannot be null.");
+	public AccidentType(final String code) {
+		_id = Objects.requireNonNull(code, "Accident type code cannot be null.");
 	}
 
 	/**
-	 * Creates a new instance of {@code WeaponInvolved} with the specified code
+	 * Creates a new instance of {@code AccidentType} with the specified code
 	 * and description.
 	 * 
 	 * @param code
 	 * @param description
 	 */
-	public WeaponInvolved(final String code, final String description) {
-		_id = Objects.requireNonNull(code, "Weapon involved code cannot be null.");
-		_description = Objects.requireNonNull(description, "Weapon involved description cannot be null.");
+	public AccidentType(final String code, final String description) {
+		_id = Objects.requireNonNull(code, "Accident type code cannot be null.");
+		_description = Objects.requireNonNull(description, "Accident type description cannot be null.");
 	}
 
 	@Id
@@ -68,7 +68,7 @@ public class WeaponInvolved extends AbstractDataModel<String> implements Seriali
 	}
 
 	/**
-	 * Sets the Weapon Involved.
+	 * Sets the Accident Type.
 	 * 
 	 * <p>
 	 * <strong>Note:</strong> This method has protected access to prevent
@@ -106,7 +106,7 @@ public class WeaponInvolved extends AbstractDataModel<String> implements Seriali
 
 	@Override
 	public boolean equals(final Object obj) {
-		return obj == this || (obj instanceof WeaponInvolved && Objects.equals(_id, ((WeaponInvolved) obj)._id));
+		return obj == this || (obj instanceof AccidentType && Objects.equals(_id, ((AccidentType) obj)._id));
 	}
 
 	@Override

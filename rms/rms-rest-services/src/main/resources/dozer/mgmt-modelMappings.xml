@@ -6,11 +6,6 @@
 	<!-- RMS Project Generic/Management Dozer Mappings -->
 	<!-- Convert an Entity Object attribues to/from an Rest Object -->
 	<mapping>
-		<class-a>com.i2g.rms.domain.model.Group</class-a>
-		<class-b>com.i2g.rms.rest.model.GroupRO</class-b>
-	</mapping>
-
-	<mapping>
 		<class-a>com.i2g.rms.domain.model.PasswordHistory</class-a>
 		<class-b>com.i2g.rms.rest.model.PasswordHistoryRO</class-b>
 		<field-exclude>
@@ -33,14 +28,10 @@
 		<class-a>com.i2g.rms.domain.model.User</class-a>
 		<class-b>com.i2g.rms.rest.model.UserRO</class-b>
 	</mapping>
-
+	
 	<mapping>
-		<class-a>com.i2g.rms.domain.model.UserDetails</class-a>
-		<class-b>com.i2g.rms.rest.model.UserDetailsRO</class-b>
-		<field-exclude>
-			<a>user</a>
-			<b>user</b>
-		</field-exclude>
+		<class-a>com.i2g.rms.domain.model.InvestigationTeam</class-a>
+		<class-b>com.i2g.rms.rest.model.InvestigationTeamRO</class-b>
 	</mapping>
 
 </mappings>

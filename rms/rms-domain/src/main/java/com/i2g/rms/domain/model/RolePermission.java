@@ -3,7 +3,6 @@ package com.i2g.rms.domain.model;
 import java.io.Serializable;
 import java.util.Objects;
 
-import javax.persistence.Cacheable;
 import javax.persistence.Embeddable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -11,10 +10,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Immutable;
 
 /**
  * Relational entity for representing the relationship between a {@link Role}
@@ -26,9 +21,6 @@ import org.hibernate.annotations.Immutable;
  */
 @Entity
 @Table(name = "RMS_RLE_PRMSN")
-@Immutable
-@Cacheable
-@Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region="userCache")
 public class RolePermission extends AbstractDataModel<RolePermission.PrimaryKey> implements Serializable {
 
 	/**
@@ -88,11 +80,11 @@ public class RolePermission extends AbstractDataModel<RolePermission.PrimaryKey>
 
 	@Override
 	public String toString() {
-		return "Role-Permission: " + _id.getRole().getRoleName() + " -> " + _id.getPermission().getPermissionName();
+		return "Role -> Permission: " + _id.getRole().getRoleName() + " -> " + _id.getPermission().getPermissionName();
 	}
 
 	/**
-	 * Primary key ID for the role/role relationship.
+	 * Primary key ID for the role/permission relationship.
 	 */
 	@Embeddable
 	public static class PrimaryKey implements Serializable {

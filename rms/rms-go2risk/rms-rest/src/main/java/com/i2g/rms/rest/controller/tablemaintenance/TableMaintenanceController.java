@@ -36,7 +36,7 @@ import com.i2g.rms.rest.model.tablemaintenance.InjuryTypeDetailsSpecRO;
 import com.i2g.rms.rest.model.tablemaintenance.InjuryTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.SuspectTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.TableMaintenanceRO;
-import com.i2g.rms.rest.model.tablemaintenance.WeaponInvolvedRO;
+import com.i2g.rms.rest.model.tablemaintenance.WeaponTypeRO;
 import com.i2g.rms.rest.service.tablemaintenance.TableMaintenanceRestService;
 
 /**
@@ -624,29 +624,29 @@ public class TableMaintenanceController extends AbstractRestController {
 	}
 	
 	/** Methods related to Weapon Involved */
-	@RequestMapping(value = RequestMappingConstants.GET_WEAPONS_INVOLVED, method = RequestMethod.GET)
-	public List<WeaponInvolvedRO> getWeaponsInvolved() {
-		return _tableMaintenanceRestService.getWeaponsInvolved();
+	@RequestMapping(value = RequestMappingConstants.GET_WEAPON_TYPES, method = RequestMethod.GET)
+	public List<WeaponTypeRO> getWeaponTypes() {
+		return _tableMaintenanceRestService.getWeaponTypes();
 	}
 
-	@RequestMapping(value = RequestMappingConstants.GET_WEAPON_INVOLVED_BY_CODE, method = RequestMethod.GET)
-	public WeaponInvolvedRO getWeaponInvolvedByCode(@PathVariable final String code) {
-		return _tableMaintenanceRestService.getWeaponInvolvedByCode(code);
+	@RequestMapping(value = RequestMappingConstants.GET_WEAPON_TYPE_BY_CODE, method = RequestMethod.GET)
+	public WeaponTypeRO getWeaponTypeByCode(@PathVariable final String code) {
+		return _tableMaintenanceRestService.getWeaponTypeByCode(code);
 	}
 
-	@RequestMapping(value = RequestMappingConstants.CREATE_WEAPON_INVOLVED, method = RequestMethod.POST)
-	public WeaponInvolvedRO createWeaponInvolved(final @Valid @RequestBody WeaponInvolvedRO weaponInvolvedRO) {
-		return _tableMaintenanceRestService.createWeaponInvolved(weaponInvolvedRO);
+	@RequestMapping(value = RequestMappingConstants.CREATE_WEAPON_TYPE, method = RequestMethod.POST)
+	public WeaponTypeRO createWeaponType(final @Valid @RequestBody WeaponTypeRO weaponTypeRO) {
+		return _tableMaintenanceRestService.createWeaponType(weaponTypeRO);
 	}
 
-	@RequestMapping(value = RequestMappingConstants.UPDATE_WEAPON_INVOLVED, method = RequestMethod.PUT)
-	public WeaponInvolvedRO updateWeaponInvolved(final @Valid @RequestBody WeaponInvolvedRO weaponInvolvedRO) {
-		return _tableMaintenanceRestService.updateWeaponInvolved(weaponInvolvedRO);
+	@RequestMapping(value = RequestMappingConstants.UPDATE_WEAPON_TYPE, method = RequestMethod.PUT)
+	public WeaponTypeRO updateWeaponType(final @Valid @RequestBody WeaponTypeRO weaponTypeRO) {
+		return _tableMaintenanceRestService.updateWeaponType(weaponTypeRO);
 	}
 
-	@RequestMapping(value = RequestMappingConstants.DELETE_WEAPON_INVOLVED, method = RequestMethod.DELETE)
+	@RequestMapping(value = RequestMappingConstants.DELETE_WEAPON_TYPE, method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deleteWeaponInvolved(@PathVariable final String code) {
-		_tableMaintenanceRestService.deleteWeaponInvolved(code);
+	public void deleteWeaponType(@PathVariable final String code) {
+		_tableMaintenanceRestService.deleteWeaponType(code);
 	}
 }

@@ -13,7 +13,7 @@ public class UserContextRO {
 		return _userId;
 	}
 
-	public void setUserId(String userId) {
+	public void setUserId(final String userId) {
 		_userId = userId;
 	}
 
@@ -21,7 +21,7 @@ public class UserContextRO {
 		return _roles;
 	}
 
-	public void setRoles(List<String> roles) {
+	public void setRoles(final List<String> roles) {
 		_roles = roles;
 	}
 
@@ -29,7 +29,7 @@ public class UserContextRO {
 		return _firstName;
 	}
 
-	public void setFirstName(String firstName) {
+	public void setFirstName(final String firstName) {
 		_firstName = firstName;
 	}
 
@@ -37,7 +37,7 @@ public class UserContextRO {
 		return _lastName;
 	}
 
-	public void setLastName(String lastName) {
+	public void setLastName(final String lastName) {
 		_lastName = lastName;
 	}
 }

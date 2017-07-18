@@ -252,7 +252,7 @@ public class TestRestServiceImpl extends TestAbstractRestService implements Test
 	}
 	
 	@Override
-	@PreAuthorize("hasAnyAuthority('USER', 'TESTER', 'ADMIN')")
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
 	public MyDepartmentRO createMyDepartment(MyDepartmentRO myDepartmentRO) {
 		
 		UserContextRO userContextRO = new UserContextRO();
@@ -284,7 +284,7 @@ public class TestRestServiceImpl extends TestAbstractRestService implements Test
 	}
 
 	@Override
-	@PreAuthorize("hasAnyAuthority('USER', 'TESTER', 'ADMIN')")
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
 	@Transactional
 	public MyDepartmentRO updateMyDepartment(MyDepartmentRO myDepartmentRO) {
 		//Validate input parameters

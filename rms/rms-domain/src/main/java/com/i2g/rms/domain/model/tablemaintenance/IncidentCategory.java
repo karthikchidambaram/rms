@@ -13,7 +13,7 @@ import javax.validation.constraints.Size;
 import com.i2g.rms.domain.model.AbstractDataModel;
 
 /**
- * Entity for representing allowable values for the drop down "Claim Status" in
+ * Entity for representing allowable values for the drop down "Incident Category" in
  * Incident Details tab page.
  * 
  * @since 1.0.0
@@ -21,8 +21,8 @@ import com.i2g.rms.domain.model.AbstractDataModel;
  * @author RMS Development Team
  */
 @Entity
-@Table(name = "RMS_CLIM_STS")
-public class ClaimStatus extends AbstractDataModel<String> implements Serializable {
+@Table(name = "RMS_INC_CTGRY")
+public class IncidentCategory extends AbstractDataModel<String> implements Serializable {
 
 	/**
 	 * 
@@ -34,28 +34,28 @@ public class ClaimStatus extends AbstractDataModel<String> implements Serializab
 	/**
 	 * Default empty constructor required for Hibernate.
 	 */
-	public ClaimStatus() {
+	public IncidentCategory() {
 	}
 
 	/**
-	 * Creates a new instance of {@code ClaimStatus} with the specified code.
+	 * Creates a new instance of {@code IncidentCategory} with the specified code.
 	 * 
 	 * @param code
 	 */
-	public ClaimStatus(final String code) {
-		_id = Objects.requireNonNull(code, "Claim status code cannot be null.");
+	public IncidentCategory(final String code) {
+		_id = Objects.requireNonNull(code, "Incident category code cannot be null.");
 	}
 
 	/**
-	 * Creates a new instance of {@code ClaimStatus} with the specified code
+	 * Creates a new instance of {@code IncidentCategory} with the specified code
 	 * and description.
 	 * 
 	 * @param code
 	 * @param description
 	 */
-	public ClaimStatus(final String code, final String description) {
-		_id = Objects.requireNonNull(code, "Claim status code cannot be null.");
-		_description = Objects.requireNonNull(description, "Claim status description cannot be null.");
+	public IncidentCategory(final String code, final String description) {
+		_id = Objects.requireNonNull(code, "Incident category code cannot be null.");
+		_description = Objects.requireNonNull(description, "Incident category description cannot be null.");
 	}
 
 	@Id
@@ -68,7 +68,7 @@ public class ClaimStatus extends AbstractDataModel<String> implements Serializab
 	}
 
 	/**
-	 * Sets the Claim Status.
+	 * Sets the Incident Category.
 	 * 
 	 * <p>
 	 * <strong>Note:</strong> This method has protected access to prevent
@@ -106,7 +106,7 @@ public class ClaimStatus extends AbstractDataModel<String> implements Serializab
 
 	@Override
 	public boolean equals(final Object obj) {
-		return obj == this || (obj instanceof ClaimStatus && Objects.equals(_id, ((ClaimStatus) obj)._id));
+		return obj == this || (obj instanceof IncidentCategory && Objects.equals(_id, ((IncidentCategory) obj)._id));
 	}
 
 	@Override

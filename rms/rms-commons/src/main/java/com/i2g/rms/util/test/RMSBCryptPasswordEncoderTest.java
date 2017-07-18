@@ -23,11 +23,11 @@ public class RMSBCryptPasswordEncoderTest {
 		System.out.println("==============================");
 		System.out.println("BCrypted Password for karthik: " + rMSBCryptPasswordEncoderTest.getBCryptPassword("karthik"));
 		System.out.println("BCrypted Password for beena: " + rMSBCryptPasswordEncoderTest.getBCryptPassword("beena"));
-		System.out.println("BCrypted Password for test1: " + rMSBCryptPasswordEncoderTest.getBCryptPassword("test1"));
-		System.out.println("BCrypted Password for test2: " + rMSBCryptPasswordEncoderTest.getBCryptPassword("test2"));
-		System.out.println("BCrypted Password for test3: " + rMSBCryptPasswordEncoderTest.getBCryptPassword("test3"));
+		System.out.println("BCrypted Password for user1: " + rMSBCryptPasswordEncoderTest.getBCryptPassword("user1"));
+		System.out.println("BCrypted Password for user2: " + rMSBCryptPasswordEncoderTest.getBCryptPassword("user2"));
 		System.out.println("BCrypted Password for admin1: " + rMSBCryptPasswordEncoderTest.getBCryptPassword("admin1"));
-		System.out.println("BCrypted Password for admin2: " + rMSBCryptPasswordEncoderTest.getBCryptPassword("admin2"));
-		System.out.println("BCrypted Password for admin3: " + rMSBCryptPasswordEncoderTest.getBCryptPassword("admin3"));
+		System.out.println("BCrypted Password for claimsHandler1: " + rMSBCryptPasswordEncoderTest.getBCryptPassword("claimsHandler1"));
+		System.out.println("BCrypted Password for claimsHandler2: " + rMSBCryptPasswordEncoderTest.getBCryptPassword("claimsHandler2"));
+		System.out.println("BCrypted Password for investigator1: " + rMSBCryptPasswordEncoderTest.getBCryptPassword("investigator1"));
 	}
 }
