@@ -15,6 +15,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.i2g.rms.domain.model.AbstractDataModel;
 
 /**
@@ -36,7 +37,7 @@ public class AccidentLocation extends AbstractDataModel<String> implements Seria
 	
 	private String _id;
 	private String _description;
-	private Set<AccidentLocationDetails> _accidentLocationDetails = new HashSet<AccidentLocationDetails>(0);
+	private Set<AccidentLocationDetail> _accidentLocationDetails = new HashSet<AccidentLocationDetail>(0);
 
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -74,10 +75,10 @@ public class AccidentLocation extends AbstractDataModel<String> implements Seria
 	 * @param description
 	 * @param accidentLocationDetails
 	 */
-	public AccidentLocation(final String code, final String description, final Set<AccidentLocationDetails> accidentLocationDetails) {
+	public AccidentLocation(final String code, final String description, final Set<AccidentLocationDetail> accidentLocationDetails) {
 		_id = Objects.requireNonNull(code, "Accident location code cannot be null.");
 		_description = Objects.requireNonNull(description, "Accident location description cannot be null.");
-		_accidentLocationDetails = Objects.requireNonNull(accidentLocationDetails, "Accident location details cannot be null or empty.");
+		_accidentLocationDetails = Objects.requireNonNull(accidentLocationDetails, "Accident location detail cannot be null or empty.");
 	}
 
 	@Id
@@ -101,7 +102,7 @@ public class AccidentLocation extends AbstractDataModel<String> implements Seria
 	 * 
 	 * @param id
 	 */
-	protected void setId(String id) {
+	protected void setId(final String id) {
 		_id = id;
 	}
 
@@ -122,16 +123,17 @@ public class AccidentLocation extends AbstractDataModel<String> implements Seria
 	 * 
 	 * @param description
 	 */
-	public void setDescription(String description) {
+	public void setDescription(final String description) {
 		_description = description;
 	}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "accidentLocation")
-	public Set<AccidentLocationDetails> getAccidentLocationDetails() {		
+	@JsonIgnoreProperties("accidentLocation")
+	public Set<AccidentLocationDetail> getAccidentLocationDetails() {		
 		return _accidentLocationDetails;
 	}
 
-	public void setAccidentLocationDetails(Set<AccidentLocationDetails> accidentLocationDetails) {
+	public void setAccidentLocationDetails(Set<AccidentLocationDetail> accidentLocationDetails) {
 		_accidentLocationDetails = accidentLocationDetails;
 	}
 

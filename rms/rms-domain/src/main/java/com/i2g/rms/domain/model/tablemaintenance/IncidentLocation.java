@@ -15,6 +15,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.i2g.rms.domain.model.AbstractDataModel;
 
 /**
@@ -36,7 +37,7 @@ public class IncidentLocation extends AbstractDataModel<String> implements Seria
 
 	private String _id;
 	private String _description;
-	private Set<IncidentLocationDetails> _incidentLocationDetails = new HashSet<IncidentLocationDetails>(0);
+	private Set<IncidentLocationDetail> _incidentLocationDetails = new HashSet<IncidentLocationDetail>(0);
 
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -74,7 +75,7 @@ public class IncidentLocation extends AbstractDataModel<String> implements Seria
 	 * @param description
 	 * @param incidentLocationDetails
 	 */
-	public IncidentLocation(final String code, final String description, final Set<IncidentLocationDetails> incidentLocationDetails) {
+	public IncidentLocation(final String code, final String description, final Set<IncidentLocationDetail> incidentLocationDetails) {
 		_id = Objects.requireNonNull(code, "Incident location code cannot be null.");
 		_description = Objects.requireNonNull(description, "Incident location description cannot be null.");
 		_incidentLocationDetails = Objects.requireNonNull(incidentLocationDetails, "Incident location details cannot be null or empty.");
@@ -101,7 +102,7 @@ public class IncidentLocation extends AbstractDataModel<String> implements Seria
 	 * 
 	 * @param id
 	 */
-	protected void setId(String id) {
+	protected void setId(final String id) {
 		_id = id;
 	}
 
@@ -122,16 +123,17 @@ public class IncidentLocation extends AbstractDataModel<String> implements Seria
 	 * 
 	 * @param description
 	 */
-	public void setDescription(String description) {
+	public void setDescription(final String description) {
 		_description = description;
 	}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "incidentLocation")
-	public Set<IncidentLocationDetails> getIncidentLocationDetails() {
+	@JsonIgnoreProperties("incidentLocation")
+	public Set<IncidentLocationDetail> getIncidentLocationDetails() {
 		return _incidentLocationDetails;
 	}
 
-	public void setIncidentLocationDetails(Set<IncidentLocationDetails> incidentLocationDetails) {
+	public void setIncidentLocationDetails(final Set<IncidentLocationDetail> incidentLocationDetails) {
 		_incidentLocationDetails = incidentLocationDetails;
 	}
 

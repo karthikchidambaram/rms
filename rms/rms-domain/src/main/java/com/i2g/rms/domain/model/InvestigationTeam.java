@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,12 +18,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.Immutable;
-
 /**
  * Entity representation of Investigation Team.
  * 
@@ -34,9 +27,6 @@ import org.hibernate.annotations.Immutable;
  */
 @Entity
 @Table(name = "RMS_INVST_TEAM")
-@Immutable
-@Cacheable
-@Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region="userCache")
 public class InvestigationTeam extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * 
@@ -129,9 +119,6 @@ public class InvestigationTeam extends AbstractDataModel<Long> implements Serial
 	 */
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "RMS_INVST_TEAM_LEAD", joinColumns = @JoinColumn(name = "INVST_TEAM_ID"), inverseJoinColumns = @JoinColumn(name = "USR_ID"))
-	@Fetch(FetchMode.SUBSELECT)
-	@Immutable
-	@Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region="userCache")
 	public Set<User> getUsers() {
 		return _users;
 	}

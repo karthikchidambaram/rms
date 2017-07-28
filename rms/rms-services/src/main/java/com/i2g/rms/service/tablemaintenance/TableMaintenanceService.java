@@ -3,25 +3,35 @@ package com.i2g.rms.service.tablemaintenance;
 import java.util.List;
 
 import com.i2g.rms.domain.model.tablemaintenance.AccidentLocation;
-import com.i2g.rms.domain.model.tablemaintenance.AccidentLocationDetails;
+import com.i2g.rms.domain.model.tablemaintenance.AccidentLocationDetail;
+import com.i2g.rms.domain.model.tablemaintenance.AccidentType;
 import com.i2g.rms.domain.model.tablemaintenance.AssetCategory;
+import com.i2g.rms.domain.model.tablemaintenance.BodyPart;
 import com.i2g.rms.domain.model.tablemaintenance.ClaimRequestRegistrationType;
 import com.i2g.rms.domain.model.tablemaintenance.ClaimStatus;
 import com.i2g.rms.domain.model.tablemaintenance.ClaimType;
-import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeatures;
-import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeaturesDetail;
+import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeature;
+import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeatureDetail;
+import com.i2g.rms.domain.model.tablemaintenance.DocumentCategory;
+import com.i2g.rms.domain.model.tablemaintenance.DocumentType;
 import com.i2g.rms.domain.model.tablemaintenance.EmployeeType;
 import com.i2g.rms.domain.model.tablemaintenance.EntryPoint;
 import com.i2g.rms.domain.model.tablemaintenance.EventType;
 import com.i2g.rms.domain.model.tablemaintenance.ExternalAgency;
+import com.i2g.rms.domain.model.tablemaintenance.GenderType;
+import com.i2g.rms.domain.model.tablemaintenance.IncidentCategory;
 import com.i2g.rms.domain.model.tablemaintenance.IncidentLocation;
-import com.i2g.rms.domain.model.tablemaintenance.IncidentLocationDetails;
+import com.i2g.rms.domain.model.tablemaintenance.IncidentLocationDetail;
 import com.i2g.rms.domain.model.tablemaintenance.IncidentType;
+import com.i2g.rms.domain.model.tablemaintenance.InjuredPersonType;
 import com.i2g.rms.domain.model.tablemaintenance.InjuryCause;
 import com.i2g.rms.domain.model.tablemaintenance.InjuryType;
-import com.i2g.rms.domain.model.tablemaintenance.InjuryTypeDetails;
-import com.i2g.rms.domain.model.tablemaintenance.InjuryTypeDetailsSpec;
+import com.i2g.rms.domain.model.tablemaintenance.InjuryTypeDetail;
+import com.i2g.rms.domain.model.tablemaintenance.InjuryTypeDetailSpec;
+import com.i2g.rms.domain.model.tablemaintenance.LossType;
+import com.i2g.rms.domain.model.tablemaintenance.PolicyType;
 import com.i2g.rms.domain.model.tablemaintenance.SuspectType;
+import com.i2g.rms.domain.model.tablemaintenance.VehicleDamageType;
 import com.i2g.rms.domain.model.tablemaintenance.WeaponType;
 
 /**
@@ -47,12 +57,12 @@ public interface TableMaintenanceService {
 	public AccidentLocation updateAccidentLocation(final String code, final String description);
 	public void deleteAccidentLocation(final String code);
 	
-	/** Methods related to Accident Location Details */
-	public List<AccidentLocationDetails> getAccidentLocationDetails();
-	public AccidentLocationDetails getAccidentLocationDetailsByCode(final String code);
-	public AccidentLocationDetails createAccidentLocationDetails(final String code, final String description);
-	public AccidentLocationDetails updateAccidentLocationDetails(final String code, final String description);
-	public void deleteAccidentLocationDetails(final String code);
+	/** Methods related to Accident Location Detail */
+	public List<AccidentLocationDetail> getAccidentLocationDetails();
+	public AccidentLocationDetail getAccidentLocationDetailByCode(final String code);
+	public AccidentLocationDetail createAccidentLocationDetail(final String code, final String description);
+	public AccidentLocationDetail updateAccidentLocationDetail(final String code, final String description);
+	public void deleteAccidentLocationDetail(final String code);
 	
 	/** Methods related to Asset Category */
 	public List<AssetCategory> getAssetCategories();
@@ -82,19 +92,19 @@ public interface TableMaintenanceService {
 	public ClaimType updateClaimType(final String code, final String description);
 	public void deleteClaimType(final String code);
 	
-	/** Methods related to Distinguishing Features */
-	public List<DistinguishingFeatures> getDistinguishingFeatures();
-	public DistinguishingFeatures getDistinguishingFeaturesByCode(final String code);
-	public DistinguishingFeatures createDistinguishingFeatures(final String code, final String description);
-	public DistinguishingFeatures updateDistinguishingFeatures(final String code, final String description);
-	public void deleteDistinguishingFeatures(final String code);
+	/** Methods related to Distinguishing Feature */
+	public List<DistinguishingFeature> getDistinguishingFeatures();
+	public DistinguishingFeature getDistinguishingFeatureByCode(final String code);
+	public DistinguishingFeature createDistinguishingFeature(final String code, final String description);
+	public DistinguishingFeature updateDistinguishingFeature(final String code, final String description);
+	public void deleteDistinguishingFeature(final String code);
 	
-	/** Methods related to Distinguishing Features Detail */
-	public List<DistinguishingFeaturesDetail> getDistinguishingFeaturesDetails();
-	public DistinguishingFeaturesDetail getDistinguishingFeaturesDetailByCode(final String code);
-	public DistinguishingFeaturesDetail createDistinguishingFeaturesDetail(final String code, final String description);
-	public DistinguishingFeaturesDetail updateDistinguishingFeaturesDetail(final String code, final String description);
-	public void deleteDistinguishingFeaturesDetail(final String code);
+	/** Methods related to Distinguishing Feature Detail */
+	public List<DistinguishingFeatureDetail> getDistinguishingFeatureDetails();
+	public DistinguishingFeatureDetail getDistinguishingFeatureDetailByCode(final String code);
+	public DistinguishingFeatureDetail createDistinguishingFeatureDetail(final String code, final String description);
+	public DistinguishingFeatureDetail updateDistinguishingFeatureDetail(final String code, final String description);
+	public void deleteDistinguishingFeatureDetail(final String code);
 	
 	/** Methods related to Employee Type */
 	public List<EmployeeType> getEmployeeTypes();
@@ -131,12 +141,12 @@ public interface TableMaintenanceService {
 	public IncidentLocation updateIncidentLocation(final String code, final String description);
 	public void deleteIncidentLocation(final String code);
 	
-	/** Methods related to Incident Location Details */
-	public List<IncidentLocationDetails> getIncidentLocationDetails();
-	public IncidentLocationDetails getIncidentLocationDetailsByCode(final String code);
-	public IncidentLocationDetails createIncidentLocationDetails(final String code, final String description);
-	public IncidentLocationDetails updateIncidentLocationDetails(final String code, final String description);
-	public void deleteIncidentLocationDetails(final String code);
+	/** Methods related to Incident Location Detail */
+	public List<IncidentLocationDetail> getIncidentLocationDetails();
+	public IncidentLocationDetail getIncidentLocationDetailByCode(final String code);
+	public IncidentLocationDetail createIncidentLocationDetail(final String code, final String description);
+	public IncidentLocationDetail updateIncidentLocationDetail(final String code, final String description);
+	public void deleteIncidentLocationDetail(final String code);
 	
 	/** Methods related to Incident Type */
 	public List<IncidentType> getIncidentTypes();
@@ -159,19 +169,19 @@ public interface TableMaintenanceService {
 	public InjuryType updateInjuryType(final String code, final String description);
 	public void deleteInjuryType(final String code);
 	
-	/** Methods related to Injury Type Details */
-	public List<InjuryTypeDetails> getInjuryTypeDetails();
-	public InjuryTypeDetails getInjuryTypeDetailsByCode(final String code);
-	public InjuryTypeDetails createInjuryTypeDetails(final String code, final String description);
-	public InjuryTypeDetails updateInjuryTypeDetails(final String code, final String description);
-	public void deleteInjuryTypeDetails(final String code);
+	/** Methods related to Injury Type Detail */
+	public List<InjuryTypeDetail> getInjuryTypeDetails();
+	public InjuryTypeDetail getInjuryTypeDetailByCode(final String code);
+	public InjuryTypeDetail createInjuryTypeDetail(final String code, final String description);
+	public InjuryTypeDetail updateInjuryTypeDetail(final String code, final String description);
+	public void deleteInjuryTypeDetail(final String code);
 	
-	/** Methods related to Injury Type Details Spec */
-	public List<InjuryTypeDetailsSpec> getInjuryTypeDetailsSpecs();
-	public InjuryTypeDetailsSpec getInjuryTypeDetailsSpecByCode(final String code);
-	public InjuryTypeDetailsSpec createInjuryTypeDetailsSpec(final String code, final String description);
-	public InjuryTypeDetailsSpec updateInjuryTypeDetailsSpec(final String code, final String description);
-	public void deleteInjuryTypeDetailsSpec(final String code);
+	/** Methods related to Injury Type Detail Spec */
+	public List<InjuryTypeDetailSpec> getInjuryTypeDetailSpecs();
+	public InjuryTypeDetailSpec getInjuryTypeDetailSpecByCode(final String code);
+	public InjuryTypeDetailSpec createInjuryTypeDetailSpec(final String code, final String description);
+	public InjuryTypeDetailSpec updateInjuryTypeDetailSpec(final String code, final String description);
+	public void deleteInjuryTypeDetailSpec(final String code);
 	
 	/** Methods related to Suspect Type */
 	public List<SuspectType> getSuspectTypes();
@@ -186,5 +196,74 @@ public interface TableMaintenanceService {
 	public WeaponType createWeaponType(final String code, final String description);
 	public WeaponType updateWeaponType(final String code, final String description);
 	public void deleteWeaponType(final String code);
-
+	
+	/** Methods related to Accident Type */
+	public List<AccidentType> getAccidentTypes();
+	public AccidentType getAccidentTypeByCode(final String code);
+	public AccidentType createAccidentType(final String code, final String description);
+	public AccidentType updateAccidentType(final String code, final String description);
+	public void deleteAccidentType(final String code);
+	
+	/** Methods related to Body Part */
+	public List<BodyPart> getBodyParts();
+	public BodyPart getBodyPartByCode(final String code);
+	public BodyPart createBodyPart(final String code, final String description);
+	public BodyPart updateBodyPart(final String code, final String description);
+	public void deleteBodyPart(final String code);
+	
+	/** Methods related to Document Category */
+	public List<DocumentCategory> getDocumentCategories();
+	public DocumentCategory getDocumentCategoryByCode(final String code);
+	public DocumentCategory createDocumentCategory(final String code, final String description);
+	public DocumentCategory updateDocumentCategory(final String code, final String description);
+	public void deleteDocumentCategory(final String code);
+	
+	/** Methods related to Document Type */
+	public List<DocumentType> getDocumentTypes();
+	public DocumentType getDocumentTypeByCode(final String code);
+	public DocumentType createDocumentType(final String code, final String description);
+	public DocumentType updateDocumentType(final String code, final String description);
+	public void deleteDocumentType(final String code);
+	
+	/** Methods related to Incident Category */
+	public List<IncidentCategory> getIncidentCategories();
+	public IncidentCategory getIncidentCategoryByCode(final String code);
+	public IncidentCategory createIncidentCategory(final String code, final String description);
+	public IncidentCategory updateIncidentCategory(final String code, final String description);
+	public void deleteIncidentCategory(final String code);
+	
+	/** Methods related to Gender Type */
+	public List<GenderType> getGenderTypes();
+	public GenderType getGenderTypeByCode(final String code);
+	public GenderType createGenderType(final String code, final String description);
+	public GenderType updateGenderType(final String code, final String description);
+	public void deleteGenderType(final String code);
+	
+	/** Methods related to Injured Person Type */
+	public List<InjuredPersonType> getInjuredPersonTypes();
+	public InjuredPersonType getInjuredPersonTypeByCode(final String code);
+	public InjuredPersonType createInjuredPersonType(final String code, final String description);
+	public InjuredPersonType updateInjuredPersonType(final String code, final String description);
+	public void deleteInjuredPersonType(final String code);
+	
+	/** Methods related to Loss Type */
+	public List<LossType> getLossTypes();
+	public LossType getLossTypeByCode(final String code);
+	public LossType createLossType(final String code, final String description);
+	public LossType updateLossType(final String code, final String description);
+	public void deleteLossType(final String code);
+	
+	/** Methods related to Policy Type */
+	public List<PolicyType> getPolicyTypes();
+	public PolicyType getPolicyTypeByCode(final String code);
+	public PolicyType createPolicyType(final String code, final String description);
+	public PolicyType updatePolicyType(final String code, final String description);
+	public void deletePolicyType(final String code);
+	
+	/** Methods related to Vehicle Damage Type */
+	public List<VehicleDamageType> getVehicleDamageTypes();
+	public VehicleDamageType getVehicleDamageTypeByCode(final String code);
+	public VehicleDamageType createVehicleDamageType(final String code, final String description);
+	public VehicleDamageType updateVehicleDamageType(final String code, final String description);
+	public void deleteVehicleDamageType(final String code);
 }

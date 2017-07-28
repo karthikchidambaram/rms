@@ -7,47 +7,67 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.i2g.rms.domain.model.tablemaintenance.AccidentLocation;
-import com.i2g.rms.domain.model.tablemaintenance.AccidentLocationDetails;
+import com.i2g.rms.domain.model.tablemaintenance.AccidentLocationDetail;
+import com.i2g.rms.domain.model.tablemaintenance.AccidentType;
 import com.i2g.rms.domain.model.tablemaintenance.AssetCategory;
+import com.i2g.rms.domain.model.tablemaintenance.BodyPart;
 import com.i2g.rms.domain.model.tablemaintenance.ClaimRequestRegistrationType;
 import com.i2g.rms.domain.model.tablemaintenance.ClaimStatus;
 import com.i2g.rms.domain.model.tablemaintenance.ClaimType;
-import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeatures;
-import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeaturesDetail;
+import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeature;
+import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeatureDetail;
+import com.i2g.rms.domain.model.tablemaintenance.DocumentCategory;
+import com.i2g.rms.domain.model.tablemaintenance.DocumentType;
 import com.i2g.rms.domain.model.tablemaintenance.EmployeeType;
 import com.i2g.rms.domain.model.tablemaintenance.EntryPoint;
 import com.i2g.rms.domain.model.tablemaintenance.EventType;
 import com.i2g.rms.domain.model.tablemaintenance.ExternalAgency;
+import com.i2g.rms.domain.model.tablemaintenance.GenderType;
+import com.i2g.rms.domain.model.tablemaintenance.IncidentCategory;
 import com.i2g.rms.domain.model.tablemaintenance.IncidentLocation;
-import com.i2g.rms.domain.model.tablemaintenance.IncidentLocationDetails;
+import com.i2g.rms.domain.model.tablemaintenance.IncidentLocationDetail;
 import com.i2g.rms.domain.model.tablemaintenance.IncidentType;
+import com.i2g.rms.domain.model.tablemaintenance.InjuredPersonType;
 import com.i2g.rms.domain.model.tablemaintenance.InjuryCause;
 import com.i2g.rms.domain.model.tablemaintenance.InjuryType;
-import com.i2g.rms.domain.model.tablemaintenance.InjuryTypeDetails;
-import com.i2g.rms.domain.model.tablemaintenance.InjuryTypeDetailsSpec;
+import com.i2g.rms.domain.model.tablemaintenance.InjuryTypeDetail;
+import com.i2g.rms.domain.model.tablemaintenance.InjuryTypeDetailSpec;
+import com.i2g.rms.domain.model.tablemaintenance.LossType;
+import com.i2g.rms.domain.model.tablemaintenance.PolicyType;
 import com.i2g.rms.domain.model.tablemaintenance.SuspectType;
+import com.i2g.rms.domain.model.tablemaintenance.VehicleDamageType;
 import com.i2g.rms.domain.model.tablemaintenance.WeaponType;
 import com.i2g.rms.persistence.dao.tablemaintenance.AccidentLocationDao;
-import com.i2g.rms.persistence.dao.tablemaintenance.AccidentLocationDetailsDao;
+import com.i2g.rms.persistence.dao.tablemaintenance.AccidentLocationDetailDao;
+import com.i2g.rms.persistence.dao.tablemaintenance.AccidentTypeDao;
 import com.i2g.rms.persistence.dao.tablemaintenance.AssetCategoryDao;
+import com.i2g.rms.persistence.dao.tablemaintenance.BodyPartDao;
 import com.i2g.rms.persistence.dao.tablemaintenance.ClaimRequestRegistrationTypeDao;
 import com.i2g.rms.persistence.dao.tablemaintenance.ClaimStatusDao;
 import com.i2g.rms.persistence.dao.tablemaintenance.ClaimTypeDao;
-import com.i2g.rms.persistence.dao.tablemaintenance.DistinguishingFeaturesDao;
-import com.i2g.rms.persistence.dao.tablemaintenance.DistinguishingFeaturesDetailDao;
+import com.i2g.rms.persistence.dao.tablemaintenance.DistinguishingFeatureDao;
+import com.i2g.rms.persistence.dao.tablemaintenance.DistinguishingFeatureDetailDao;
+import com.i2g.rms.persistence.dao.tablemaintenance.DocumentCategoryDao;
+import com.i2g.rms.persistence.dao.tablemaintenance.DocumentTypeDao;
 import com.i2g.rms.persistence.dao.tablemaintenance.EmployeeTypeDao;
 import com.i2g.rms.persistence.dao.tablemaintenance.EntryPointDao;
 import com.i2g.rms.persistence.dao.tablemaintenance.EventTypeDao;
 import com.i2g.rms.persistence.dao.tablemaintenance.ExternalAgencyDao;
+import com.i2g.rms.persistence.dao.tablemaintenance.GenderTypeDao;
+import com.i2g.rms.persistence.dao.tablemaintenance.IncidentCategoryDao;
 import com.i2g.rms.persistence.dao.tablemaintenance.IncidentLocationDao;
-import com.i2g.rms.persistence.dao.tablemaintenance.IncidentLocationDetailsDao;
+import com.i2g.rms.persistence.dao.tablemaintenance.IncidentLocationDetailDao;
 import com.i2g.rms.persistence.dao.tablemaintenance.IncidentTypeDao;
+import com.i2g.rms.persistence.dao.tablemaintenance.InjuredPersonTypeDao;
 import com.i2g.rms.persistence.dao.tablemaintenance.InjuryCauseDao;
 import com.i2g.rms.persistence.dao.tablemaintenance.InjuryTypeDao;
-import com.i2g.rms.persistence.dao.tablemaintenance.InjuryTypeDetailsDao;
-import com.i2g.rms.persistence.dao.tablemaintenance.InjuryTypeDetailsSpecDao;
+import com.i2g.rms.persistence.dao.tablemaintenance.InjuryTypeDetailDao;
+import com.i2g.rms.persistence.dao.tablemaintenance.InjuryTypeDetailSpecDao;
+import com.i2g.rms.persistence.dao.tablemaintenance.LossTypeDao;
+import com.i2g.rms.persistence.dao.tablemaintenance.PolicyTypeDao;
 import com.i2g.rms.persistence.dao.tablemaintenance.SuspectTypeDao;
 import com.i2g.rms.persistence.dao.tablemaintenance.TableMaintenanceDao;
+import com.i2g.rms.persistence.dao.tablemaintenance.VehicleDamageTypeDao;
 import com.i2g.rms.persistence.dao.tablemaintenance.WeaponTypeDao;
 import com.i2g.rms.service.AbstractService;
 
@@ -65,7 +85,7 @@ public class TableMaintenaceServiceImpl extends AbstractService implements Table
 	@Autowired
 	private AccidentLocationDao _accidentLocationDao;
 	@Autowired
-	private AccidentLocationDetailsDao _accidentLocationDetailsDao;
+	private AccidentLocationDetailDao _accidentLocationDetailDao;
 	@Autowired
 	private AssetCategoryDao _assetCategoryDao;
 	@Autowired
@@ -75,9 +95,9 @@ public class TableMaintenaceServiceImpl extends AbstractService implements Table
 	@Autowired
 	private ClaimTypeDao _claimTypeDao;
 	@Autowired
-	private DistinguishingFeaturesDao _distinguishingFeaturesDao;
+	private DistinguishingFeatureDao _distinguishingFeatureDao;
 	@Autowired
-	private DistinguishingFeaturesDetailDao _distinguishingFeaturesDetailDao;
+	private DistinguishingFeatureDetailDao _distinguishingFeatureDetailDao;
 	@Autowired
 	private EmployeeTypeDao _employeeTypeDao;
 	@Autowired
@@ -89,7 +109,7 @@ public class TableMaintenaceServiceImpl extends AbstractService implements Table
 	@Autowired
 	private IncidentLocationDao _incidentLocationDao;
 	@Autowired
-	private IncidentLocationDetailsDao _incidentLocationDetailsDao;
+	private IncidentLocationDetailDao _incidentLocationDetailDao;
 	@Autowired
 	private IncidentTypeDao _incidentTypeDao;
 	@Autowired
@@ -97,14 +117,34 @@ public class TableMaintenaceServiceImpl extends AbstractService implements Table
 	@Autowired
 	private InjuryTypeDao _injuryTypeDao;
 	@Autowired
-	private InjuryTypeDetailsDao _injuryTypeDetailsDao;
+	private InjuryTypeDetailDao _injuryTypeDetailDao;
 	@Autowired
-	private InjuryTypeDetailsSpecDao _injuryTypeDetailsSpecDao;
+	private InjuryTypeDetailSpecDao _injuryTypeDetailSpecDao;
 	@Autowired
 	private SuspectTypeDao _suspectTypeDao;
 	@Autowired
 	private WeaponTypeDao _weaponInvolvedDao;
-		
+	@Autowired
+	private AccidentTypeDao _accidentTypeDao;
+	@Autowired
+	private BodyPartDao _bodyPartsDao;
+	@Autowired
+	private DocumentCategoryDao _documentCategoryDao;
+	@Autowired
+	private DocumentTypeDao _documentTypeDao;
+	@Autowired
+	private GenderTypeDao _genderTypeDao;
+	@Autowired
+	private IncidentCategoryDao _incidentCategoryDao;
+	@Autowired
+	private InjuredPersonTypeDao _injuredPersonTypeDao;
+	@Autowired
+	private LossTypeDao _lossTypeDao;
+	@Autowired
+	private PolicyTypeDao _policyTypeDao;
+	@Autowired
+	private VehicleDamageTypeDao _vehicleDamageTypeDao;
+	
 	/** Generic Dao class for all table maintenance activities */
 	@Autowired
 	private TableMaintenanceDao _tableMaintenanceDao;
@@ -173,28 +213,28 @@ public class TableMaintenaceServiceImpl extends AbstractService implements Table
 	}
 
 	@Override
-	public List<AccidentLocationDetails> getAccidentLocationDetails() {
-		return _accidentLocationDetailsDao.get();
+	public List<AccidentLocationDetail> getAccidentLocationDetails() {
+		return _accidentLocationDetailDao.get();
 	}
 
 	@Override
-	public AccidentLocationDetails getAccidentLocationDetailsByCode(String code) {
-		return _accidentLocationDetailsDao.getByCode(code);
+	public AccidentLocationDetail getAccidentLocationDetailByCode(String code) {
+		return _accidentLocationDetailDao.getByCode(code);
 	}
 
 	@Override
-	public AccidentLocationDetails createAccidentLocationDetails(String code, String description) {
-		return _accidentLocationDetailsDao.create(code, description);
+	public AccidentLocationDetail createAccidentLocationDetail(String code, String description) {
+		return _accidentLocationDetailDao.create(code, description);
 	}
 
 	@Override
-	public AccidentLocationDetails updateAccidentLocationDetails(String code, String description) {
-		return _accidentLocationDetailsDao.update(code, description);
+	public AccidentLocationDetail updateAccidentLocationDetail(String code, String description) {
+		return _accidentLocationDetailDao.update(code, description);
 	}
 
 	@Override
-	public void deleteAccidentLocationDetails(String code) {
-		_accidentLocationDetailsDao.delete(code);		
+	public void deleteAccidentLocationDetail(String code) {
+		_accidentLocationDetailDao.delete(code);		
 	}
 
 	@Override
@@ -318,53 +358,53 @@ public class TableMaintenaceServiceImpl extends AbstractService implements Table
 	}
 
 	@Override
-	public List<DistinguishingFeatures> getDistinguishingFeatures() {
-		return _distinguishingFeaturesDao.get();
+	public List<DistinguishingFeature> getDistinguishingFeatures() {
+		return _distinguishingFeatureDao.get();
 	}
 
 	@Override
-	public DistinguishingFeatures getDistinguishingFeaturesByCode(String code) {
-		return _distinguishingFeaturesDao.getByCode(code);
+	public DistinguishingFeature getDistinguishingFeatureByCode(String code) {
+		return _distinguishingFeatureDao.getByCode(code);
 	}
 
 	@Override
-	public DistinguishingFeatures createDistinguishingFeatures(String code, String description) {
-		return _distinguishingFeaturesDao.create(code, description);
+	public DistinguishingFeature createDistinguishingFeature(String code, String description) {
+		return _distinguishingFeatureDao.create(code, description);
 	}
 
 	@Override
-	public DistinguishingFeatures updateDistinguishingFeatures(String code, String description) {
-		return _distinguishingFeaturesDao.update(code, description);
+	public DistinguishingFeature updateDistinguishingFeature(String code, String description) {
+		return _distinguishingFeatureDao.update(code, description);
 	}
 
 	@Override
-	public void deleteDistinguishingFeatures(String code) {
-		_distinguishingFeaturesDao.delete(code);		
+	public void deleteDistinguishingFeature(String code) {
+		_distinguishingFeatureDao.delete(code);		
 	}
 
 	@Override
-	public List<DistinguishingFeaturesDetail> getDistinguishingFeaturesDetails() {
-		return _distinguishingFeaturesDetailDao.get();
+	public List<DistinguishingFeatureDetail> getDistinguishingFeatureDetails() {
+		return _distinguishingFeatureDetailDao.get();
 	}
 
 	@Override
-	public DistinguishingFeaturesDetail getDistinguishingFeaturesDetailByCode(String code) {
-		return _distinguishingFeaturesDetailDao.getByCode(code);
+	public DistinguishingFeatureDetail getDistinguishingFeatureDetailByCode(String code) {
+		return _distinguishingFeatureDetailDao.getByCode(code);
 	}
 
 	@Override
-	public DistinguishingFeaturesDetail createDistinguishingFeaturesDetail(String code, String description) {
-		return _distinguishingFeaturesDetailDao.create(code, description);
+	public DistinguishingFeatureDetail createDistinguishingFeatureDetail(String code, String description) {
+		return _distinguishingFeatureDetailDao.create(code, description);
 	}
 
 	@Override
-	public DistinguishingFeaturesDetail updateDistinguishingFeaturesDetail(String code, String description) {
-		return _distinguishingFeaturesDetailDao.update(code, description);
+	public DistinguishingFeatureDetail updateDistinguishingFeatureDetail(String code, String description) {
+		return _distinguishingFeatureDetailDao.update(code, description);
 	}
 
 	@Override
-	public void deleteDistinguishingFeaturesDetail(String code) {
-		_distinguishingFeaturesDetailDao.delete(code);		
+	public void deleteDistinguishingFeatureDetail(String code) {
+		_distinguishingFeatureDetailDao.delete(code);		
 	}
 
 	@Override
@@ -513,28 +553,28 @@ public class TableMaintenaceServiceImpl extends AbstractService implements Table
 	}
 
 	@Override
-	public List<IncidentLocationDetails> getIncidentLocationDetails() {
-		return _incidentLocationDetailsDao.get();
+	public List<IncidentLocationDetail> getIncidentLocationDetails() {
+		return _incidentLocationDetailDao.get();
 	}
 
 	@Override
-	public IncidentLocationDetails getIncidentLocationDetailsByCode(String code) {
-		return _incidentLocationDetailsDao.getByCode(code);
+	public IncidentLocationDetail getIncidentLocationDetailByCode(String code) {
+		return _incidentLocationDetailDao.getByCode(code);
 	}
 
 	@Override
-	public IncidentLocationDetails createIncidentLocationDetails(String code, String description) {
-		return _incidentLocationDetailsDao.create(code, description);
+	public IncidentLocationDetail createIncidentLocationDetail(String code, String description) {
+		return _incidentLocationDetailDao.create(code, description);
 	}
 
 	@Override
-	public IncidentLocationDetails updateIncidentLocationDetails(String code, String description) {
-		return _incidentLocationDetailsDao.update(code, description);
+	public IncidentLocationDetail updateIncidentLocationDetail(String code, String description) {
+		return _incidentLocationDetailDao.update(code, description);
 	}
 
 	@Override
-	public void deleteIncidentLocationDetails(String code) {
-		_incidentLocationDetailsDao.delete(code);		
+	public void deleteIncidentLocationDetail(String code) {
+		_incidentLocationDetailDao.delete(code);		
 	}
 
 	@Override
@@ -623,53 +663,53 @@ public class TableMaintenaceServiceImpl extends AbstractService implements Table
 	}
 
 	@Override
-	public List<InjuryTypeDetails> getInjuryTypeDetails() {
-		return _injuryTypeDetailsDao.get();
+	public List<InjuryTypeDetail> getInjuryTypeDetails() {
+		return _injuryTypeDetailDao.get();
 	}
 
 	@Override
-	public InjuryTypeDetails getInjuryTypeDetailsByCode(String code) {
-		return _injuryTypeDetailsDao.getByCode(code);
+	public InjuryTypeDetail getInjuryTypeDetailByCode(String code) {
+		return _injuryTypeDetailDao.getByCode(code);
 	}
 
 	@Override
-	public InjuryTypeDetails createInjuryTypeDetails(String code, String description) {
-		return _injuryTypeDetailsDao.create(code, description);
+	public InjuryTypeDetail createInjuryTypeDetail(String code, String description) {
+		return _injuryTypeDetailDao.create(code, description);
 	}
 
 	@Override
-	public InjuryTypeDetails updateInjuryTypeDetails(String code, String description) {
-		return _injuryTypeDetailsDao.update(code, description);
+	public InjuryTypeDetail updateInjuryTypeDetail(String code, String description) {
+		return _injuryTypeDetailDao.update(code, description);
 	}
 
 	@Override
-	public void deleteInjuryTypeDetails(String code) {
-		_injuryTypeDetailsDao.delete(code);		
+	public void deleteInjuryTypeDetail(String code) {
+		_injuryTypeDetailDao.delete(code);		
 	}
 
 	@Override
-	public List<InjuryTypeDetailsSpec> getInjuryTypeDetailsSpecs() {
-		return _injuryTypeDetailsSpecDao.get();
+	public List<InjuryTypeDetailSpec> getInjuryTypeDetailSpecs() {
+		return _injuryTypeDetailSpecDao.get();
 	}
 
 	@Override
-	public InjuryTypeDetailsSpec getInjuryTypeDetailsSpecByCode(String code) {
-		return _injuryTypeDetailsSpecDao.getByCode(code);
+	public InjuryTypeDetailSpec getInjuryTypeDetailSpecByCode(String code) {
+		return _injuryTypeDetailSpecDao.getByCode(code);
 	}
 
 	@Override
-	public InjuryTypeDetailsSpec createInjuryTypeDetailsSpec(String code, String description) {
-		return _injuryTypeDetailsSpecDao.create(code, description);
+	public InjuryTypeDetailSpec createInjuryTypeDetailSpec(String code, String description) {
+		return _injuryTypeDetailSpecDao.create(code, description);
 	}
 
 	@Override
-	public InjuryTypeDetailsSpec updateInjuryTypeDetailsSpec(String code, String description) {
-		return _injuryTypeDetailsSpecDao.update(code, description);
+	public InjuryTypeDetailSpec updateInjuryTypeDetailSpec(String code, String description) {
+		return _injuryTypeDetailSpecDao.update(code, description);
 	}
 
 	@Override
-	public void deleteInjuryTypeDetailsSpec(String code) {
-		_injuryTypeDetailsSpecDao.delete(code);		
+	public void deleteInjuryTypeDetailSpec(String code) {
+		_injuryTypeDetailSpecDao.delete(code);		
 	}
 
 	@Override
@@ -730,5 +770,305 @@ public class TableMaintenaceServiceImpl extends AbstractService implements Table
 	@Transactional
 	public void deleteWeaponType(String code) {
 		_weaponInvolvedDao.delete(code);		
+	}
+	
+	@Override
+	@Transactional
+	public List<AccidentType> getAccidentTypes() {
+		return _accidentTypeDao.get();
+	}
+
+	@Override
+	@Transactional
+	public AccidentType getAccidentTypeByCode(String code) {
+		return _accidentTypeDao.getByCode(code);
+	}
+
+	@Override
+	@Transactional
+	public AccidentType createAccidentType(String code, String description) {
+		return _accidentTypeDao.create(code, description);
+	}
+
+	@Override
+	@Transactional
+	public AccidentType updateAccidentType(String code, String description) {
+		return _accidentTypeDao.update(code, description);
+	}
+
+	@Override
+	@Transactional
+	public void deleteAccidentType(String code) {
+		_accidentTypeDao.delete(code);		
+	}
+
+	@Override
+	@Transactional
+	public List<BodyPart> getBodyParts() {
+		return _bodyPartsDao.get();
+	}
+
+	@Override
+	@Transactional
+	public BodyPart getBodyPartByCode(String code) {
+		return _bodyPartsDao.getByCode(code);
+	}
+
+	@Override
+	@Transactional
+	public BodyPart createBodyPart(String code, String description) {
+		return _bodyPartsDao.create(code, description);
+	}
+
+	@Override
+	@Transactional
+	public BodyPart updateBodyPart(String code, String description) {
+		return _bodyPartsDao.update(code, description);
+	}
+
+	@Override
+	@Transactional
+	public void deleteBodyPart(String code) {
+		_bodyPartsDao.delete(code);		
+	}
+
+	@Override
+	@Transactional
+	public List<DocumentCategory> getDocumentCategories() {
+		return _documentCategoryDao.get();
+	}
+
+	@Override
+	@Transactional
+	public DocumentCategory getDocumentCategoryByCode(String code) {
+		return _documentCategoryDao.getByCode(code);
+	}
+
+	@Override
+	@Transactional
+	public DocumentCategory createDocumentCategory(String code, String description) {
+		return _documentCategoryDao.create(code, description);
+	}
+
+	@Override
+	@Transactional
+	public DocumentCategory updateDocumentCategory(String code, String description) {
+		return _documentCategoryDao.update(code, description);
+	}
+
+	@Override
+	@Transactional
+	public void deleteDocumentCategory(String code) {
+		_documentCategoryDao.delete(code);		
+	}
+
+	@Override
+	@Transactional
+	public List<DocumentType> getDocumentTypes() {
+		return _documentTypeDao.get();
+	}
+
+	@Override
+	@Transactional
+	public DocumentType getDocumentTypeByCode(String code) {
+		return _documentTypeDao.getByCode(code);
+	}
+
+	@Override
+	@Transactional
+	public DocumentType createDocumentType(String code, String description) {
+		return _documentTypeDao.create(code, description);
+	}
+
+	@Override
+	@Transactional
+	public DocumentType updateDocumentType(String code, String description) {
+		return _documentTypeDao.update(code, description);
+	}
+
+	@Override
+	@Transactional
+	public void deleteDocumentType(String code) {
+		_documentTypeDao.delete(code);		
+	}
+
+	@Override
+	@Transactional
+	public List<IncidentCategory> getIncidentCategories() {
+		return _incidentCategoryDao.get();
+	}
+
+	@Override
+	@Transactional
+	public IncidentCategory getIncidentCategoryByCode(String code) {
+		return _incidentCategoryDao.getByCode(code);
+	}
+
+	@Override
+	@Transactional
+	public IncidentCategory createIncidentCategory(String code, String description) {
+		return _incidentCategoryDao.create(code, description);
+	}
+
+	@Override
+	@Transactional
+	public IncidentCategory updateIncidentCategory(String code, String description) {
+		return _incidentCategoryDao.update(code, description);
+	}
+
+	@Override
+	@Transactional
+	public void deleteIncidentCategory(String code) {
+		_incidentCategoryDao.delete(code);		
+	}
+
+	@Override
+	@Transactional
+	public List<GenderType> getGenderTypes() {
+		return _genderTypeDao.get();
+	}
+
+	@Override
+	@Transactional
+	public GenderType getGenderTypeByCode(String code) {
+		return _genderTypeDao.getByCode(code);
+	}
+
+	@Override
+	@Transactional
+	public GenderType createGenderType(String code, String description) {
+		return _genderTypeDao.create(code, description);
+	}
+
+	@Override
+	@Transactional
+	public GenderType updateGenderType(String code, String description) {
+		return _genderTypeDao.update(code, description);
+	}
+
+	@Override
+	@Transactional
+	public void deleteGenderType(String code) {
+		_genderTypeDao.delete(code);		
+	}
+
+	@Override
+	@Transactional
+	public List<InjuredPersonType> getInjuredPersonTypes() {
+		return _injuredPersonTypeDao.get();
+	}
+
+	@Override
+	@Transactional
+	public InjuredPersonType getInjuredPersonTypeByCode(String code) {
+		return _injuredPersonTypeDao.getByCode(code);
+	}
+
+	@Override
+	@Transactional
+	public InjuredPersonType createInjuredPersonType(String code, String description) {
+		return _injuredPersonTypeDao.create(code, description);
+	}
+
+	@Override
+	@Transactional
+	public InjuredPersonType updateInjuredPersonType(String code, String description) {
+		return _injuredPersonTypeDao.update(code, description);
+	}
+
+	@Override
+	@Transactional
+	public void deleteInjuredPersonType(String code) {
+		_injuredPersonTypeDao.delete(code);		
+	}
+
+	@Override
+	@Transactional
+	public List<LossType> getLossTypes() {
+		return _lossTypeDao.get();
+	}
+
+	@Override
+	@Transactional
+	public LossType getLossTypeByCode(String code) {
+		return _lossTypeDao.getByCode(code);
+	}
+
+	@Override
+	@Transactional
+	public LossType createLossType(String code, String description) {
+		return _lossTypeDao.create(code, description);
+	}
+
+	@Override
+	@Transactional
+	public LossType updateLossType(String code, String description) {
+		return _lossTypeDao.update(code, description);
+	}
+
+	@Override
+	@Transactional
+	public void deleteLossType(String code) {
+		_lossTypeDao.delete(code);		
+	}
+
+	@Override
+	@Transactional
+	public List<PolicyType> getPolicyTypes() {
+		return _policyTypeDao.get();
+	}
+
+	@Override
+	@Transactional
+	public PolicyType getPolicyTypeByCode(String code) {
+		return _policyTypeDao.getByCode(code);
+	}
+
+	@Override
+	@Transactional
+	public PolicyType createPolicyType(String code, String description) {
+		return _policyTypeDao.create(code, description);
+	}
+
+	@Override
+	@Transactional
+	public PolicyType updatePolicyType(String code, String description) {
+		return _policyTypeDao.update(code, description);
+	}
+
+	@Override
+	@Transactional
+	public void deletePolicyType(String code) {
+		_policyTypeDao.delete(code);		
+	}
+
+	@Override
+	@Transactional
+	public List<VehicleDamageType> getVehicleDamageTypes() {
+		return _vehicleDamageTypeDao.get();
+	}
+
+	@Override
+	@Transactional
+	public VehicleDamageType getVehicleDamageTypeByCode(String code) {
+		return _vehicleDamageTypeDao.getByCode(code);
+	}
+
+	@Override
+	@Transactional
+	public VehicleDamageType createVehicleDamageType(String code, String description) {
+		return _vehicleDamageTypeDao.create(code, description);
+	}
+
+	@Override
+	@Transactional
+	public VehicleDamageType updateVehicleDamageType(String code, String description) {
+		return _vehicleDamageTypeDao.update(code, description);
+	}
+
+	@Override
+	@Transactional
+	public void deleteVehicleDamageType(String code) {
+		_vehicleDamageTypeDao.delete(code);		
 	}
 }

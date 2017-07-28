@@ -82,12 +82,12 @@ public interface RequestMappingConstants {
 	String UPDATE_ACCIDENT_LOCATION 		= TABLE_MAINTENANCE + "/accident-location/update-accident-location";
 	String DELETE_ACCIDENT_LOCATION 		= TABLE_MAINTENANCE + "/accident-location/delete-accident-location/{code}";
 	
-	/** Accident Location Details Request Mappings */
-	String GET_ACCIDENT_LOCATION_DETAILS			= TABLE_MAINTENANCE + "/accident-location-details/accident-location-details";
-	String GET_ACCIDENT_LOCATION_DETAILS_BY_CODE 	= TABLE_MAINTENANCE + "/accident-location-details/{code}";
-	String CREATE_ACCIDENT_LOCATION_DETAILS 		= TABLE_MAINTENANCE + "/accident-location-details/create-accident-location-details";
-	String UPDATE_ACCIDENT_LOCATION_DETAILS 		= TABLE_MAINTENANCE + "/accident-location-details/update-accident-location-details";
-	String DELETE_ACCIDENT_LOCATION_DETAILS 		= TABLE_MAINTENANCE + "/accident-location-details/delete-accident-location-details/{code}";
+	/** Accident Location Detail Request Mappings */
+	String GET_ACCIDENT_LOCATION_DETAILS			= TABLE_MAINTENANCE + "/accident-location-detail/accident-location-details";
+	String GET_ACCIDENT_LOCATION_DETAIL_BY_CODE 	= TABLE_MAINTENANCE + "/accident-location-detail/{code}";
+	String CREATE_ACCIDENT_LOCATION_DETAIL 			= TABLE_MAINTENANCE + "/accident-location-detail/create-accident-location-detail";
+	String UPDATE_ACCIDENT_LOCATION_DETAIL 			= TABLE_MAINTENANCE + "/accident-location-detail/update-accident-location-detail";
+	String DELETE_ACCIDENT_LOCATION_DETAIL 			= TABLE_MAINTENANCE + "/accident-location-detail/delete-accident-location-detail/{code}";
 	
 	/** Asset Category Request Mappings */
 	String GET_ASSET_CATEGORIES			= TABLE_MAINTENANCE + "/asset-category/asset-categories";
@@ -117,19 +117,19 @@ public interface RequestMappingConstants {
 	String UPDATE_CLAIM_TYPE 		= TABLE_MAINTENANCE + "/claim-type/update-claim-type";
 	String DELETE_CLAIM_TYPE 		= TABLE_MAINTENANCE + "/claim-type/delete-claim-type/{code}";
 	
-	/** Distinguishing Features Request Mappings */
-	String GET_DISTINGUISHING_FEATURES			= TABLE_MAINTENANCE + "/distinguishing-features/distinguishing-features";
-	String GET_DISTINGUISHING_FEATURES_BY_CODE 	= TABLE_MAINTENANCE + "/distinguishing-features/{code}";
-	String CREATE_DISTINGUISHING_FEATURES 		= TABLE_MAINTENANCE + "/distinguishing-features/create-distinguishing-features";
-	String UPDATE_DISTINGUISHING_FEATURES 		= TABLE_MAINTENANCE + "/distinguishing-features/update-distinguishing-features";
-	String DELETE_DISTINGUISHING_FEATURES 		= TABLE_MAINTENANCE + "/distinguishing-features/delete-distinguishing-features/{code}";
+	/** Distinguishing Feature Request Mappings */
+	String GET_DISTINGUISHING_FEATURES			= TABLE_MAINTENANCE + "/distinguishing-feature/distinguishing-features";
+	String GET_DISTINGUISHING_FEATURE_BY_CODE 	= TABLE_MAINTENANCE + "/distinguishing-feature/{code}";
+	String CREATE_DISTINGUISHING_FEATURE 		= TABLE_MAINTENANCE + "/distinguishing-feature/create-distinguishing-feature";
+	String UPDATE_DISTINGUISHING_FEATURE 		= TABLE_MAINTENANCE + "/distinguishing-feature/update-distinguishing-feature";
+	String DELETE_DISTINGUISHING_FEATURE 		= TABLE_MAINTENANCE + "/distinguishing-feature/delete-distinguishing-feature/{code}";
 	
 	/** Distinguishing Features Detail Request Mappings */
-	String GET_DISTINGUISHING_FEATURES_DETAILS			= TABLE_MAINTENANCE + "/distinguishing-features-detail/distinguishing-features-details";
-	String GET_DISTINGUISHING_FEATURES_DETAILS_BY_CODE 	= TABLE_MAINTENANCE + "/distinguishing-features-detail/{code}";
-	String CREATE_DISTINGUISHING_FEATURES_DETAILS 		= TABLE_MAINTENANCE + "/distinguishing-features-detail/create-distinguishing-features-detail";
-	String UPDATE_DISTINGUISHING_FEATURES_DETAILS 		= TABLE_MAINTENANCE + "/distinguishing-features-detail/update-distinguishing-features-detail";
-	String DELETE_DISTINGUISHING_FEATURES_DETAILS 		= TABLE_MAINTENANCE + "/distinguishing-features-detail/delete-distinguishing-features-detail/{code}";
+	String GET_DISTINGUISHING_FEATURE_DETAILS			= TABLE_MAINTENANCE + "/distinguishing-feature-detail/distinguishing-feature-details";
+	String GET_DISTINGUISHING_FEATURE_DETAIL_BY_CODE 	= TABLE_MAINTENANCE + "/distinguishing-feature-detail/{code}";
+	String CREATE_DISTINGUISHING_FEATURE_DETAIL 		= TABLE_MAINTENANCE + "/distinguishing-feature-detail/create-distinguishing-feature-detail";
+	String UPDATE_DISTINGUISHING_FEATURE_DETAIL 		= TABLE_MAINTENANCE + "/distinguishing-feature-detail/update-distinguishing-feature-detail";
+	String DELETE_DISTINGUISHING_FEATURE_DETAIL 		= TABLE_MAINTENANCE + "/distinguishing-feature-detail/delete-distinguishing-feature-detail/{code}";
 	
 	/** Employee Type Request Mappings */
 	String GET_EMPLOYEE_TYPES			= TABLE_MAINTENANCE + "/employee-type/employee-types";
@@ -166,12 +166,12 @@ public interface RequestMappingConstants {
 	String UPDATE_INCIDENT_LOCATION 		= TABLE_MAINTENANCE + "/incident-location/update-incident-location";
 	String DELETE_INCIDENT_LOCATION 		= TABLE_MAINTENANCE + "/incident-location/delete-incident-location/{code}";
 	
-	/** Incident Location Details Request Mappings */
-	String GET_INCIDENT_LOCATION_DETAILS			= TABLE_MAINTENANCE + "/incident-location-details/incident-location-details";
-	String GET_INCIDENT_LOCATION_DETAILS_BY_CODE 	= TABLE_MAINTENANCE + "/incident-location-details/{code}";
-	String CREATE_INCIDENT_LOCATION_DETAILS 		= TABLE_MAINTENANCE + "/incident-location-details/create-incident-location-details";
-	String UPDATE_INCIDENT_LOCATION_DETAILS 		= TABLE_MAINTENANCE + "/incident-location-details/update-incident-location-details";
-	String DELETE_INCIDENT_LOCATION_DETAILS 		= TABLE_MAINTENANCE + "/incident-location-details/delete-incident-location-details/{code}";
+	/** Incident Location Detail Request Mappings */
+	String GET_INCIDENT_LOCATION_DETAILS			= TABLE_MAINTENANCE + "/incident-location-detail/incident-location-details";
+	String GET_INCIDENT_LOCATION_DETAIL_BY_CODE 	= TABLE_MAINTENANCE + "/incident-location-detail/{code}";
+	String CREATE_INCIDENT_LOCATION_DETAIL 			= TABLE_MAINTENANCE + "/incident-location-detail/create-incident-location-detail";
+	String UPDATE_INCIDENT_LOCATION_DETAIL 			= TABLE_MAINTENANCE + "/incident-location-detail/update-incident-location-detail";
+	String DELETE_INCIDENT_LOCATION_DETAIL 			= TABLE_MAINTENANCE + "/incident-location-detail/delete-incident-location-detail/{code}";
 	
 	/** Incident Type Request Mappings */
 	String GET_INCIDENT_TYPES			= TABLE_MAINTENANCE + "/incident-type/incident-types";
@@ -195,18 +195,18 @@ public interface RequestMappingConstants {
 	String DELETE_INJURY_TYPE 			= TABLE_MAINTENANCE + "/injury-type/delete-injury-type/{code}";
 	
 	/** Injury Type Details Request Mappings */
-	String GET_INJURY_TYPE_DETAILS				= TABLE_MAINTENANCE + "/injury-type-details/injury-type-details";
-	String GET_INJURY_TYPE_DETAILS_BY_CODE 		= TABLE_MAINTENANCE + "/injury-type-details/{code}";
-	String CREATE_INJURY_TYPE_DETAILS 			= TABLE_MAINTENANCE + "/injury-type-details/create-injury-type-details";
-	String UPDATE_INJURY_TYPE_DETAILS 			= TABLE_MAINTENANCE + "/injury-type-details/update-injury-type-details";
-	String DELETE_INJURY_TYPE_DETAILS 			= TABLE_MAINTENANCE + "/injury-type-details/delete-injury-type-details/{code}";
+	String GET_INJURY_TYPE_DETAILS				= TABLE_MAINTENANCE + "/injury-type-detail/injury-type-details";
+	String GET_INJURY_TYPE_DETAIL_BY_CODE 		= TABLE_MAINTENANCE + "/injury-type-detail/{code}";
+	String CREATE_INJURY_TYPE_DETAIL 			= TABLE_MAINTENANCE + "/injury-type-detail/create-injury-type-detail";
+	String UPDATE_INJURY_TYPE_DETAIL 			= TABLE_MAINTENANCE + "/injury-type-detail/update-injury-type-detail";
+	String DELETE_INJURY_TYPE_DETAIL 			= TABLE_MAINTENANCE + "/injury-type-detail/delete-injury-type-detail/{code}";
 	
 	/** Injury Type Details Specification Request Mappings */
-	String GET_INJURY_TYPE_DETAILS_SPECS			= TABLE_MAINTENANCE + "/injury-type-details-spec/injury-type-details-specs";
-	String GET_INJURY_TYPE_DETAILS_SPEC_BY_CODE		= TABLE_MAINTENANCE + "/injury-type-details-spec/{code}";
-	String CREATE_INJURY_TYPE_DETAILS_SPEC 			= TABLE_MAINTENANCE + "/injury-type-details-spec/create-injury-type-details-spec";
-	String UPDATE_INJURY_TYPE_DETAILS_SPEC 			= TABLE_MAINTENANCE + "/injury-type-details-spec/update-injury-type-details-spec";
-	String DELETE_INJURY_TYPE_DETAILS_SPEC 			= TABLE_MAINTENANCE + "/injury-type-details-spec/delete-injury-type-details-spec/{code}";
+	String GET_INJURY_TYPE_DETAIL_SPECS				= TABLE_MAINTENANCE + "/injury-type-detail-spec/injury-type-detail-specs";
+	String GET_INJURY_TYPE_DETAIL_SPEC_BY_CODE		= TABLE_MAINTENANCE + "/injury-type-detail-spec/{code}";
+	String CREATE_INJURY_TYPE_DETAIL_SPEC 			= TABLE_MAINTENANCE + "/injury-type-detail-spec/create-injury-type-detail-spec";
+	String UPDATE_INJURY_TYPE_DETAIL_SPEC 			= TABLE_MAINTENANCE + "/injury-type-detail-spec/update-injury-type-detail-spec";
+	String DELETE_INJURY_TYPE_DETAIL_SPEC 			= TABLE_MAINTENANCE + "/injury-type-detail-spec/delete-injury-type-detail-spec/{code}";
 	
 	/** Suspect Type Request Mappings */
 	String GET_SUSPECT_TYPES				= TABLE_MAINTENANCE + "/suspect-type/suspect-types";
@@ -216,10 +216,79 @@ public interface RequestMappingConstants {
 	String DELETE_SUSPECT_TYPE 				= TABLE_MAINTENANCE + "/suspect-type/delete-suspect-type/{code}";
 	
 	/** Weapon Type Request Mappings */
-	String GET_WEAPON_TYPES				= TABLE_MAINTENANCE + "/weapon-type/weapons-types";
+	String GET_WEAPON_TYPES				= TABLE_MAINTENANCE + "/weapon-type/weapon-types";
 	String GET_WEAPON_TYPE_BY_CODE 		= TABLE_MAINTENANCE + "/weapon-type/{code}";
 	String CREATE_WEAPON_TYPE			= TABLE_MAINTENANCE + "/weapon-type/create-weapon-type";
 	String UPDATE_WEAPON_TYPE			= TABLE_MAINTENANCE + "/weapon-type/update-weapon-type";
 	String DELETE_WEAPON_TYPE			= TABLE_MAINTENANCE + "/weapon-type/delete-weapon-type/{code}";
 	
+	/** Accident Type Request Mappings */
+	String GET_ACCIDENT_TYPES				= TABLE_MAINTENANCE + "/accident-type/accident-types";
+	String GET_ACCIDENT_TYPE_BY_CODE 		= TABLE_MAINTENANCE + "/accident-type/{code}";
+	String CREATE_ACCIDENT_TYPE				= TABLE_MAINTENANCE + "/accident-type/create-accident-type";
+	String UPDATE_ACCIDENT_TYPE				= TABLE_MAINTENANCE + "/accident-type/update-accident-type";
+	String DELETE_ACCIDENT_TYPE				= TABLE_MAINTENANCE + "/accident-type/delete-accident-type/{code}";
+	
+	/** Body Parts Request Mappings */
+	String GET_BODY_PARTS					= TABLE_MAINTENANCE + "/body-part/body-parts";
+	String GET_BODY_PART_BY_CODE 			= TABLE_MAINTENANCE + "/body-part/{code}";
+	String CREATE_BODY_PART_TYPE			= TABLE_MAINTENANCE + "/body-part/create-body-part";
+	String UPDATE_BODY_PART_TYPE			= TABLE_MAINTENANCE + "/body-part/update-body-part";
+	String DELETE_BODY_PART_TYPE			= TABLE_MAINTENANCE + "/body-part/delete-body-part/{code}";
+	
+	/** Document Category Request Mappings */
+	String GET_DOCUMENT_CATEGORIES				= TABLE_MAINTENANCE + "/document-category/document-categories";
+	String GET_DOCUMENT_CATEGORY_BY_CODE 		= TABLE_MAINTENANCE + "/document-category/{code}";
+	String CREATE_DOCUMENT_CATEGORY				= TABLE_MAINTENANCE + "/document-category/create-document-category";
+	String UPDATE_DOCUMENT_CATEGORY				= TABLE_MAINTENANCE + "/document-category/update-document-category";
+	String DELETE_DOCUMENT_CATEGORY				= TABLE_MAINTENANCE + "/document-category/delete-document-category/{code}";
+	
+	/** Document Type Request Mappings */
+	String GET_DOCUMENT_TYPES				= TABLE_MAINTENANCE + "/document-type/document-types";
+	String GET_DOCUMENT_TYPE_BY_CODE 		= TABLE_MAINTENANCE + "/document-type/{code}";
+	String CREATE_DOCUMENT_TYPE				= TABLE_MAINTENANCE + "/document-type/create-weapon-type";
+	String UPDATE_DOCUMENT_TYPE				= TABLE_MAINTENANCE + "/document-type/update-weapon-type";
+	String DELETE_DOCUMENT_TYPE				= TABLE_MAINTENANCE + "/document-type/delete-weapon-type/{code}";
+	
+	/** Gender Type Request Mappings */
+	String GET_GENDER_TYPES				= TABLE_MAINTENANCE + "/gender-type/gender-types";
+	String GET_GENDER_TYPE_BY_CODE 		= TABLE_MAINTENANCE + "/gender-type/{code}";
+	String CREATE_GENDER_TYPE			= TABLE_MAINTENANCE + "/gender-type/create-gender-type";
+	String UPDATE_GENDER_TYPE			= TABLE_MAINTENANCE + "/gender-type/update-gender-type";
+	String DELETE_GENDER_TYPE			= TABLE_MAINTENANCE + "/gender-type/delete-gender-type/{code}";
+	
+	/** Incident Categories Request Mappings */
+	String GET_INCIDENT_CATEGORIES			= TABLE_MAINTENANCE + "/incident-category/incident-categories";
+	String GET_INCIDENT_CATEGORY_BY_CODE 	= TABLE_MAINTENANCE + "/incident-category/{code}";
+	String CREATE_INCIDENT_CATEGORY			= TABLE_MAINTENANCE + "/incident-category/create-incident-category";
+	String UPDATE_INCIDENT_CATEGORY			= TABLE_MAINTENANCE + "/incident-category/update-incident-category";
+	String DELETE_INCIDENT_CATEGORY			= TABLE_MAINTENANCE + "/incident-category/delete-incident-category/{code}";
+	
+	/** Injured Person Type Request Mappings */
+	String GET_INJURED_PERSON_TYPES				= TABLE_MAINTENANCE + "/injured-person-type/injured-person-types";
+	String GET_INJURED_PERSON_TYPE_BY_CODE 		= TABLE_MAINTENANCE + "/injured-person-type/{code}";
+	String CREATE_INJURED_PERSON_TYPE			= TABLE_MAINTENANCE + "/injured-person-type/create-injured-person-type";
+	String UPDATE_INJURED_PERSON_TYPE			= TABLE_MAINTENANCE + "/injured-person-type/update-injured-person-type";
+	String DELETE_INJURED_PERSON_TYPE			= TABLE_MAINTENANCE + "/injured-person-type/delete-injured-person-type/{code}";
+	
+	/** Loss Type Request Mappings */
+	String GET_LOSS_TYPES			= TABLE_MAINTENANCE + "/loss-type/loss-types";
+	String GET_LOSS_TYPE_BY_CODE	= TABLE_MAINTENANCE + "/loss-type/{code}";
+	String CREATE_LOSS_TYPE			= TABLE_MAINTENANCE + "/loss-type/create-loss-type";
+	String UPDATE_LOSS_TYPE			= TABLE_MAINTENANCE + "/loss-type/update-loss-type";
+	String DELETE_LOSS_TYPE			= TABLE_MAINTENANCE + "/loss-type/delete-loss-type/{code}";
+	
+	/** Policy Type Request Mappings */
+	String GET_POLICY_TYPES				= TABLE_MAINTENANCE + "/policy-type/policy-types";
+	String GET_POLICY_TYPE_BY_CODE 		= TABLE_MAINTENANCE + "/policy-type/{code}";
+	String CREATE_POLICY_TYPE			= TABLE_MAINTENANCE + "/policy-type/create-policy-type";
+	String UPDATE_POLICY_TYPE			= TABLE_MAINTENANCE + "/policy-type/update-policy-type";
+	String DELETE_POLICY_TYPE			= TABLE_MAINTENANCE + "/policy-type/delete-policy-type/{code}";
+	
+	/** Vehicle Damage Type Request Mappings */
+	String GET_VEHICLE_DAMAGE_TYPES				= TABLE_MAINTENANCE + "/vehicle-damage-type/vehicle-damage-types";
+	String GET_VEHICLE_DAMAGE_TYPE_BY_CODE 		= TABLE_MAINTENANCE + "/vehicle-damage-type/{code}";
+	String CREATE_VEHICLE_DAMAGE_TYPE			= TABLE_MAINTENANCE + "/vehicle-damage-type/create-vehicle-damage-type";
+	String UPDATE_VEHICLE_DAMAGE_TYPE			= TABLE_MAINTENANCE + "/vehicle-damage-type/update-vehicle-damage-type";
+	String DELETE_VEHICLE_DAMAGE_TYPE			= TABLE_MAINTENANCE + "/vehicle-damage-type/delete-vehicle-damage-type/{code}";	
 }

@@ -1,6 +1,7 @@
 package com.i2g.rms.domain.model;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -22,6 +23,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -35,12 +37,15 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Immutable;
+import org.hibernate.annotations.Type;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.i2g.rms.domain.model.tablemaintenance.EmployeeType;
+import com.i2g.rms.domain.model.tablemaintenance.GenderType;
 
 /**
  * Entity representation of User table.
@@ -61,12 +66,6 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	/** Possible status code for user data */
-	public enum UserStatus {
-		PENDING, ACTIVE, INACTIVE, DELETED, LOCKED;
-	}
-
 	/** Primary surrogate key ID of User table. */
 	private long _id;
 	/** Unique user login id */
@@ -76,15 +75,29 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	private String _lastName;
 	private String _middleName;
 	private String _title;
-	private String _suffix;
-	private UserStatus _status;
+	private String _nameSuffix;
+	private StatusFlag _statusFlag;
 	private Set<PasswordHistory> _passwordHistory = new HashSet<PasswordHistory>(0);
 	/** Set of Roles associated with the user. */
 	private Set<Role> _roles = new HashSet<Role>(0);
 	@Transient
-	private long _expires;
+	private Long _expires;
 	@Transient
 	private String _username;	
+	private GenderType _genderType;
+	private LocalDate _dateOfBirth;
+	private Integer _age;
+	private LocalDate _dateOfJoining;
+	private LocalDate _dateOfLeaving;
+	private String _phone;
+	private String _alternatePhone;
+	private String _fax;
+	private String _email;
+	private String _employeeId;
+	private String _managerLoginId;
+	private Position _position;
+	private EmployeeType _employeeType;
+	
 	
 	@NotNull
 	@Transient
@@ -130,12 +143,12 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	 * @param builder
 	 */
 	private User(final Builder builder) {
-		_id = Objects.requireNonNull(builder._id, "ID cannot be null");
-		_loginId = Objects.requireNonNull(builder._loginId, "User login ID cannot be null");
-		_password = Objects.requireNonNull(builder._password, "Password cannot be null");
-		_firstName = Objects.requireNonNull(builder._firstName, "First name cannot be null");
-		_status = Objects.requireNonNull(builder._status, "Status code cannot be null");
-		_username = Objects.requireNonNull(builder._username, "Username cannot be null");
+		_id = Objects.requireNonNull(builder._id, "ID cannot be null.");
+		_loginId = Objects.requireNonNull(builder._loginId, "User login ID cannot be null.");
+		_password = Objects.requireNonNull(builder._password, "Password cannot be null.");
+		_firstName = Objects.requireNonNull(builder._firstName, "First name cannot be null.");
+		_statusFlag = Objects.requireNonNull(builder._statusFlag, "User status flag code cannot be null.");
+		_username = Objects.requireNonNull(builder._username, "Username cannot be null.");
 	}
 
 	/**
@@ -170,7 +183,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	@Column(name = "LGN_ID", nullable = false, updatable = false)
 	@NotNull
 	@Unique
-	@Size(min = 1, max = 40, message = "User login ID must be between {min} and {max} characters")
+	@Size(min = 1, max = 64, message = "User login ID must be between {min} and {max} characters")
 	public String getLoginId() {
 		return _loginId;
 	}
@@ -195,7 +208,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	
 	@Column(name = "FNAME", nullable = false)
 	@NotNull
-	@Size(min = 1, max = 50, message = "User first name must be between {min} and {max} characters")
+	@Size(min = 1, max = 64, message = "User first name must be between {min} and {max} characters")
 	public String getFirstName() {
 		return _firstName;
 	}
@@ -205,7 +218,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	}
 
 	@Column(name = "LNAME")
-	@Size(min = 1, max = 50, message = "User last name must be between {min} and {max} characters")
+	@Size(min = 1, max = 64, message = "User last name must be between {min} and {max} characters")
 	public String getLastName() {
 		return _lastName;
 	}
@@ -215,7 +228,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	}
 
 	@Column(name = "MNAME")
-	@Size(min = 1, max = 50, message = "User middle name must be between {min} and {max} characters")
+	@Size(min = 1, max = 64, message = "User middle name must be between {min} and {max} characters")
 	public String getMiddleName() {
 		return _middleName;
 	}
@@ -236,23 +249,23 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 
 	@Column(name = "NAM_SUFFIX")
 	@Size(min = 1, max = 32, message = "User name suffix must be between {min} and {max} characters")
-	public String getSuffix() {
-		return _suffix;
+	public String getNameSuffix() {
+		return _nameSuffix;
 	}
 
-	public void setSuffix(String suffix) {
-		_suffix = suffix;
+	public void setNameSuffix(String nameSuffix) {
+		_nameSuffix = nameSuffix;
 	}
 
 	@Column(name = "STS_FLG", nullable = false)
-	@Size(min = 1, max = 10, message = "User status code must be between {min} and {max} characters")
+	@Size(min = 1, max = 16, message = "Status flag code must be between {min} and {max} characters")
 	@Enumerated(EnumType.STRING)
-	public UserStatus getStatus() {
-		return _status;
+	public StatusFlag getStatusFlag() {
+		return _statusFlag;
 	}
 
-	public void setStatus(UserStatus status) {
-		_status = status;
+	public void setStatusFlag(StatusFlag statusFlag) {
+		_statusFlag = statusFlag;
 	}
 
 	/**
@@ -302,7 +315,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(_id, _loginId, _status);
+		return Objects.hash(_id, _loginId, _statusFlag);
 	}
 
 	@Override
@@ -312,14 +325,14 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 		} else if (obj instanceof User) {
 			final User other = (User) obj;
 			return Objects.equals(_id, other._id) && Objects.equals(_loginId, other._loginId)
-					&& Objects.equals(_status, other._status);
+					&& Objects.equals(_statusFlag, other._statusFlag);
 		}
 		return false;
 	}
 
 	@Override
 	public String toString() {
-		return " id: " + _id + " loginId: " + _loginId + " status: " + _status;
+		return "Id: " + _id + ", User Id: " + _loginId + ", Status Flag: " + _statusFlag;
 	}
 
 	/**
@@ -331,7 +344,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 		private String _loginId;
 		private String _password;
 		private String _firstName;
-		private UserStatus _status;
+		private StatusFlag _statusFlag;
 		private String _username;
 		
 		/**
@@ -388,13 +401,13 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 		}
 
 		/**
-		 * Sets the specified {@code status}.
+		 * Sets the specified {@code statusFlag}.
 		 * 
-		 * @param status
+		 * @param statusFlag
 		 * @return this builder
 		 */
-		public Builder setStatus(UserStatus status) {
-			_status = status;
+		public Builder setStatusFlag(StatusFlag statusFlag) {
+			_statusFlag = statusFlag;
 			return this;
 		}
 		
@@ -416,13 +429,17 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	}
 	
 	@Transient
-	public long getExpires() {
+	public Long getExpires() {
 		return _expires;
 	}
 
 	@Transient
-	public void setExpires(long expires) {
-		_expires = expires;
+	public void setExpires(final Long expires) {
+		if (expires != null) {
+			_expires = expires;
+		} else {
+			_expires = 0l;
+		}
 	}
 
 	@Transient
@@ -482,4 +499,218 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 		List<GrantedAuthority> results = new ArrayList<GrantedAuthority>(setAuths);
 		return results;
 	}
+
+	/**
+	 * @return the genderType
+	 */
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "GNDR_TYP_CDE")
+	@Size(min = 1, max = 16, message = "Gender type code must be between {min} and {max} characters")
+	public GenderType getGenderType() {
+		return _genderType;
+	}
+
+	/**
+	 * @param genderType the genderType to set
+	 */	
+	public void setGenderType(final GenderType genderType) {
+		_genderType = genderType;
+	}
+
+	/**
+	 * @return the dateOfBirth
+	 */
+	@Column(name = "DOB")
+	@Type(type = "com.i2g.rms.domain.model.type.LocalDateType")
+	public LocalDate getDateOfBirth() {
+		return _dateOfBirth;
+	}
+
+	/**
+	 * @param dateOfBirth the dateOfBirth to set
+	 */
+	public void setDateOfBirth(final LocalDate dateOfBirth) {
+		_dateOfBirth = dateOfBirth;
+	}
+
+	/**
+	 * @return the age
+	 */
+	@Column(name = "AGE")
+	public Integer getAge() {
+		return _age;
+	}
+
+	/**
+	 * @param age the age to set
+	 */
+	public void setAge(final Integer age) {
+		if (age != null) {
+			_age = age;
+		} else {
+			_age = 0;
+		}
+	}
+
+	/**
+	 * @return the dateOfJoining
+	 */
+	@Column(name = "DOJ")
+	@Type(type = "com.i2g.rms.domain.model.type.LocalDateType")
+	public LocalDate getDateOfJoining() {
+		return _dateOfJoining;
+	}
+
+	/**
+	 * @param dateOfJoining the dateOfJoining to set
+	 */
+	public void setDateOfJoining(final LocalDate dateOfJoining) {
+		_dateOfJoining = dateOfJoining;
+	}
+
+	/**
+	 * @return the dateOfLeaving
+	 */
+	@Column(name = "DOL")
+	@Type(type = "com.i2g.rms.domain.model.type.LocalDateType")
+	public LocalDate getDateOfLeaving() {
+		return _dateOfLeaving;
+	}
+
+	/**
+	 * @param dateOfLeaving the dateOfLeaving to set
+	 */
+	public void setDateOfLeaving(final LocalDate dateOfLeaving) {
+		_dateOfLeaving = dateOfLeaving;
+	}
+
+	/**
+	 * @return the phone
+	 */
+	@Column(name = "PHN")
+	@Size(min = 1, max = 20, message = "Phone number must be between {min} and {max} characters")
+	public String getPhone() {
+		return _phone;
+	}
+
+	/**
+	 * @param phone the phone to set
+	 */
+	public void setPhone(final String phone) {
+		_phone = phone;
+	}
+
+	/**
+	 * @return the alternatePhone
+	 */
+	@Column(name = "ALT_PHN")
+	@Size(min = 1, max = 20, message = "Alternate phone number must be between {min} and {max} characters")
+	public String getAlternatePhone() {
+		return _alternatePhone;
+	}
+
+	/**
+	 * @param alternatePhone the alternatePhone to set
+	 */
+	public void setAlternatePhone(final String alternatePhone) {
+		_alternatePhone = alternatePhone;
+	}
+	
+	/**
+	 * @return the fax
+	 */
+	@Column(name = "FAX")
+	@Size(min = 1, max = 20, message = "Fax number must be between {min} and {max} characters")
+	public String getFax() {
+		return _fax;
+	}
+
+	/**
+	 * @param fax the fax to set
+	 */
+	public void setFax(final String fax) {
+		_fax = fax;
+	}
+
+	/**
+	 * @return the email
+	 */
+	@Column(name = "EML")
+	@Size(min = 1, max = 128, message = "Email must be between {min} and {max} characters")
+	public String getEmail() {
+		return _email;
+	}
+
+	/**
+	 * @param email the email to set
+	 */
+	public void setEmail(final String email) {
+		_email = email;
+	}
+
+	/**
+	 * @return the employeeId
+	 */
+	@Column(name = "EMP_ID")
+	@Size(min = 1, max = 20, message = "Employee ID must be between {min} and {max} characters")
+	public String getEmployeeId() {
+		return _employeeId;
+	}
+
+	/**
+	 * @param employeeId the employeeId to set
+	 */
+	public void setEmployeeId(final String employeeId) {
+		_employeeId = employeeId;
+	}
+
+	/**
+	 * @return the managerLoginId
+	 */
+	@Column(name = "MGR_LGN_ID")
+	@Size(min = 1, max = 64, message = "Manager/Supervisor Login ID must be between {min} and {max} characters")
+	public String getManagerLoginId() {
+		return _managerLoginId;
+	}
+
+	/**
+	 * @param managerLoginId the managerLoginId to set
+	 */
+	public void setManagerLoginId(final String managerLoginId) {
+		_managerLoginId = managerLoginId;
+	}
+
+	/**
+	 * @return the position
+	 */
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "POSTN_CDE")
+	@Size(min = 1, max = 16, message = "Position code must be between {min} and {max} characters")
+	public Position getPosition() {
+		return _position;
+	}
+
+	/**
+	 * @param position the position to set
+	 */
+	public void setPosition(final Position position) {
+		_position = position;
+	}
+
+	/**
+	 * @return the employeeType
+	 */
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "EMP_TYP_CDE")
+	@Size(min = 1, max = 16, message = "Employee type code must be between {min} and {max} characters")
+	public EmployeeType getEmployeeType() {
+		return _employeeType;
+	}
+
+	/**
+	 * @param employeeType the employeeType to set
+	 */
+	public void setEmployeeType(final EmployeeType employeeType) {
+		_employeeType = employeeType;
+	}	
 }

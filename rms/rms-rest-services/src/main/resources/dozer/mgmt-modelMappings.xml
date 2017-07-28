@@ -23,6 +23,11 @@
 		<class-a>com.i2g.rms.domain.model.Role</class-a>
 		<class-b>com.i2g.rms.rest.model.RoleRO</class-b>
 	</mapping>
+	
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.StatusFlag</class-a>
+		<class-b>com.i2g.rms.rest.model.StatusFlagRO</class-b>
+	</mapping>
 
 	<mapping>
 		<class-a>com.i2g.rms.domain.model.User</class-a>
@@ -32,6 +37,31 @@
 	<mapping>
 		<class-a>com.i2g.rms.domain.model.InvestigationTeam</class-a>
 		<class-b>com.i2g.rms.rest.model.InvestigationTeamRO</class-b>
+	</mapping>
+	
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.IncidentStatus</class-a>
+		<class-b>com.i2g.rms.rest.model.IncidentStatusRO</class-b>
+	</mapping>
+	
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.YesNoType</class-a>
+		<class-b>com.i2g.rms.rest.model.YesNoTypeRO</class-b>
+	</mapping>
+	
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.Organization</class-a>
+		<class-b>com.i2g.rms.rest.model.OrganizationRO</class-b>
+	</mapping>
+	
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.Department</class-a>
+		<class-b>com.i2g.rms.rest.model.DepartmentRO</class-b>
+	</mapping>
+	
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.Position</class-a>
+		<class-b>com.i2g.rms.rest.model.PositionRO</class-b>
 	</mapping>
 
 </mappings>

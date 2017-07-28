@@ -20,7 +20,7 @@ public class InjuryTypeRO extends AbstractEntityRO {
 
 	private String _id;
 	private String _description;
-	private Set<InjuryTypeDetailsRO> _injuryTypeDetails = new HashSet<InjuryTypeDetailsRO>(0);
+	private Set<InjuryTypeDetailRO> _injuryTypeDetails = new HashSet<InjuryTypeDetailRO>(0);
 
 	public String getId() {
 		return _id;
@@ -38,11 +38,11 @@ public class InjuryTypeRO extends AbstractEntityRO {
 		_description = description;
 	}
 	
-	public Set<InjuryTypeDetailsRO> getInjuryTypeDetails() {
+	public Set<InjuryTypeDetailRO> getInjuryTypeDetails() {
 		return _injuryTypeDetails;
 	}
 
-	public void setInjuryTypeDetails(Set<InjuryTypeDetailsRO> injuryTypeDetails) {
+	public void setInjuryTypeDetails(Set<InjuryTypeDetailRO> injuryTypeDetails) {
 		_injuryTypeDetails = injuryTypeDetails;
 	}
 }

@@ -4,6 +4,877 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 	
+	<!-- Queries for Accident Location --> 
+	<sql-query name="TableMaintenance.accident-location.get">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_ACC_LOC
+			ORDER BY
+				UPPER(DSCPTN)
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.accident-location.getByCode">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_ACC_LOC
+			WHERE
+				CDE = :CODE
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.accident-location.create">
+		<![CDATA[
+			INSERT INTO RMS_ACC_LOC (
+				CDE, 
+				DSCPTN, 
+				CRET_DTM, 
+				CRET_LGN_UID, 
+				LST_UPDT_DTM, 
+				LST_UPDT_LGN_UID
+			)
+			VALUES (
+				:CODE, 
+				:DESCRIPTION, 
+				:CREATED_DT, 
+				:CREATED_BY, 
+				:UPDATED_DT, 
+				:UPDATED_BY
+			)
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.accident-location.update">
+		<![CDATA[
+			UPDATE RMS_ACC_LOC
+				SET 
+				DSCPTN = :DESCRIPTION,
+				LST_UPDT_DTM = :UPDATED_DT, 
+				LST_UPDT_LGN_UID = :UPDATED_BY
+			WHERE 
+				CDE = :CODE
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.accident-location.delete">
+		<![CDATA[
+			DELETE FROM 
+				RMS_ACC_LOC
+			WHERE 
+				CDE IN (:CODES)
+		]]>
+	</sql-query>
+	
+	<!-- Queries for Accident Location Detail --> 
+	<sql-query name="TableMaintenance.accident-location-detail.get">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_ACC_LOC_CHLD
+			ORDER BY
+				UPPER(DSCPTN)
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.accident-location-detail.getByCode">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_ACC_LOC_CHLD
+			WHERE
+				CDE = :CODE
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.accident-location-detail.create">
+		<![CDATA[
+			INSERT INTO RMS_ACC_LOC_CHLD (
+				CDE, 
+				DSCPTN, 
+				CRET_DTM, 
+				CRET_LGN_UID, 
+				LST_UPDT_DTM, 
+				LST_UPDT_LGN_UID
+			)
+			VALUES (
+				:CODE, 
+				:DESCRIPTION, 
+				:CREATED_DT, 
+				:CREATED_BY, 
+				:UPDATED_DT, 
+				:UPDATED_BY
+			)
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.accident-location-detail.update">
+		<![CDATA[
+			UPDATE RMS_ACC_LOC_CHLD
+				SET 
+				DSCPTN = :DESCRIPTION,
+				LST_UPDT_DTM = :UPDATED_DT, 
+				LST_UPDT_LGN_UID = :UPDATED_BY
+			WHERE 
+				CDE = :CODE
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.accident-location-detail.delete">
+		<![CDATA[
+			DELETE FROM 
+				RMS_ACC_LOC_CHLD
+			WHERE 
+				CDE IN (:CODES)
+		]]>
+	</sql-query>
+	
+	<!-- Queries for Accident Type --> 
+	<sql-query name="TableMaintenance.accident-type.get">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_ACC_TYP
+			ORDER BY
+				UPPER(DSCPTN)
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.accident-type.getByCode">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_ACC_TYP
+			WHERE
+				CDE = :CODE
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.accident-type.create">
+		<![CDATA[
+			INSERT INTO RMS_ACC_TYP (
+				CDE, 
+				DSCPTN, 
+				CRET_DTM, 
+				CRET_LGN_UID, 
+				LST_UPDT_DTM, 
+				LST_UPDT_LGN_UID
+			)
+			VALUES (
+				:CODE, 
+				:DESCRIPTION, 
+				:CREATED_DT, 
+				:CREATED_BY, 
+				:UPDATED_DT, 
+				:UPDATED_BY
+			)
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.accident-type.update">
+		<![CDATA[
+			UPDATE RMS_ACC_TYP
+				SET 
+				DSCPTN = :DESCRIPTION,
+				LST_UPDT_DTM = :UPDATED_DT, 
+				LST_UPDT_LGN_UID = :UPDATED_BY
+			WHERE 
+				CDE = :CODE
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.accident-type.delete">
+		<![CDATA[
+			DELETE FROM 
+				RMS_ACC_TYP
+			WHERE 
+				CDE IN (:CODES)
+		]]>
+	</sql-query>
+	
+	<!-- Queries for Asset Category --> 
+	<sql-query name="TableMaintenance.asset-category.get">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_ASST_CTGRY
+			ORDER BY
+				UPPER(DSCPTN)
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.asset-category.getByCode">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_ASST_CTGRY
+			WHERE
+				CDE = :CODE
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.asset-category.create">
+		<![CDATA[
+			INSERT INTO RMS_ASST_CTGRY (
+				CDE, 
+				DSCPTN, 
+				CRET_DTM, 
+				CRET_LGN_UID, 
+				LST_UPDT_DTM, 
+				LST_UPDT_LGN_UID
+			)
+			VALUES (
+				:CODE, 
+				:DESCRIPTION, 
+				:CREATED_DT, 
+				:CREATED_BY, 
+				:UPDATED_DT, 
+				:UPDATED_BY
+			)
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.asset-category.update">
+		<![CDATA[
+			UPDATE RMS_ASST_CTGRY
+				SET 
+				DSCPTN = :DESCRIPTION,
+				LST_UPDT_DTM = :UPDATED_DT, 
+				LST_UPDT_LGN_UID = :UPDATED_BY
+			WHERE 
+				CDE = :CODE
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.asset-category.delete">
+		<![CDATA[
+			DELETE FROM 
+				RMS_ASST_CTGRY
+			WHERE 
+				CDE IN (:CODES)
+		]]>
+	</sql-query>
+	
+	<!-- Queries for Body Part --> 
+	<sql-query name="TableMaintenance.body-part.get">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_BDY_PRTS
+			ORDER BY
+				UPPER(DSCPTN)
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.body-part.getByCode">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_BDY_PRTS
+			WHERE
+				CDE = :CODE
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.body-part.create">
+		<![CDATA[
+			INSERT INTO RMS_BDY_PRTS (
+				CDE, 
+				DSCPTN, 
+				CRET_DTM, 
+				CRET_LGN_UID, 
+				LST_UPDT_DTM, 
+				LST_UPDT_LGN_UID
+			)
+			VALUES (
+				:CODE, 
+				:DESCRIPTION, 
+				:CREATED_DT, 
+				:CREATED_BY, 
+				:UPDATED_DT, 
+				:UPDATED_BY
+			)
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.body-part.update">
+		<![CDATA[
+			UPDATE RMS_BDY_PRTS
+				SET 
+				DSCPTN = :DESCRIPTION,
+				LST_UPDT_DTM = :UPDATED_DT, 
+				LST_UPDT_LGN_UID = :UPDATED_BY
+			WHERE 
+				CDE = :CODE
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.body-part.delete">
+		<![CDATA[
+			DELETE FROM 
+				RMS_BDY_PRTS
+			WHERE 
+				CDE IN (:CODES)
+		]]>
+	</sql-query>
+	
+	<!-- Queries for Claim Request Registration Type --> 
+	<sql-query name="TableMaintenance.claim-request-registration-type.get">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_CLREQ_REG_TYP
+			ORDER BY
+				UPPER(DSCPTN)
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.claim-request-registration-type.getByCode">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_CLREQ_REG_TYP
+			WHERE
+				CDE = :CODE
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.claim-request-registration-type.create">
+		<![CDATA[
+			INSERT INTO RMS_CLREQ_REG_TYP (
+				CDE, 
+				DSCPTN, 
+				CRET_DTM, 
+				CRET_LGN_UID, 
+				LST_UPDT_DTM, 
+				LST_UPDT_LGN_UID
+			)
+			VALUES (
+				:CODE, 
+				:DESCRIPTION, 
+				:CREATED_DT, 
+				:CREATED_BY, 
+				:UPDATED_DT, 
+				:UPDATED_BY
+			)
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.claim-request-registration-type.update">
+		<![CDATA[
+			UPDATE RMS_CLREQ_REG_TYP
+				SET 
+				DSCPTN = :DESCRIPTION,
+				LST_UPDT_DTM = :UPDATED_DT, 
+				LST_UPDT_LGN_UID = :UPDATED_BY
+			WHERE 
+				CDE = :CODE
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.claim-request-registration-type.delete">
+		<![CDATA[
+			DELETE FROM 
+				RMS_CLREQ_REG_TYP
+			WHERE 
+				CDE IN (:CODES)
+		]]>
+	</sql-query>
+	
+	<!-- Queries for Claim Status --> 
+	<sql-query name="TableMaintenance.claim-status.get">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_CLIM_STS
+			ORDER BY
+				UPPER(DSCPTN)
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.claim-status.getByCode">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_CLIM_STS
+			WHERE
+				CDE = :CODE
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.claim-status.create">
+		<![CDATA[
+			INSERT INTO RMS_CLIM_STS (
+				CDE, 
+				DSCPTN, 
+				CRET_DTM, 
+				CRET_LGN_UID, 
+				LST_UPDT_DTM, 
+				LST_UPDT_LGN_UID
+			)
+			VALUES (
+				:CODE, 
+				:DESCRIPTION, 
+				:CREATED_DT, 
+				:CREATED_BY, 
+				:UPDATED_DT, 
+				:UPDATED_BY
+			)
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.claim-status.update">
+		<![CDATA[
+			UPDATE RMS_CLIM_STS
+				SET 
+				DSCPTN = :DESCRIPTION,
+				LST_UPDT_DTM = :UPDATED_DT, 
+				LST_UPDT_LGN_UID = :UPDATED_BY
+			WHERE 
+				CDE = :CODE
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.claim-status.delete">
+		<![CDATA[
+			DELETE FROM 
+				RMS_CLIM_STS
+			WHERE 
+				CDE IN (:CODES)
+		]]>
+	</sql-query>
+	
+	<!-- Queries for Claim Type --> 
+	<sql-query name="TableMaintenance.claim-type.get">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_CLIM_TYP
+			ORDER BY
+				UPPER(DSCPTN)
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.claim-type.getByCode">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_CLIM_TYP
+			WHERE
+				CDE = :CODE
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.claim-type.create">
+		<![CDATA[
+			INSERT INTO RMS_CLIM_TYP (
+				CDE, 
+				DSCPTN, 
+				CRET_DTM, 
+				CRET_LGN_UID, 
+				LST_UPDT_DTM, 
+				LST_UPDT_LGN_UID
+			)
+			VALUES (
+				:CODE, 
+				:DESCRIPTION, 
+				:CREATED_DT, 
+				:CREATED_BY, 
+				:UPDATED_DT, 
+				:UPDATED_BY
+			)
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.claim-type.update">
+		<![CDATA[
+			UPDATE RMS_CLIM_TYP
+				SET 
+				DSCPTN = :DESCRIPTION,
+				LST_UPDT_DTM = :UPDATED_DT, 
+				LST_UPDT_LGN_UID = :UPDATED_BY
+			WHERE 
+				CDE = :CODE
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.claim-type.delete">
+		<![CDATA[
+			DELETE FROM 
+				RMS_CLIM_TYP
+			WHERE 
+				CDE IN (:CODES)
+		]]>
+	</sql-query>
+	
+	<!-- Queries for Distinguishing Feature --> 
+	<sql-query name="TableMaintenance.distinguishing-feature.get">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_DIST_FEA
+			ORDER BY
+				UPPER(DSCPTN)
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.distinguishing-feature.getByCode">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_DIST_FEA
+			WHERE
+				CDE = :CODE
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.distinguishing-feature.create">
+		<![CDATA[
+			INSERT INTO RMS_DIST_FEA (
+				CDE, 
+				DSCPTN, 
+				CRET_DTM, 
+				CRET_LGN_UID, 
+				LST_UPDT_DTM, 
+				LST_UPDT_LGN_UID
+			)
+			VALUES (
+				:CODE, 
+				:DESCRIPTION, 
+				:CREATED_DT, 
+				:CREATED_BY, 
+				:UPDATED_DT, 
+				:UPDATED_BY
+			)
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.distinguishing-feature.update">
+		<![CDATA[
+			UPDATE RMS_DIST_FEA
+				SET 
+				DSCPTN = :DESCRIPTION,
+				LST_UPDT_DTM = :UPDATED_DT, 
+				LST_UPDT_LGN_UID = :UPDATED_BY
+			WHERE 
+				CDE = :CODE
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.distinguishing-feature.delete">
+		<![CDATA[
+			DELETE FROM 
+				RMS_DIST_FEA
+			WHERE 
+				CDE IN (:CODES)
+		]]>
+	</sql-query>
+	
+	<!-- Queries for Distinguishing Feature Detail --> 
+	<sql-query name="TableMaintenance.distinguishing-feature-detail.get">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_DIST_FEA_CHLD
+			ORDER BY
+				UPPER(DSCPTN)
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.distinguishing-feature-detail.getByCode">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_DIST_FEA_CHLD
+			WHERE
+				CDE = :CODE
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.distinguishing-feature-detail.create">
+		<![CDATA[
+			INSERT INTO RMS_DIST_FEA_CHLD (
+				CDE, 
+				DSCPTN, 
+				CRET_DTM, 
+				CRET_LGN_UID, 
+				LST_UPDT_DTM, 
+				LST_UPDT_LGN_UID
+			)
+			VALUES (
+				:CODE, 
+				:DESCRIPTION, 
+				:CREATED_DT, 
+				:CREATED_BY, 
+				:UPDATED_DT, 
+				:UPDATED_BY
+			)
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.distinguishing-feature-detail.update">
+		<![CDATA[
+			UPDATE RMS_DIST_FEA_CHLD
+				SET 
+				DSCPTN = :DESCRIPTION,
+				LST_UPDT_DTM = :UPDATED_DT, 
+				LST_UPDT_LGN_UID = :UPDATED_BY
+			WHERE 
+				CDE = :CODE
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.distinguishing-feature-detail.delete">
+		<![CDATA[
+			DELETE FROM 
+				RMS_DIST_FEA_CHLD
+			WHERE 
+				CDE IN (:CODES)
+		]]>
+	</sql-query>
+	
+	<!-- Queries for Document Category --> 
+	<sql-query name="TableMaintenance.document-category.get">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_DOC_CTGRY
+			ORDER BY
+				UPPER(DSCPTN)
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.document-category.getByCode">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_DOC_CTGRY
+			WHERE
+				CDE = :CODE
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.document-category.create">
+		<![CDATA[
+			INSERT INTO RMS_DOC_CTGRY (
+				CDE, 
+				DSCPTN, 
+				CRET_DTM, 
+				CRET_LGN_UID, 
+				LST_UPDT_DTM, 
+				LST_UPDT_LGN_UID
+			)
+			VALUES (
+				:CODE, 
+				:DESCRIPTION, 
+				:CREATED_DT, 
+				:CREATED_BY, 
+				:UPDATED_DT, 
+				:UPDATED_BY
+			)
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.document-category.update">
+		<![CDATA[
+			UPDATE RMS_DOC_CTGRY
+				SET 
+				DSCPTN = :DESCRIPTION,
+				LST_UPDT_DTM = :UPDATED_DT, 
+				LST_UPDT_LGN_UID = :UPDATED_BY
+			WHERE 
+				CDE = :CODE
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.document-category.delete">
+		<![CDATA[
+			DELETE FROM 
+				RMS_DOC_CTGRY
+			WHERE 
+				CDE IN (:CODES)
+		]]>
+	</sql-query>
+	
+	<!-- Queries for Document Type --> 
+	<sql-query name="TableMaintenance.document-type.get">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_DOC_TYP
+			ORDER BY
+				UPPER(DSCPTN)
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.document-type.getByCode">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_DOC_TYP
+			WHERE
+				CDE = :CODE
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.document-type.create">
+		<![CDATA[
+			INSERT INTO RMS_DOC_TYP (
+				CDE, 
+				DSCPTN, 
+				CRET_DTM, 
+				CRET_LGN_UID, 
+				LST_UPDT_DTM, 
+				LST_UPDT_LGN_UID
+			)
+			VALUES (
+				:CODE, 
+				:DESCRIPTION, 
+				:CREATED_DT, 
+				:CREATED_BY, 
+				:UPDATED_DT, 
+				:UPDATED_BY
+			)
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.document-type.update">
+		<![CDATA[
+			UPDATE RMS_DOC_TYP
+				SET 
+				DSCPTN = :DESCRIPTION,
+				LST_UPDT_DTM = :UPDATED_DT, 
+				LST_UPDT_LGN_UID = :UPDATED_BY
+			WHERE 
+				CDE = :CODE
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.document-type.delete">
+		<![CDATA[
+			DELETE FROM 
+				RMS_DOC_TYP
+			WHERE 
+				CDE IN (:CODES)
+		]]>
+	</sql-query>
+	
+	<!-- Queries for Employee Type --> 
+	<sql-query name="TableMaintenance.employee-type.get">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_EMP_TYP
+			ORDER BY
+				UPPER(DSCPTN)
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.employee-type.getByCode">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_EMP_TYP
+			WHERE
+				CDE = :CODE
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.employee-type.create">
+		<![CDATA[
+			INSERT INTO RMS_EMP_TYP (
+				CDE, 
+				DSCPTN, 
+				CRET_DTM, 
+				CRET_LGN_UID, 
+				LST_UPDT_DTM, 
+				LST_UPDT_LGN_UID
+			)
+			VALUES (
+				:CODE, 
+				:DESCRIPTION, 
+				:CREATED_DT, 
+				:CREATED_BY, 
+				:UPDATED_DT, 
+				:UPDATED_BY
+			)
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.employee-type.update">
+		<![CDATA[
+			UPDATE RMS_EMP_TYP
+				SET 
+				DSCPTN = :DESCRIPTION,
+				LST_UPDT_DTM = :UPDATED_DT, 
+				LST_UPDT_LGN_UID = :UPDATED_BY
+			WHERE 
+				CDE = :CODE
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.employee-type.delete">
+		<![CDATA[
+			DELETE FROM 
+				RMS_EMP_TYP
+			WHERE 
+				CDE IN (:CODES)
+		]]>
+	</sql-query>
+	
 	<!-- Queries for Entry Point --> 
 	<sql-query name="TableMaintenance.entry-point.get">
 		<![CDATA[
@@ -66,6 +937,1145 @@
 		<![CDATA[
 			DELETE FROM 
 				RMS_ENTY_PNT
+			WHERE 
+				CDE IN (:CODES)
+		]]>
+	</sql-query>
+	
+	<!-- Queries for Event Type --> 
+	<sql-query name="TableMaintenance.event-type.get">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_EVNT_TYP
+			ORDER BY
+				UPPER(DSCPTN)
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.event-type.getByCode">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_EVNT_TYP
+			WHERE
+				CDE = :CODE
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.event-type.create">
+		<![CDATA[
+			INSERT INTO RMS_EVNT_TYP (
+				CDE, 
+				DSCPTN, 
+				CRET_DTM, 
+				CRET_LGN_UID, 
+				LST_UPDT_DTM, 
+				LST_UPDT_LGN_UID
+			)
+			VALUES (
+				:CODE, 
+				:DESCRIPTION, 
+				:CREATED_DT, 
+				:CREATED_BY, 
+				:UPDATED_DT, 
+				:UPDATED_BY
+			)
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.event-type.update">
+		<![CDATA[
+			UPDATE RMS_EVNT_TYP
+				SET 
+				DSCPTN = :DESCRIPTION,
+				LST_UPDT_DTM = :UPDATED_DT, 
+				LST_UPDT_LGN_UID = :UPDATED_BY
+			WHERE 
+				CDE = :CODE
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.event-type.delete">
+		<![CDATA[
+			DELETE FROM 
+				RMS_EVNT_TYP
+			WHERE 
+				CDE IN (:CODES)
+		]]>
+	</sql-query>
+	
+	<!-- Queries for External Agency --> 
+	<sql-query name="TableMaintenance.external-agency.get">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_EXTNL_AGNCY
+			ORDER BY
+				UPPER(DSCPTN)
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.external-agency.getByCode">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_EXTNL_AGNCY
+			WHERE
+				CDE = :CODE
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.external-agency.create">
+		<![CDATA[
+			INSERT INTO RMS_EXTNL_AGNCY (
+				CDE, 
+				DSCPTN, 
+				CRET_DTM, 
+				CRET_LGN_UID, 
+				LST_UPDT_DTM, 
+				LST_UPDT_LGN_UID
+			)
+			VALUES (
+				:CODE, 
+				:DESCRIPTION, 
+				:CREATED_DT, 
+				:CREATED_BY, 
+				:UPDATED_DT, 
+				:UPDATED_BY
+			)
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.external-agency.update">
+		<![CDATA[
+			UPDATE RMS_EXTNL_AGNCY
+				SET 
+				DSCPTN = :DESCRIPTION,
+				LST_UPDT_DTM = :UPDATED_DT, 
+				LST_UPDT_LGN_UID = :UPDATED_BY
+			WHERE 
+				CDE = :CODE
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.external-agency.delete">
+		<![CDATA[
+			DELETE FROM 
+				RMS_EXTNL_AGNCY
+			WHERE 
+				CDE IN (:CODES)
+		]]>
+	</sql-query>
+	
+	<!-- Queries for Gender Type --> 
+	<sql-query name="TableMaintenance.gender-type.get">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_GNDR_TYP
+			ORDER BY
+				UPPER(DSCPTN)
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.gender-type.getByCode">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_GNDR_TYP
+			WHERE
+				CDE = :CODE
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.gender-type.create">
+		<![CDATA[
+			INSERT INTO RMS_GNDR_TYP (
+				CDE, 
+				DSCPTN, 
+				CRET_DTM, 
+				CRET_LGN_UID, 
+				LST_UPDT_DTM, 
+				LST_UPDT_LGN_UID
+			)
+			VALUES (
+				:CODE, 
+				:DESCRIPTION, 
+				:CREATED_DT, 
+				:CREATED_BY, 
+				:UPDATED_DT, 
+				:UPDATED_BY
+			)
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.gender-type.update">
+		<![CDATA[
+			UPDATE RMS_GNDR_TYP
+				SET 
+				DSCPTN = :DESCRIPTION,
+				LST_UPDT_DTM = :UPDATED_DT, 
+				LST_UPDT_LGN_UID = :UPDATED_BY
+			WHERE 
+				CDE = :CODE
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.gender-type.delete">
+		<![CDATA[
+			DELETE FROM 
+				RMS_GNDR_TYP
+			WHERE 
+				CDE IN (:CODES)
+		]]>
+	</sql-query>
+	
+	<!-- Queries for Incident Category --> 
+	<sql-query name="TableMaintenance.incident-category.get">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_INC_CTGRY
+			ORDER BY
+				UPPER(DSCPTN)
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.incident-category.getByCode">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_INC_CTGRY
+			WHERE
+				CDE = :CODE
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.incident-category.create">
+		<![CDATA[
+			INSERT INTO RMS_INC_CTGRY (
+				CDE, 
+				DSCPTN, 
+				CRET_DTM, 
+				CRET_LGN_UID, 
+				LST_UPDT_DTM, 
+				LST_UPDT_LGN_UID
+			)
+			VALUES (
+				:CODE, 
+				:DESCRIPTION, 
+				:CREATED_DT, 
+				:CREATED_BY, 
+				:UPDATED_DT, 
+				:UPDATED_BY
+			)
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.incident-category.update">
+		<![CDATA[
+			UPDATE RMS_INC_CTGRY
+				SET 
+				DSCPTN = :DESCRIPTION,
+				LST_UPDT_DTM = :UPDATED_DT, 
+				LST_UPDT_LGN_UID = :UPDATED_BY
+			WHERE 
+				CDE = :CODE
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.incident-category.delete">
+		<![CDATA[
+			DELETE FROM 
+				RMS_INC_CTGRY
+			WHERE 
+				CDE IN (:CODES)
+		]]>
+	</sql-query>
+	
+	<!-- Queries for Incident Location --> 
+	<sql-query name="TableMaintenance.incident-location.get">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_INC_LOC
+			ORDER BY
+				UPPER(DSCPTN)
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.incident-location.getByCode">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_INC_LOC
+			WHERE
+				CDE = :CODE
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.incident-location.create">
+		<![CDATA[
+			INSERT INTO RMS_INC_LOC (
+				CDE, 
+				DSCPTN, 
+				CRET_DTM, 
+				CRET_LGN_UID, 
+				LST_UPDT_DTM, 
+				LST_UPDT_LGN_UID
+			)
+			VALUES (
+				:CODE, 
+				:DESCRIPTION, 
+				:CREATED_DT, 
+				:CREATED_BY, 
+				:UPDATED_DT, 
+				:UPDATED_BY
+			)
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.incident-location.update">
+		<![CDATA[
+			UPDATE RMS_INC_LOC
+				SET 
+				DSCPTN = :DESCRIPTION,
+				LST_UPDT_DTM = :UPDATED_DT, 
+				LST_UPDT_LGN_UID = :UPDATED_BY
+			WHERE 
+				CDE = :CODE
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.incident-location.delete">
+		<![CDATA[
+			DELETE FROM 
+				RMS_INC_LOC
+			WHERE 
+				CDE IN (:CODES)
+		]]>
+	</sql-query>
+	
+	<!-- Queries for Incident Location Detail --> 
+	<sql-query name="TableMaintenance.incident-location-detail.get">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_INC_LOC_CHLD
+			ORDER BY
+				UPPER(DSCPTN)
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.incident-location-detail.getByCode">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_INC_LOC_CHLD
+			WHERE
+				CDE = :CODE
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.incident-location-detail.create">
+		<![CDATA[
+			INSERT INTO RMS_INC_LOC_CHLD (
+				CDE, 
+				DSCPTN, 
+				CRET_DTM, 
+				CRET_LGN_UID, 
+				LST_UPDT_DTM, 
+				LST_UPDT_LGN_UID
+			)
+			VALUES (
+				:CODE, 
+				:DESCRIPTION, 
+				:CREATED_DT, 
+				:CREATED_BY, 
+				:UPDATED_DT, 
+				:UPDATED_BY
+			)
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.incident-location-detail.update">
+		<![CDATA[
+			UPDATE RMS_INC_LOC_CHLD
+				SET 
+				DSCPTN = :DESCRIPTION,
+				LST_UPDT_DTM = :UPDATED_DT, 
+				LST_UPDT_LGN_UID = :UPDATED_BY
+			WHERE 
+				CDE = :CODE
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.incident-location-detail.delete">
+		<![CDATA[
+			DELETE FROM 
+				RMS_INC_LOC_CHLD
+			WHERE 
+				CDE IN (:CODES)
+		]]>
+	</sql-query>
+	
+	<!-- Queries for Incident Type --> 
+	<sql-query name="TableMaintenance.incident-type.get">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_INC_TYP
+			ORDER BY
+				UPPER(DSCPTN)
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.incident-type.getByCode">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_INC_TYP
+			WHERE
+				CDE = :CODE
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.incident-type.create">
+		<![CDATA[
+			INSERT INTO RMS_INC_TYP (
+				CDE, 
+				DSCPTN, 
+				CRET_DTM, 
+				CRET_LGN_UID, 
+				LST_UPDT_DTM, 
+				LST_UPDT_LGN_UID
+			)
+			VALUES (
+				:CODE, 
+				:DESCRIPTION, 
+				:CREATED_DT, 
+				:CREATED_BY, 
+				:UPDATED_DT, 
+				:UPDATED_BY
+			)
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.incident-type.update">
+		<![CDATA[
+			UPDATE RMS_INC_TYP
+				SET 
+				DSCPTN = :DESCRIPTION,
+				LST_UPDT_DTM = :UPDATED_DT, 
+				LST_UPDT_LGN_UID = :UPDATED_BY
+			WHERE 
+				CDE = :CODE
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.incident-type.delete">
+		<![CDATA[
+			DELETE FROM 
+				RMS_INC_TYP
+			WHERE 
+				CDE IN (:CODES)
+		]]>
+	</sql-query>
+	
+	<!-- Queries for Injured Person Type --> 
+	<sql-query name="TableMaintenance.injured-person-type.get">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_INJRD_PRSN_TYP
+			ORDER BY
+				UPPER(DSCPTN)
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.injured-person-type.getByCode">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_INJRD_PRSN_TYP
+			WHERE
+				CDE = :CODE
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.injured-person-type.create">
+		<![CDATA[
+			INSERT INTO RMS_INJRD_PRSN_TYP (
+				CDE, 
+				DSCPTN, 
+				CRET_DTM, 
+				CRET_LGN_UID, 
+				LST_UPDT_DTM, 
+				LST_UPDT_LGN_UID
+			)
+			VALUES (
+				:CODE, 
+				:DESCRIPTION, 
+				:CREATED_DT, 
+				:CREATED_BY, 
+				:UPDATED_DT, 
+				:UPDATED_BY
+			)
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.injured-person-type.update">
+		<![CDATA[
+			UPDATE RMS_INJRD_PRSN_TYP
+				SET 
+				DSCPTN = :DESCRIPTION,
+				LST_UPDT_DTM = :UPDATED_DT, 
+				LST_UPDT_LGN_UID = :UPDATED_BY
+			WHERE 
+				CDE = :CODE
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.injured-person-type.delete">
+		<![CDATA[
+			DELETE FROM 
+				RMS_INJRD_PRSN_TYP
+			WHERE 
+				CDE IN (:CODES)
+		]]>
+	</sql-query>
+	
+	<!-- Queries for Injury Cause --> 
+	<sql-query name="TableMaintenance.injury-cause.get">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_INJRY_CAU
+			ORDER BY
+				UPPER(DSCPTN)
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.injury-cause.getByCode">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_INJRY_CAU
+			WHERE
+				CDE = :CODE
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.injury-cause.create">
+		<![CDATA[
+			INSERT INTO RMS_INJRY_CAU (
+				CDE, 
+				DSCPTN, 
+				CRET_DTM, 
+				CRET_LGN_UID, 
+				LST_UPDT_DTM, 
+				LST_UPDT_LGN_UID
+			)
+			VALUES (
+				:CODE, 
+				:DESCRIPTION, 
+				:CREATED_DT, 
+				:CREATED_BY, 
+				:UPDATED_DT, 
+				:UPDATED_BY
+			)
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.injury-cause.update">
+		<![CDATA[
+			UPDATE RMS_INJRY_CAU
+				SET 
+				DSCPTN = :DESCRIPTION,
+				LST_UPDT_DTM = :UPDATED_DT, 
+				LST_UPDT_LGN_UID = :UPDATED_BY
+			WHERE 
+				CDE = :CODE
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.injury-cause.delete">
+		<![CDATA[
+			DELETE FROM 
+				RMS_INJRY_CAU
+			WHERE 
+				CDE IN (:CODES)
+		]]>
+	</sql-query>
+	
+	<!-- Queries for Injury Type --> 
+	<sql-query name="TableMaintenance.injury-type.get">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_INJRY_TYP
+			ORDER BY
+				UPPER(DSCPTN)
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.injury-type.getByCode">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_INJRY_TYP
+			WHERE
+				CDE = :CODE
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.injury-type.create">
+		<![CDATA[
+			INSERT INTO RMS_INJRY_TYP (
+				CDE, 
+				DSCPTN, 
+				CRET_DTM, 
+				CRET_LGN_UID, 
+				LST_UPDT_DTM, 
+				LST_UPDT_LGN_UID
+			)
+			VALUES (
+				:CODE, 
+				:DESCRIPTION, 
+				:CREATED_DT, 
+				:CREATED_BY, 
+				:UPDATED_DT, 
+				:UPDATED_BY
+			)
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.injury-type.update">
+		<![CDATA[
+			UPDATE RMS_INJRY_TYP
+				SET 
+				DSCPTN = :DESCRIPTION,
+				LST_UPDT_DTM = :UPDATED_DT, 
+				LST_UPDT_LGN_UID = :UPDATED_BY
+			WHERE 
+				CDE = :CODE
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.injury-type.delete">
+		<![CDATA[
+			DELETE FROM 
+				RMS_INJRY_TYP
+			WHERE 
+				CDE IN (:CODES)
+		]]>
+	</sql-query>
+	
+	<!-- Queries for Injury Type Detail --> 
+	<sql-query name="TableMaintenance.injury-type-detail.get">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_INJRY_TYP_CHLD
+			ORDER BY
+				UPPER(DSCPTN)
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.injury-type-detail.getByCode">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_INJRY_TYP_CHLD
+			WHERE
+				CDE = :CODE
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.injury-type-detail.create">
+		<![CDATA[
+			INSERT INTO RMS_INJRY_TYP_CHLD (
+				CDE, 
+				DSCPTN, 
+				CRET_DTM, 
+				CRET_LGN_UID, 
+				LST_UPDT_DTM, 
+				LST_UPDT_LGN_UID
+			)
+			VALUES (
+				:CODE, 
+				:DESCRIPTION, 
+				:CREATED_DT, 
+				:CREATED_BY, 
+				:UPDATED_DT, 
+				:UPDATED_BY
+			)
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.injury-type-detail.update">
+		<![CDATA[
+			UPDATE RMS_INJRY_TYP_CHLD
+				SET 
+				DSCPTN = :DESCRIPTION,
+				LST_UPDT_DTM = :UPDATED_DT, 
+				LST_UPDT_LGN_UID = :UPDATED_BY
+			WHERE 
+				CDE = :CODE
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.injury-type-detail.delete">
+		<![CDATA[
+			DELETE FROM 
+				RMS_INJRY_TYP_CHLD
+			WHERE 
+				CDE IN (:CODES)
+		]]>
+	</sql-query>
+	
+	<!-- Queries for Injury Type Detail Specification --> 
+	<sql-query name="TableMaintenance.injury-type-detail-spec.get">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_INJRY_TYP_CHLD_SUB
+			ORDER BY
+				UPPER(DSCPTN)
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.injury-type-detail-spec.getByCode">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_INJRY_TYP_CHLD_SUB
+			WHERE
+				CDE = :CODE
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.injury-type-detail-spec.create">
+		<![CDATA[
+			INSERT INTO RMS_INJRY_TYP_CHLD_SUB (
+				CDE, 
+				DSCPTN, 
+				CRET_DTM, 
+				CRET_LGN_UID, 
+				LST_UPDT_DTM, 
+				LST_UPDT_LGN_UID
+			)
+			VALUES (
+				:CODE, 
+				:DESCRIPTION, 
+				:CREATED_DT, 
+				:CREATED_BY, 
+				:UPDATED_DT, 
+				:UPDATED_BY
+			)
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.injury-type-detail-spec.update">
+		<![CDATA[
+			UPDATE RMS_INJRY_TYP_CHLD_SUB
+				SET 
+				DSCPTN = :DESCRIPTION,
+				LST_UPDT_DTM = :UPDATED_DT, 
+				LST_UPDT_LGN_UID = :UPDATED_BY
+			WHERE 
+				CDE = :CODE
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.injury-type-detail-spec.delete">
+		<![CDATA[
+			DELETE FROM 
+				RMS_INJRY_TYP_CHLD_SUB
+			WHERE 
+				CDE IN (:CODES)
+		]]>
+	</sql-query>
+	
+	<!-- Queries for Loss Type --> 
+	<sql-query name="TableMaintenance.loss-type.get">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_LOSS_TYP
+			ORDER BY
+				UPPER(DSCPTN)
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.loss-type.getByCode">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_LOSS_TYP
+			WHERE
+				CDE = :CODE
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.loss-type.create">
+		<![CDATA[
+			INSERT INTO RMS_LOSS_TYP (
+				CDE, 
+				DSCPTN, 
+				CRET_DTM, 
+				CRET_LGN_UID, 
+				LST_UPDT_DTM, 
+				LST_UPDT_LGN_UID
+			)
+			VALUES (
+				:CODE, 
+				:DESCRIPTION, 
+				:CREATED_DT, 
+				:CREATED_BY, 
+				:UPDATED_DT, 
+				:UPDATED_BY
+			)
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.loss-type.update">
+		<![CDATA[
+			UPDATE RMS_LOSS_TYP
+				SET 
+				DSCPTN = :DESCRIPTION,
+				LST_UPDT_DTM = :UPDATED_DT, 
+				LST_UPDT_LGN_UID = :UPDATED_BY
+			WHERE 
+				CDE = :CODE
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.loss-type.delete">
+		<![CDATA[
+			DELETE FROM 
+				RMS_LOSS_TYP
+			WHERE 
+				CDE IN (:CODES)
+		]]>
+	</sql-query>
+	
+	<!-- Queries for Policy Type --> 
+	<sql-query name="TableMaintenance.policy-type.get">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_POL_TYP
+			ORDER BY
+				UPPER(DSCPTN)
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.policy-type.getByCode">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_POL_TYP
+			WHERE
+				CDE = :CODE
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.policy-type.create">
+		<![CDATA[
+			INSERT INTO RMS_POL_TYP (
+				CDE, 
+				DSCPTN, 
+				CRET_DTM, 
+				CRET_LGN_UID, 
+				LST_UPDT_DTM, 
+				LST_UPDT_LGN_UID
+			)
+			VALUES (
+				:CODE, 
+				:DESCRIPTION, 
+				:CREATED_DT, 
+				:CREATED_BY, 
+				:UPDATED_DT, 
+				:UPDATED_BY
+			)
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.policy-type.update">
+		<![CDATA[
+			UPDATE RMS_POL_TYP
+				SET 
+				DSCPTN = :DESCRIPTION,
+				LST_UPDT_DTM = :UPDATED_DT, 
+				LST_UPDT_LGN_UID = :UPDATED_BY
+			WHERE 
+				CDE = :CODE
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.policy-type.delete">
+		<![CDATA[
+			DELETE FROM 
+				RMS_POL_TYP
+			WHERE 
+				CDE IN (:CODES)
+		]]>
+	</sql-query>
+	
+	<!-- Queries for Suspect Type --> 
+	<sql-query name="TableMaintenance.suspect-type.get">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_SUSPT_TYP
+			ORDER BY
+				UPPER(DSCPTN)
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.suspect-type.getByCode">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_SUSPT_TYP
+			WHERE
+				CDE = :CODE
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.suspect-type.create">
+		<![CDATA[
+			INSERT INTO RMS_SUSPT_TYP (
+				CDE, 
+				DSCPTN, 
+				CRET_DTM, 
+				CRET_LGN_UID, 
+				LST_UPDT_DTM, 
+				LST_UPDT_LGN_UID
+			)
+			VALUES (
+				:CODE, 
+				:DESCRIPTION, 
+				:CREATED_DT, 
+				:CREATED_BY, 
+				:UPDATED_DT, 
+				:UPDATED_BY
+			)
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.suspect-type.update">
+		<![CDATA[
+			UPDATE RMS_SUSPT_TYP
+				SET 
+				DSCPTN = :DESCRIPTION,
+				LST_UPDT_DTM = :UPDATED_DT, 
+				LST_UPDT_LGN_UID = :UPDATED_BY
+			WHERE 
+				CDE = :CODE
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.suspect-type.delete">
+		<![CDATA[
+			DELETE FROM 
+				RMS_SUSPT_TYP
+			WHERE 
+				CDE IN (:CODES)
+		]]>
+	</sql-query>
+	
+	<!-- Queries for Vehicle Damage Type --> 
+	<sql-query name="TableMaintenance.vehicle-damage-type.get">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_VEHCL_DMGE_TYP
+			ORDER BY
+				UPPER(DSCPTN)
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.vehicle-damage-type.getByCode">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_VEHCL_DMGE_TYP
+			WHERE
+				CDE = :CODE
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.vehicle-damage-type.create">
+		<![CDATA[
+			INSERT INTO RMS_VEHCL_DMGE_TYP (
+				CDE, 
+				DSCPTN, 
+				CRET_DTM, 
+				CRET_LGN_UID, 
+				LST_UPDT_DTM, 
+				LST_UPDT_LGN_UID
+			)
+			VALUES (
+				:CODE, 
+				:DESCRIPTION, 
+				:CREATED_DT, 
+				:CREATED_BY, 
+				:UPDATED_DT, 
+				:UPDATED_BY
+			)
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.vehicle-damage-type.update">
+		<![CDATA[
+			UPDATE RMS_VEHCL_DMGE_TYP
+				SET 
+				DSCPTN = :DESCRIPTION,
+				LST_UPDT_DTM = :UPDATED_DT, 
+				LST_UPDT_LGN_UID = :UPDATED_BY
+			WHERE 
+				CDE = :CODE
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.vehicle-damage-type.delete">
+		<![CDATA[
+			DELETE FROM 
+				RMS_VEHCL_DMGE_TYP
+			WHERE 
+				CDE IN (:CODES)
+		]]>
+	</sql-query>
+	
+	<!-- Queries for Weapon Type --> 
+	<sql-query name="TableMaintenance.weapon-type.get">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_WPN_TYP
+			ORDER BY
+				UPPER(DSCPTN)
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.weapon-type.getByCode">
+		<![CDATA[
+			SELECT
+				CDE,
+				DSCPTN
+			FROM
+				RMS_WPN_TYP
+			WHERE
+				CDE = :CODE
+		]]>
+		<return-scalar column="CDE" type="string" />
+		<return-scalar column="DSCPTN" type="string" />		
+	</sql-query>	
+	<sql-query name="TableMaintenance.weapon-type.create">
+		<![CDATA[
+			INSERT INTO RMS_WPN_TYP (
+				CDE, 
+				DSCPTN, 
+				CRET_DTM, 
+				CRET_LGN_UID, 
+				LST_UPDT_DTM, 
+				LST_UPDT_LGN_UID
+			)
+			VALUES (
+				:CODE, 
+				:DESCRIPTION, 
+				:CREATED_DT, 
+				:CREATED_BY, 
+				:UPDATED_DT, 
+				:UPDATED_BY
+			)
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.weapon-type.update">
+		<![CDATA[
+			UPDATE RMS_WPN_TYP
+				SET 
+				DSCPTN = :DESCRIPTION,
+				LST_UPDT_DTM = :UPDATED_DT, 
+				LST_UPDT_LGN_UID = :UPDATED_BY
+			WHERE 
+				CDE = :CODE
+		]]>
+	</sql-query>	
+	<sql-query name="TableMaintenance.weapon-type.delete">
+		<![CDATA[
+			DELETE FROM 
+				RMS_WPN_TYP
 			WHERE 
 				CDE IN (:CODES)
 		]]>

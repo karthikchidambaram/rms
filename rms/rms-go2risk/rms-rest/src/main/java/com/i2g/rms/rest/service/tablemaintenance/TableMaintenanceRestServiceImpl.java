@@ -10,27 +10,37 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.i2g.rms.rest.model.tablemaintenance.AccidentLocationDetailsRO;
+import com.i2g.rms.rest.model.tablemaintenance.AccidentLocationDetailRO;
 import com.i2g.rms.rest.model.tablemaintenance.AccidentLocationRO;
+import com.i2g.rms.rest.model.tablemaintenance.AccidentTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.AssetCategoryRO;
+import com.i2g.rms.rest.model.tablemaintenance.BodyPartRO;
 import com.i2g.rms.rest.model.tablemaintenance.ClaimRequestRegistrationTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.ClaimStatusRO;
 import com.i2g.rms.rest.model.tablemaintenance.ClaimTypeRO;
-import com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeaturesDetailRO;
-import com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeaturesRO;
+import com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeatureDetailRO;
+import com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeatureRO;
+import com.i2g.rms.rest.model.tablemaintenance.DocumentCategoryRO;
+import com.i2g.rms.rest.model.tablemaintenance.DocumentTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.EmployeeTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.EntryPointRO;
 import com.i2g.rms.rest.model.tablemaintenance.EventTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.ExternalAgencyRO;
-import com.i2g.rms.rest.model.tablemaintenance.IncidentLocationDetailsRO;
+import com.i2g.rms.rest.model.tablemaintenance.GenderTypeRO;
+import com.i2g.rms.rest.model.tablemaintenance.IncidentCategoryRO;
+import com.i2g.rms.rest.model.tablemaintenance.IncidentLocationDetailRO;
 import com.i2g.rms.rest.model.tablemaintenance.IncidentLocationRO;
 import com.i2g.rms.rest.model.tablemaintenance.IncidentTypeRO;
+import com.i2g.rms.rest.model.tablemaintenance.InjuredPersonTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.InjuryCauseRO;
-import com.i2g.rms.rest.model.tablemaintenance.InjuryTypeDetailsRO;
-import com.i2g.rms.rest.model.tablemaintenance.InjuryTypeDetailsSpecRO;
+import com.i2g.rms.rest.model.tablemaintenance.InjuryTypeDetailRO;
+import com.i2g.rms.rest.model.tablemaintenance.InjuryTypeDetailSpecRO;
 import com.i2g.rms.rest.model.tablemaintenance.InjuryTypeRO;
+import com.i2g.rms.rest.model.tablemaintenance.LossTypeRO;
+import com.i2g.rms.rest.model.tablemaintenance.PolicyTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.SuspectTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.TableMaintenanceRO;
+import com.i2g.rms.rest.model.tablemaintenance.VehicleDamageTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.WeaponTypeRO;
 import com.i2g.rms.rest.service.AbstractRestService;
 import com.i2g.rms.rest.service.RestMessage;
@@ -216,49 +226,49 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 		_tableMaintenanceService.deleteAccidentLocation(code);
 	}
 	
-	/** Methods related to Accident Location Details */
+	/** Methods related to Accident Location Detail */
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
 	@Transactional
-	public List<AccidentLocationDetailsRO> getAccidentLocationDetails() {
-		return _mapperService.map(_tableMaintenanceService.getAccidentLocationDetails(), AccidentLocationDetailsRO.class);
+	public List<AccidentLocationDetailRO> getAccidentLocationDetails() {
+		return _mapperService.map(_tableMaintenanceService.getAccidentLocationDetails(), AccidentLocationDetailRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
 	@Transactional
-	public AccidentLocationDetailsRO getAccidentLocationDetailsByCode(final String code) {
+	public AccidentLocationDetailRO getAccidentLocationDetailByCode(final String code) {
 		validateCode(code);
-		return _mapperService.map(_tableMaintenanceService.getAccidentLocationDetailsByCode(code), AccidentLocationDetailsRO.class);
+		return _mapperService.map(_tableMaintenanceService.getAccidentLocationDetailByCode(code), AccidentLocationDetailRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@Transactional
-	public AccidentLocationDetailsRO createAccidentLocationDetails(final AccidentLocationDetailsRO accidentLocationDetailsRO) {
+	public AccidentLocationDetailRO createAccidentLocationDetail(final AccidentLocationDetailRO accidentLocationDetailsRO) {
 		validateObject(accidentLocationDetailsRO);
 		validateCode(accidentLocationDetailsRO.getId());
 		validateDescription(accidentLocationDetailsRO.getDescription());
-		return _mapperService.map(_tableMaintenanceService.createAccidentLocationDetails(accidentLocationDetailsRO.getId(), accidentLocationDetailsRO.getDescription()), AccidentLocationDetailsRO.class);
+		return _mapperService.map(_tableMaintenanceService.createAccidentLocationDetail(accidentLocationDetailsRO.getId(), accidentLocationDetailsRO.getDescription()), AccidentLocationDetailRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@Transactional
-	public AccidentLocationDetailsRO updateAccidentLocationDetails(final AccidentLocationDetailsRO accidentLocationDetailsRO) {
+	public AccidentLocationDetailRO updateAccidentLocationDetail(final AccidentLocationDetailRO accidentLocationDetailsRO) {
 		validateObject(accidentLocationDetailsRO);
 		validateCode(accidentLocationDetailsRO.getId());
 		validateDescription(accidentLocationDetailsRO.getDescription());
-		return _mapperService.map(_tableMaintenanceService.updateAccidentLocationDetails(accidentLocationDetailsRO.getId(), accidentLocationDetailsRO.getDescription()), AccidentLocationDetailsRO.class);
+		return _mapperService.map(_tableMaintenanceService.updateAccidentLocationDetail(accidentLocationDetailsRO.getId(), accidentLocationDetailsRO.getDescription()), AccidentLocationDetailRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@Transactional
-	public void deleteAccidentLocationDetails(final String code) {
+	public void deleteAccidentLocationDetail(final String code) {
 		// Validate input parameter(s) if any
 		validateCode(code);
-		_tableMaintenanceService.deleteAccidentLocationDetails(code);
+		_tableMaintenanceService.deleteAccidentLocationDetail(code);
 	}
 	
 	/** Methods related to Asset Category */
@@ -425,90 +435,90 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
 	@Transactional
-	public List<DistinguishingFeaturesRO> getDistinguishingFeatures() {
-		return _mapperService.map(_tableMaintenanceService.getDistinguishingFeatures(), DistinguishingFeaturesRO.class);
+	public List<DistinguishingFeatureRO> getDistinguishingFeatures() {
+		return _mapperService.map(_tableMaintenanceService.getDistinguishingFeatures(), DistinguishingFeatureRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
 	@Transactional
-	public DistinguishingFeaturesRO getDistinguishingFeaturesByCode(final String code) {
+	public DistinguishingFeatureRO getDistinguishingFeatureByCode(final String code) {
 		validateCode(code);
-		return _mapperService.map(_tableMaintenanceService.getDistinguishingFeaturesByCode(code), DistinguishingFeaturesRO.class);
+		return _mapperService.map(_tableMaintenanceService.getDistinguishingFeatureByCode(code), DistinguishingFeatureRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@Transactional
-	public DistinguishingFeaturesRO createDistinguishingFeatures(final DistinguishingFeaturesRO distinguishingFeaturesRO) {
+	public DistinguishingFeatureRO createDistinguishingFeature(final DistinguishingFeatureRO distinguishingFeaturesRO) {
 		validateObject(distinguishingFeaturesRO);
 		validateCode(distinguishingFeaturesRO.getId());
 		validateDescription(distinguishingFeaturesRO.getDescription());
-		return _mapperService.map(_tableMaintenanceService.createDistinguishingFeatures(distinguishingFeaturesRO.getId(), distinguishingFeaturesRO.getDescription()), DistinguishingFeaturesRO.class);
+		return _mapperService.map(_tableMaintenanceService.createDistinguishingFeature(distinguishingFeaturesRO.getId(), distinguishingFeaturesRO.getDescription()), DistinguishingFeatureRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@Transactional
-	public DistinguishingFeaturesRO updateDistinguishingFeatures(final DistinguishingFeaturesRO distinguishingFeaturesRO) {
+	public DistinguishingFeatureRO updateDistinguishingFeature(final DistinguishingFeatureRO distinguishingFeaturesRO) {
 		validateObject(distinguishingFeaturesRO);
 		validateCode(distinguishingFeaturesRO.getId());
 		validateDescription(distinguishingFeaturesRO.getDescription());
-		return _mapperService.map(_tableMaintenanceService.updateDistinguishingFeatures(distinguishingFeaturesRO.getId(), distinguishingFeaturesRO.getDescription()), DistinguishingFeaturesRO.class);
+		return _mapperService.map(_tableMaintenanceService.updateDistinguishingFeature(distinguishingFeaturesRO.getId(), distinguishingFeaturesRO.getDescription()), DistinguishingFeatureRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@Transactional
-	public void deleteDistinguishingFeatures(final String code) {
+	public void deleteDistinguishingFeature(final String code) {
 		// Validate input parameter(s) if any
 		validateCode(code);
-		_tableMaintenanceService.deleteDistinguishingFeatures(code);
+		_tableMaintenanceService.deleteDistinguishingFeature(code);
 	}
 	
 	/** Methods related to Distinguishing Features Detail */
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
 	@Transactional
-	public List<DistinguishingFeaturesDetailRO> getDistinguishingFeaturesDetails() {
-		return _mapperService.map(_tableMaintenanceService.getDistinguishingFeaturesDetails(), DistinguishingFeaturesDetailRO.class);
+	public List<DistinguishingFeatureDetailRO> getDistinguishingFeatureDetails() {
+		return _mapperService.map(_tableMaintenanceService.getDistinguishingFeatureDetails(), DistinguishingFeatureDetailRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
 	@Transactional
-	public DistinguishingFeaturesDetailRO getDistinguishingFeaturesDetailByCode(final String code) {
+	public DistinguishingFeatureDetailRO getDistinguishingFeatureDetailByCode(final String code) {
 		validateCode(code);
-		return _mapperService.map(_tableMaintenanceService.getDistinguishingFeaturesDetailByCode(code), DistinguishingFeaturesDetailRO.class);
+		return _mapperService.map(_tableMaintenanceService.getDistinguishingFeatureDetailByCode(code), DistinguishingFeatureDetailRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@Transactional
-	public DistinguishingFeaturesDetailRO createDistinguishingFeaturesDetail(final DistinguishingFeaturesDetailRO distinguishingFeaturesDetailRO) {
+	public DistinguishingFeatureDetailRO createDistinguishingFeatureDetail(final DistinguishingFeatureDetailRO distinguishingFeaturesDetailRO) {
 		validateObject(distinguishingFeaturesDetailRO);
 		validateCode(distinguishingFeaturesDetailRO.getId());
 		validateDescription(distinguishingFeaturesDetailRO.getDescription());
-		return _mapperService.map(_tableMaintenanceService.createDistinguishingFeaturesDetail(distinguishingFeaturesDetailRO.getId(), distinguishingFeaturesDetailRO.getDescription()), DistinguishingFeaturesDetailRO.class);
+		return _mapperService.map(_tableMaintenanceService.createDistinguishingFeatureDetail(distinguishingFeaturesDetailRO.getId(), distinguishingFeaturesDetailRO.getDescription()), DistinguishingFeatureDetailRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@Transactional
-	public DistinguishingFeaturesDetailRO updateDistinguishingFeaturesDetail(final DistinguishingFeaturesDetailRO distinguishingFeaturesDetailRO) {
+	public DistinguishingFeatureDetailRO updateDistinguishingFeatureDetail(final DistinguishingFeatureDetailRO distinguishingFeaturesDetailRO) {
 		validateObject(distinguishingFeaturesDetailRO);
 		validateCode(distinguishingFeaturesDetailRO.getId());
 		validateDescription(distinguishingFeaturesDetailRO.getDescription());
-		return _mapperService.map(_tableMaintenanceService.updateDistinguishingFeaturesDetail(distinguishingFeaturesDetailRO.getId(), distinguishingFeaturesDetailRO.getDescription()), DistinguishingFeaturesDetailRO.class);
+		return _mapperService.map(_tableMaintenanceService.updateDistinguishingFeatureDetail(distinguishingFeaturesDetailRO.getId(), distinguishingFeaturesDetailRO.getDescription()), DistinguishingFeatureDetailRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@Transactional
-	public void deleteDistinguishingFeaturesDetail(final String code) {
+	public void deleteDistinguishingFeatureDetail(final String code) {
 		// Validate input parameter(s) if any
 		validateCode(code);
-		_tableMaintenanceService.deleteDistinguishingFeaturesDetail(code);
+		_tableMaintenanceService.deleteDistinguishingFeatureDetail(code);
 	}
 	
 	/** Methods related to Employee Type */
@@ -720,45 +730,45 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
 	@Transactional
-	public List<IncidentLocationDetailsRO> getIncidentLocationDetails() {
-		return _mapperService.map(_tableMaintenanceService.getIncidentLocationDetails(), IncidentLocationDetailsRO.class);
+	public List<IncidentLocationDetailRO> getIncidentLocationDetails() {
+		return _mapperService.map(_tableMaintenanceService.getIncidentLocationDetails(), IncidentLocationDetailRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
 	@Transactional
-	public IncidentLocationDetailsRO getIncidentLocationDetailsByCode(final String code) {
+	public IncidentLocationDetailRO getIncidentLocationDetailByCode(final String code) {
 		validateCode(code);
-		return _mapperService.map(_tableMaintenanceService.getIncidentLocationDetailsByCode(code), IncidentLocationDetailsRO.class);
+		return _mapperService.map(_tableMaintenanceService.getIncidentLocationDetailByCode(code), IncidentLocationDetailRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@Transactional
-	public IncidentLocationDetailsRO createIncidentLocationDetails(final IncidentLocationDetailsRO incidentLocationDetailsRO) {
+	public IncidentLocationDetailRO createIncidentLocationDetail(final IncidentLocationDetailRO incidentLocationDetailsRO) {
 		validateObject(incidentLocationDetailsRO);
 		validateCode(incidentLocationDetailsRO.getId());
 		validateDescription(incidentLocationDetailsRO.getDescription());
-		return _mapperService.map(_tableMaintenanceService.createIncidentLocationDetails(incidentLocationDetailsRO.getId(), incidentLocationDetailsRO.getDescription()), IncidentLocationDetailsRO.class);
+		return _mapperService.map(_tableMaintenanceService.createIncidentLocationDetail(incidentLocationDetailsRO.getId(), incidentLocationDetailsRO.getDescription()), IncidentLocationDetailRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@Transactional
-	public IncidentLocationDetailsRO updateIncidentLocationDetails(final IncidentLocationDetailsRO incidentLocationDetailsRO) {
+	public IncidentLocationDetailRO updateIncidentLocationDetail(final IncidentLocationDetailRO incidentLocationDetailsRO) {
 		validateObject(incidentLocationDetailsRO);
 		validateCode(incidentLocationDetailsRO.getId());
 		validateDescription(incidentLocationDetailsRO.getDescription());
-		return _mapperService.map(_tableMaintenanceService.updateIncidentLocationDetails(incidentLocationDetailsRO.getId(), incidentLocationDetailsRO.getDescription()), IncidentLocationDetailsRO.class);
+		return _mapperService.map(_tableMaintenanceService.updateIncidentLocationDetail(incidentLocationDetailsRO.getId(), incidentLocationDetailsRO.getDescription()), IncidentLocationDetailRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@Transactional
-	public void deleteIncidentLocationDetails(final String code) {
+	public void deleteIncidentLocationDetail(final String code) {
 		// Validate input parameter(s) if any
 		validateCode(code);
-		_tableMaintenanceService.deleteIncidentLocationDetails(code);
+		_tableMaintenanceService.deleteIncidentLocationDetail(code);
 	}
 	
 	/** Methods related to Incident Type */
@@ -890,90 +900,90 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
 	@Transactional
-	public List<InjuryTypeDetailsRO> getInjuryTypeDetails() {
-		return _mapperService.map(_tableMaintenanceService.getInjuryTypeDetails(), InjuryTypeDetailsRO.class);
+	public List<InjuryTypeDetailRO> getInjuryTypeDetails() {
+		return _mapperService.map(_tableMaintenanceService.getInjuryTypeDetails(), InjuryTypeDetailRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
 	@Transactional
-	public InjuryTypeDetailsRO getInjuryTypeDetailsByCode(final String code) {
+	public InjuryTypeDetailRO getInjuryTypeDetailByCode(final String code) {
 		validateCode(code);
-		return _mapperService.map(_tableMaintenanceService.getInjuryTypeDetailsByCode(code), InjuryTypeDetailsRO.class);
+		return _mapperService.map(_tableMaintenanceService.getInjuryTypeDetailByCode(code), InjuryTypeDetailRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@Transactional
-	public InjuryTypeDetailsRO createInjuryTypeDetails(final InjuryTypeDetailsRO injuryTypeDetailsRO) {
+	public InjuryTypeDetailRO createInjuryTypeDetail(final InjuryTypeDetailRO injuryTypeDetailsRO) {
 		validateObject(injuryTypeDetailsRO);
 		validateCode(injuryTypeDetailsRO.getId());
 		validateDescription(injuryTypeDetailsRO.getDescription());
-		return _mapperService.map(_tableMaintenanceService.createInjuryTypeDetails(injuryTypeDetailsRO.getId(), injuryTypeDetailsRO.getDescription()), InjuryTypeDetailsRO.class);
+		return _mapperService.map(_tableMaintenanceService.createInjuryTypeDetail(injuryTypeDetailsRO.getId(), injuryTypeDetailsRO.getDescription()), InjuryTypeDetailRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@Transactional
-	public InjuryTypeDetailsRO updateInjuryTypeDetails(final InjuryTypeDetailsRO injuryTypeDetailsRO) {
+	public InjuryTypeDetailRO updateInjuryTypeDetail(final InjuryTypeDetailRO injuryTypeDetailsRO) {
 		validateObject(injuryTypeDetailsRO);
 		validateCode(injuryTypeDetailsRO.getId());
 		validateDescription(injuryTypeDetailsRO.getDescription());
-		return _mapperService.map(_tableMaintenanceService.updateInjuryTypeDetails(injuryTypeDetailsRO.getId(), injuryTypeDetailsRO.getDescription()), InjuryTypeDetailsRO.class);
+		return _mapperService.map(_tableMaintenanceService.updateInjuryTypeDetail(injuryTypeDetailsRO.getId(), injuryTypeDetailsRO.getDescription()), InjuryTypeDetailRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@Transactional
-	public void deleteInjuryTypeDetails(final String code) {
+	public void deleteInjuryTypeDetail(final String code) {
 		// Validate input parameter(s) if any
 		validateCode(code);
-		_tableMaintenanceService.deleteInjuryTypeDetails(code);
+		_tableMaintenanceService.deleteInjuryTypeDetail(code);
 	}
 	
 	/** Methods related to Injury Type Details Specification */
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
 	@Transactional
-	public List<InjuryTypeDetailsSpecRO> getInjuryTypeDetailsSpecs() {
-		return _mapperService.map(_tableMaintenanceService.getInjuryTypeDetailsSpecs(), InjuryTypeDetailsSpecRO.class);
+	public List<InjuryTypeDetailSpecRO> getInjuryTypeDetailSpecs() {
+		return _mapperService.map(_tableMaintenanceService.getInjuryTypeDetailSpecs(), InjuryTypeDetailSpecRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
 	@Transactional
-	public InjuryTypeDetailsSpecRO getInjuryTypeDetailsSpecByCode(final String code) {
+	public InjuryTypeDetailSpecRO getInjuryTypeDetailSpecByCode(final String code) {
 		validateCode(code);
-		return _mapperService.map(_tableMaintenanceService.getInjuryTypeDetailsSpecByCode(code), InjuryTypeDetailsSpecRO.class);
+		return _mapperService.map(_tableMaintenanceService.getInjuryTypeDetailSpecByCode(code), InjuryTypeDetailSpecRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@Transactional
-	public InjuryTypeDetailsSpecRO createInjuryTypeDetailsSpec(final InjuryTypeDetailsSpecRO injuryTypeDetailsSpecRO) {
+	public InjuryTypeDetailSpecRO createInjuryTypeDetailSpec(final InjuryTypeDetailSpecRO injuryTypeDetailsSpecRO) {
 		validateObject(injuryTypeDetailsSpecRO);
 		validateCode(injuryTypeDetailsSpecRO.getId());
 		validateDescription(injuryTypeDetailsSpecRO.getDescription());
-		return _mapperService.map(_tableMaintenanceService.createInjuryTypeDetailsSpec(injuryTypeDetailsSpecRO.getId(), injuryTypeDetailsSpecRO.getDescription()), InjuryTypeDetailsSpecRO.class);
+		return _mapperService.map(_tableMaintenanceService.createInjuryTypeDetailSpec(injuryTypeDetailsSpecRO.getId(), injuryTypeDetailsSpecRO.getDescription()), InjuryTypeDetailSpecRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@Transactional
-	public InjuryTypeDetailsSpecRO updateInjuryTypeDetailsSpec(final InjuryTypeDetailsSpecRO injuryTypeDetailsSpecRO) {
+	public InjuryTypeDetailSpecRO updateInjuryTypeDetailSpec(final InjuryTypeDetailSpecRO injuryTypeDetailsSpecRO) {
 		validateObject(injuryTypeDetailsSpecRO);
 		validateCode(injuryTypeDetailsSpecRO.getId());
 		validateDescription(injuryTypeDetailsSpecRO.getDescription());
-		return _mapperService.map(_tableMaintenanceService.updateInjuryTypeDetailsSpec(injuryTypeDetailsSpecRO.getId(), injuryTypeDetailsSpecRO.getDescription()), InjuryTypeDetailsSpecRO.class);
+		return _mapperService.map(_tableMaintenanceService.updateInjuryTypeDetailSpec(injuryTypeDetailsSpecRO.getId(), injuryTypeDetailsSpecRO.getDescription()), InjuryTypeDetailSpecRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@Transactional
-	public void deleteInjuryTypeDetailsSpec(final String code) {
+	public void deleteInjuryTypeDetailSpec(final String code) {
 		// Validate input parameter(s) if any
 		validateCode(code);
-		_tableMaintenanceService.deleteInjuryTypeDetailsSpec(code);
+		_tableMaintenanceService.deleteInjuryTypeDetailSpec(code);
 	}
 	
 	/** Methods related to Suspect Type */
@@ -1016,7 +1026,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 		_tableMaintenanceService.deleteSuspectType(code);
 	}
 	
-	/** Methods related to Weapon Involved */
+	/** Methods related to Weapon Involved */	
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
 	public List<WeaponTypeRO> getWeaponTypes() {
@@ -1054,5 +1064,395 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 		// Validate input parameter(s) if any
 		validateCode(code);
 		_tableMaintenanceService.deleteWeaponType(code);
+	}
+	
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public List<AccidentTypeRO> getAccidentTypes() {
+		return _mapperService.map(_tableMaintenanceService.getAccidentTypes(), AccidentTypeRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public AccidentTypeRO getAccidentTypeByCode(String code) {
+		validateCode(code);
+		return _mapperService.map(_tableMaintenanceService.getAccidentTypeByCode(code), AccidentTypeRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public AccidentTypeRO createAccidentType(AccidentTypeRO accidentTypeRO) {
+		validateObject(accidentTypeRO);
+		validateCode(accidentTypeRO.getId());
+		validateDescription(accidentTypeRO.getDescription());
+		return _mapperService.map(_tableMaintenanceService.createWeaponType(accidentTypeRO.getId(), accidentTypeRO.getDescription()), AccidentTypeRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public AccidentTypeRO updateAccidentType(AccidentTypeRO accidentTypeRO) {
+		validateObject(accidentTypeRO);
+		validateCode(accidentTypeRO.getId());
+		validateDescription(accidentTypeRO.getDescription());
+		return _mapperService.map(_tableMaintenanceService.updateWeaponType(accidentTypeRO.getId(), accidentTypeRO.getDescription()), AccidentTypeRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public void deleteAccidentType(String code) {
+		// Validate input parameter(s) if any
+		validateCode(code);
+		_tableMaintenanceService.deleteAccidentType(code);		
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public List<BodyPartRO> getBodyParts() {
+		return _mapperService.map(_tableMaintenanceService.getBodyParts(), BodyPartRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public BodyPartRO getBodyPartByCode(String code) {
+		validateCode(code);
+		return _mapperService.map(_tableMaintenanceService.getBodyPartByCode(code), BodyPartRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public BodyPartRO createBodyPart(BodyPartRO bodyPartRO) {
+		validateObject(bodyPartRO);
+		validateCode(bodyPartRO.getId());
+		validateDescription(bodyPartRO.getDescription());
+		return _mapperService.map(_tableMaintenanceService.createWeaponType(bodyPartRO.getId(), bodyPartRO.getDescription()), BodyPartRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public BodyPartRO updateBodyPart(BodyPartRO bodyPartRO) {
+		validateObject(bodyPartRO);
+		validateCode(bodyPartRO.getId());
+		validateDescription(bodyPartRO.getDescription());
+		return _mapperService.map(_tableMaintenanceService.updateWeaponType(bodyPartRO.getId(), bodyPartRO.getDescription()), BodyPartRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public void deleteBodyPart(String code) {
+		// Validate input parameter(s) if any
+		validateCode(code);
+		_tableMaintenanceService.deleteBodyPart(code);		
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public List<DocumentCategoryRO> getDocumentCategories() {
+		return _mapperService.map(_tableMaintenanceService.getDocumentCategories(), DocumentCategoryRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public DocumentCategoryRO getDocumentCategoryByCode(String code) {
+		validateCode(code);
+		return _mapperService.map(_tableMaintenanceService.getDocumentCategoryByCode(code), DocumentCategoryRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public DocumentCategoryRO createDocumentCategory(DocumentCategoryRO documentCategoryRO) {
+		validateObject(documentCategoryRO);
+		validateCode(documentCategoryRO.getId());
+		validateDescription(documentCategoryRO.getDescription());
+		return _mapperService.map(_tableMaintenanceService.createWeaponType(documentCategoryRO.getId(), documentCategoryRO.getDescription()), DocumentCategoryRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public DocumentCategoryRO updateDocumentCategory(DocumentCategoryRO documentCategoryRO) {
+		validateObject(documentCategoryRO);
+		validateCode(documentCategoryRO.getId());
+		validateDescription(documentCategoryRO.getDescription());
+		return _mapperService.map(_tableMaintenanceService.updateWeaponType(documentCategoryRO.getId(), documentCategoryRO.getDescription()), DocumentCategoryRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public void deleteDocumentCategory(String code) {
+		// Validate input parameter(s) if any
+		validateCode(code);
+		_tableMaintenanceService.deleteDocumentCategory(code);		
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public List<DocumentTypeRO> getDocumentTypes() {
+		return _mapperService.map(_tableMaintenanceService.getDocumentTypes(), DocumentTypeRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public DocumentTypeRO getDocumentTypeByCode(String code) {
+		validateCode(code);
+		return _mapperService.map(_tableMaintenanceService.getDocumentTypeByCode(code), DocumentTypeRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public DocumentTypeRO createDocumentType(DocumentTypeRO documentTypeRO) {
+		validateObject(documentTypeRO);
+		validateCode(documentTypeRO.getId());
+		validateDescription(documentTypeRO.getDescription());
+		return _mapperService.map(_tableMaintenanceService.createWeaponType(documentTypeRO.getId(), documentTypeRO.getDescription()), DocumentTypeRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public DocumentTypeRO updateDocumentType(DocumentTypeRO documentTypeRO) {
+		validateObject(documentTypeRO);
+		validateCode(documentTypeRO.getId());
+		validateDescription(documentTypeRO.getDescription());
+		return _mapperService.map(_tableMaintenanceService.updateWeaponType(documentTypeRO.getId(), documentTypeRO.getDescription()), DocumentTypeRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public void deleteDocumentType(String code) {
+		// Validate input parameter(s) if any
+		validateCode(code);
+		_tableMaintenanceService.deleteDocumentType(code);		
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public List<GenderTypeRO> getGenderTypes() {
+		return _mapperService.map(_tableMaintenanceService.getGenderTypes(), GenderTypeRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public GenderTypeRO getGenderTypeByCode(String code) {
+		validateCode(code);
+		return _mapperService.map(_tableMaintenanceService.getGenderTypeByCode(code), GenderTypeRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public GenderTypeRO createGenderType(GenderTypeRO genderTypeRO) {
+		validateObject(genderTypeRO);
+		validateCode(genderTypeRO.getId());
+		validateDescription(genderTypeRO.getDescription());
+		return _mapperService.map(_tableMaintenanceService.createWeaponType(genderTypeRO.getId(), genderTypeRO.getDescription()), GenderTypeRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public GenderTypeRO updateGenderType(GenderTypeRO genderTypeRO) {
+		validateObject(genderTypeRO);
+		validateCode(genderTypeRO.getId());
+		validateDescription(genderTypeRO.getDescription());
+		return _mapperService.map(_tableMaintenanceService.updateWeaponType(genderTypeRO.getId(), genderTypeRO.getDescription()), GenderTypeRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public void deleteGenderType(String code) {
+		// Validate input parameter(s) if any
+		validateCode(code);
+		_tableMaintenanceService.deleteGenderType(code);		
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public List<IncidentCategoryRO> getIncidentCategories() {
+		return _mapperService.map(_tableMaintenanceService.getIncidentCategories(), IncidentCategoryRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public IncidentCategoryRO getIncidentCategoryByCode(String code) {
+		validateCode(code);
+		return _mapperService.map(_tableMaintenanceService.getIncidentCategoryByCode(code), IncidentCategoryRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public IncidentCategoryRO createIncidentCategory(IncidentCategoryRO incidentCategoryRO) {
+		validateObject(incidentCategoryRO);
+		validateCode(incidentCategoryRO.getId());
+		validateDescription(incidentCategoryRO.getDescription());
+		return _mapperService.map(_tableMaintenanceService.createWeaponType(incidentCategoryRO.getId(), incidentCategoryRO.getDescription()), IncidentCategoryRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public IncidentCategoryRO updateIncidentCategory(IncidentCategoryRO incidentCategoryRO) {
+		validateObject(incidentCategoryRO);
+		validateCode(incidentCategoryRO.getId());
+		validateDescription(incidentCategoryRO.getDescription());
+		return _mapperService.map(_tableMaintenanceService.updateWeaponType(incidentCategoryRO.getId(), incidentCategoryRO.getDescription()), IncidentCategoryRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public void deleteIncidentCategory(String code) {
+		// Validate input parameter(s) if any
+		validateCode(code);
+		_tableMaintenanceService.deleteIncidentCategory(code);		
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public List<InjuredPersonTypeRO> getInjuredPersonTypes() {
+		return _mapperService.map(_tableMaintenanceService.getInjuredPersonTypes(), InjuredPersonTypeRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public InjuredPersonTypeRO getInjuredPersonTypeByCode(String code) {
+		validateCode(code);
+		return _mapperService.map(_tableMaintenanceService.getInjuredPersonTypeByCode(code), InjuredPersonTypeRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public InjuredPersonTypeRO createInjuredPersonType(InjuredPersonTypeRO injuredPersonTypeRO) {
+		validateObject(injuredPersonTypeRO);
+		validateCode(injuredPersonTypeRO.getId());
+		validateDescription(injuredPersonTypeRO.getDescription());
+		return _mapperService.map(_tableMaintenanceService.createWeaponType(injuredPersonTypeRO.getId(), injuredPersonTypeRO.getDescription()), InjuredPersonTypeRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public InjuredPersonTypeRO updateInjuredPersonType(InjuredPersonTypeRO injuredPersonTypeRO) {
+		validateObject(injuredPersonTypeRO);
+		validateCode(injuredPersonTypeRO.getId());
+		validateDescription(injuredPersonTypeRO.getDescription());
+		return _mapperService.map(_tableMaintenanceService.updateWeaponType(injuredPersonTypeRO.getId(), injuredPersonTypeRO.getDescription()), InjuredPersonTypeRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public void deleteInjuredPersonType(String code) {
+		// Validate input parameter(s) if any
+		validateCode(code);
+		_tableMaintenanceService.deleteInjuredPersonType(code);		
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public List<LossTypeRO> getLossTypes() {
+		return _mapperService.map(_tableMaintenanceService.getLossTypes(), LossTypeRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public LossTypeRO getLossTypeByCode(String code) {
+		validateCode(code);
+		return _mapperService.map(_tableMaintenanceService.getLossTypeByCode(code), LossTypeRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public LossTypeRO createLossType(LossTypeRO lossTypeRO) {
+		validateObject(lossTypeRO);
+		validateCode(lossTypeRO.getId());
+		validateDescription(lossTypeRO.getDescription());
+		return _mapperService.map(_tableMaintenanceService.createWeaponType(lossTypeRO.getId(), lossTypeRO.getDescription()), LossTypeRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public LossTypeRO updateLossType(LossTypeRO lossTypeRO) {
+		validateObject(lossTypeRO);
+		validateCode(lossTypeRO.getId());
+		validateDescription(lossTypeRO.getDescription());
+		return _mapperService.map(_tableMaintenanceService.updateWeaponType(lossTypeRO.getId(), lossTypeRO.getDescription()), LossTypeRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public void deleteLossType(String code) {
+		// Validate input parameter(s) if any
+		validateCode(code);
+		_tableMaintenanceService.deleteLossType(code);		
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public List<PolicyTypeRO> getPolicyTypes() {
+		return _mapperService.map(_tableMaintenanceService.getPolicyTypes(), PolicyTypeRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public PolicyTypeRO getPolicyTypeByCode(String code) {
+		validateCode(code);
+		return _mapperService.map(_tableMaintenanceService.getPolicyTypeByCode(code), PolicyTypeRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public PolicyTypeRO createPolicyType(PolicyTypeRO policyTypeRO) {
+		validateObject(policyTypeRO);
+		validateCode(policyTypeRO.getId());
+		validateDescription(policyTypeRO.getDescription());
+		return _mapperService.map(_tableMaintenanceService.createWeaponType(policyTypeRO.getId(), policyTypeRO.getDescription()), PolicyTypeRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public PolicyTypeRO updatePolicyType(PolicyTypeRO policyTypeRO) {
+		validateObject(policyTypeRO);
+		validateCode(policyTypeRO.getId());
+		validateDescription(policyTypeRO.getDescription());
+		return _mapperService.map(_tableMaintenanceService.updateWeaponType(policyTypeRO.getId(), policyTypeRO.getDescription()), PolicyTypeRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public void deletePolicyType(String code) {
+		// Validate input parameter(s) if any
+		validateCode(code);
+		_tableMaintenanceService.deletePolicyType(code);		
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public List<VehicleDamageTypeRO> getVehicleDamageTypes() {
+		return _mapperService.map(_tableMaintenanceService.getVehicleDamageTypes(), VehicleDamageTypeRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public VehicleDamageTypeRO getVehicleDamageTypeByCode(String code) {
+		validateCode(code);
+		return _mapperService.map(_tableMaintenanceService.getVehicleDamageTypeByCode(code), VehicleDamageTypeRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public VehicleDamageTypeRO createVehicleDamageType(VehicleDamageTypeRO vehicleDamageTypeRO) {
+		validateObject(vehicleDamageTypeRO);
+		validateCode(vehicleDamageTypeRO.getId());
+		validateDescription(vehicleDamageTypeRO.getDescription());
+		return _mapperService.map(_tableMaintenanceService.createWeaponType(vehicleDamageTypeRO.getId(), vehicleDamageTypeRO.getDescription()), VehicleDamageTypeRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public VehicleDamageTypeRO updateVehicleDamageType(VehicleDamageTypeRO vehicleDamageTypeRO) {
+		validateObject(vehicleDamageTypeRO);
+		validateCode(vehicleDamageTypeRO.getId());
+		validateDescription(vehicleDamageTypeRO.getDescription());
+		return _mapperService.map(_tableMaintenanceService.updateWeaponType(vehicleDamageTypeRO.getId(), vehicleDamageTypeRO.getDescription()), VehicleDamageTypeRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public void deleteVehicleDamageType(String code) {
+		// Validate input parameter(s) if any
+		validateCode(code);
+		_tableMaintenanceService.deleteVehicleDamageType(code);		
 	}
 }

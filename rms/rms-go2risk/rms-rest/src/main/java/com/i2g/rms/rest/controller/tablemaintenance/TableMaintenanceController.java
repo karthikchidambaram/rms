@@ -15,27 +15,37 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.i2g.rms.rest.constants.RequestMappingConstants;
 import com.i2g.rms.rest.controller.AbstractRestController;
-import com.i2g.rms.rest.model.tablemaintenance.AccidentLocationDetailsRO;
+import com.i2g.rms.rest.model.tablemaintenance.AccidentLocationDetailRO;
 import com.i2g.rms.rest.model.tablemaintenance.AccidentLocationRO;
+import com.i2g.rms.rest.model.tablemaintenance.AccidentTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.AssetCategoryRO;
+import com.i2g.rms.rest.model.tablemaintenance.BodyPartRO;
 import com.i2g.rms.rest.model.tablemaintenance.ClaimRequestRegistrationTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.ClaimStatusRO;
 import com.i2g.rms.rest.model.tablemaintenance.ClaimTypeRO;
-import com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeaturesDetailRO;
-import com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeaturesRO;
+import com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeatureDetailRO;
+import com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeatureRO;
+import com.i2g.rms.rest.model.tablemaintenance.DocumentCategoryRO;
+import com.i2g.rms.rest.model.tablemaintenance.DocumentTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.EmployeeTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.EntryPointRO;
 import com.i2g.rms.rest.model.tablemaintenance.EventTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.ExternalAgencyRO;
-import com.i2g.rms.rest.model.tablemaintenance.IncidentLocationDetailsRO;
+import com.i2g.rms.rest.model.tablemaintenance.GenderTypeRO;
+import com.i2g.rms.rest.model.tablemaintenance.IncidentCategoryRO;
+import com.i2g.rms.rest.model.tablemaintenance.IncidentLocationDetailRO;
 import com.i2g.rms.rest.model.tablemaintenance.IncidentLocationRO;
 import com.i2g.rms.rest.model.tablemaintenance.IncidentTypeRO;
+import com.i2g.rms.rest.model.tablemaintenance.InjuredPersonTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.InjuryCauseRO;
-import com.i2g.rms.rest.model.tablemaintenance.InjuryTypeDetailsRO;
-import com.i2g.rms.rest.model.tablemaintenance.InjuryTypeDetailsSpecRO;
+import com.i2g.rms.rest.model.tablemaintenance.InjuryTypeDetailRO;
+import com.i2g.rms.rest.model.tablemaintenance.InjuryTypeDetailSpecRO;
 import com.i2g.rms.rest.model.tablemaintenance.InjuryTypeRO;
+import com.i2g.rms.rest.model.tablemaintenance.LossTypeRO;
+import com.i2g.rms.rest.model.tablemaintenance.PolicyTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.SuspectTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.TableMaintenanceRO;
+import com.i2g.rms.rest.model.tablemaintenance.VehicleDamageTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.WeaponTypeRO;
 import com.i2g.rms.rest.service.tablemaintenance.TableMaintenanceRestService;
 
@@ -112,29 +122,29 @@ public class TableMaintenanceController extends AbstractRestController {
 	
 	/** Methods related to Accident Location Details */
 	@RequestMapping(value = RequestMappingConstants.GET_ACCIDENT_LOCATION_DETAILS, method = RequestMethod.GET)
-	public List<AccidentLocationDetailsRO> getAccidentLocationDetails() {
+	public List<AccidentLocationDetailRO> getAccidentLocationDetails() {
 		return _tableMaintenanceRestService.getAccidentLocationDetails();
 	}
 
-	@RequestMapping(value = RequestMappingConstants.GET_ACCIDENT_LOCATION_DETAILS_BY_CODE, method = RequestMethod.GET)
-	public AccidentLocationDetailsRO getAccidentLocationDetailsByCode(@PathVariable final String code) {
-		return _tableMaintenanceRestService.getAccidentLocationDetailsByCode(code);
+	@RequestMapping(value = RequestMappingConstants.GET_ACCIDENT_LOCATION_DETAIL_BY_CODE, method = RequestMethod.GET)
+	public AccidentLocationDetailRO getAccidentLocationDetailByCode(@PathVariable final String code) {
+		return _tableMaintenanceRestService.getAccidentLocationDetailByCode(code);
 	}
 
-	@RequestMapping(value = RequestMappingConstants.CREATE_ACCIDENT_LOCATION_DETAILS, method = RequestMethod.POST)
-	public AccidentLocationDetailsRO createAccidentLocationDetails(final @Valid @RequestBody AccidentLocationDetailsRO accidentLocationDetailsRO) {
-		return _tableMaintenanceRestService.createAccidentLocationDetails(accidentLocationDetailsRO);
+	@RequestMapping(value = RequestMappingConstants.CREATE_ACCIDENT_LOCATION_DETAIL, method = RequestMethod.POST)
+	public AccidentLocationDetailRO createAccidentLocationDetail(final @Valid @RequestBody AccidentLocationDetailRO accidentLocationDetailsRO) {
+		return _tableMaintenanceRestService.createAccidentLocationDetail(accidentLocationDetailsRO);
 	}
 
-	@RequestMapping(value = RequestMappingConstants.UPDATE_ACCIDENT_LOCATION_DETAILS, method = RequestMethod.PUT)
-	public AccidentLocationDetailsRO updateAccidentLocationDetails(final @Valid @RequestBody AccidentLocationDetailsRO accidentLocationDetailsRO) {
-		return _tableMaintenanceRestService.updateAccidentLocationDetails(accidentLocationDetailsRO);
+	@RequestMapping(value = RequestMappingConstants.UPDATE_ACCIDENT_LOCATION_DETAIL, method = RequestMethod.PUT)
+	public AccidentLocationDetailRO updateAccidentLocationDetail(final @Valid @RequestBody AccidentLocationDetailRO accidentLocationDetailsRO) {
+		return _tableMaintenanceRestService.updateAccidentLocationDetail(accidentLocationDetailsRO);
 	}
 
-	@RequestMapping(value = RequestMappingConstants.DELETE_ACCIDENT_LOCATION_DETAILS, method = RequestMethod.DELETE)
+	@RequestMapping(value = RequestMappingConstants.DELETE_ACCIDENT_LOCATION_DETAIL, method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deleteAccidentLocationDetails(@PathVariable final String code) {
-		_tableMaintenanceRestService.deleteAccidentLocationDetails(code);
+	public void deleteAccidentLocationDetail(@PathVariable final String code) {
+		_tableMaintenanceRestService.deleteAccidentLocationDetail(code);
 	}
 	
 	/** Methods related to Asset Category */
@@ -247,56 +257,56 @@ public class TableMaintenanceController extends AbstractRestController {
 	
 	/** Methods related to Distinguishing Features */
 	@RequestMapping(value = RequestMappingConstants.GET_DISTINGUISHING_FEATURES, method = RequestMethod.GET)
-	public List<DistinguishingFeaturesRO> getDistinguishingFeatures() {
+	public List<DistinguishingFeatureRO> getDistinguishingFeatures() {
 		return _tableMaintenanceRestService.getDistinguishingFeatures();
 	}
 
-	@RequestMapping(value = RequestMappingConstants.GET_DISTINGUISHING_FEATURES_BY_CODE, method = RequestMethod.GET)
-	public DistinguishingFeaturesRO getDistinguishingFeaturesByCode(@PathVariable final String code) {
-		return _tableMaintenanceRestService.getDistinguishingFeaturesByCode(code);
+	@RequestMapping(value = RequestMappingConstants.GET_DISTINGUISHING_FEATURE_BY_CODE, method = RequestMethod.GET)
+	public DistinguishingFeatureRO getDistinguishingFeatureByCode(@PathVariable final String code) {
+		return _tableMaintenanceRestService.getDistinguishingFeatureByCode(code);
 	}
 
-	@RequestMapping(value = RequestMappingConstants.CREATE_DISTINGUISHING_FEATURES, method = RequestMethod.POST)
-	public DistinguishingFeaturesRO createDistinguishingFeatures(final @Valid @RequestBody DistinguishingFeaturesRO distinguishingFeaturesRO) {
-		return _tableMaintenanceRestService.createDistinguishingFeatures(distinguishingFeaturesRO);
+	@RequestMapping(value = RequestMappingConstants.CREATE_DISTINGUISHING_FEATURE, method = RequestMethod.POST)
+	public DistinguishingFeatureRO createDistinguishingFeature(final @Valid @RequestBody DistinguishingFeatureRO distinguishingFeaturesRO) {
+		return _tableMaintenanceRestService.createDistinguishingFeature(distinguishingFeaturesRO);
 	}
 
-	@RequestMapping(value = RequestMappingConstants.UPDATE_DISTINGUISHING_FEATURES, method = RequestMethod.PUT)
-	public DistinguishingFeaturesRO updateDistinguishingFeatures(final @Valid @RequestBody DistinguishingFeaturesRO distinguishingFeaturesRO) {
-		return _tableMaintenanceRestService.updateDistinguishingFeatures(distinguishingFeaturesRO);
+	@RequestMapping(value = RequestMappingConstants.UPDATE_DISTINGUISHING_FEATURE, method = RequestMethod.PUT)
+	public DistinguishingFeatureRO updateDistinguishingFeature(final @Valid @RequestBody DistinguishingFeatureRO distinguishingFeaturesRO) {
+		return _tableMaintenanceRestService.updateDistinguishingFeature(distinguishingFeaturesRO);
 	}
 
-	@RequestMapping(value = RequestMappingConstants.DELETE_DISTINGUISHING_FEATURES, method = RequestMethod.DELETE)
+	@RequestMapping(value = RequestMappingConstants.DELETE_DISTINGUISHING_FEATURE, method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deleteDistinguishingFeatures(@PathVariable final String code) {
-		_tableMaintenanceRestService.deleteDistinguishingFeatures(code);
+	public void deleteDistinguishingFeature(@PathVariable final String code) {
+		_tableMaintenanceRestService.deleteDistinguishingFeature(code);
 	}
 	
 	/** Methods related to Distinguishing Features Detail */
-	@RequestMapping(value = RequestMappingConstants.GET_DISTINGUISHING_FEATURES_DETAILS, method = RequestMethod.GET)
-	public List<DistinguishingFeaturesDetailRO> getDistinguishingFeaturesDetails() {
-		return _tableMaintenanceRestService.getDistinguishingFeaturesDetails();
+	@RequestMapping(value = RequestMappingConstants.GET_DISTINGUISHING_FEATURE_DETAILS, method = RequestMethod.GET)
+	public List<DistinguishingFeatureDetailRO> getDistinguishingFeatureDetails() {
+		return _tableMaintenanceRestService.getDistinguishingFeatureDetails();
 	}
 
-	@RequestMapping(value = RequestMappingConstants.GET_DISTINGUISHING_FEATURES_DETAILS_BY_CODE, method = RequestMethod.GET)
-	public DistinguishingFeaturesDetailRO getDistinguishingFeaturesDetailByCode(@PathVariable final String code) {
-		return _tableMaintenanceRestService.getDistinguishingFeaturesDetailByCode(code);
+	@RequestMapping(value = RequestMappingConstants.GET_DISTINGUISHING_FEATURE_DETAIL_BY_CODE, method = RequestMethod.GET)
+	public DistinguishingFeatureDetailRO getDistinguishingFeatureDetailByCode(@PathVariable final String code) {
+		return _tableMaintenanceRestService.getDistinguishingFeatureDetailByCode(code);
 	}
 
-	@RequestMapping(value = RequestMappingConstants.CREATE_DISTINGUISHING_FEATURES_DETAILS, method = RequestMethod.POST)
-	public DistinguishingFeaturesDetailRO createDistinguishingFeaturesDetail(final @Valid @RequestBody DistinguishingFeaturesDetailRO distinguishingFeaturesDetailRO) {
-		return _tableMaintenanceRestService.createDistinguishingFeaturesDetail(distinguishingFeaturesDetailRO);
+	@RequestMapping(value = RequestMappingConstants.CREATE_DISTINGUISHING_FEATURE_DETAIL, method = RequestMethod.POST)
+	public DistinguishingFeatureDetailRO createDistinguishingFeatureDetail(final @Valid @RequestBody DistinguishingFeatureDetailRO distinguishingFeaturesDetailRO) {
+		return _tableMaintenanceRestService.createDistinguishingFeatureDetail(distinguishingFeaturesDetailRO);
 	}
 
-	@RequestMapping(value = RequestMappingConstants.UPDATE_DISTINGUISHING_FEATURES_DETAILS, method = RequestMethod.PUT)
-	public DistinguishingFeaturesDetailRO updateDistinguishingFeaturesDetail(final @Valid @RequestBody DistinguishingFeaturesDetailRO distinguishingFeaturesDetailRO) {
-		return _tableMaintenanceRestService.updateDistinguishingFeaturesDetail(distinguishingFeaturesDetailRO);
+	@RequestMapping(value = RequestMappingConstants.UPDATE_DISTINGUISHING_FEATURE_DETAIL, method = RequestMethod.PUT)
+	public DistinguishingFeatureDetailRO updateDistinguishingFeatureDetail(final @Valid @RequestBody DistinguishingFeatureDetailRO distinguishingFeaturesDetailRO) {
+		return _tableMaintenanceRestService.updateDistinguishingFeatureDetail(distinguishingFeaturesDetailRO);
 	}
 
-	@RequestMapping(value = RequestMappingConstants.DELETE_DISTINGUISHING_FEATURES_DETAILS, method = RequestMethod.DELETE)
+	@RequestMapping(value = RequestMappingConstants.DELETE_DISTINGUISHING_FEATURE_DETAIL, method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deleteDistinguishingFeaturesDetail(@PathVariable final String code) {
-		_tableMaintenanceRestService.deleteDistinguishingFeaturesDetail(code);
+	public void deleteDistinguishingFeatureDetail(@PathVariable final String code) {
+		_tableMaintenanceRestService.deleteDistinguishingFeatureDetail(code);
 	}
 	
 	/** Methods related to Employee Type */
@@ -436,29 +446,29 @@ public class TableMaintenanceController extends AbstractRestController {
 	
 	/** Methods related to Incident Location Details */
 	@RequestMapping(value = RequestMappingConstants.GET_INCIDENT_LOCATION_DETAILS, method = RequestMethod.GET)
-	public List<IncidentLocationDetailsRO> getIncidentLocationDetails() {
+	public List<IncidentLocationDetailRO> getIncidentLocationDetails() {
 		return _tableMaintenanceRestService.getIncidentLocationDetails();
 	}
 
-	@RequestMapping(value = RequestMappingConstants.GET_INCIDENT_LOCATION_DETAILS_BY_CODE, method = RequestMethod.GET)
-	public IncidentLocationDetailsRO getIncidentLocationDetailsByCode(@PathVariable final String code) {
-		return _tableMaintenanceRestService.getIncidentLocationDetailsByCode(code);
+	@RequestMapping(value = RequestMappingConstants.GET_INCIDENT_LOCATION_DETAIL_BY_CODE, method = RequestMethod.GET)
+	public IncidentLocationDetailRO getIncidentLocationDetailByCode(@PathVariable final String code) {
+		return _tableMaintenanceRestService.getIncidentLocationDetailByCode(code);
 	}
 
-	@RequestMapping(value = RequestMappingConstants.CREATE_INCIDENT_LOCATION_DETAILS, method = RequestMethod.POST)
-	public IncidentLocationDetailsRO createIncidentLocationDetails(final @Valid @RequestBody IncidentLocationDetailsRO incidentLocationDetailsRO) {
-		return _tableMaintenanceRestService.createIncidentLocationDetails(incidentLocationDetailsRO);
+	@RequestMapping(value = RequestMappingConstants.CREATE_INCIDENT_LOCATION_DETAIL, method = RequestMethod.POST)
+	public IncidentLocationDetailRO createIncidentLocationDetail(final @Valid @RequestBody IncidentLocationDetailRO incidentLocationDetailsRO) {
+		return _tableMaintenanceRestService.createIncidentLocationDetail(incidentLocationDetailsRO);
 	}
 
-	@RequestMapping(value = RequestMappingConstants.UPDATE_INCIDENT_LOCATION_DETAILS, method = RequestMethod.PUT)
-	public IncidentLocationDetailsRO updateIncidentLocationDetails(final @Valid @RequestBody IncidentLocationDetailsRO incidentLocationDetailsRO) {
-		return _tableMaintenanceRestService.updateIncidentLocationDetails(incidentLocationDetailsRO);
+	@RequestMapping(value = RequestMappingConstants.UPDATE_INCIDENT_LOCATION_DETAIL, method = RequestMethod.PUT)
+	public IncidentLocationDetailRO updateIncidentLocationDetail(final @Valid @RequestBody IncidentLocationDetailRO incidentLocationDetailsRO) {
+		return _tableMaintenanceRestService.updateIncidentLocationDetail(incidentLocationDetailsRO);
 	}
 
-	@RequestMapping(value = RequestMappingConstants.DELETE_INCIDENT_LOCATION_DETAILS, method = RequestMethod.DELETE)
+	@RequestMapping(value = RequestMappingConstants.DELETE_INCIDENT_LOCATION_DETAIL, method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deleteIncidentLocationDetails(@PathVariable final String code) {
-		_tableMaintenanceRestService.deleteIncidentLocationDetails(code);
+	public void deleteIncidentLocationDetail(@PathVariable final String code) {
+		_tableMaintenanceRestService.deleteIncidentLocationDetail(code);
 	}
 	
 	/** Methods related to Incident Type */
@@ -542,58 +552,58 @@ public class TableMaintenanceController extends AbstractRestController {
 		_tableMaintenanceRestService.deleteInjuryType(code);
 	}
 	
-	/** Methods related to Injury Type Details */
+	/** Methods related to Injury Type Detail */
 	@RequestMapping(value = RequestMappingConstants.GET_INJURY_TYPE_DETAILS, method = RequestMethod.GET)
-	public List<InjuryTypeDetailsRO> getInjuryTypeDetails() {
+	public List<InjuryTypeDetailRO> getInjuryTypeDetails() {
 		return _tableMaintenanceRestService.getInjuryTypeDetails();
 	}
 
-	@RequestMapping(value = RequestMappingConstants.GET_INJURY_TYPE_DETAILS_BY_CODE, method = RequestMethod.GET)
-	public InjuryTypeDetailsRO getInjuryTypeDetailsByCode(@PathVariable final String code) {
-		return _tableMaintenanceRestService.getInjuryTypeDetailsByCode(code);
+	@RequestMapping(value = RequestMappingConstants.GET_INJURY_TYPE_DETAIL_BY_CODE, method = RequestMethod.GET)
+	public InjuryTypeDetailRO getInjuryTypeDetailByCode(@PathVariable final String code) {
+		return _tableMaintenanceRestService.getInjuryTypeDetailByCode(code);
 	}
 
-	@RequestMapping(value = RequestMappingConstants.CREATE_INJURY_TYPE_DETAILS, method = RequestMethod.POST)
-	public InjuryTypeDetailsRO createInjuryTypeDetails(final @Valid @RequestBody InjuryTypeDetailsRO injuryTypeDetailsRO) {
-		return _tableMaintenanceRestService.createInjuryTypeDetails(injuryTypeDetailsRO);
+	@RequestMapping(value = RequestMappingConstants.CREATE_INJURY_TYPE_DETAIL, method = RequestMethod.POST)
+	public InjuryTypeDetailRO createInjuryTypeDetail(final @Valid @RequestBody InjuryTypeDetailRO injuryTypeDetailsRO) {
+		return _tableMaintenanceRestService.createInjuryTypeDetail(injuryTypeDetailsRO);
 	}
 
-	@RequestMapping(value = RequestMappingConstants.UPDATE_INJURY_TYPE_DETAILS, method = RequestMethod.PUT)
-	public InjuryTypeDetailsRO updateInjuryTypeDetails(final @Valid @RequestBody InjuryTypeDetailsRO injuryTypeDetailsRO) {
-		return _tableMaintenanceRestService.updateInjuryTypeDetails(injuryTypeDetailsRO);
+	@RequestMapping(value = RequestMappingConstants.UPDATE_INJURY_TYPE_DETAIL, method = RequestMethod.PUT)
+	public InjuryTypeDetailRO updateInjuryTypeDetail(final @Valid @RequestBody InjuryTypeDetailRO injuryTypeDetailsRO) {
+		return _tableMaintenanceRestService.updateInjuryTypeDetail(injuryTypeDetailsRO);
 	}
 
-	@RequestMapping(value = RequestMappingConstants.DELETE_INJURY_TYPE_DETAILS, method = RequestMethod.DELETE)
+	@RequestMapping(value = RequestMappingConstants.DELETE_INJURY_TYPE_DETAIL, method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deleteInjuryTypeDetails(@PathVariable final String code) {
-		_tableMaintenanceRestService.deleteInjuryTypeDetails(code);
+	public void deleteInjuryTypeDetail(@PathVariable final String code) {
+		_tableMaintenanceRestService.deleteInjuryTypeDetail(code);
 	}
 	
-	/** Methods related to Injury Type Details Specification */
-	@RequestMapping(value = RequestMappingConstants.GET_INJURY_TYPE_DETAILS_SPECS, method = RequestMethod.GET)
-	public List<InjuryTypeDetailsSpecRO> getInjuryTypeDetailsSpecs() {
-		return _tableMaintenanceRestService.getInjuryTypeDetailsSpecs();
+	/** Methods related to Injury Type Detail Specification */
+	@RequestMapping(value = RequestMappingConstants.GET_INJURY_TYPE_DETAIL_SPECS, method = RequestMethod.GET)
+	public List<InjuryTypeDetailSpecRO> getInjuryTypeDetailSpecs() {
+		return _tableMaintenanceRestService.getInjuryTypeDetailSpecs();
 	}
 
-	@RequestMapping(value = RequestMappingConstants.GET_INJURY_TYPE_DETAILS_SPEC_BY_CODE, method = RequestMethod.GET)
-	public InjuryTypeDetailsSpecRO getInjuryTypeDetailsSpecByCode(@PathVariable final String code) {
-		return _tableMaintenanceRestService.getInjuryTypeDetailsSpecByCode(code);
+	@RequestMapping(value = RequestMappingConstants.GET_INJURY_TYPE_DETAIL_SPEC_BY_CODE, method = RequestMethod.GET)
+	public InjuryTypeDetailSpecRO getInjuryTypeDetailSpecByCode(@PathVariable final String code) {
+		return _tableMaintenanceRestService.getInjuryTypeDetailSpecByCode(code);
 	}
 
-	@RequestMapping(value = RequestMappingConstants.CREATE_INJURY_TYPE_DETAILS_SPEC, method = RequestMethod.POST)
-	public InjuryTypeDetailsSpecRO createInjuryTypeDetailsSpec(final @Valid @RequestBody InjuryTypeDetailsSpecRO injuryTypeDetailsSpecRO) {
-		return _tableMaintenanceRestService.createInjuryTypeDetailsSpec(injuryTypeDetailsSpecRO);
+	@RequestMapping(value = RequestMappingConstants.CREATE_INJURY_TYPE_DETAIL_SPEC, method = RequestMethod.POST)
+	public InjuryTypeDetailSpecRO createInjuryTypeDetailSpec(final @Valid @RequestBody InjuryTypeDetailSpecRO injuryTypeDetailsSpecRO) {
+		return _tableMaintenanceRestService.createInjuryTypeDetailSpec(injuryTypeDetailsSpecRO);
 	}
 
-	@RequestMapping(value = RequestMappingConstants.UPDATE_INJURY_TYPE_DETAILS_SPEC, method = RequestMethod.PUT)
-	public InjuryTypeDetailsSpecRO updateInjuryTypeDetailsSpec(final @Valid @RequestBody InjuryTypeDetailsSpecRO injuryTypeDetailsSpecRO) {
-		return _tableMaintenanceRestService.updateInjuryTypeDetailsSpec(injuryTypeDetailsSpecRO);
+	@RequestMapping(value = RequestMappingConstants.UPDATE_INJURY_TYPE_DETAIL_SPEC, method = RequestMethod.PUT)
+	public InjuryTypeDetailSpecRO updateInjuryTypeDetailSpec(final @Valid @RequestBody InjuryTypeDetailSpecRO injuryTypeDetailsSpecRO) {
+		return _tableMaintenanceRestService.updateInjuryTypeDetailSpec(injuryTypeDetailsSpecRO);
 	}
 
-	@RequestMapping(value = RequestMappingConstants.DELETE_INJURY_TYPE_DETAILS_SPEC, method = RequestMethod.DELETE)
+	@RequestMapping(value = RequestMappingConstants.DELETE_INJURY_TYPE_DETAIL_SPEC, method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deleteInjuryTypeDetailsSpec(@PathVariable final String code) {
-		_tableMaintenanceRestService.deleteInjuryTypeDetailsSpec(code);
+	public void deleteInjuryTypeDetailSpec(@PathVariable final String code) {
+		_tableMaintenanceRestService.deleteInjuryTypeDetailSpec(code);
 	}
 	
 	/** Methods related to Suspect Type */
@@ -648,5 +658,277 @@ public class TableMaintenanceController extends AbstractRestController {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteWeaponType(@PathVariable final String code) {
 		_tableMaintenanceRestService.deleteWeaponType(code);
+	}
+	
+	//
+	
+	/** Methods related to Accident Type */
+	@RequestMapping(value = RequestMappingConstants.GET_ACCIDENT_TYPES, method = RequestMethod.GET)
+	public List<AccidentTypeRO> getAccidentTypes() {
+		return _tableMaintenanceRestService.getAccidentTypes();
+	}
+
+	@RequestMapping(value = RequestMappingConstants.GET_ACCIDENT_TYPE_BY_CODE, method = RequestMethod.GET)
+	public AccidentTypeRO getAccidentTypeByCode(@PathVariable final String code) {
+		return _tableMaintenanceRestService.getAccidentTypeByCode(code);
+	}
+
+	@RequestMapping(value = RequestMappingConstants.CREATE_ACCIDENT_TYPE, method = RequestMethod.POST)
+	public AccidentTypeRO createAccidentType(final @Valid @RequestBody AccidentTypeRO accidentTypeRO) {
+		return _tableMaintenanceRestService.createAccidentType(accidentTypeRO);
+	}
+
+	@RequestMapping(value = RequestMappingConstants.UPDATE_ACCIDENT_TYPE, method = RequestMethod.PUT)
+	public AccidentTypeRO updateAccidentType(final @Valid @RequestBody AccidentTypeRO accidentTypeRO) {
+		return _tableMaintenanceRestService.updateAccidentType(accidentTypeRO);
+	}
+
+	@RequestMapping(value = RequestMappingConstants.DELETE_ACCIDENT_TYPE, method = RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void deleteAccidentType(@PathVariable final String code) {
+		_tableMaintenanceRestService.deleteAccidentType(code);
+	}
+	
+	/** Methods related to Body Part */
+	@RequestMapping(value = RequestMappingConstants.GET_BODY_PARTS, method = RequestMethod.GET)
+	public List<BodyPartRO> getBodyParts() {
+		return _tableMaintenanceRestService.getBodyParts();
+	}
+
+	@RequestMapping(value = RequestMappingConstants.GET_BODY_PART_BY_CODE, method = RequestMethod.GET)
+	public BodyPartRO getBodyPartByCode(@PathVariable final String code) {
+		return _tableMaintenanceRestService.getBodyPartByCode(code);
+	}
+
+	@RequestMapping(value = RequestMappingConstants.CREATE_BODY_PART_TYPE, method = RequestMethod.POST)
+	public BodyPartRO createBodyPart(final @Valid @RequestBody BodyPartRO bodyPartRO) {
+		return _tableMaintenanceRestService.createBodyPart(bodyPartRO);
+	}
+
+	@RequestMapping(value = RequestMappingConstants.UPDATE_BODY_PART_TYPE, method = RequestMethod.PUT)
+	public BodyPartRO updateBodyPart(final @Valid @RequestBody BodyPartRO bodyPartRO) {
+		return _tableMaintenanceRestService.updateBodyPart(bodyPartRO);
+	}
+
+	@RequestMapping(value = RequestMappingConstants.DELETE_BODY_PART_TYPE, method = RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void deleteBodyPart(@PathVariable final String code) {
+		_tableMaintenanceRestService.deleteBodyPart(code);
+	}
+	
+	/** Methods related to Document Category */
+	@RequestMapping(value = RequestMappingConstants.GET_DOCUMENT_CATEGORIES, method = RequestMethod.GET)
+	public List<DocumentCategoryRO> getDocumentCategories() {
+		return _tableMaintenanceRestService.getDocumentCategories();
+	}
+
+	@RequestMapping(value = RequestMappingConstants.GET_DOCUMENT_CATEGORY_BY_CODE, method = RequestMethod.GET)
+	public DocumentCategoryRO getDocumentCategoryByCode(@PathVariable final String code) {
+		return _tableMaintenanceRestService.getDocumentCategoryByCode(code);
+	}
+
+	@RequestMapping(value = RequestMappingConstants.CREATE_DOCUMENT_CATEGORY, method = RequestMethod.POST)
+	public DocumentCategoryRO createDocumentCategory(final @Valid @RequestBody DocumentCategoryRO documentCategoryRO) {
+		return _tableMaintenanceRestService.createDocumentCategory(documentCategoryRO);
+	}
+
+	@RequestMapping(value = RequestMappingConstants.UPDATE_DOCUMENT_CATEGORY, method = RequestMethod.PUT)
+	public DocumentCategoryRO updateDocumentCategory(final @Valid @RequestBody DocumentCategoryRO documentCategoryRO) {
+		return _tableMaintenanceRestService.updateDocumentCategory(documentCategoryRO);
+	}
+
+	@RequestMapping(value = RequestMappingConstants.DELETE_DOCUMENT_CATEGORY, method = RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void deleteDocumentCategory(@PathVariable final String code) {
+		_tableMaintenanceRestService.deleteDocumentCategory(code);
+	}
+	
+	/** Methods related to Document Type */
+	@RequestMapping(value = RequestMappingConstants.GET_DOCUMENT_TYPES, method = RequestMethod.GET)
+	public List<DocumentTypeRO> getDocumentTypes() {
+		return _tableMaintenanceRestService.getDocumentTypes();
+	}
+
+	@RequestMapping(value = RequestMappingConstants.GET_DOCUMENT_TYPE_BY_CODE, method = RequestMethod.GET)
+	public DocumentTypeRO getDocumentTypeByCode(@PathVariable final String code) {
+		return _tableMaintenanceRestService.getDocumentTypeByCode(code);
+	}
+
+	@RequestMapping(value = RequestMappingConstants.CREATE_DOCUMENT_TYPE, method = RequestMethod.POST)
+	public DocumentTypeRO createDocumentType(final @Valid @RequestBody DocumentTypeRO documentTypeRO) {
+		return _tableMaintenanceRestService.createDocumentType(documentTypeRO);
+	}
+
+	@RequestMapping(value = RequestMappingConstants.UPDATE_DOCUMENT_TYPE, method = RequestMethod.PUT)
+	public DocumentTypeRO updateDocumentType(final @Valid @RequestBody DocumentTypeRO documentTypeRO) {
+		return _tableMaintenanceRestService.updateDocumentType(documentTypeRO);
+	}
+
+	@RequestMapping(value = RequestMappingConstants.DELETE_DOCUMENT_TYPE, method = RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void deleteDocumentType(@PathVariable final String code) {
+		_tableMaintenanceRestService.deleteDocumentType(code);
+	}
+	
+	/** Methods related to Gender Type */
+	@RequestMapping(value = RequestMappingConstants.GET_GENDER_TYPES, method = RequestMethod.GET)
+	public List<GenderTypeRO> getGenderTypes() {
+		return _tableMaintenanceRestService.getGenderTypes();
+	}
+
+	@RequestMapping(value = RequestMappingConstants.GET_GENDER_TYPE_BY_CODE, method = RequestMethod.GET)
+	public GenderTypeRO getGenderTypeByCode(@PathVariable final String code) {
+		return _tableMaintenanceRestService.getGenderTypeByCode(code);
+	}
+
+	@RequestMapping(value = RequestMappingConstants.CREATE_GENDER_TYPE, method = RequestMethod.POST)
+	public GenderTypeRO createGenderType(final @Valid @RequestBody GenderTypeRO genderTypeRO) {
+		return _tableMaintenanceRestService.createGenderType(genderTypeRO);
+	}
+
+	@RequestMapping(value = RequestMappingConstants.UPDATE_GENDER_TYPE, method = RequestMethod.PUT)
+	public GenderTypeRO updateGenderType(final @Valid @RequestBody GenderTypeRO genderTypeRO) {
+		return _tableMaintenanceRestService.updateGenderType(genderTypeRO);
+	}
+
+	@RequestMapping(value = RequestMappingConstants.DELETE_GENDER_TYPE, method = RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void deleteGenderType(@PathVariable final String code) {
+		_tableMaintenanceRestService.deleteGenderType(code);
+	}
+	
+	/** Methods related to Incident Category */
+	@RequestMapping(value = RequestMappingConstants.GET_INCIDENT_CATEGORIES, method = RequestMethod.GET)
+	public List<IncidentCategoryRO> getIncidentCategories() {
+		return _tableMaintenanceRestService.getIncidentCategories();
+	}
+
+	@RequestMapping(value = RequestMappingConstants.GET_INCIDENT_CATEGORY_BY_CODE, method = RequestMethod.GET)
+	public IncidentCategoryRO getIncidentCategoryByCode(@PathVariable final String code) {
+		return _tableMaintenanceRestService.getIncidentCategoryByCode(code);
+	}
+
+	@RequestMapping(value = RequestMappingConstants.CREATE_INCIDENT_CATEGORY, method = RequestMethod.POST)
+	public IncidentCategoryRO createIncidentCategory(final @Valid @RequestBody IncidentCategoryRO incidentCategoryRO) {
+		return _tableMaintenanceRestService.createIncidentCategory(incidentCategoryRO);
+	}
+
+	@RequestMapping(value = RequestMappingConstants.UPDATE_INCIDENT_CATEGORY, method = RequestMethod.PUT)
+	public IncidentCategoryRO updateIncidentCategory(final @Valid @RequestBody IncidentCategoryRO incidentCategoryRO) {
+		return _tableMaintenanceRestService.updateIncidentCategory(incidentCategoryRO);
+	}
+
+	@RequestMapping(value = RequestMappingConstants.DELETE_INCIDENT_CATEGORY, method = RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void deleteIncidentCategory(@PathVariable final String code) {
+		_tableMaintenanceRestService.deleteIncidentCategory(code);
+	}
+	
+	/** Methods related to Injured Person Type */
+	@RequestMapping(value = RequestMappingConstants.GET_INJURED_PERSON_TYPES, method = RequestMethod.GET)
+	public List<InjuredPersonTypeRO> getInjuredPersonTypes() {
+		return _tableMaintenanceRestService.getInjuredPersonTypes();
+	}
+
+	@RequestMapping(value = RequestMappingConstants.GET_INJURED_PERSON_TYPE_BY_CODE, method = RequestMethod.GET)
+	public InjuredPersonTypeRO getInjuredPersonTypeByCode(@PathVariable final String code) {
+		return _tableMaintenanceRestService.getInjuredPersonTypeByCode(code);
+	}
+
+	@RequestMapping(value = RequestMappingConstants.CREATE_INJURED_PERSON_TYPE, method = RequestMethod.POST)
+	public InjuredPersonTypeRO createInjuredPersonType(final @Valid @RequestBody InjuredPersonTypeRO injuredPersonTypeRO) {
+		return _tableMaintenanceRestService.createInjuredPersonType(injuredPersonTypeRO);
+	}
+
+	@RequestMapping(value = RequestMappingConstants.UPDATE_INJURED_PERSON_TYPE, method = RequestMethod.PUT)
+	public InjuredPersonTypeRO updateInjuredPersonType(final @Valid @RequestBody InjuredPersonTypeRO injuredPersonTypeRO) {
+		return _tableMaintenanceRestService.updateInjuredPersonType(injuredPersonTypeRO);
+	}
+
+	@RequestMapping(value = RequestMappingConstants.DELETE_INJURED_PERSON_TYPE, method = RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void deleteInjuredPersonType(@PathVariable final String code) {
+		_tableMaintenanceRestService.deleteInjuredPersonType(code);
+	}
+	
+	/** Methods related to Loss Type */
+	@RequestMapping(value = RequestMappingConstants.GET_LOSS_TYPES, method = RequestMethod.GET)
+	public List<LossTypeRO> getLossTypes() {
+		return _tableMaintenanceRestService.getLossTypes();
+	}
+
+	@RequestMapping(value = RequestMappingConstants.GET_LOSS_TYPE_BY_CODE, method = RequestMethod.GET)
+	public LossTypeRO getLossTypeByCode(@PathVariable final String code) {
+		return _tableMaintenanceRestService.getLossTypeByCode(code);
+	}
+
+	@RequestMapping(value = RequestMappingConstants.CREATE_LOSS_TYPE, method = RequestMethod.POST)
+	public LossTypeRO createLossType(final @Valid @RequestBody LossTypeRO lossTypeRO) {
+		return _tableMaintenanceRestService.createLossType(lossTypeRO);
+	}
+
+	@RequestMapping(value = RequestMappingConstants.UPDATE_LOSS_TYPE, method = RequestMethod.PUT)
+	public LossTypeRO updateLossType(final @Valid @RequestBody LossTypeRO lossTypeRO) {
+		return _tableMaintenanceRestService.updateLossType(lossTypeRO);
+	}
+
+	@RequestMapping(value = RequestMappingConstants.DELETE_LOSS_TYPE, method = RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void deleteLossType(@PathVariable final String code) {
+		_tableMaintenanceRestService.deleteLossType(code);
+	}
+	
+	/** Methods related to Policy Type */
+	@RequestMapping(value = RequestMappingConstants.GET_POLICY_TYPES, method = RequestMethod.GET)
+	public List<PolicyTypeRO> getPolicyTypes() {
+		return _tableMaintenanceRestService.getPolicyTypes();
+	}
+
+	@RequestMapping(value = RequestMappingConstants.GET_POLICY_TYPE_BY_CODE, method = RequestMethod.GET)
+	public PolicyTypeRO getPolicyTypeByCode(@PathVariable final String code) {
+		return _tableMaintenanceRestService.getPolicyTypeByCode(code);
+	}
+
+	@RequestMapping(value = RequestMappingConstants.CREATE_POLICY_TYPE, method = RequestMethod.POST)
+	public PolicyTypeRO createPolicyType(final @Valid @RequestBody PolicyTypeRO policyTypeRO) {
+		return _tableMaintenanceRestService.createPolicyType(policyTypeRO);
+	}
+
+	@RequestMapping(value = RequestMappingConstants.UPDATE_POLICY_TYPE, method = RequestMethod.PUT)
+	public PolicyTypeRO updatePolicyType(final @Valid @RequestBody PolicyTypeRO policyTypeRO) {
+		return _tableMaintenanceRestService.updatePolicyType(policyTypeRO);
+	}
+
+	@RequestMapping(value = RequestMappingConstants.DELETE_POLICY_TYPE, method = RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void deletePolicyType(@PathVariable final String code) {
+		_tableMaintenanceRestService.deletePolicyType(code);
+	}
+	
+	/** Methods related to Vehicle Damage Type */
+	@RequestMapping(value = RequestMappingConstants.GET_VEHICLE_DAMAGE_TYPES, method = RequestMethod.GET)
+	public List<VehicleDamageTypeRO> getVehicleDamageTypes() {
+		return _tableMaintenanceRestService.getVehicleDamageTypes();
+	}
+
+	@RequestMapping(value = RequestMappingConstants.GET_VEHICLE_DAMAGE_TYPE_BY_CODE, method = RequestMethod.GET)
+	public VehicleDamageTypeRO getVehicleDamageTypeByCode(@PathVariable final String code) {
+		return _tableMaintenanceRestService.getVehicleDamageTypeByCode(code);
+	}
+
+	@RequestMapping(value = RequestMappingConstants.CREATE_VEHICLE_DAMAGE_TYPE, method = RequestMethod.POST)
+	public VehicleDamageTypeRO createVehicleDamageType(final @Valid @RequestBody VehicleDamageTypeRO vehicleDamageTypeRO) {
+		return _tableMaintenanceRestService.createVehicleDamageType(vehicleDamageTypeRO);
+	}
+
+	@RequestMapping(value = RequestMappingConstants.UPDATE_VEHICLE_DAMAGE_TYPE, method = RequestMethod.PUT)
+	public VehicleDamageTypeRO updateVehicleDamageType(final @Valid @RequestBody VehicleDamageTypeRO vehicleDamageTypeRO) {
+		return _tableMaintenanceRestService.updateVehicleDamageType(vehicleDamageTypeRO);
+	}
+
+	@RequestMapping(value = RequestMappingConstants.DELETE_VEHICLE_DAMAGE_TYPE, method = RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void deleteVehicleDamageType(@PathVariable final String code) {
+		_tableMaintenanceRestService.deleteVehicleDamageType(code);
 	}
 }

@@ -1,10 +1,12 @@
 package com.i2g.rms.rest.model;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.i2g.rms.domain.model.User.UserStatus;
+import com.i2g.rms.rest.model.tablemaintenance.EmployeeTypeRO;
+import com.i2g.rms.rest.model.tablemaintenance.GenderTypeRO;
 
 /**
  * REST Object for returning user details to the REST client.
@@ -24,12 +26,25 @@ public class UserRO extends AbstractEntityRO {
 	private String _lastName;
 	private String _middleName;
 	private String _title;
-	private String _suffix;
-	private UserStatus _status;
+	private String _nameSuffix;
+	private StatusFlagRO _statusFlag;
 	private Set<PasswordHistoryRO> _passwordHistory;
 	private Set<RoleRO> _roles;
-	private long _expires;
-	private String _username;	 
+	private Long _expires;
+	private String _username;	
+	private GenderTypeRO _genderType;
+	private LocalDate _dateOfBirth;
+	private Integer _age;
+	private LocalDate _dateOfJoining;
+	private LocalDate _dateOfLeaving;
+	private String _phone;
+	private String _alternatePhone;
+	private String _fax;
+	private String _email;
+	private String _employeeId;
+	private String _managerLoginId;
+	private PositionRO _position;
+	private EmployeeTypeRO _employeeType;
 
 	public long getId() {
 		return _id;
@@ -88,20 +103,20 @@ public class UserRO extends AbstractEntityRO {
 		_title = title;
 	}
 
-	public String getSuffix() {
-		return _suffix;
+	public String getNameSuffix() {
+		return _nameSuffix;
 	}
 
-	public void setSuffix(final String suffix) {
-		_suffix = suffix;
+	public void setNameSuffix(final String nameSuffix) {
+		_nameSuffix = nameSuffix;
 	}
 
-	public UserStatus getStatus() {
-		return _status;
+	public StatusFlagRO getStatusFlag() {
+		return _statusFlag;
 	}
 
-	public void setStatus(final UserStatus status) {
-		_status = status;
+	public void setStatusFlag(final StatusFlagRO statusFlag) {
+		_statusFlag = statusFlag;
 	}
 
 	public Set<PasswordHistoryRO> getPasswordHistory() {
@@ -125,12 +140,16 @@ public class UserRO extends AbstractEntityRO {
 		return "Id: " + _id + ", Login Id: " + _loginId + ", First Name: " + _firstName + ", Last Name: " + _lastName;
 	}
 
-	public long getExpires() {
+	public Long getExpires() {
 		return _expires;
 	}
 
-	public void setExpires(final long expires) {
-		_expires = expires;
+	public void setExpires(final Long expires) {
+		if (expires != null) {
+			_expires = expires;
+		} else {
+			_expires = 0l;
+		}
 	}
 
 	public String getUsername() {
@@ -144,5 +163,191 @@ public class UserRO extends AbstractEntityRO {
 
 	public boolean hasRole(final String roleName) {
 		return getRoles().contains(roleName);
+	}
+
+	/**
+	 * @return the genderType
+	 */
+	public GenderTypeRO getGenderType() {
+		return _genderType;
+	}
+
+	/**
+	 * @param genderType the genderType to set
+	 */
+	public void setGenderType(final GenderTypeRO genderType) {
+		_genderType = genderType;
+	}
+
+	/**
+	 * @return the dateOfBirth
+	 */
+	public LocalDate getDateOfBirth() {
+		return _dateOfBirth;
+	}
+
+	/**
+	 * @param dateOfBirth the dateOfBirth to set
+	 */
+	public void setDateOfBirth(final LocalDate dateOfBirth) {
+		_dateOfBirth = dateOfBirth;
+	}
+
+	/**
+	 * @return the age
+	 */
+	public Integer getAge() {
+		return _age;
+	}
+
+	/**
+	 * @param age the age to set
+	 */
+	public void setAge(final Integer age) {
+		if (_age != null) {
+			_age = age;
+		} else {
+			_age = 0;
+		}
+	}
+
+	/**
+	 * @return the dateOfJoining
+	 */
+	public LocalDate getDateOfJoining() {
+		return _dateOfJoining;
+	}
+
+	/**
+	 * @param dateOfJoining the dateOfJoining to set
+	 */
+	public void setDateOfJoining(final LocalDate dateOfJoining) {
+		_dateOfJoining = dateOfJoining;
+	}
+
+	/**
+	 * @return the dateOfLeaving
+	 */
+	public LocalDate getDateOfLeaving() {
+		return _dateOfLeaving;
+	}
+
+	/**
+	 * @param dateOfLeaving the dateOfLeaving to set
+	 */
+	public void setDateOfLeaving(final LocalDate dateOfLeaving) {
+		_dateOfLeaving = dateOfLeaving;
+	}
+
+	/**
+	 * @return the phone
+	 */
+	public String getPhone() {
+		return _phone;
+	}
+
+	/**
+	 * @param phone the phone to set
+	 */
+	public void setPhone(final String phone) {
+		_phone = phone;
+	}
+
+	/**
+	 * @return the alternatePhone
+	 */
+	public String getAlternatePhone() {
+		return _alternatePhone;
+	}
+
+	/**
+	 * @param alternatePhone the alternatePhone to set
+	 */
+	public void setAlternatePhone(final String alternatePhone) {
+		_alternatePhone = alternatePhone;
+	}
+	
+	/**
+	 * @return the fax
+	 */
+	public String getFax() {
+		return _fax;
+	}
+
+	/**
+	 * @param fax the fax to set
+	 */
+	public void setFax(final String fax) {
+		_fax = fax;
+	}
+
+	/**
+	 * @return the email
+	 */
+	public String getEmail() {
+		return _email;
+	}
+
+	/**
+	 * @param email the email to set
+	 */
+	public void setEmail(final String email) {
+		_email = email;
+	}
+
+	/**
+	 * @return the employeeId
+	 */
+	public String getEmployeeId() {
+		return _employeeId;
+	}
+
+	/**
+	 * @param employeeId the employeeId to set
+	 */
+	public void setEmployeeId(final String employeeId) {
+		_employeeId = employeeId;
+	}
+
+	/**
+	 * @return the managerLoginId
+	 */
+	public String getManagerLoginId() {
+		return _managerLoginId;
+	}
+
+	/**
+	 * @param managerLoginId the managerLoginId to set
+	 */
+	public void setManagerLoginId(final String managerLoginId) {
+		_managerLoginId = managerLoginId;
+	}
+
+	/**
+	 * @return the position
+	 */
+	public PositionRO getPosition() {
+		return _position;
+	}
+
+	/**
+	 * @param position the position to set
+	 */
+	public void setPosition(final PositionRO position) {
+		_position = position;
+	}
+
+	/**
+	 * @return the employeeType
+	 */
+	public EmployeeTypeRO getEmployeeType() {
+		return _employeeType;
+	}
+
+	/**
+	 * @param employeeType the employeeType to set
+	 */
+	public void setEmployeeType(final EmployeeTypeRO employeeType) {
+		_employeeType = employeeType;
 	}	
 }

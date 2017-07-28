@@ -20,7 +20,7 @@ public class IncidentLocationRO extends AbstractEntityRO {
 
 	private String _id;
 	private String _description;
-	private Set<IncidentLocationDetailsRO> _incidentLocationDetails = new HashSet<IncidentLocationDetailsRO>(0);
+	private Set<IncidentLocationDetailRO> _incidentLocationDetails = new HashSet<IncidentLocationDetailRO>(0);
 	
 	public String getId() {
 		return _id;
@@ -38,11 +38,11 @@ public class IncidentLocationRO extends AbstractEntityRO {
 		_description = description;
 	}
 	
-	public Set<IncidentLocationDetailsRO> getIncidentLocationDetails() {
+	public Set<IncidentLocationDetailRO> getIncidentLocationDetails() {
 		return _incidentLocationDetails;
 	}
 
-	public void setIncidentLocationDetails(Set<IncidentLocationDetailsRO> incidentLocationDetails) {
+	public void setIncidentLocationDetails(Set<IncidentLocationDetailRO> incidentLocationDetails) {
 		_incidentLocationDetails = incidentLocationDetails;
 	}
 }

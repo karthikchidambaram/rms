@@ -2,27 +2,37 @@ package com.i2g.rms.rest.service.tablemaintenance;
 
 import java.util.List;
 
-import com.i2g.rms.rest.model.tablemaintenance.AccidentLocationDetailsRO;
+import com.i2g.rms.rest.model.tablemaintenance.AccidentLocationDetailRO;
 import com.i2g.rms.rest.model.tablemaintenance.AccidentLocationRO;
+import com.i2g.rms.rest.model.tablemaintenance.AccidentTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.AssetCategoryRO;
+import com.i2g.rms.rest.model.tablemaintenance.BodyPartRO;
 import com.i2g.rms.rest.model.tablemaintenance.ClaimRequestRegistrationTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.ClaimStatusRO;
 import com.i2g.rms.rest.model.tablemaintenance.ClaimTypeRO;
-import com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeaturesDetailRO;
-import com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeaturesRO;
+import com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeatureDetailRO;
+import com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeatureRO;
+import com.i2g.rms.rest.model.tablemaintenance.DocumentCategoryRO;
+import com.i2g.rms.rest.model.tablemaintenance.DocumentTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.EmployeeTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.EntryPointRO;
 import com.i2g.rms.rest.model.tablemaintenance.EventTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.ExternalAgencyRO;
-import com.i2g.rms.rest.model.tablemaintenance.IncidentLocationDetailsRO;
+import com.i2g.rms.rest.model.tablemaintenance.GenderTypeRO;
+import com.i2g.rms.rest.model.tablemaintenance.IncidentCategoryRO;
+import com.i2g.rms.rest.model.tablemaintenance.IncidentLocationDetailRO;
 import com.i2g.rms.rest.model.tablemaintenance.IncidentLocationRO;
 import com.i2g.rms.rest.model.tablemaintenance.IncidentTypeRO;
+import com.i2g.rms.rest.model.tablemaintenance.InjuredPersonTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.InjuryCauseRO;
-import com.i2g.rms.rest.model.tablemaintenance.InjuryTypeDetailsRO;
-import com.i2g.rms.rest.model.tablemaintenance.InjuryTypeDetailsSpecRO;
+import com.i2g.rms.rest.model.tablemaintenance.InjuryTypeDetailRO;
+import com.i2g.rms.rest.model.tablemaintenance.InjuryTypeDetailSpecRO;
 import com.i2g.rms.rest.model.tablemaintenance.InjuryTypeRO;
+import com.i2g.rms.rest.model.tablemaintenance.LossTypeRO;
+import com.i2g.rms.rest.model.tablemaintenance.PolicyTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.SuspectTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.TableMaintenanceRO;
+import com.i2g.rms.rest.model.tablemaintenance.VehicleDamageTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.WeaponTypeRO;
 
 /**
@@ -48,12 +58,12 @@ public interface TableMaintenanceRestService {
 	public AccidentLocationRO updateAccidentLocation(final AccidentLocationRO accidentLocationRO);
 	public void deleteAccidentLocation(final String code);
 
-	/** Methods related to Accident Location Details */
-	public List<AccidentLocationDetailsRO> getAccidentLocationDetails();
-	public AccidentLocationDetailsRO getAccidentLocationDetailsByCode(final String code);
-	public AccidentLocationDetailsRO createAccidentLocationDetails(final AccidentLocationDetailsRO accidentLocationDetailsRO);
-	public AccidentLocationDetailsRO updateAccidentLocationDetails(final AccidentLocationDetailsRO accidentLocationDetailsRO);
-	public void deleteAccidentLocationDetails(final String code);
+	/** Methods related to Accident Location Detail */
+	public List<AccidentLocationDetailRO> getAccidentLocationDetails();
+	public AccidentLocationDetailRO getAccidentLocationDetailByCode(final String code);
+	public AccidentLocationDetailRO createAccidentLocationDetail(final AccidentLocationDetailRO accidentLocationDetailsRO);
+	public AccidentLocationDetailRO updateAccidentLocationDetail(final AccidentLocationDetailRO accidentLocationDetailsRO);
+	public void deleteAccidentLocationDetail(final String code);
 
 	/** Methods related to Asset Category */
 	public List<AssetCategoryRO> getAssetCategories();
@@ -83,19 +93,19 @@ public interface TableMaintenanceRestService {
 	public ClaimTypeRO updateClaimType(final ClaimTypeRO claimTypeRO);
 	public void deleteClaimType(final String code);
 
-	/** Methods related to Distinguishing Features */
-	public List<DistinguishingFeaturesRO> getDistinguishingFeatures();
-	public DistinguishingFeaturesRO getDistinguishingFeaturesByCode(final String code);
-	public DistinguishingFeaturesRO createDistinguishingFeatures(final DistinguishingFeaturesRO distinguishingFeaturesRO);
-	public DistinguishingFeaturesRO updateDistinguishingFeatures(final DistinguishingFeaturesRO distinguishingFeaturesRO);
-	public void deleteDistinguishingFeatures(final String code);
+	/** Methods related to Distinguishing Feature */
+	public List<DistinguishingFeatureRO> getDistinguishingFeatures();
+	public DistinguishingFeatureRO getDistinguishingFeatureByCode(final String code);
+	public DistinguishingFeatureRO createDistinguishingFeature(final DistinguishingFeatureRO distinguishingFeaturesRO);
+	public DistinguishingFeatureRO updateDistinguishingFeature(final DistinguishingFeatureRO distinguishingFeaturesRO);
+	public void deleteDistinguishingFeature(final String code);
 
-	/** Methods related to Distinguishing Features Detail */
-	public List<DistinguishingFeaturesDetailRO> getDistinguishingFeaturesDetails();
-	public DistinguishingFeaturesDetailRO getDistinguishingFeaturesDetailByCode(final String code);
-	public DistinguishingFeaturesDetailRO createDistinguishingFeaturesDetail(final DistinguishingFeaturesDetailRO distinguishingFeaturesDetailRO);
-	public DistinguishingFeaturesDetailRO updateDistinguishingFeaturesDetail(final DistinguishingFeaturesDetailRO distinguishingFeaturesDetailRO);
-	public void deleteDistinguishingFeaturesDetail(final String code);
+	/** Methods related to Distinguishing Feature Detail */
+	public List<DistinguishingFeatureDetailRO> getDistinguishingFeatureDetails();
+	public DistinguishingFeatureDetailRO getDistinguishingFeatureDetailByCode(final String code);
+	public DistinguishingFeatureDetailRO createDistinguishingFeatureDetail(final DistinguishingFeatureDetailRO distinguishingFeaturesDetailRO);
+	public DistinguishingFeatureDetailRO updateDistinguishingFeatureDetail(final DistinguishingFeatureDetailRO distinguishingFeaturesDetailRO);
+	public void deleteDistinguishingFeatureDetail(final String code);
 
 	/** Methods related to Employee Type */
 	public List<EmployeeTypeRO> getEmployeeTypes();
@@ -132,12 +142,12 @@ public interface TableMaintenanceRestService {
 	public IncidentLocationRO updateIncidentLocation(final IncidentLocationRO incidentLocationRO);
 	public void deleteIncidentLocation(final String code);
 
-	/** Methods related to Incident Location Details */
-	public List<IncidentLocationDetailsRO> getIncidentLocationDetails();
-	public IncidentLocationDetailsRO getIncidentLocationDetailsByCode(final String code);
-	public IncidentLocationDetailsRO createIncidentLocationDetails(final IncidentLocationDetailsRO incidentLocationDetailsRO);
-	public IncidentLocationDetailsRO updateIncidentLocationDetails(final IncidentLocationDetailsRO incidentLocationDetailsRO);
-	public void deleteIncidentLocationDetails(final String code);
+	/** Methods related to Incident Location Detail */
+	public List<IncidentLocationDetailRO> getIncidentLocationDetails();
+	public IncidentLocationDetailRO getIncidentLocationDetailByCode(final String code);
+	public IncidentLocationDetailRO createIncidentLocationDetail(final IncidentLocationDetailRO incidentLocationDetailsRO);
+	public IncidentLocationDetailRO updateIncidentLocationDetail(final IncidentLocationDetailRO incidentLocationDetailsRO);
+	public void deleteIncidentLocationDetail(final String code);
 
 	/** Methods related to Incident Type */
 	public List<IncidentTypeRO> getIncidentTypes();
@@ -160,19 +170,19 @@ public interface TableMaintenanceRestService {
 	public InjuryTypeRO updateInjuryType(final InjuryTypeRO injuryTypeRO);
 	public void deleteInjuryType(final String code);
 
-	/** Methods related to Injury Type Details */
-	public List<InjuryTypeDetailsRO> getInjuryTypeDetails();
-	public InjuryTypeDetailsRO getInjuryTypeDetailsByCode(final String code);
-	public InjuryTypeDetailsRO createInjuryTypeDetails(final InjuryTypeDetailsRO injuryTypeDetailsRO);
-	public InjuryTypeDetailsRO updateInjuryTypeDetails(final InjuryTypeDetailsRO injuryTypeDetailsRO);
-	public void deleteInjuryTypeDetails(final String code);
+	/** Methods related to Injury Type Detail */
+	public List<InjuryTypeDetailRO> getInjuryTypeDetails();
+	public InjuryTypeDetailRO getInjuryTypeDetailByCode(final String code);
+	public InjuryTypeDetailRO createInjuryTypeDetail(final InjuryTypeDetailRO injuryTypeDetailsRO);
+	public InjuryTypeDetailRO updateInjuryTypeDetail(final InjuryTypeDetailRO injuryTypeDetailsRO);
+	public void deleteInjuryTypeDetail(final String code);
 
-	/** Methods related to Injury Type Details Spec */
-	public List<InjuryTypeDetailsSpecRO> getInjuryTypeDetailsSpecs();
-	public InjuryTypeDetailsSpecRO getInjuryTypeDetailsSpecByCode(final String code);
-	public InjuryTypeDetailsSpecRO createInjuryTypeDetailsSpec(final InjuryTypeDetailsSpecRO injuryTypeDetailsSpecRO);
-	public InjuryTypeDetailsSpecRO updateInjuryTypeDetailsSpec(final InjuryTypeDetailsSpecRO injuryTypeDetailsSpecRO);
-	public void deleteInjuryTypeDetailsSpec(final String code);
+	/** Methods related to Injury Type Detail Specification */
+	public List<InjuryTypeDetailSpecRO> getInjuryTypeDetailSpecs();
+	public InjuryTypeDetailSpecRO getInjuryTypeDetailSpecByCode(final String code);
+	public InjuryTypeDetailSpecRO createInjuryTypeDetailSpec(final InjuryTypeDetailSpecRO injuryTypeDetailsSpecRO);
+	public InjuryTypeDetailSpecRO updateInjuryTypeDetailSpec(final InjuryTypeDetailSpecRO injuryTypeDetailsSpecRO);
+	public void deleteInjuryTypeDetailSpec(final String code);
 
 	/** Methods related to Suspect Type */
 	public List<SuspectTypeRO> getSuspectTypes();
@@ -188,4 +198,73 @@ public interface TableMaintenanceRestService {
 	public WeaponTypeRO updateWeaponType(final WeaponTypeRO weaponInvolvedRO);
 	public void deleteWeaponType(final String code);
 	
+	/** Methods related to Accident Type */
+	public List<AccidentTypeRO> getAccidentTypes();
+	public AccidentTypeRO getAccidentTypeByCode(final String code);
+	public AccidentTypeRO createAccidentType(final AccidentTypeRO accidentTypeRO);
+	public AccidentTypeRO updateAccidentType(final AccidentTypeRO accidentTypeRO);
+	public void deleteAccidentType(final String code);
+	
+	/** Methods related to Body Part */
+	public List<BodyPartRO> getBodyParts();
+	public BodyPartRO getBodyPartByCode(final String code);
+	public BodyPartRO createBodyPart(final BodyPartRO bodyPartRO);
+	public BodyPartRO updateBodyPart(final BodyPartRO bodyPartRO);
+	public void deleteBodyPart(final String code);
+	
+	/** Methods related to Document Category */
+	public List<DocumentCategoryRO> getDocumentCategories();
+	public DocumentCategoryRO getDocumentCategoryByCode(final String code);
+	public DocumentCategoryRO createDocumentCategory(final DocumentCategoryRO documentCategoryRO);
+	public DocumentCategoryRO updateDocumentCategory(final DocumentCategoryRO documentCategoryRO);
+	public void deleteDocumentCategory(final String code);
+	
+	/** Methods related to Document Type */
+	public List<DocumentTypeRO> getDocumentTypes();
+	public DocumentTypeRO getDocumentTypeByCode(final String code);
+	public DocumentTypeRO createDocumentType(final DocumentTypeRO documentTypeRO);
+	public DocumentTypeRO updateDocumentType(final DocumentTypeRO documentTypeRO);
+	public void deleteDocumentType(final String code);
+	
+	/** Methods related to Gender Type */
+	public List<GenderTypeRO> getGenderTypes();
+	public GenderTypeRO getGenderTypeByCode(final String code);
+	public GenderTypeRO createGenderType(final GenderTypeRO genderTypeRO);
+	public GenderTypeRO updateGenderType(final GenderTypeRO genderTypeRO);
+	public void deleteGenderType(final String code);
+	
+	/** Methods related to Incident Category */
+	public List<IncidentCategoryRO> getIncidentCategories();
+	public IncidentCategoryRO getIncidentCategoryByCode(final String code);
+	public IncidentCategoryRO createIncidentCategory(final IncidentCategoryRO incidentCategoryRO);
+	public IncidentCategoryRO updateIncidentCategory(final IncidentCategoryRO incidentCategoryRO);
+	public void deleteIncidentCategory(final String code);
+	
+	/** Methods related to Injured Person Type */
+	public List<InjuredPersonTypeRO> getInjuredPersonTypes();
+	public InjuredPersonTypeRO getInjuredPersonTypeByCode(final String code);
+	public InjuredPersonTypeRO createInjuredPersonType(final InjuredPersonTypeRO injuredPersonTypeRO);
+	public InjuredPersonTypeRO updateInjuredPersonType(final InjuredPersonTypeRO injuredPersonTypeRO);
+	public void deleteInjuredPersonType(final String code);
+	
+	/** Methods related to Loss Type */
+	public List<LossTypeRO> getLossTypes();
+	public LossTypeRO getLossTypeByCode(final String code);
+	public LossTypeRO createLossType(final LossTypeRO lossTypeRO);
+	public LossTypeRO updateLossType(final LossTypeRO lossTypeRO);
+	public void deleteLossType(final String code);
+	
+	/** Methods related to Policy Type */
+	public List<PolicyTypeRO> getPolicyTypes();
+	public PolicyTypeRO getPolicyTypeByCode(final String code);
+	public PolicyTypeRO createPolicyType(final PolicyTypeRO policyTypeRO);
+	public PolicyTypeRO updatePolicyType(final PolicyTypeRO policyTypeRO);
+	public void deletePolicyType(final String code);
+	
+	/** Methods related to Vehicle Damage Type */
+	public List<VehicleDamageTypeRO> getVehicleDamageTypes();
+	public VehicleDamageTypeRO getVehicleDamageTypeByCode(final String code);
+	public VehicleDamageTypeRO createVehicleDamageType(final VehicleDamageTypeRO vehicleDamageTypeRO);
+	public VehicleDamageTypeRO updateVehicleDamageType(final VehicleDamageTypeRO vehicleDamageTypeRO);
+	public void deleteVehicleDamageType(final String code);	
 }

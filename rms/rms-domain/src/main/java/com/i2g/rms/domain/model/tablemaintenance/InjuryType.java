@@ -15,6 +15,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.i2g.rms.domain.model.AbstractDataModel;
 
 /**
@@ -35,7 +36,7 @@ public class InjuryType extends AbstractDataModel<String> implements Serializabl
 	private static final long serialVersionUID = 1L;
 	private String _id;
 	private String _description;
-	private Set<InjuryTypeDetails> _injuryTypeDetails = new HashSet<InjuryTypeDetails>(0);
+	private Set<InjuryTypeDetail> _injuryTypeDetails = new HashSet<InjuryTypeDetail>(0);
 
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -72,7 +73,7 @@ public class InjuryType extends AbstractDataModel<String> implements Serializabl
 	 * @param description
 	 * @param injuryTypeDetails
 	 */
-	public InjuryType(final String code, final String description, final Set<InjuryTypeDetails> injuryTypeDetails) {
+	public InjuryType(final String code, final String description, final Set<InjuryTypeDetail> injuryTypeDetails) {
 		_id = Objects.requireNonNull(code, "Injury type code cannot be null.");
 		_description = Objects.requireNonNull(description, "Injury type description cannot be null.");
 		_injuryTypeDetails = Objects.requireNonNull(injuryTypeDetails, "Injury type details cannot be null or empty.");
@@ -125,11 +126,12 @@ public class InjuryType extends AbstractDataModel<String> implements Serializabl
 	}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "injuryType")
-	public Set<InjuryTypeDetails> getInjuryTypeDetails() {
+	@JsonIgnoreProperties("injuryType")
+	public Set<InjuryTypeDetail> getInjuryTypeDetails() {
 		return _injuryTypeDetails;
 	}
 
-	public void setInjuryTypeDetails(Set<InjuryTypeDetails> injuryTypeDetails) {
+	public void setInjuryTypeDetails(Set<InjuryTypeDetail> injuryTypeDetails) {
 		_injuryTypeDetails = injuryTypeDetails;
 	}
 
