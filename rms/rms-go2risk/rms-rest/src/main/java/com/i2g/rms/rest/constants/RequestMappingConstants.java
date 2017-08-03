@@ -290,5 +290,17 @@ public interface RequestMappingConstants {
 	String GET_VEHICLE_DAMAGE_TYPE_BY_CODE 		= TABLE_MAINTENANCE + "/vehicle-damage-type/{code}";
 	String CREATE_VEHICLE_DAMAGE_TYPE			= TABLE_MAINTENANCE + "/vehicle-damage-type/create-vehicle-damage-type";
 	String UPDATE_VEHICLE_DAMAGE_TYPE			= TABLE_MAINTENANCE + "/vehicle-damage-type/update-vehicle-damage-type";
-	String DELETE_VEHICLE_DAMAGE_TYPE			= TABLE_MAINTENANCE + "/vehicle-damage-type/delete-vehicle-damage-type/{code}";	
+	String DELETE_VEHICLE_DAMAGE_TYPE			= TABLE_MAINTENANCE + "/vehicle-damage-type/delete-vehicle-damage-type/{code}";
+	
+	/** Incidents */
+	String INCIDENT 							= SECURED + "/incident";
+	String GET_INCIDENTS						= INCIDENT + "/incidents";
+	String GET_INCIDENT_BY_UNIQUE_INCIDENT_ID 	= INCIDENT + "/{uniqueIncidentId}";
+	
+	/** Search Incidents */
+	String SEARCH_INCIDENT						= SECURED + "/search-incident";
+	
+	/** Lookups */
+	String USER_LOOKUP 							= SECURED + "/user-lookup";
+	
 }

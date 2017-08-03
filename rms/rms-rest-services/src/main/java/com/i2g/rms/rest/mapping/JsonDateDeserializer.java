@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.node.TextNode;
 public class JsonDateDeserializer extends JsonDeserializer<LocalDateTime> {
 	
 	/** Constant formatter for parsing the date/time. */
-	private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("MM-dd-yyyy hh:mm:ss a");
+	private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 	
 	
 	@Override

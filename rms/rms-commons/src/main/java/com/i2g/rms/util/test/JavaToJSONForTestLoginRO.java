@@ -6,7 +6,7 @@ import java.io.IOException;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.i2g.rms.util.model.TestLoginRO;
+import com.i2g.rms.util.test.model.TestLoginRO;
 
 public class JavaToJSONForTestLoginRO {
 

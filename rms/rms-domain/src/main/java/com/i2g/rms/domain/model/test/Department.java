@@ -68,6 +68,7 @@ public class Department extends AbstractDataModel<Long> implements Serializable,
 	@Column(name = "ID", updatable = false, nullable = false)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rms_test_dept_id_seq")
 	@SequenceGenerator(name = "rms_test_dept_id_seq", sequenceName = "RMS_TEST_DEPT_ID_SEQ", allocationSize = 1)
+	@Override
 	public Long getId() {
 		return _id;
 	}

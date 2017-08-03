@@ -37,7 +37,8 @@ public enum RestMessage implements MessageKey {
 	DELETE_OPERATION_FAILED(1018),
 	NOT_ALL_RECORDS_WERE_DELETED(1019),
 	CREDENTIALS_NOT_PRESENT_IN_REQUEST(1020),
-	REQUEST_OBJECT_NULL_OR_EMPTY(1021)
+	REQUEST_OBJECT_NULL_OR_EMPTY(1021),
+	UNIQUE_INCIDENT_ID_NULL_OR_EMPTY(1022)
 	;
 	
 	/** Primary key ID of Rest Message ID entity in persistent store for retrieval. */

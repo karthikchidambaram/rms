@@ -10,6 +10,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -18,6 +19,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.i2g.rms.domain.model.incident.Incident;
 import com.i2g.rms.domain.model.tablemaintenance.DocumentCategory;
 import com.i2g.rms.domain.model.tablemaintenance.DocumentType;
 
@@ -69,9 +71,9 @@ public class Document extends AbstractDataModel<Long> implements Serializable {
 	 * @return id
 	 */
 	@Id
-	@Column(name = "ID", updatable = false)
-	@GeneratedValue(generator = "sequence")
-	@SequenceGenerator(name = "sequence", sequenceName = "RMS_DOC_ID_SEQ")
+	@Column(name = "ID", updatable = false, nullable = false)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rms_doc_id_seq")
+	@SequenceGenerator(name = "rms_doc_id_seq", sequenceName = "RMS_DOC_ID_SEQ", allocationSize = 1)
 	@Override
 	public Long getId() {
 		return _id;

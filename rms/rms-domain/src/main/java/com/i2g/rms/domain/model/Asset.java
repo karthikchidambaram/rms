@@ -12,6 +12,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -26,6 +27,7 @@ import org.hibernate.annotations.FetchMode;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.i2g.rms.domain.model.incident.Incident;
 import com.i2g.rms.domain.model.tablemaintenance.AssetCategory;
 
 /**
@@ -78,9 +80,9 @@ public class Asset extends AbstractDataModel<Long> implements Serializable {
 	 * @return id
 	 */
 	@Id
-	@Column(name = "ID", updatable = false)
-	@GeneratedValue(generator = "sequence")
-	@SequenceGenerator(name = "sequence", sequenceName = "RMS_ASST_ID_SEQ")
+	@Column(name = "ID", updatable = false, nullable = false)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rms_asst_id_seq")
+	@SequenceGenerator(name = "rms_asst_id_seq", sequenceName = "RMS_ASST_ID_SEQ", allocationSize = 1)
 	@Override
 	public Long getId() {
 		return _id;

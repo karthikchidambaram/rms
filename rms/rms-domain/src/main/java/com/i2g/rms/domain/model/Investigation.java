@@ -11,6 +11,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -18,6 +19,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
+
+import com.i2g.rms.domain.model.incident.Incident;
 
 /**
  * Entity representation of Investigation.
@@ -74,9 +77,9 @@ public class Investigation extends AbstractDataModel<Long> implements Serializab
 	 * @return id
 	 */
 	@Id
-	@Column(name = "ID", updatable = false)
-	@GeneratedValue(generator = "sequence")
-	@SequenceGenerator(name = "sequence", sequenceName = "RMS_INVST_ID_SEQ")
+	@Column(name = "ID", updatable = false, nullable = false)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rms_invst_id_seq")
+	@SequenceGenerator(name = "rms_invst_id_seq", sequenceName = "RMS_INVST_ID_SEQ", allocationSize = 1)
 	@Override
 	public Long getId() {
 		return _id;

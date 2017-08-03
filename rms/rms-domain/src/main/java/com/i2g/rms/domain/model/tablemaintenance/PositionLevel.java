@@ -29,7 +29,7 @@ public class PositionLevel extends AbstractDataModel<String> implements Serializ
 	 */
 	private static final long serialVersionUID = 1L;
 	private String _id;
-	private String _description;
+	private String _description;	
 
 	/**
 	 * Default empty constructor required for Hibernate.

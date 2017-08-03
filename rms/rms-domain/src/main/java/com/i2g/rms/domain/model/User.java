@@ -19,6 +19,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -157,9 +158,9 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	 * @return id
 	 */
 	@Id
-	@Column(name = "ID", updatable = false)
-	@GeneratedValue(generator = "sequence")
-	@SequenceGenerator(name = "sequence", sequenceName = "RMS_USR_ID_SEQ")
+	@Column(name = "ID", updatable = false, nullable = false)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rms_usr_id_seq")
+	@SequenceGenerator(name = "rms_usr_id_seq", sequenceName = "RMS_USR_ID_SEQ", allocationSize = 1)
 	@Override
 	public Long getId() {
 		return _id;
@@ -503,7 +504,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	/**
 	 * @return the genderType
 	 */
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "GNDR_TYP_CDE")
 	@Size(min = 1, max = 16, message = "Gender type code must be between {min} and {max} characters")
 	public GenderType getGenderType() {
@@ -683,7 +684,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	/**
 	 * @return the position
 	 */
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "POSTN_CDE")
 	@Size(min = 1, max = 16, message = "Position code must be between {min} and {max} characters")
 	public Position getPosition() {
@@ -700,7 +701,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	/**
 	 * @return the employeeType
 	 */
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "EMP_TYP_CDE")
 	@Size(min = 1, max = 16, message = "Employee type code must be between {min} and {max} characters")
 	public EmployeeType getEmployeeType() {

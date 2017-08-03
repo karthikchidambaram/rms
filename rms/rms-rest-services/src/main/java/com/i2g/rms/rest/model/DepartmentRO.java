@@ -1,5 +1,6 @@
 package com.i2g.rms.rest.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -37,6 +38,7 @@ public class DepartmentRO extends AbstractEntityRO {
 	/**
 	 * @return the organization
 	 */
+	@JsonIgnore
 	public OrganizationRO getOrganization() {
 		return _organization;
 	}

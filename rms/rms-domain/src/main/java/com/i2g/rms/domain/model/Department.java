@@ -139,7 +139,7 @@ public class Department extends AbstractDataModel<String> implements Serializabl
 	/**
 	 * @return the organization
 	 */
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "ORG_CDE")
 	@Size(min = 1, max = 16, message = "Organization code must be between {min} and {max} characters")
 	@JsonIgnore

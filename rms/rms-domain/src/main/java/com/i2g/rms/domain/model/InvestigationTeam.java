@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -68,9 +69,9 @@ public class InvestigationTeam extends AbstractDataModel<Long> implements Serial
 	 * @return id
 	 */
 	@Id
-	@Column(name = "ID", updatable = false)
-	@GeneratedValue(generator = "sequence")
-	@SequenceGenerator(name = "sequence", sequenceName = "RMS_INVST_TEAM_ID_SEQ")
+	@Column(name = "ID", updatable = false, nullable = false)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rms_invst_team_id_seq")
+	@SequenceGenerator(name = "rms_invst_team_id_seq", sequenceName = "RMS_INVST_TEAM_ID_SEQ", allocationSize = 1)
 	@Override
 	public Long getId() {
 		return _id;

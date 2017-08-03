@@ -143,8 +143,8 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-crypto</artifactId>
 			<version>${spring.security.crypto.version}</version>			
-		</dependency>
-
+		</dependency>		
+		
 	</dependencies>
 
 </project>

@@ -8,12 +8,12 @@ import java.util.List;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.i2g.rms.util.model.FilterRO;
-import com.i2g.rms.util.model.FilterRO.Operator;
-import com.i2g.rms.util.model.PageRO;
-import com.i2g.rms.util.model.SearchRO;
-import com.i2g.rms.util.model.SortRO;
-import com.i2g.rms.util.model.SortRO.Order;
+import com.i2g.rms.util.test.search.FilterRO;
+import com.i2g.rms.util.test.search.FilterRO.Operator;
+import com.i2g.rms.util.test.search.PageRO;
+import com.i2g.rms.util.test.search.SearchRO;
+import com.i2g.rms.util.test.search.SortRO;
+import com.i2g.rms.util.test.search.SortRO.Order;
 
 public class JavaToJSON {
 

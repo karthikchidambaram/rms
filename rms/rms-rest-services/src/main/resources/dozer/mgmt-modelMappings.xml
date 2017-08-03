@@ -40,8 +40,8 @@
 	</mapping>
 	
 	<mapping>
-		<class-a>com.i2g.rms.domain.model.IncidentStatus</class-a>
-		<class-b>com.i2g.rms.rest.model.IncidentStatusRO</class-b>
+		<class-a>com.i2g.rms.domain.model.incident.IncidentStatus</class-a>
+		<class-b>com.i2g.rms.rest.model.incident.IncidentStatusRO</class-b>
 	</mapping>
 	
 	<mapping>
@@ -62,6 +62,21 @@
 	<mapping>
 		<class-a>com.i2g.rms.domain.model.Position</class-a>
 		<class-b>com.i2g.rms.rest.model.PositionRO</class-b>
+	</mapping>
+	
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.incident.SearchIncident</class-a>
+		<class-b>com.i2g.rms.rest.model.incident.SearchIncidentRO</class-b>
+	</mapping>
+	
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.incident.Incident</class-a>
+		<class-b>com.i2g.rms.rest.model.incident.IncidentRO</class-b>
+	</mapping>
+	
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.lookup.UserLookup</class-a>
+		<class-b>com.i2g.rms.rest.model.lookup.UserLookupRO</class-b>
 	</mapping>
 
 </mappings>

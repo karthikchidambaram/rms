@@ -20,7 +20,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 public class JsonLocalDateSerializer extends JsonSerializer<LocalDate> {
 	
 	/** Constant pattern for formatting a local date. */
-	private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+	private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	
 	
 	@Override

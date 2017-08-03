@@ -13,6 +13,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -25,6 +26,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Type;
 
+import com.i2g.rms.domain.model.incident.Incident;
 import com.i2g.rms.domain.model.tablemaintenance.BodyPart;
 import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeatureDetail;
 import com.i2g.rms.domain.model.tablemaintenance.GenderType;
@@ -93,9 +95,9 @@ public class InjuredPerson extends AbstractDataModel<Long> implements Serializab
 	 * @return id
 	 */
 	@Id
-	@Column(name = "ID", updatable = false)
-	@GeneratedValue(generator = "sequence")
-	@SequenceGenerator(name = "sequence", sequenceName = "RMS_INJRD_PRSN_ID_SEQ")
+	@Column(name = "ID", updatable = false, nullable = false)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rms_injrd_prsn_id_seq")
+	@SequenceGenerator(name = "rms_injrd_prsn_id_seq", sequenceName = "RMS_INJRD_PRSN_ID_SEQ", allocationSize = 1)
 	@Override
 	public Long getId() {
 		return _id;

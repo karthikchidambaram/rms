@@ -148,7 +148,7 @@ public class Position extends AbstractDataModel<String> implements Serializable 
 	/**
 	 * @return the postionLevel
 	 */
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "POSTN_LVL_CDE")
 	@Size(min = 1, max = 16, message = "Position level code must be between {min} and {max} characters")
 	public PositionLevel getPositionLevel() {
@@ -165,6 +165,9 @@ public class Position extends AbstractDataModel<String> implements Serializable 
 	/**
 	 * @return the organization
 	 */
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "ORG_CDE")
+	@Size(min = 1, max = 16, message = "Organization code must be between {min} and {max} characters")
 	public Organization getOrganization() {
 		return _organization;
 	}
@@ -179,6 +182,9 @@ public class Position extends AbstractDataModel<String> implements Serializable 
 	/**
 	 * @return the department
 	 */
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "DEPT_CDE")
+	@Size(min = 1, max = 16, message = "Department code must be between {min} and {max} characters")
 	public Department getDepartment() {
 		return _department;
 	}
