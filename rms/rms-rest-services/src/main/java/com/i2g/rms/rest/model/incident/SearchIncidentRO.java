@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.i2g.rms.rest.model.AbstractEntityRO;
+import com.i2g.rms.rest.model.StatusFlagRO;
 
 /**
  * Search Incident RO Object
@@ -20,8 +21,8 @@ public class SearchIncidentRO extends AbstractEntityRO {
 	private long id;
 	private String uniqueIncidentId;
 	private LocalDateTime openedDateTime;
-	private String statusFlag;
-	private String status;
+	private StatusFlagRO incidentStatusFlag;
+	private IncidentStatusRO incidentStatus;
 	private LocalDateTime closedDateTime;
 	private String personInjured;
 	private String propertyDamage;
@@ -38,7 +39,7 @@ public class SearchIncidentRO extends AbstractEntityRO {
 	private long userId;
 	private String userLoginId;
 	private String reportedBy;
-	private String userStatusFlag;
+	private StatusFlagRO userStatusFlag;
 	private String organizationCode;
 	private String organizationDescription;
 	private String departmentCode;
@@ -92,33 +93,33 @@ public class SearchIncidentRO extends AbstractEntityRO {
 	}
 
 	/**
-	 * @return the statusFlag
+	 * @return the incidentStatusFlag
 	 */
-	public String getStatusFlag() {
-		return statusFlag;
+	public StatusFlagRO getIncidentStatusFlag() {
+		return incidentStatusFlag;
 	}
 
 	/**
-	 * @param statusFlag
-	 *            the statusFlag to set
+	 * @param incidentStatusFlag
+	 *            the incidentStatusFlag to set
 	 */
-	public void setStatusFlag(String statusFlag) {
-		this.statusFlag = statusFlag;
+	public void setIncidentStatusFlag(StatusFlagRO incidentStatusFlag) {
+		this.incidentStatusFlag = incidentStatusFlag;
 	}
 
 	/**
-	 * @return the status
+	 * @return the incidentStatus
 	 */
-	public String getStatus() {
-		return status;
+	public IncidentStatusRO getIncidentStatus() {
+		return incidentStatus;
 	}
 
 	/**
-	 * @param status
-	 *            the status to set
+	 * @param incidentStatus
+	 *            the incidentStatus to set
 	 */
-	public void setStatus(String status) {
-		this.status = status;
+	public void setIncidentStatus(IncidentStatusRO incidentStatus) {
+		this.incidentStatus = incidentStatus;
 	}
 
 	/**
@@ -364,7 +365,7 @@ public class SearchIncidentRO extends AbstractEntityRO {
 	/**
 	 * @return the userStatusFlag
 	 */
-	public String getUserStatusFlag() {
+	public StatusFlagRO getUserStatusFlag() {
 		return userStatusFlag;
 	}
 
@@ -372,7 +373,7 @@ public class SearchIncidentRO extends AbstractEntityRO {
 	 * @param userStatusFlag
 	 *            the userStatusFlag to set
 	 */
-	public void setUserStatusFlag(String userStatusFlag) {
+	public void setUserStatusFlag(StatusFlagRO userStatusFlag) {
 		this.userStatusFlag = userStatusFlag;
 	}
 

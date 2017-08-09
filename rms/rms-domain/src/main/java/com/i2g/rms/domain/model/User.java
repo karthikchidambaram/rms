@@ -43,8 +43,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.i2g.rms.domain.model.incident.Incident;
 import com.i2g.rms.domain.model.tablemaintenance.EmployeeType;
 import com.i2g.rms.domain.model.tablemaintenance.GenderType;
 
@@ -97,9 +97,8 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	private String _employeeId;
 	private String _managerLoginId;
 	private Position _position;
-	private EmployeeType _employeeType;
-	
-	
+	private EmployeeType _employeeType;	
+		
 	@NotNull
 	@Transient
 	private boolean _accountExpired;
@@ -119,6 +118,9 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY, orphanRemoval = true)
 	@Transient
 	private Set<UserAuthority> _authorities;
+	
+	/** Tells if the current user is a suspect to one or many incidents. */ 
+	private Set<Incident> _incidents = new HashSet<Incident>(0);
 	
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -305,7 +307,6 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "user")
 	@Fetch(FetchMode.SUBSELECT)
-	@JsonIgnoreProperties("user")
 	public Set<PasswordHistory> getPasswordHistory() {
 		return _passwordHistory;
 	}
@@ -713,5 +714,20 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	 */
 	public void setEmployeeType(final EmployeeType employeeType) {
 		_employeeType = employeeType;
+	}
+
+	/**
+	 * @return the incidents
+	 */
+	@ManyToMany(mappedBy = "employeeSuspects")
+	public Set<Incident> getIncidents() {
+		return _incidents;
+	}
+
+	/**
+	 * @param incidents the incidents to set
+	 */
+	public void setIncidents(final Set<Incident> incidents) {
+		_incidents = incidents;
 	}	
 }

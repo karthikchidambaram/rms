@@ -13,8 +13,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 /**
  * Entity representation of Department.
  * 
@@ -142,7 +140,6 @@ public class Department extends AbstractDataModel<String> implements Serializabl
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "ORG_CDE")
 	@Size(min = 1, max = 16, message = "Organization code must be between {min} and {max} characters")
-	@JsonIgnore
 	public Organization getOrganization() {
 		return _organization;
 	}

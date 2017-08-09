@@ -49,6 +49,7 @@ public class Role extends AbstractDataModel<Long> implements Serializable {
 	private String _roleDescription;
 	/** Set of permissions associated with the role. */
 	private Set<Permission> _permissions = new HashSet<Permission>(0);	
+	private Set<User> _users = new HashSet<User>(0);
 	
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -149,6 +150,23 @@ public class Role extends AbstractDataModel<Long> implements Serializable {
 	protected void setPermissions(final Set<Permission> permissions) {
 		_permissions = permissions;
 	}
+	
+	/**
+	 * @return the users
+	 */
+	@ManyToMany(mappedBy = "roles")
+	public Set<User> getUsers() {
+		return _users;
+	}
+
+	/**
+	 * @param users the users to set
+	 */
+	public void setUsers(final Set<User> users) {
+		_users = users;
+	}
+
+
 
 	/**
 	 * Builder pattern for constructing immutable instances of {@link Role}.

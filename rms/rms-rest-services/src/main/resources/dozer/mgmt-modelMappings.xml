@@ -17,11 +17,19 @@
 	<mapping>
 		<class-a>com.i2g.rms.domain.model.Permission</class-a>
 		<class-b>com.i2g.rms.rest.model.PermissionRO</class-b>
+		<field-exclude>
+			<a>roles</a>
+			<b>roles</b>
+		</field-exclude>
 	</mapping>
 
 	<mapping>
 		<class-a>com.i2g.rms.domain.model.Role</class-a>
 		<class-b>com.i2g.rms.rest.model.RoleRO</class-b>
+		<field-exclude>
+			<a>users</a>
+			<b>users</b>
+		</field-exclude>
 	</mapping>
 	
 	<mapping>
@@ -32,6 +40,10 @@
 	<mapping>
 		<class-a>com.i2g.rms.domain.model.User</class-a>
 		<class-b>com.i2g.rms.rest.model.UserRO</class-b>
+		<field-exclude>
+			<a>incidents</a>
+			<b>incidents</b>
+		</field-exclude>
 	</mapping>
 	
 	<mapping>
@@ -71,7 +83,52 @@
 	
 	<mapping>
 		<class-a>com.i2g.rms.domain.model.incident.Incident</class-a>
-		<class-b>com.i2g.rms.rest.model.incident.IncidentRO</class-b>
+		<class-b>com.i2g.rms.rest.model.incident.IncidentRO</class-b>		
+	</mapping>
+	
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.Suspect</class-a>
+		<class-b>com.i2g.rms.rest.model.SuspectRO</class-b>
+		<field-exclude>
+			<a>incidents</a>
+			<b>incidents</b>
+		</field-exclude>		
+	</mapping>
+	
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.Asset</class-a>
+		<class-b>com.i2g.rms.rest.model.AssetRO</class-b>
+		<field-exclude>
+			<a>incident</a>
+			<b>incident</b>
+		</field-exclude>
+	</mapping>
+	
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.Building</class-a>
+		<class-b>com.i2g.rms.rest.model.BuildingRO</class-b>
+		<field-exclude>
+			<a>asset</a>
+			<b>asset</b>
+		</field-exclude>
+	</mapping>
+	
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.Vehicle</class-a>
+		<class-b>com.i2g.rms.rest.model.VehicleRO</class-b>
+		<field-exclude>
+			<a>asset</a>
+			<b>asset</b>
+		</field-exclude>
+	</mapping>
+	
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.Equipment</class-a>
+		<class-b>com.i2g.rms.rest.model.EquipmentRO</class-b>
+		<field-exclude>
+			<a>asset</a>
+			<b>asset</b>
+		</field-exclude>		
 	</mapping>
 	
 	<mapping>

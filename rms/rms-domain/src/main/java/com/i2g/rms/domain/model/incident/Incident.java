@@ -1,11 +1,13 @@
 package com.i2g.rms.domain.model.incident;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.jdo.annotations.Unique;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -15,6 +17,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -25,6 +29,7 @@ import org.hibernate.annotations.Type;
 
 import com.i2g.rms.domain.model.AbstractDataModel;
 import com.i2g.rms.domain.model.StatusFlag;
+import com.i2g.rms.domain.model.Suspect;
 import com.i2g.rms.domain.model.User;
 import com.i2g.rms.domain.model.YesNoType;
 import com.i2g.rms.domain.model.tablemaintenance.EntryPoint;
@@ -62,11 +67,12 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 	private YesNoType _personInjured;
 	private YesNoType _propertyDamage;
 	private YesNoType _crimeInvolved;
-	private User _user;
+	private User _incidentReportedBy;
 	private IncidentCategory _incidentCategory;
 	private LocalDateTime _incidentClosedDateTime;
+	private Set<Suspect> _suspects = new HashSet<Suspect>(0);	
+	private Set<User> _employeeSuspects = new HashSet<User>(0);
 	
-
 	/**
 	 * Default empty constructor required for Hibernate.
 	 */
@@ -83,7 +89,7 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 		_id = Objects.requireNonNull(builder._id, "Incident Id cannot be null.");
 		_uniqueIncidentId = Objects.requireNonNull(builder._uniqueIncidentId, "Unique Incident Id cannot be null.");
 		_incidentStatus = Objects.requireNonNull(builder._incidentStatus, "Incident status cannot be null.");
-		_user = Objects.requireNonNull(builder._user, "The user (object) who reported the incident cannot be null.");
+		_incidentReportedBy = Objects.requireNonNull(builder._user, "The user (object) who reported the incident cannot be null.");
 		_statusFlag = Objects.requireNonNull(builder._statusFlag, "Incident status flag cannot be null.");
 	}
 
@@ -264,12 +270,12 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "USR_ID")
 	@NotNull
-	public User getUser() {
-		return _user;
+	public User getIncidentReportedBy() {
+		return _incidentReportedBy;
 	}
 
-	public void setUser(final User user) {
-		_user = user;
+	public void setIncidentReportedBy(final User incidentReportedBy) {
+		_incidentReportedBy = incidentReportedBy;
 	}
 	
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -293,6 +299,46 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 		_incidentClosedDateTime = incidentClosedDateTime;
 	}
 	
+	/**
+	 * @return the suspects
+	 */
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(
+			name = "RMS_INC_SUSPT",
+			joinColumns = @JoinColumn(name = "INC_ID"),
+			inverseJoinColumns = @JoinColumn(name = "SUSPT_ID")
+	)
+	public Set<Suspect> getSuspects() {
+		return _suspects;
+	}
+
+	/**
+	 * @param suspects the suspects to set
+	 */
+	public void setSuspects(final Set<Suspect> suspects) {
+		_suspects = suspects;
+	}
+	
+	/**
+	 * @return the employeeSuspects
+	 */
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(
+			name = "RMS_INC_SUSPT",
+			joinColumns = @JoinColumn(name = "INC_ID"),
+			inverseJoinColumns = @JoinColumn(name = "USR_ID")
+	)
+	public Set<User> getEmployeeSuspects() {
+		return _employeeSuspects;
+	}
+
+	/**
+	 * @param employeeSuspects the employeeSuspects to set
+	 */
+	public void setEmployeeSuspects(final Set<User> employeeSuspects) {
+		_employeeSuspects = employeeSuspects;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(_id, _uniqueIncidentId, _incidentStatus, _statusFlag);

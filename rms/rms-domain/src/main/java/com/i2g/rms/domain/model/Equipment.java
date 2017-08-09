@@ -17,8 +17,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 /**
  * Entity representation of Building.
  * 
@@ -112,7 +110,6 @@ public class Equipment extends AbstractDataModel<Long> implements Serializable {
 	 */
 	@ManyToOne
 	@JoinColumn(name = "ASST_ID")
-	@JsonIgnoreProperties("equipments")
 	public Asset getAsset() {
 		return _asset;
 	}

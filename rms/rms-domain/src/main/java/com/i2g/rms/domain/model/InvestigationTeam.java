@@ -119,7 +119,11 @@ public class InvestigationTeam extends AbstractDataModel<Long> implements Serial
 	 * @return set of associated users
 	 */
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinTable(name = "RMS_INVST_TEAM_LEAD", joinColumns = @JoinColumn(name = "INVST_TEAM_ID"), inverseJoinColumns = @JoinColumn(name = "USR_ID"))
+	@JoinTable(
+			name = "RMS_INVST_TEAM_LEAD", 
+			joinColumns = @JoinColumn(name = "INVST_TEAM_ID"), 
+			inverseJoinColumns = @JoinColumn(name = "USR_ID")
+	)
 	public Set<User> getUsers() {
 		return _users;
 	}

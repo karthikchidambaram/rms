@@ -4,10 +4,13 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.i2g.rms.domain.model.AbstractDataModel;
+import com.i2g.rms.domain.model.StatusFlag;
 
 /**
  * User lookup entity object based on a view.
@@ -27,9 +30,14 @@ public class UserLookup extends AbstractDataModel<Long> implements Serializable 
 
 	private long id;
 	private String userLoginId;
+	private String title;
 	private String firstName;
 	private String middleName;
 	private String lastName;
+	private String nameSuffix;
+	private StatusFlag statusFlag;
+	private String genderTypeCode;
+	private String genderTypeDescription;
 	private String phone;
 	private String alternatePhone;
 	private String email;
@@ -37,6 +45,15 @@ public class UserLookup extends AbstractDataModel<Long> implements Serializable 
 	private String managerLoginId;
 	private String employeeTypeCode;
 	private String employeeTypeDescription;
+	private String positionCode;
+	private String positionDescription;
+	private String organizationCode;
+	private String organizationDescription;
+	private String departmentCode;
+	private String departmentDescription;
+	private String departmentOrganizationCode;
+	private String positionLevelCode;
+	private String positionLevelDescription;
 
 	/**
 	 * @return the id
@@ -230,4 +247,230 @@ public class UserLookup extends AbstractDataModel<Long> implements Serializable 
 	public void setEmployeeTypeDescription(String employeeTypeDescription) {
 		this.employeeTypeDescription = employeeTypeDescription;
 	}
+
+	/**
+	 * @return the title
+	 */
+	@Column(name = "TITLE")
+	public String getTitle() {
+		return title;
+	}
+
+	/**
+	 * @param title
+	 *            the title to set
+	 */
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	/**
+	 * @return the nameSuffix
+	 */
+	@Column(name = "NAM_SUFFIX")
+	public String getNameSuffix() {
+		return nameSuffix;
+	}
+
+	/**
+	 * @param nameSuffix
+	 *            the nameSuffix to set
+	 */
+	public void setNameSuffix(String nameSuffix) {
+		this.nameSuffix = nameSuffix;
+	}
+
+	/**
+	 * @return the statusFlag
+	 */
+	@Column(name = "STS_FLG")
+	@Enumerated(EnumType.STRING)
+	public StatusFlag getStatusFlag() {
+		return statusFlag;
+	}
+
+	/**
+	 * @param statusFlag
+	 *            the statusFlag to set
+	 */
+	public void setStatusFlag(StatusFlag statusFlag) {
+		this.statusFlag = statusFlag;
+	}
+
+	/**
+	 * @return the genderTypeCode
+	 */
+	@Column(name = "GNDR_TYP_CDE")
+	public String getGenderTypeCode() {
+		return genderTypeCode;
+	}
+
+	/**
+	 * @param genderTypeCode
+	 *            the genderTypeCode to set
+	 */
+	public void setGenderTypeCode(String genderTypeCode) {
+		this.genderTypeCode = genderTypeCode;
+	}
+
+	/**
+	 * @return the genderTypeDescription
+	 */
+	@Column(name = "GNDR_TYP_DSCPTN")
+	public String getGenderTypeDescription() {
+		return genderTypeDescription;
+	}
+
+	/**
+	 * @param genderTypeDescription
+	 *            the genderTypeDescription to set
+	 */
+	public void setGenderTypeDescription(String genderTypeDescription) {
+		this.genderTypeDescription = genderTypeDescription;
+	}
+
+	/**
+	 * @return the positionCode
+	 */
+	@Column(name = "POSTN_CDE")
+	public String getPositionCode() {
+		return positionCode;
+	}
+
+	/**
+	 * @param positionCode
+	 *            the positionCode to set
+	 */
+	public void setPositionCode(String positionCode) {
+		this.positionCode = positionCode;
+	}
+
+	/**
+	 * @return the positionDescription
+	 */
+	@Column(name = "POSTN_DSCPTN")
+	public String getPositionDescription() {
+		return positionDescription;
+	}
+
+	/**
+	 * @param positionDescription
+	 *            the positionDescription to set
+	 */
+	public void setPositionDescription(String positionDescription) {
+		this.positionDescription = positionDescription;
+	}
+
+	/**
+	 * @return the organizationCode
+	 */
+	@Column(name = "ORG_CDE")
+	public String getOrganizationCode() {
+		return organizationCode;
+	}
+
+	/**
+	 * @param organizationCode
+	 *            the organizationCode to set
+	 */
+	public void setOrganizationCode(String organizationCode) {
+		this.organizationCode = organizationCode;
+	}
+
+	/**
+	 * @return the organizationDescription
+	 */
+	@Column(name = "ORG_DSCPTN")
+	public String getOrganizationDescription() {
+		return organizationDescription;
+	}
+
+	/**
+	 * @param organizationDescription
+	 *            the organizationDescription to set
+	 */
+	public void setOrganizationDescription(String organizationDescription) {
+		this.organizationDescription = organizationDescription;
+	}
+
+	/**
+	 * @return the departmentCode
+	 */
+	@Column(name = "DEPT_CDE")
+	public String getDepartmentCode() {
+		return departmentCode;
+	}
+
+	/**
+	 * @param departmentCode
+	 *            the departmentCode to set
+	 */
+	public void setDepartmentCode(String departmentCode) {
+		this.departmentCode = departmentCode;
+	}
+
+	/**
+	 * @return the departmentDescription
+	 */
+	@Column(name = "DEPT_DSCPTN")
+	public String getDepartmentDescription() {
+		return departmentDescription;
+	}
+
+	/**
+	 * @param departmentDescription
+	 *            the departmentDescription to set
+	 */
+	public void setDepartmentDescription(String departmentDescription) {
+		this.departmentDescription = departmentDescription;
+	}
+
+	/**
+	 * @return the positionLevelCode
+	 */
+	@Column(name = "POSTN_LVL_CDE")
+	public String getPositionLevelCode() {
+		return positionLevelCode;
+	}
+
+	/**
+	 * @param positionLevelCode
+	 *            the positionLevelCode to set
+	 */
+	public void setPositionLevelCode(String positionLevelCode) {
+		this.positionLevelCode = positionLevelCode;
+	}
+
+	/**
+	 * @return the positionLevelDescription
+	 */
+	@Column(name = "POSTN_LVL_DSCPTN")
+	public String getPositionLevelDescription() {
+		return positionLevelDescription;
+	}
+
+	/**
+	 * @param positionLevelDescription
+	 *            the positionLevelDescription to set
+	 */
+	public void setPositionLevelDescription(String positionLevelDescription) {
+		this.positionLevelDescription = positionLevelDescription;
+	}
+
+	/**
+	 * @return the departmentOrganizationCode
+	 */
+	@Column(name = "DEPT_ORG_CDE")
+	public String getDepartmentOrganizationCode() {
+		return departmentOrganizationCode;
+	}
+
+	/**
+	 * @param departmentOrganizationCode
+	 *            the departmentOrganizationCode to set
+	 */
+	public void setDepartmentOrganizationCode(String departmentOrganizationCode) {
+		this.departmentOrganizationCode = departmentOrganizationCode;
+	}
+
 }

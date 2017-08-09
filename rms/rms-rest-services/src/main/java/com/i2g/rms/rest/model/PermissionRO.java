@@ -46,7 +46,7 @@ public class PermissionRO extends AbstractEntityRO {
 	public void setPermissionDescription(final String permissionDescription) {
 		_permissionDescription = permissionDescription;
 	}
-
+	
 	public Set<RoleRO> getRoles() {
 		return _roles;
 	}

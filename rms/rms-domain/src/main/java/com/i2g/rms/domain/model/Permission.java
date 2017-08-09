@@ -1,7 +1,9 @@
 package com.i2g.rms.domain.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
@@ -9,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
@@ -38,6 +41,7 @@ public class Permission extends AbstractDataModel<Long> implements Serializable 
 	private long _id;
 	private String _permissionName;
 	private String _permissionDescription;
+	private Set<Role> _roles = new HashSet<Role>(0);
 
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -106,6 +110,23 @@ public class Permission extends AbstractDataModel<Long> implements Serializable 
 	public void setPermissionDescription(String permissionDescription) {
 		_permissionDescription = permissionDescription;
 	}
+	
+	/**
+	 * @return the roles
+	 */
+	@ManyToMany(mappedBy = "permissions")
+	public Set<Role> getRoles() {
+		return _roles;
+	}
+
+	/**
+	 * @param roles the roles to set
+	 */
+	public void setRoles(final Set<Role> roles) {
+		_roles = roles;
+	}
+
+
 
 	/**
 	 * Builder pattern for constructing immutable instances of

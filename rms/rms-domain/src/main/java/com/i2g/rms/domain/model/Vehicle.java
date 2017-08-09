@@ -18,7 +18,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.i2g.rms.domain.model.tablemaintenance.VehicleDamageType;
 
 /**
@@ -41,7 +40,6 @@ public class Vehicle extends AbstractDataModel<Long> implements Serializable {
 	private long _id;
 	private Asset _asset;
 	private StatusFlag _statusFlag;
-	
 	private String _vehicleRegistrationId;
 	private String _engineNumber;
 	private String _chasisNumber;
@@ -119,7 +117,6 @@ public class Vehicle extends AbstractDataModel<Long> implements Serializable {
 	 */
 	@ManyToOne
 	@JoinColumn(name = "ASST_ID")
-	@JsonIgnoreProperties("vehicles")
 	public Asset getAsset() {
 		return _asset;
 	}

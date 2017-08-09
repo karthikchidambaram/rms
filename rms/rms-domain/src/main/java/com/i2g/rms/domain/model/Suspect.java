@@ -2,7 +2,9 @@ package com.i2g.rms.domain.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -44,7 +47,6 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	private static final long serialVersionUID = 1L;
 	/** Primary surrogate key ID */
 	private long _id;
-	private Incident _incident;
 	private StatusFlag _statusFlag;
 	private String _title;
 	private String _firstName;
@@ -63,7 +65,7 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	private YesNoType _weaponInvolved;
 	private WeaponType _weaponType;
 	private SuspectType _suspectType;
-	private User _user;
+	private Set<Incident> _incidents = new HashSet<Incident>(0);
 	
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -359,38 +361,6 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	}
 	
 	/**
-	 * @return the user
-	 */
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "USR_ID")
-	public User getUser() {
-		return _user;
-	}
-
-	/**
-	 * @param user the user to set
-	 */
-	public void setUser(final User user) {
-		_user = user;
-	}
-	
-	/**
-	 * @return the incidentId
-	 */
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "INC_ID")
-	public Incident getIncident() {
-		return _incident;
-	}
-
-	/**
-	 * @param incident the incident to set
-	 */
-	public void setIncident(final Incident incident) {
-		_incident = incident;
-	}
-
-	/**
 	 * @return the weaponInvolved
 	 */
 	@Column(name = "WPN_INVLD")
@@ -439,6 +409,21 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	 */
 	public void setSuspectType(final SuspectType suspectType) {
 		_suspectType = suspectType;
+	}
+	
+	/**
+	 * @return the incidents
+	 */
+	@ManyToMany(mappedBy = "suspects")
+	public Set<Incident> getIncidents() {
+		return _incidents;
+	}
+
+	/**
+	 * @param incidents the incidents to set
+	 */
+	public void setIncidents(final Set<Incident> incidents) {
+		_incidents = incidents;
 	}
 
 	@Override

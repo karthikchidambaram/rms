@@ -6,16 +6,16 @@
 	<!-- Table maintenance -->
 	<mapping>
 		<class-a>com.i2g.rms.domain.model.tablemaintenance.AccidentLocation</class-a>
-		<class-b>com.i2g.rms.rest.model.tablemaintenance.AccidentLocationRO</class-b>
-		<field-exclude>
-			<a>accidentLocationDetails</a>
-			<b>accidentLocationDetails</b>
-		</field-exclude>
+		<class-b>com.i2g.rms.rest.model.tablemaintenance.AccidentLocationRO</class-b>				
 	</mapping>
 
 	<mapping>
 		<class-a>com.i2g.rms.domain.model.tablemaintenance.AccidentLocationDetail</class-a>
 		<class-b>com.i2g.rms.rest.model.tablemaintenance.AccidentLocationDetailRO</class-b>
+		<field-exclude>
+			<a>accidentLocation</a>
+			<b>accidentLocation</b>
+		</field-exclude>
 	</mapping>
 
 	<mapping>
@@ -40,16 +40,16 @@
 
 	<mapping>
 		<class-a>com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeature</class-a>
-		<class-b>com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeatureRO</class-b>
-		<field-exclude>
-			<a>distinguishingFeatureDetails</a>
-			<b>distinguishingFeatureDetails</b>
-		</field-exclude>
+		<class-b>com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeatureRO</class-b>		
 	</mapping>
 
 	<mapping>
 		<class-a>com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeatureDetail</class-a>
 		<class-b>com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeatureDetailRO</class-b>
+		<field-exclude>
+			<a>distinguishingFeature</a>
+			<b>distinguishingFeature</b>
+		</field-exclude>
 	</mapping>
 
 	<mapping>
@@ -74,16 +74,16 @@
 
 	<mapping>
 		<class-a>com.i2g.rms.domain.model.tablemaintenance.IncidentLocation</class-a>
-		<class-b>com.i2g.rms.rest.model.tablemaintenance.IncidentLocationRO</class-b>
-		<field-exclude>
-			<a>incidentLocationDetails</a>
-			<b>incidentLocationDetails</b>
-		</field-exclude>
+		<class-b>com.i2g.rms.rest.model.tablemaintenance.IncidentLocationRO</class-b>		
 	</mapping>
 
 	<mapping>
 		<class-a>com.i2g.rms.domain.model.tablemaintenance.IncidentLocationDetail</class-a>
 		<class-b>com.i2g.rms.rest.model.tablemaintenance.IncidentLocationDetailRO</class-b>
+		<field-exclude>
+			<a>incidentLocation</a>
+			<b>incidentLocation</b>
+		</field-exclude>
 	</mapping>
 
 	<mapping>
@@ -98,25 +98,25 @@
 
 	<mapping>
 		<class-a>com.i2g.rms.domain.model.tablemaintenance.InjuryType</class-a>
-		<class-b>com.i2g.rms.rest.model.tablemaintenance.InjuryTypeRO</class-b>
-		<field-exclude>
-			<a>injuryTypeDetails</a>
-			<b>injuryTypeDetails</b>
-		</field-exclude>
+		<class-b>com.i2g.rms.rest.model.tablemaintenance.InjuryTypeRO</class-b>		
 	</mapping>
 
 	<mapping>
 		<class-a>com.i2g.rms.domain.model.tablemaintenance.InjuryTypeDetail</class-a>
 		<class-b>com.i2g.rms.rest.model.tablemaintenance.InjuryTypeDetailRO</class-b>
 		<field-exclude>
-			<a>injuryTypeDetailSpecs</a>
-			<b>injuryTypeDetailSpecs</b>
+			<a>injuryType</a>
+			<b>injuryType</b>
 		</field-exclude>
 	</mapping>
 
 	<mapping>
 		<class-a>com.i2g.rms.domain.model.tablemaintenance.InjuryTypeDetailSpec</class-a>
 		<class-b>com.i2g.rms.rest.model.tablemaintenance.InjuryTypeDetailSpecRO</class-b>
+		<field-exclude>
+			<a>injuryTypeDetail</a>
+			<b>injuryTypeDetail</b>
+		</field-exclude>
 	</mapping>
 
 	<mapping>

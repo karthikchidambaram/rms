@@ -1,10 +1,12 @@
 package com.i2g.rms.rest.model;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.i2g.rms.rest.model.incident.IncidentRO;
 import com.i2g.rms.rest.model.tablemaintenance.EmployeeTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.GenderTypeRO;
 
@@ -45,6 +47,7 @@ public class UserRO extends AbstractEntityRO {
 	private String _managerLoginId;
 	private PositionRO _position;
 	private EmployeeTypeRO _employeeType;
+	private Set<IncidentRO> _incidents = new HashSet<IncidentRO>(0);
 
 	public long getId() {
 		return _id;
@@ -349,5 +352,19 @@ public class UserRO extends AbstractEntityRO {
 	 */
 	public void setEmployeeType(final EmployeeTypeRO employeeType) {
 		_employeeType = employeeType;
+	}
+
+	/**
+	 * @return the incidents
+	 */
+	public Set<IncidentRO> getIncidents() {
+		return _incidents;
+	}
+
+	/**
+	 * @param incidents the incidents to set
+	 */
+	public void setIncidents(final Set<IncidentRO> incidents) {
+		_incidents = incidents;
 	}	
 }

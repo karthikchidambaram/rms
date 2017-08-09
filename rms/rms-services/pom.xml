@@ -256,49 +256,7 @@
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-aspects</artifactId>
 		    <version>${spring.aspects.version}</version>		    
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.codehaus.jackson/jackson-core-asl -->
-		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-core-asl</artifactId>
-			<version>${jackson.asl.version}</version>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.codehaus.jackson/jackson-mapper-asl -->
-		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-mapper-asl</artifactId>
-			<version>${jackson.asl.version}</version>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.jboss.resteasy/resteasy-jaxrs -->
-		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-jaxrs</artifactId>
-			<version>${resteasy.version}</version>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.jboss.resteasy/resteasy-jaxb-provider -->
-		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-jaxb-provider</artifactId>
-			<version>${resteasy.version}</version>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.jboss.resteasy/resteasy-spring -->
-		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-spring</artifactId>
-			<version>${resteasy.version}</version>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.jboss.resteasy/resteasy-jackson-provider -->
-		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-jackson-provider</artifactId>
-			<version>${resteasy.version}</version>
-		</dependency>
+		</dependency>		
 
 		<!-- Module Dependencies -->
 

@@ -5,12 +5,15 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
 
 import com.i2g.rms.domain.model.AbstractDataModel;
+import com.i2g.rms.domain.model.StatusFlag;
 
 /**
  * View for search incident functionality.
@@ -31,8 +34,8 @@ public class SearchIncident extends AbstractDataModel<Long> implements Serializa
 	private long id;
 	private String uniqueIncidentId;
 	private LocalDateTime openedDateTime;
-	private String statusFlag;
-	private String status;
+	private StatusFlag incidentStatusFlag;
+	private IncidentStatus incidentStatus;
 	private LocalDateTime closedDateTime;
 	private String personInjured;
 	private String propertyDamage;
@@ -49,7 +52,7 @@ public class SearchIncident extends AbstractDataModel<Long> implements Serializa
 	private long userId;
 	private String userLoginId;
 	private String reportedBy;
-	private String userStatusFlag;
+	private StatusFlag userStatusFlag;
 	private String organizationCode;
 	private String organizationDescription;
 	private String departmentCode;
@@ -108,35 +111,37 @@ public class SearchIncident extends AbstractDataModel<Long> implements Serializa
 	}
 
 	/**
-	 * @return the statusFlag
+	 * @return the statusIncidentFlag
 	 */
 	@Column(name = "INC_STS_FLG")
-	public String getStatusFlag() {
-		return statusFlag;
+	@Enumerated(EnumType.STRING)
+	public StatusFlag getIncidentStatusFlag() {
+		return incidentStatusFlag;
 	}
 
 	/**
-	 * @param statusFlag
-	 *            the statusFlag to set
+	 * @param statusIncidentFlag
+	 *            the statusIncidentFlag to set
 	 */
-	public void setStatusFlag(String statusFlag) {
-		this.statusFlag = statusFlag;
+	public void setIncidentStatusFlag(StatusFlag incidentStatusFlag) {
+		this.incidentStatusFlag = incidentStatusFlag;
 	}
 
 	/**
-	 * @return the status
+	 * @return the incidentStatus
 	 */
 	@Column(name = "INC_STS")
-	public String getStatus() {
-		return status;
+	@Enumerated(EnumType.STRING)
+	public IncidentStatus getIncidentStatus() {
+		return incidentStatus;
 	}
 
 	/**
-	 * @param status
-	 *            the status to set
+	 * @param incidentStatus
+	 *            the incidentStatus to set
 	 */
-	public void setStatus(String status) {
-		this.status = status;
+	public void setIncidentStatus(IncidentStatus incidentStatus) {
+		this.incidentStatus = incidentStatus;
 	}
 
 	/**
@@ -400,7 +405,8 @@ public class SearchIncident extends AbstractDataModel<Long> implements Serializa
 	 * @return the userStatusFlag
 	 */
 	@Column(name = "USR_STS_FLG")
-	public String getUserStatusFlag() {
+	@Enumerated(EnumType.STRING)
+	public StatusFlag getUserStatusFlag() {
 		return userStatusFlag;
 	}
 
@@ -408,7 +414,7 @@ public class SearchIncident extends AbstractDataModel<Long> implements Serializa
 	 * @param userStatusFlag
 	 *            the userStatusFlag to set
 	 */
-	public void setUserStatusFlag(String userStatusFlag) {
+	public void setUserStatusFlag(StatusFlag userStatusFlag) {
 		this.userStatusFlag = userStatusFlag;
 	}
 

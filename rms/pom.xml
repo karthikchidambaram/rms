@@ -47,8 +47,10 @@
 		<jboss.transaction.api.version>1.0.1.Final</jboss.transaction.api.version>
 		<jboss.servlet.api.version>1.0.0.Final</jboss.servlet.api.version>
 		<aopalliance.version>1.0</aopalliance.version>
-		<resteasy.version>3.1.1.Final</resteasy.version>
-		<jackson.asl.version>1.9.13</jackson.asl.version>
+		<jackson.core.version>2.8.6</jackson.core.version>
+		<jackson.annotations.version>2.8.6</jackson.annotations.version>
+		<jackson.databind.version>2.8.6</jackson.databind.version>
+		<jackson.jaxrs.version>1.9.13</jackson.jaxrs.version>
 
 	</properties>
 
@@ -694,33 +696,58 @@
 				<artifactId>rms-commons</artifactId>
 				<version>${project-version}</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>${project.groupId}</groupId>
 				<artifactId>rms-services</artifactId>
 				<version>${project-version}</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>${project.groupId}</groupId>
 				<artifactId>rms-rest-services</artifactId>
 				<version>${project-version}</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>${project.groupId}</groupId>
 				<artifactId>rms-persistence</artifactId>
 				<version>${project-version}</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>${project.groupId}</groupId>
 				<artifactId>rms-domain</artifactId>
 				<version>${project-version}</version>
 			</dependency>
 
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-core</artifactId>
+				<version>${jackson.core.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-annotations</artifactId>
+				<version>${jackson.annotations.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>${jackson.databind.version}</version>
+			</dependency>
+
+			<!-- https://mvnrepository.com/artifact/org.codehaus.jackson/jackson-jaxrs -->
+			<dependency>
+				<groupId>org.codehaus.jackson</groupId>
+				<artifactId>jackson-jaxrs</artifactId>
+				<version>${jackson.jaxrs.version}</version>
+			</dependency>
+
 		</dependencies>
 
 	</dependencyManagement>
-	
+
 </project>

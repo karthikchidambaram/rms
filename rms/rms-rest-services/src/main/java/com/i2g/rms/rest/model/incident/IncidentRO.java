@@ -1,11 +1,14 @@
 package com.i2g.rms.rest.model.incident;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.i2g.rms.rest.model.AbstractEntityRO;
 import com.i2g.rms.rest.model.StatusFlagRO;
+import com.i2g.rms.rest.model.SuspectRO;
 import com.i2g.rms.rest.model.UserRO;
 import com.i2g.rms.rest.model.YesNoTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.EntryPointRO;
@@ -38,9 +41,11 @@ public class IncidentRO extends AbstractEntityRO {
 	private YesNoTypeRO _personInjured;
 	private YesNoTypeRO _propertyDamage;
 	private YesNoTypeRO _crimeInvolved;
-	private UserRO _user;
+	private UserRO _incidentReportedBy;
 	private IncidentCategoryRO _incidentCategory;
 	private LocalDateTime _incidentClosedDateTime;
+	private Set<SuspectRO> _suspects = new HashSet<SuspectRO>(0);
+	private Set<UserRO> _employeeSuspects = new HashSet<UserRO>(0);
 	
 	/**
 	 * @return the id
@@ -255,16 +260,16 @@ public class IncidentRO extends AbstractEntityRO {
 	/**
 	 * @return the user
 	 */
-	public UserRO getUser() {
-		return _user;
+	public UserRO getIncidentReportedBy() {
+		return _incidentReportedBy;
 	}
 
 	/**
 	 * @param user
 	 *            the user to set
 	 */
-	public void setUser(final UserRO user) {
-		_user = user;
+	public void setIncidentReportedBy(final UserRO incidentReportedBy) {
+		_incidentReportedBy = incidentReportedBy;
 	}
 
 	/**
@@ -290,9 +295,39 @@ public class IncidentRO extends AbstractEntityRO {
 	}
 
 	/**
-	 * @param incidentClosedDateTime the incidentClosedDateTime to set
+	 * @param incidentClosedDateTime
+	 *            the incidentClosedDateTime to set
 	 */
 	public void setIncidentClosedDateTime(final LocalDateTime incidentClosedDateTime) {
 		_incidentClosedDateTime = incidentClosedDateTime;
-	}		
+	}
+
+	/**
+	 * @return the suspects
+	 */
+	public Set<SuspectRO> getSuspects() {
+		return _suspects;
+	}
+
+	/**
+	 * @param suspects
+	 *            the suspects to set
+	 */
+	public void setSuspects(final Set<SuspectRO> suspects) {
+		_suspects = suspects;
+	}
+
+	/**
+	 * @return the employeeSuspects
+	 */
+	public Set<UserRO> getEmployeeSuspects() {
+		return _employeeSuspects;
+	}
+
+	/**
+	 * @param employeeSuspects the employeeSuspects to set
+	 */
+	public void setEmployeeSuspects(final Set<UserRO> employeeSuspects) {
+		_employeeSuspects = employeeSuspects;
+	}	
 }

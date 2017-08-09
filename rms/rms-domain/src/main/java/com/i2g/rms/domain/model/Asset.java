@@ -25,8 +25,6 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.i2g.rms.domain.model.incident.Incident;
 import com.i2g.rms.domain.model.tablemaintenance.AssetCategory;
 
@@ -126,7 +124,6 @@ public class Asset extends AbstractDataModel<Long> implements Serializable {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "INC_ID")
-	@JsonIgnore
 	public Incident getIncident() {
 		return _incident;
 	}
@@ -209,7 +206,6 @@ public class Asset extends AbstractDataModel<Long> implements Serializable {
 	 */
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "asset")
 	@Fetch(FetchMode.SUBSELECT)
-	@JsonIgnoreProperties("asset")
 	public Set<Equipment> getEquipments() {
 		return _equipments;
 	}
@@ -226,7 +222,6 @@ public class Asset extends AbstractDataModel<Long> implements Serializable {
 	 */
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "asset")
 	@Fetch(FetchMode.SUBSELECT)
-	@JsonIgnoreProperties("asset")
 	public Set<Building> getBuildings() {
 		return _buildings;
 	}
@@ -243,7 +238,6 @@ public class Asset extends AbstractDataModel<Long> implements Serializable {
 	 */
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "asset")
 	@Fetch(FetchMode.SUBSELECT)
-	@JsonIgnoreProperties("asset")
 	public Set<Vehicle> getVehicles() {
 		return _vehicles;
 	}
