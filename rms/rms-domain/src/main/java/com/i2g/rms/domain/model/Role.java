@@ -26,6 +26,8 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Immutable;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Entity representation of Role table.
  * 
@@ -38,6 +40,7 @@ import org.hibernate.annotations.Immutable;
 @Immutable
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region="userCache")
+@JsonIgnoreProperties({"users"})
 public class Role extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * 

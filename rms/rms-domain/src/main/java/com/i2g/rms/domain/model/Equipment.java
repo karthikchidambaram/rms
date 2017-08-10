@@ -17,6 +17,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Entity representation of Building.
  * 
@@ -26,6 +28,7 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "RMS_BLDNG")
+@JsonIgnoreProperties({"asset"})
 public class Equipment extends AbstractDataModel<Long> implements Serializable {
 	
 	/**

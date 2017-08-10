@@ -13,6 +13,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.i2g.rms.domain.model.AbstractDataModel;
 
 /**
@@ -25,6 +26,7 @@ import com.i2g.rms.domain.model.AbstractDataModel;
  */
 @Entity
 @Table(name = "RMS_ACC_LOC_CHLD")
+@JsonIgnoreProperties({"accidentLocation"})
 public class AccidentLocationDetail extends AbstractDataModel<String> implements Serializable {
 
 	/**

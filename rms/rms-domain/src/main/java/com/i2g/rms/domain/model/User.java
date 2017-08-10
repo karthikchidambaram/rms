@@ -62,6 +62,7 @@ import com.i2g.rms.domain.model.tablemaintenance.GenderType;
 @DynamicUpdate
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "userCache")
+@JsonIgnoreProperties({"incidents"})
 public class User extends AbstractDataModel<Long> implements Serializable, org.springframework.security.core.userdetails.UserDetails {
 
 	/**
@@ -308,7 +309,6 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "user")
 	@Fetch(FetchMode.SUBSELECT)
-	@JsonIgnoreProperties("user")
 	public Set<PasswordHistory> getPasswordHistory() {
 		return _passwordHistory;
 	}

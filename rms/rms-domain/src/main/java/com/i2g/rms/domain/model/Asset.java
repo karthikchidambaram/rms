@@ -25,6 +25,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.i2g.rms.domain.model.incident.Incident;
 import com.i2g.rms.domain.model.tablemaintenance.AssetCategory;
 
@@ -37,6 +38,7 @@ import com.i2g.rms.domain.model.tablemaintenance.AssetCategory;
  */
 @Entity
 @Table(name = "RMS_ASST")
+@JsonIgnoreProperties({"incident"})
 public class Asset extends AbstractDataModel<Long> implements Serializable {
 	
 	/**

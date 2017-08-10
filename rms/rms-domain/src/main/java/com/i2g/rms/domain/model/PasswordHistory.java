@@ -33,6 +33,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Immutable
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "userCache")
+@JsonIgnoreProperties({"user"})
 public class PasswordHistory extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * 
@@ -114,7 +115,6 @@ public class PasswordHistory extends AbstractDataModel<Long> implements Serializ
 
 	@ManyToOne
 	@JoinColumn(name = "USR_ID")
-	@JsonIgnoreProperties("passwordHistory")
 	public User getUser() {
 		return _user;
 	}

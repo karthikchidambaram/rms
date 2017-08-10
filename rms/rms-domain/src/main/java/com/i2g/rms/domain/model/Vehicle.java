@@ -18,6 +18,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.i2g.rms.domain.model.tablemaintenance.VehicleDamageType;
 
 /**
@@ -29,6 +30,7 @@ import com.i2g.rms.domain.model.tablemaintenance.VehicleDamageType;
  */
 @Entity
 @Table(name = "RMS_VEHCL")
+@JsonIgnoreProperties({"asset"})
 public class Vehicle extends AbstractDataModel<Long> implements Serializable {
 	
 	/**

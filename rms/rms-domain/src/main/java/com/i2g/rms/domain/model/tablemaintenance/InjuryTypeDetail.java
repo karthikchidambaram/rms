@@ -30,6 +30,7 @@ import com.i2g.rms.domain.model.AbstractDataModel;
  */
 @Entity
 @Table(name = "RMS_INJRY_TYP_CHLD")
+@JsonIgnoreProperties({"injuryType"})
 public class InjuryTypeDetail extends AbstractDataModel<String> implements Serializable {
 
 	/**

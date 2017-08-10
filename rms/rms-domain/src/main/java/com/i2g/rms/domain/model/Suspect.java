@@ -24,6 +24,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Type;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.i2g.rms.domain.model.incident.Incident;
 import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeatureDetail;
 import com.i2g.rms.domain.model.tablemaintenance.GenderType;
@@ -39,6 +40,7 @@ import com.i2g.rms.domain.model.tablemaintenance.WeaponType;
  */
 @Entity
 @Table(name = "RMS_SUSPT")
+@JsonIgnoreProperties({"incidents"})
 public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	
 	/**

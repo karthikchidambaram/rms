@@ -20,6 +20,8 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Immutable;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Entity representation of Permission table.
  * 
@@ -32,6 +34,7 @@ import org.hibernate.annotations.Immutable;
 @Immutable
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "userCache")
+@JsonIgnoreProperties({"roles"})
 public class Permission extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * 
