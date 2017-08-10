@@ -135,5 +135,10 @@
 		<class-a>com.i2g.rms.domain.model.lookup.UserLookup</class-a>
 		<class-b>com.i2g.rms.rest.model.lookup.UserLookupRO</class-b>
 	</mapping>
+	
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.lookup.SuspectLookup</class-a>
+		<class-b>com.i2g.rms.rest.model.lookup.SuspectLookupRO</class-b>
+	</mapping>
 
 </mappings>

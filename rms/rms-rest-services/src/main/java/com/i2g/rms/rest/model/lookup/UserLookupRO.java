@@ -1,12 +1,14 @@
 package com.i2g.rms.rest.model.lookup;
 
+import java.time.LocalDate;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.i2g.rms.rest.model.AbstractEntityRO;
 import com.i2g.rms.rest.model.StatusFlagRO;
 
 /**
- * Search Incident RO Object
+ * User lookup RO Object
  * 
  * @since 1.0.0
  * @author Karthikeyan Chidambaram
@@ -23,6 +25,10 @@ public class UserLookupRO extends AbstractEntityRO {
 	private String middleName;
 	private String lastName;
 	private String nameSuffix;
+	private LocalDate dateOfBirth;
+	private Integer age;
+	private LocalDate dateOfJoining;
+	private LocalDate dateOfLeaving;
 	private StatusFlagRO statusFlag;
 	private String genderTypeCode;
 	private String genderTypeDescription;
@@ -54,7 +60,7 @@ public class UserLookupRO extends AbstractEntityRO {
 	 * @param id
 	 *            the id to set
 	 */
-	public void setId(long id) {
+	public void setId(final long id) {
 		this.id = id;
 	}
 
@@ -69,7 +75,7 @@ public class UserLookupRO extends AbstractEntityRO {
 	 * @param userLoginId
 	 *            the userLoginId to set
 	 */
-	public void setUserLoginId(String userLoginId) {
+	public void setUserLoginId(final String userLoginId) {
 		this.userLoginId = userLoginId;
 	}
 
@@ -84,7 +90,7 @@ public class UserLookupRO extends AbstractEntityRO {
 	 * @param title
 	 *            the title to set
 	 */
-	public void setTitle(String title) {
+	public void setTitle(final String title) {
 		this.title = title;
 	}
 
@@ -99,7 +105,7 @@ public class UserLookupRO extends AbstractEntityRO {
 	 * @param firstName
 	 *            the firstName to set
 	 */
-	public void setFirstName(String firstName) {
+	public void setFirstName(final String firstName) {
 		this.firstName = firstName;
 	}
 
@@ -114,7 +120,7 @@ public class UserLookupRO extends AbstractEntityRO {
 	 * @param middleName
 	 *            the middleName to set
 	 */
-	public void setMiddleName(String middleName) {
+	public void setMiddleName(final String middleName) {
 		this.middleName = middleName;
 	}
 
@@ -129,7 +135,7 @@ public class UserLookupRO extends AbstractEntityRO {
 	 * @param lastName
 	 *            the lastName to set
 	 */
-	public void setLastName(String lastName) {
+	public void setLastName(final String lastName) {
 		this.lastName = lastName;
 	}
 
@@ -144,7 +150,7 @@ public class UserLookupRO extends AbstractEntityRO {
 	 * @param nameSuffix
 	 *            the nameSuffix to set
 	 */
-	public void setNameSuffix(String nameSuffix) {
+	public void setNameSuffix(final String nameSuffix) {
 		this.nameSuffix = nameSuffix;
 	}
 
@@ -159,7 +165,7 @@ public class UserLookupRO extends AbstractEntityRO {
 	 * @param statusFlag
 	 *            the statusFlag to set
 	 */
-	public void setStatusFlag(StatusFlagRO statusFlag) {
+	public void setStatusFlag(final StatusFlagRO statusFlag) {
 		this.statusFlag = statusFlag;
 	}
 
@@ -174,7 +180,7 @@ public class UserLookupRO extends AbstractEntityRO {
 	 * @param genderTypeCode
 	 *            the genderTypeCode to set
 	 */
-	public void setGenderTypeCode(String genderTypeCode) {
+	public void setGenderTypeCode(final String genderTypeCode) {
 		this.genderTypeCode = genderTypeCode;
 	}
 
@@ -189,7 +195,7 @@ public class UserLookupRO extends AbstractEntityRO {
 	 * @param genderTypeDescription
 	 *            the genderTypeDescription to set
 	 */
-	public void setGenderTypeDescription(String genderTypeDescription) {
+	public void setGenderTypeDescription(final String genderTypeDescription) {
 		this.genderTypeDescription = genderTypeDescription;
 	}
 
@@ -204,7 +210,7 @@ public class UserLookupRO extends AbstractEntityRO {
 	 * @param phone
 	 *            the phone to set
 	 */
-	public void setPhone(String phone) {
+	public void setPhone(final String phone) {
 		this.phone = phone;
 	}
 
@@ -219,7 +225,7 @@ public class UserLookupRO extends AbstractEntityRO {
 	 * @param alternatePhone
 	 *            the alternatePhone to set
 	 */
-	public void setAlternatePhone(String alternatePhone) {
+	public void setAlternatePhone(final String alternatePhone) {
 		this.alternatePhone = alternatePhone;
 	}
 
@@ -234,7 +240,7 @@ public class UserLookupRO extends AbstractEntityRO {
 	 * @param email
 	 *            the email to set
 	 */
-	public void setEmail(String email) {
+	public void setEmail(final String email) {
 		this.email = email;
 	}
 
@@ -249,7 +255,7 @@ public class UserLookupRO extends AbstractEntityRO {
 	 * @param employeeId
 	 *            the employeeId to set
 	 */
-	public void setEmployeeId(String employeeId) {
+	public void setEmployeeId(final String employeeId) {
 		this.employeeId = employeeId;
 	}
 
@@ -264,7 +270,7 @@ public class UserLookupRO extends AbstractEntityRO {
 	 * @param managerLoginId
 	 *            the managerLoginId to set
 	 */
-	public void setManagerLoginId(String managerLoginId) {
+	public void setManagerLoginId(final String managerLoginId) {
 		this.managerLoginId = managerLoginId;
 	}
 
@@ -279,7 +285,7 @@ public class UserLookupRO extends AbstractEntityRO {
 	 * @param employeeTypeCode
 	 *            the employeeTypeCode to set
 	 */
-	public void setEmployeeTypeCode(String employeeTypeCode) {
+	public void setEmployeeTypeCode(final String employeeTypeCode) {
 		this.employeeTypeCode = employeeTypeCode;
 	}
 
@@ -294,7 +300,7 @@ public class UserLookupRO extends AbstractEntityRO {
 	 * @param employeeTypeDescription
 	 *            the employeeTypeDescription to set
 	 */
-	public void setEmployeeTypeDescription(String employeeTypeDescription) {
+	public void setEmployeeTypeDescription(final String employeeTypeDescription) {
 		this.employeeTypeDescription = employeeTypeDescription;
 	}
 
@@ -309,7 +315,7 @@ public class UserLookupRO extends AbstractEntityRO {
 	 * @param positionCode
 	 *            the positionCode to set
 	 */
-	public void setPositionCode(String positionCode) {
+	public void setPositionCode(final String positionCode) {
 		this.positionCode = positionCode;
 	}
 
@@ -324,7 +330,7 @@ public class UserLookupRO extends AbstractEntityRO {
 	 * @param positionDescription
 	 *            the positionDescription to set
 	 */
-	public void setPositionDescription(String positionDescription) {
+	public void setPositionDescription(final String positionDescription) {
 		this.positionDescription = positionDescription;
 	}
 
@@ -339,7 +345,7 @@ public class UserLookupRO extends AbstractEntityRO {
 	 * @param organizationCode
 	 *            the organizationCode to set
 	 */
-	public void setOrganizationCode(String organizationCode) {
+	public void setOrganizationCode(final String organizationCode) {
 		this.organizationCode = organizationCode;
 	}
 
@@ -354,7 +360,7 @@ public class UserLookupRO extends AbstractEntityRO {
 	 * @param organizationDescription
 	 *            the organizationDescription to set
 	 */
-	public void setOrganizationDescription(String organizationDescription) {
+	public void setOrganizationDescription(final String organizationDescription) {
 		this.organizationDescription = organizationDescription;
 	}
 
@@ -369,7 +375,7 @@ public class UserLookupRO extends AbstractEntityRO {
 	 * @param departmentCode
 	 *            the departmentCode to set
 	 */
-	public void setDepartmentCode(String departmentCode) {
+	public void setDepartmentCode(final String departmentCode) {
 		this.departmentCode = departmentCode;
 	}
 
@@ -384,7 +390,7 @@ public class UserLookupRO extends AbstractEntityRO {
 	 * @param departmentDescription
 	 *            the departmentDescription to set
 	 */
-	public void setDepartmentDescription(String departmentDescription) {
+	public void setDepartmentDescription(final String departmentDescription) {
 		this.departmentDescription = departmentDescription;
 	}
 
@@ -399,7 +405,7 @@ public class UserLookupRO extends AbstractEntityRO {
 	 * @param departmentOrganizationCode
 	 *            the departmentOrganizationCode to set
 	 */
-	public void setDepartmentOrganizationCode(String departmentOrganizationCode) {
+	public void setDepartmentOrganizationCode(final String departmentOrganizationCode) {
 		this.departmentOrganizationCode = departmentOrganizationCode;
 	}
 
@@ -414,7 +420,7 @@ public class UserLookupRO extends AbstractEntityRO {
 	 * @param positionLevelCode
 	 *            the positionLevelCode to set
 	 */
-	public void setPositionLevelCode(String positionLevelCode) {
+	public void setPositionLevelCode(final String positionLevelCode) {
 		this.positionLevelCode = positionLevelCode;
 	}
 
@@ -429,8 +435,68 @@ public class UserLookupRO extends AbstractEntityRO {
 	 * @param positionLevelDescription
 	 *            the positionLevelDescription to set
 	 */
-	public void setPositionLevelDescription(String positionLevelDescription) {
+	public void setPositionLevelDescription(final String positionLevelDescription) {
 		this.positionLevelDescription = positionLevelDescription;
+	}
+
+	/**
+	 * @return the dateOfBirth
+	 */
+	public LocalDate getDateOfBirth() {
+		return dateOfBirth;
+	}
+
+	/**
+	 * @param dateOfBirth
+	 *            the dateOfBirth to set
+	 */
+	public void setDateOfBirth(final LocalDate dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+
+	/**
+	 * @return the age
+	 */
+	public Integer getAge() {
+		return age;
+	}
+
+	/**
+	 * @param age
+	 *            the age to set
+	 */
+	public void setAge(final Integer age) {
+		this.age = age;
+	}
+
+	/**
+	 * @return the dateOfJoining
+	 */
+	public LocalDate getDateOfJoining() {
+		return dateOfJoining;
+	}
+
+	/**
+	 * @param dateOfJoining
+	 *            the dateOfJoining to set
+	 */
+	public void setDateOfJoining(final LocalDate dateOfJoining) {
+		this.dateOfJoining = dateOfJoining;
+	}
+
+	/**
+	 * @return the dateOfLeaving
+	 */
+	public LocalDate getDateOfLeaving() {
+		return dateOfLeaving;
+	}
+
+	/**
+	 * @param dateOfLeaving
+	 *            the dateOfLeaving to set
+	 */
+	public void setDateOfLeaving(final LocalDate dateOfLeaving) {
+		this.dateOfLeaving = dateOfLeaving;
 	}
 
 }

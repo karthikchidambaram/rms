@@ -1,6 +1,7 @@
 package com.i2g.rms.domain.model.lookup;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -35,6 +36,10 @@ public class UserLookup extends AbstractDataModel<Long> implements Serializable 
 	private String middleName;
 	private String lastName;
 	private String nameSuffix;
+	private LocalDate dateOfBirth;
+	private Integer age;
+	private LocalDate dateOfJoining;
+	private LocalDate dateOfLeaving;
 	private StatusFlag statusFlag;
 	private String genderTypeCode;
 	private String genderTypeDescription;
@@ -471,6 +476,70 @@ public class UserLookup extends AbstractDataModel<Long> implements Serializable 
 	 */
 	public void setDepartmentOrganizationCode(String departmentOrganizationCode) {
 		this.departmentOrganizationCode = departmentOrganizationCode;
+	}
+
+	/**
+	 * @return the dateOfBirth
+	 */
+	@Column(name = "DOB")
+	public LocalDate getDateOfBirth() {
+		return dateOfBirth;
+	}
+
+	/**
+	 * @param dateOfBirth
+	 *            the dateOfBirth to set
+	 */
+	public void setDateOfBirth(final LocalDate dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+
+	/**
+	 * @return the age
+	 */
+	@Column(name = "AGE")
+	public Integer getAge() {
+		return age;
+	}
+
+	/**
+	 * @param age
+	 *            the age to set
+	 */
+	public void setAge(final Integer age) {
+		this.age = age;
+	}
+
+	/**
+	 * @return the dateOfJoining
+	 */
+	@Column(name = "DOJ")
+	public LocalDate getDateOfJoining() {
+		return dateOfJoining;
+	}
+
+	/**
+	 * @param dateOfJoining
+	 *            the dateOfJoining to set
+	 */
+	public void setDateOfJoining(final LocalDate dateOfJoining) {
+		this.dateOfJoining = dateOfJoining;
+	}
+
+	/**
+	 * @return the dateOfLeaving
+	 */
+	@Column(name = "DOL")
+	public LocalDate getDateOfLeaving() {
+		return dateOfLeaving;
+	}
+
+	/**
+	 * @param dateOfLeaving
+	 *            the dateOfLeaving to set
+	 */
+	public void setDateOfLeaving(final LocalDate dateOfLeaving) {
+		this.dateOfLeaving = dateOfLeaving;
 	}
 
 }

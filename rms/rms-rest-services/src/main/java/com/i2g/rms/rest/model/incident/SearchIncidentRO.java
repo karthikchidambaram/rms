@@ -58,7 +58,7 @@ public class SearchIncidentRO extends AbstractEntityRO {
 	 * @param id
 	 *            the id to set
 	 */
-	public void setId(long id) {
+	public void setId(final long id) {
 		this.id = id;
 	}
 
@@ -73,7 +73,7 @@ public class SearchIncidentRO extends AbstractEntityRO {
 	 * @param uniqueIncidentId
 	 *            the uniqueIncidentId to set
 	 */
-	public void setUniqueIncidentId(String uniqueIncidentId) {
+	public void setUniqueIncidentId(final String uniqueIncidentId) {
 		this.uniqueIncidentId = uniqueIncidentId;
 	}
 
@@ -88,7 +88,7 @@ public class SearchIncidentRO extends AbstractEntityRO {
 	 * @param openedDateTime
 	 *            the openedDateTime to set
 	 */
-	public void setOpenedDateTime(LocalDateTime openedDateTime) {
+	public void setOpenedDateTime(final LocalDateTime openedDateTime) {
 		this.openedDateTime = openedDateTime;
 	}
 
@@ -103,7 +103,7 @@ public class SearchIncidentRO extends AbstractEntityRO {
 	 * @param incidentStatusFlag
 	 *            the incidentStatusFlag to set
 	 */
-	public void setIncidentStatusFlag(StatusFlagRO incidentStatusFlag) {
+	public void setIncidentStatusFlag(final StatusFlagRO incidentStatusFlag) {
 		this.incidentStatusFlag = incidentStatusFlag;
 	}
 
@@ -118,7 +118,7 @@ public class SearchIncidentRO extends AbstractEntityRO {
 	 * @param incidentStatus
 	 *            the incidentStatus to set
 	 */
-	public void setIncidentStatus(IncidentStatusRO incidentStatus) {
+	public void setIncidentStatus(final IncidentStatusRO incidentStatus) {
 		this.incidentStatus = incidentStatus;
 	}
 
@@ -133,7 +133,7 @@ public class SearchIncidentRO extends AbstractEntityRO {
 	 * @param closedDateTime
 	 *            the closedDateTime to set
 	 */
-	public void setClosedDateTime(LocalDateTime closedDateTime) {
+	public void setClosedDateTime(final LocalDateTime closedDateTime) {
 		this.closedDateTime = closedDateTime;
 	}
 
@@ -148,7 +148,7 @@ public class SearchIncidentRO extends AbstractEntityRO {
 	 * @param personInjured
 	 *            the personInjured to set
 	 */
-	public void setPersonInjured(String personInjured) {
+	public void setPersonInjured(final String personInjured) {
 		this.personInjured = personInjured;
 	}
 
@@ -163,7 +163,7 @@ public class SearchIncidentRO extends AbstractEntityRO {
 	 * @param propertyDamage
 	 *            the propertyDamage to set
 	 */
-	public void setPropertyDamage(String propertyDamage) {
+	public void setPropertyDamage(final String propertyDamage) {
 		this.propertyDamage = propertyDamage;
 	}
 
@@ -178,7 +178,7 @@ public class SearchIncidentRO extends AbstractEntityRO {
 	 * @param crimeInvolved
 	 *            the crimeInvolved to set
 	 */
-	public void setCrimeInvolved(String crimeInvolved) {
+	public void setCrimeInvolved(final String crimeInvolved) {
 		this.crimeInvolved = crimeInvolved;
 	}
 
@@ -193,7 +193,7 @@ public class SearchIncidentRO extends AbstractEntityRO {
 	 * @param description
 	 *            the description to set
 	 */
-	public void setDescription(String description) {
+	public void setDescription(final String description) {
 		this.description = description;
 	}
 
@@ -208,7 +208,7 @@ public class SearchIncidentRO extends AbstractEntityRO {
 	 * @param categoryCode
 	 *            the categoryCode to set
 	 */
-	public void setCategoryCode(String categoryCode) {
+	public void setCategoryCode(final String categoryCode) {
 		this.categoryCode = categoryCode;
 	}
 
@@ -223,7 +223,7 @@ public class SearchIncidentRO extends AbstractEntityRO {
 	 * @param categoryDescription
 	 *            the categoryDescription to set
 	 */
-	public void setCategoryDescription(String categoryDescription) {
+	public void setCategoryDescription(final String categoryDescription) {
 		this.categoryDescription = categoryDescription;
 	}
 
@@ -238,7 +238,7 @@ public class SearchIncidentRO extends AbstractEntityRO {
 	 * @param typeCode
 	 *            the typeCode to set
 	 */
-	public void setTypeCode(String typeCode) {
+	public void setTypeCode(final String typeCode) {
 		this.typeCode = typeCode;
 	}
 
@@ -253,7 +253,7 @@ public class SearchIncidentRO extends AbstractEntityRO {
 	 * @param typeDescription
 	 *            the typeDescription to set
 	 */
-	public void setTypeDescription(String typeDescription) {
+	public void setTypeDescription(final String typeDescription) {
 		this.typeDescription = typeDescription;
 	}
 
@@ -268,7 +268,7 @@ public class SearchIncidentRO extends AbstractEntityRO {
 	 * @param locationCode
 	 *            the locationCode to set
 	 */
-	public void setLocationCode(String locationCode) {
+	public void setLocationCode(final String locationCode) {
 		this.locationCode = locationCode;
 	}
 
@@ -283,7 +283,7 @@ public class SearchIncidentRO extends AbstractEntityRO {
 	 * @param locationDescription
 	 *            the locationDescription to set
 	 */
-	public void setLocationDescription(String locationDescription) {
+	public void setLocationDescription(final String locationDescription) {
 		this.locationDescription = locationDescription;
 	}
 
@@ -298,7 +298,7 @@ public class SearchIncidentRO extends AbstractEntityRO {
 	 * @param locationDetailCode
 	 *            the locationDetailCode to set
 	 */
-	public void setLocationDetailCode(String locationDetailCode) {
+	public void setLocationDetailCode(final String locationDetailCode) {
 		this.locationDetailCode = locationDetailCode;
 	}
 
@@ -313,7 +313,7 @@ public class SearchIncidentRO extends AbstractEntityRO {
 	 * @param locationDetailDescription
 	 *            the locationDetailDescription to set
 	 */
-	public void setLocationDetailDescription(String locationDetailDescription) {
+	public void setLocationDetailDescription(final String locationDetailDescription) {
 		this.locationDetailDescription = locationDetailDescription;
 	}
 
@@ -328,7 +328,7 @@ public class SearchIncidentRO extends AbstractEntityRO {
 	 * @param userId
 	 *            the userId to set
 	 */
-	public void setUserId(long userId) {
+	public void setUserId(final long userId) {
 		this.userId = userId;
 	}
 
@@ -343,7 +343,7 @@ public class SearchIncidentRO extends AbstractEntityRO {
 	 * @param userLoginId
 	 *            the userLoginId to set
 	 */
-	public void setUserLoginId(String userLoginId) {
+	public void setUserLoginId(final String userLoginId) {
 		this.userLoginId = userLoginId;
 	}
 
@@ -358,7 +358,7 @@ public class SearchIncidentRO extends AbstractEntityRO {
 	 * @param reportedBy
 	 *            the reportedBy to set
 	 */
-	public void setReportedBy(String reportedBy) {
+	public void setReportedBy(final String reportedBy) {
 		this.reportedBy = reportedBy;
 	}
 
@@ -373,7 +373,7 @@ public class SearchIncidentRO extends AbstractEntityRO {
 	 * @param userStatusFlag
 	 *            the userStatusFlag to set
 	 */
-	public void setUserStatusFlag(StatusFlagRO userStatusFlag) {
+	public void setUserStatusFlag(final StatusFlagRO userStatusFlag) {
 		this.userStatusFlag = userStatusFlag;
 	}
 
@@ -388,7 +388,7 @@ public class SearchIncidentRO extends AbstractEntityRO {
 	 * @param organizationCode
 	 *            the organizationCode to set
 	 */
-	public void setOrganizationCode(String organizationCode) {
+	public void setOrganizationCode(final String organizationCode) {
 		this.organizationCode = organizationCode;
 	}
 
@@ -403,7 +403,7 @@ public class SearchIncidentRO extends AbstractEntityRO {
 	 * @param organizationDescription
 	 *            the organizationDescription to set
 	 */
-	public void setOrganizationDescription(String organizationDescription) {
+	public void setOrganizationDescription(final String organizationDescription) {
 		this.organizationDescription = organizationDescription;
 	}
 
@@ -418,7 +418,7 @@ public class SearchIncidentRO extends AbstractEntityRO {
 	 * @param departmentCode
 	 *            the departmentCode to set
 	 */
-	public void setDepartmentCode(String departmentCode) {
+	public void setDepartmentCode(final String departmentCode) {
 		this.departmentCode = departmentCode;
 	}
 
@@ -433,7 +433,7 @@ public class SearchIncidentRO extends AbstractEntityRO {
 	 * @param departmentDescription
 	 *            the departmentDescription to set
 	 */
-	public void setDepartmentDescription(String departmentDescription) {
+	public void setDepartmentDescription(final String departmentDescription) {
 		this.departmentDescription = departmentDescription;
 	}
 
@@ -448,7 +448,7 @@ public class SearchIncidentRO extends AbstractEntityRO {
 	 * @param positionCode
 	 *            the positionCode to set
 	 */
-	public void setPositionCode(String positionCode) {
+	public void setPositionCode(final String positionCode) {
 		this.positionCode = positionCode;
 	}
 
@@ -463,7 +463,7 @@ public class SearchIncidentRO extends AbstractEntityRO {
 	 * @param positionDescription
 	 *            the positionDescription to set
 	 */
-	public void setPositionDescription(String positionDescription) {
+	public void setPositionDescription(final String positionDescription) {
 		this.positionDescription = positionDescription;
 	}
 }

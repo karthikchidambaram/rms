@@ -302,5 +302,5 @@ public interface RequestMappingConstants {
 	
 	/** Lookups */
 	String USER_LOOKUP 							= SECURED + "/user-lookup";
-	
+	String SUSPECT_LOOKUP 						= SECURED + "/suspect-lookup";
 }

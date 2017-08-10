@@ -73,7 +73,7 @@ public class SearchIncident extends AbstractDataModel<Long> implements Serializa
 	 * @param id
 	 *            the id to set
 	 */
-	public void setId(long id) {
+	public void setId(final long id) {
 		this.id = id;
 	}
 
@@ -89,7 +89,7 @@ public class SearchIncident extends AbstractDataModel<Long> implements Serializa
 	 * @param uniqueIncidentId
 	 *            the uniqueIncidentId to set
 	 */
-	public void setUniqueIncidentId(String uniqueIncidentId) {
+	public void setUniqueIncidentId(final String uniqueIncidentId) {
 		this.uniqueIncidentId = uniqueIncidentId;
 	}
 
@@ -106,7 +106,7 @@ public class SearchIncident extends AbstractDataModel<Long> implements Serializa
 	 * @param openedDateTime
 	 *            the openedDateTime to set
 	 */
-	public void setOpenedDateTime(LocalDateTime openedDateTime) {
+	public void setOpenedDateTime(final LocalDateTime openedDateTime) {
 		this.openedDateTime = openedDateTime;
 	}
 
@@ -123,7 +123,7 @@ public class SearchIncident extends AbstractDataModel<Long> implements Serializa
 	 * @param statusIncidentFlag
 	 *            the statusIncidentFlag to set
 	 */
-	public void setIncidentStatusFlag(StatusFlag incidentStatusFlag) {
+	public void setIncidentStatusFlag(final StatusFlag incidentStatusFlag) {
 		this.incidentStatusFlag = incidentStatusFlag;
 	}
 
@@ -140,7 +140,7 @@ public class SearchIncident extends AbstractDataModel<Long> implements Serializa
 	 * @param incidentStatus
 	 *            the incidentStatus to set
 	 */
-	public void setIncidentStatus(IncidentStatus incidentStatus) {
+	public void setIncidentStatus(final IncidentStatus incidentStatus) {
 		this.incidentStatus = incidentStatus;
 	}
 
@@ -157,7 +157,7 @@ public class SearchIncident extends AbstractDataModel<Long> implements Serializa
 	 * @param closedDateTime
 	 *            the closedDateTime to set
 	 */
-	public void setClosedDateTime(LocalDateTime closedDateTime) {
+	public void setClosedDateTime(final LocalDateTime closedDateTime) {
 		this.closedDateTime = closedDateTime;
 	}
 
@@ -173,7 +173,7 @@ public class SearchIncident extends AbstractDataModel<Long> implements Serializa
 	 * @param personInjured
 	 *            the personInjured to set
 	 */
-	public void setPersonInjured(String personInjured) {
+	public void setPersonInjured(final String personInjured) {
 		this.personInjured = personInjured;
 	}
 
@@ -189,7 +189,7 @@ public class SearchIncident extends AbstractDataModel<Long> implements Serializa
 	 * @param propertyDamage
 	 *            the propertyDamage to set
 	 */
-	public void setPropertyDamage(String propertyDamage) {
+	public void setPropertyDamage(final String propertyDamage) {
 		this.propertyDamage = propertyDamage;
 	}
 
@@ -205,7 +205,7 @@ public class SearchIncident extends AbstractDataModel<Long> implements Serializa
 	 * @param crimeInvolved
 	 *            the crimeInvolved to set
 	 */
-	public void setCrimeInvolved(String crimeInvolved) {
+	public void setCrimeInvolved(final String crimeInvolved) {
 		this.crimeInvolved = crimeInvolved;
 	}
 
@@ -221,7 +221,7 @@ public class SearchIncident extends AbstractDataModel<Long> implements Serializa
 	 * @param description
 	 *            the description to set
 	 */
-	public void setDescription(String description) {
+	public void setDescription(final String description) {
 		this.description = description;
 	}
 
@@ -237,7 +237,7 @@ public class SearchIncident extends AbstractDataModel<Long> implements Serializa
 	 * @param categoryCode
 	 *            the categoryCode to set
 	 */
-	public void setCategoryCode(String categoryCode) {
+	public void setCategoryCode(final String categoryCode) {
 		this.categoryCode = categoryCode;
 	}
 
@@ -253,7 +253,7 @@ public class SearchIncident extends AbstractDataModel<Long> implements Serializa
 	 * @param categoryDescription
 	 *            the categoryDescription to set
 	 */
-	public void setCategoryDescription(String categoryDescription) {
+	public void setCategoryDescription(final String categoryDescription) {
 		this.categoryDescription = categoryDescription;
 	}
 
@@ -269,7 +269,7 @@ public class SearchIncident extends AbstractDataModel<Long> implements Serializa
 	 * @param typeCode
 	 *            the typeCode to set
 	 */
-	public void setTypeCode(String typeCode) {
+	public void setTypeCode(final String typeCode) {
 		this.typeCode = typeCode;
 	}
 
@@ -285,7 +285,7 @@ public class SearchIncident extends AbstractDataModel<Long> implements Serializa
 	 * @param typeDescription
 	 *            the typeDescription to set
 	 */
-	public void setTypeDescription(String typeDescription) {
+	public void setTypeDescription(final String typeDescription) {
 		this.typeDescription = typeDescription;
 	}
 
@@ -301,7 +301,7 @@ public class SearchIncident extends AbstractDataModel<Long> implements Serializa
 	 * @param locationCode
 	 *            the locationCode to set
 	 */
-	public void setLocationCode(String locationCode) {
+	public void setLocationCode(final String locationCode) {
 		this.locationCode = locationCode;
 	}
 
@@ -317,7 +317,7 @@ public class SearchIncident extends AbstractDataModel<Long> implements Serializa
 	 * @param locationDescription
 	 *            the locationDescription to set
 	 */
-	public void setLocationDescription(String locationDescription) {
+	public void setLocationDescription(final String locationDescription) {
 		this.locationDescription = locationDescription;
 	}
 
@@ -333,7 +333,7 @@ public class SearchIncident extends AbstractDataModel<Long> implements Serializa
 	 * @param locationDetailCode
 	 *            the locationDetailCode to set
 	 */
-	public void setLocationDetailCode(String locationDetailCode) {
+	public void setLocationDetailCode(final String locationDetailCode) {
 		this.locationDetailCode = locationDetailCode;
 	}
 
@@ -349,7 +349,7 @@ public class SearchIncident extends AbstractDataModel<Long> implements Serializa
 	 * @param locationDetailDescription
 	 *            the locationDetailDescription to set
 	 */
-	public void setLocationDetailDescription(String locationDetailDescription) {
+	public void setLocationDetailDescription(final String locationDetailDescription) {
 		this.locationDetailDescription = locationDetailDescription;
 	}
 
@@ -365,8 +365,8 @@ public class SearchIncident extends AbstractDataModel<Long> implements Serializa
 	 * @param userId
 	 *            the userId to set
 	 */
-	public void setUserId(long userId) {
-		this.userId = userId;
+	public void setUserId(final long userId) {
+		this.userId = userId;		
 	}
 
 	/**
@@ -381,7 +381,7 @@ public class SearchIncident extends AbstractDataModel<Long> implements Serializa
 	 * @param userLoginId
 	 *            the userLoginId to set
 	 */
-	public void setUserLoginId(String userLoginId) {
+	public void setUserLoginId(final String userLoginId) {
 		this.userLoginId = userLoginId;
 	}
 
@@ -397,7 +397,7 @@ public class SearchIncident extends AbstractDataModel<Long> implements Serializa
 	 * @param reportedBy
 	 *            the reportedBy to set
 	 */
-	public void setReportedBy(String reportedBy) {
+	public void setReportedBy(final String reportedBy) {
 		this.reportedBy = reportedBy;
 	}
 
@@ -414,7 +414,7 @@ public class SearchIncident extends AbstractDataModel<Long> implements Serializa
 	 * @param userStatusFlag
 	 *            the userStatusFlag to set
 	 */
-	public void setUserStatusFlag(StatusFlag userStatusFlag) {
+	public void setUserStatusFlag(final StatusFlag userStatusFlag) {
 		this.userStatusFlag = userStatusFlag;
 	}
 
@@ -430,7 +430,7 @@ public class SearchIncident extends AbstractDataModel<Long> implements Serializa
 	 * @param organizationCode
 	 *            the organizationCode to set
 	 */
-	public void setOrganizationCode(String organizationCode) {
+	public void setOrganizationCode(final String organizationCode) {
 		this.organizationCode = organizationCode;
 	}
 
@@ -446,7 +446,7 @@ public class SearchIncident extends AbstractDataModel<Long> implements Serializa
 	 * @param organizationDescription
 	 *            the organizationDescription to set
 	 */
-	public void setOrganizationDescription(String organizationDescription) {
+	public void setOrganizationDescription(final String organizationDescription) {
 		this.organizationDescription = organizationDescription;
 	}
 
@@ -462,7 +462,7 @@ public class SearchIncident extends AbstractDataModel<Long> implements Serializa
 	 * @param departmentCode
 	 *            the departmentCode to set
 	 */
-	public void setDepartmentCode(String departmentCode) {
+	public void setDepartmentCode(final String departmentCode) {
 		this.departmentCode = departmentCode;
 	}
 
@@ -478,7 +478,7 @@ public class SearchIncident extends AbstractDataModel<Long> implements Serializa
 	 * @param departmentDescription
 	 *            the departmentDescription to set
 	 */
-	public void setDepartmentDescription(String departmentDescription) {
+	public void setDepartmentDescription(final String departmentDescription) {
 		this.departmentDescription = departmentDescription;
 	}
 
@@ -494,7 +494,7 @@ public class SearchIncident extends AbstractDataModel<Long> implements Serializa
 	 * @param positionCode
 	 *            the positionCode to set
 	 */
-	public void setPositionCode(String positionCode) {
+	public void setPositionCode(final String positionCode) {
 		this.positionCode = positionCode;
 	}
 
@@ -510,7 +510,7 @@ public class SearchIncident extends AbstractDataModel<Long> implements Serializa
 	 * @param positionDescription
 	 *            the positionDescription to set
 	 */
-	public void setPositionDescription(String positionDescription) {
+	public void setPositionDescription(final String positionDescription) {
 		this.positionDescription = positionDescription;
 	}
 }
