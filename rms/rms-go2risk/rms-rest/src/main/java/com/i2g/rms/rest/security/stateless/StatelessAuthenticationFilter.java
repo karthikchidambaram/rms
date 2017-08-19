@@ -7,9 +7,11 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
 
@@ -24,9 +26,26 @@ public class StatelessAuthenticationFilter extends GenericFilterBean {
 	}
 
 	@Override
-	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
-		_logger.info("StatelessAuthenticationFilter.doFilter(");
-		SecurityContextHolder.getContext().setAuthentication(tokenAuthenticationService.getAuthentication((HttpServletRequest) req));
-		chain.doFilter(req, res); // always continue
+	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws IOException, ServletException {
+		
+		_logger.info("************ Inside StatelessAuthenticationFilter ***************");
+		
+		final HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
+		final HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
+		
+		// Authorize (allow) all domains to consume the content
+		((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Origin", "*");
+		((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Methods", "API, UPDATE, GET, OPTIONS, HEAD, PUT, POST, DELETE");
+		((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, X-Codingpedia");
+
+		if (!HttpMethod.OPTIONS.name().equals(httpRequest.getMethod())) {			
+			_logger.info("************ Inside NOT Options Method ***************");
+			SecurityContextHolder.getContext().setAuthentication(tokenAuthenticationService.getAuthentication(httpRequest));			
+		} else {
+			// For HTTP OPTIONS verb/method reply with ACCEPTED status code per CORS handshake
+			((HttpServletResponse) servletResponse).setStatus(HttpServletResponse.SC_ACCEPTED);
+			return;
+		}
+		chain.doFilter(servletRequest, servletResponse); // always continue
 	}
 }

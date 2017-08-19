@@ -44,20 +44,18 @@ public class AuditorFilter implements Filter {
 	}
 
 	@Override
-	public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain)
-			throws IOException, ServletException {
+	public void doFilter(final ServletRequest servletRequest, final ServletResponse servletResponse, final FilterChain chain) throws IOException, ServletException {
 		_logger.info("*************** Inside Auditor Filter ****************");
 		
 		// OPTIONS requests (pre-flight for RESTful calls) do not require an
 		// authenticated user; only if it's not an OPTIONS request do we need
 		// to verify a valid user exists in context and set it accordingly
 		
-		final HttpServletRequest httpRequest = (HttpServletRequest) request;
-		final HttpServletResponse httpResponse = (HttpServletResponse) response;
+		final HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
+		final HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
+		String username = "anonymousUser";
 		
 		if (!HttpMethod.OPTIONS.name().equals(httpRequest.getMethod())) {
-			_logger.info("*************** Inside Auditor Filter: Not OPTIONS method ****************");
-			String username = "Anonymous";
 			final Authentication auth = SecurityContextHolder.getContext().getAuthentication();			
 			if (auth != null) {				
 				if (auth instanceof UserAuthentication) {					
@@ -79,13 +77,14 @@ public class AuditorFilter implements Filter {
 						}
 					}
 				}
-			}
-			Auditor.setName(username);
-			_logger.info("Auditor name has been set to: " + Auditor.getName());
+			}			
 		}
+		
+		Auditor.setName(username);
+		_logger.info("Auditor name has been set to: " + Auditor.getName());
 
 		try {
-			chain.doFilter(request, response);
+			chain.doFilter(servletRequest, servletResponse);
 		} finally {
 			// Always clear user from auditing context
 			Auditor.clear();

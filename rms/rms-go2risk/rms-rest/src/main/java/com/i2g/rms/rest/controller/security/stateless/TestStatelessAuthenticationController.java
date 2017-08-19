@@ -29,7 +29,7 @@ public class TestStatelessAuthenticationController {
 	@RequestMapping(value = "/p/api/users/current", method = RequestMethod.GET)
 	public User getCurrent() {
 		final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (authentication instanceof UserAuthentication) {
+		if (authentication != null && authentication instanceof UserAuthentication) {
 			return ((UserAuthentication) authentication).getDetails();
 		}
 		return new User(authentication.getName()); //anonymous user support

@@ -41,19 +41,13 @@ public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException, IOException, ServletException {
-		_logger.info("StatelessLoginFilter.attemptAuthentication(");
-		// final User user = new
-		// ObjectMapper().readValue(request.getInputStream(), User.class);
-		// final UsernamePasswordAuthenticationToken loginToken = new
-		// UsernamePasswordAuthenticationToken(user.getUsername(),
-		// user.getPassword());
-
+		_logger.info("StatelessLoginFilter.attemptAuthentication");
+		
 		// Parse the credentials from the request
 		final String[] credentials = passwordRelatedRestService.getCredentialsFromRequest(request);
 		final String username = credentials[0];
 		final String password = credentials[1];
-		final UsernamePasswordAuthenticationToken loginToken = new UsernamePasswordAuthenticationToken(username,
-				password);
+		final UsernamePasswordAuthenticationToken loginToken = new UsernamePasswordAuthenticationToken(username, password);
 
 		return getAuthenticationManager().authenticate(loginToken);
 	}
@@ -61,7 +55,7 @@ public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 			Authentication authentication) throws IOException, ServletException {
-		_logger.info("StatelessLoginFilter.successfulAuthentication(");
+		_logger.info("StatelessLoginFilter.successfulAuthentication");
 		// Lookup the complete User object from the database and create an
 		// Authentication for it
 		final User authenticatedUser = userDetailsService.loadUserByUsername(authentication.getName());

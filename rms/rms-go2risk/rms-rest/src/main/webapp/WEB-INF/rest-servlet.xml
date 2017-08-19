@@ -62,9 +62,6 @@
 	<!-- MVC Interceptor to disable caching of requests for all controllers -->
 	<mvc:interceptors>
 		
-		<!-- Session validator -->
-		<!-- <bean class="com.i2g.rms.rest.interceptor.SessionValidator" /> -->
-
 		<!-- Interceptor to bind the HTTP response to the current thread -->
 		<bean class="com.i2g.rms.rest.search.ResponseHandlerInterceptor" />
 		<!-- Interceptor to set caching headers -->

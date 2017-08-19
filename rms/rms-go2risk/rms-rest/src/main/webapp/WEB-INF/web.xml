@@ -56,17 +56,7 @@
 	<filter-mapping>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-	
-	<filter>
-		<description>CORS Filter</description>
-		<filter-name>CorsFilter</filter-name>
-		<filter-class>com.i2g.rms.rest.filter.CORSFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>CorsFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
+	</filter-mapping>	
 	
 	<filter>
 		<description>Auditor Filter</description>

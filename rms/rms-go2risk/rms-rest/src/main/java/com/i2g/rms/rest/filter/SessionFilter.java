@@ -42,14 +42,19 @@ public class SessionFilter implements Filter {
 	}
 
 	@Override
-	public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain)
+	public void doFilter(final ServletRequest servletRequest, final ServletResponse servletResponse, final FilterChain chain)
 			throws IOException, ServletException {
 		_logger.info("*************** Inside Session Filter ****************");
 		// OPTIONS requests (pre-flight for RESTful calls) do not require an
 		// authenticated user; only if it's not an OPTIONS request do we need
 		// to verify a valid user exists in context.
-		final HttpServletRequest httpRequest = (HttpServletRequest) request;
-		final HttpServletResponse httpResponse = (HttpServletResponse) response;
+		final HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
+		final HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
+		
+		// Authorize (allow) all domains to consume the content
+		((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Origin", "*");
+		((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Methods", "API, UPDATE, GET, OPTIONS, HEAD, PUT, POST, DELETE");
+		((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, X-Codingpedia");
 		
 		if (!HttpMethod.OPTIONS.name().equals(httpRequest.getMethod())) {
 			_logger.info("*************** Inside Session Filter: Under Not OPTIONS method ****************");
@@ -82,8 +87,12 @@ public class SessionFilter implements Filter {
 				_logger.error("Exception at SessionFilter: Unauthorized user tried to access secured resource.");
 				throw new AccessDeniedException("SessionFilter: Full authentication is required to access this resource.");
 			}
+		} else {
+			// For HTTP OPTIONS verb/method reply with ACCEPTED status code per CORS handshake
+			((HttpServletResponse) servletResponse).setStatus(HttpServletResponse.SC_ACCEPTED);
+			return;
 		}
 		// Always continue
-		chain.doFilter(request, response);
+		chain.doFilter(servletRequest, servletResponse);
 	}
 }
