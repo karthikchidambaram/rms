@@ -33,15 +33,18 @@ public class StatelessAuthenticationFilter extends GenericFilterBean {
 		final HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
 		final HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
 		
-		// Authorize (allow) all domains to consume the content
-		((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Origin", "*");
-		((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Methods", "API, UPDATE, GET, OPTIONS, HEAD, PUT, POST, DELETE");
-		((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, X-Codingpedia");
-
+		if (httpResponse.getHeader("Access-Control-Allow-Origin") == null || httpResponse.getHeader("Access-Control-Allow-Origin").isEmpty()) {
+			// Authorize (allow) all domains to consume the content
+			((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Origin", "*");
+			((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Methods", "API, UPDATE, GET, OPTIONS, HEAD, PUT, POST, DELETE, PATCH");
+			((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Headers", "Origin, X-Auth-Token, X-Requested-With, Content-Type, X-Codingpedia");
+		}
+		
 		if (!HttpMethod.OPTIONS.name().equals(httpRequest.getMethod())) {			
-			_logger.info("************ Inside NOT Options Method ***************");
+			_logger.info("************ StatelessAuthenticationFilter: Inside NOT Options ***************");
 			SecurityContextHolder.getContext().setAuthentication(tokenAuthenticationService.getAuthentication(httpRequest));			
 		} else {
+			_logger.info("************ StatelessAuthenticationFilter: Inside Options ***************");
 			// For HTTP OPTIONS verb/method reply with ACCEPTED status code per CORS handshake
 			((HttpServletResponse) servletResponse).setStatus(HttpServletResponse.SC_ACCEPTED);
 			return;

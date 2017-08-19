@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -41,31 +42,54 @@ public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException, IOException, ServletException {
+		
 		_logger.info("StatelessLoginFilter.attemptAuthentication");
 		
-		// Parse the credentials from the request
-		final String[] credentials = passwordRelatedRestService.getCredentialsFromRequest(request);
-		final String username = credentials[0];
-		final String password = credentials[1];
-		final UsernamePasswordAuthenticationToken loginToken = new UsernamePasswordAuthenticationToken(username, password);
-
-		return getAuthenticationManager().authenticate(loginToken);
+		// Authorize (allow) all domains to consume the content
+		response.addHeader("Access-Control-Allow-Origin", "*");
+		response.addHeader("Access-Control-Allow-Methods", "API, UPDATE, GET, OPTIONS, HEAD, PUT, POST, DELETE, PATCH");
+		response.addHeader("Access-Control-Allow-Headers", "Origin, X-Auth-Token, X-Requested-With, Content-Type, X-Codingpedia");
+		
+		if (!HttpMethod.OPTIONS.name().equals(request.getMethod())) {
+			// Parse the credentials from the request
+			final String[] credentials = passwordRelatedRestService.getCredentialsFromRequest(request);
+			final String username = credentials[0];
+			final String password = credentials[1];
+			UsernamePasswordAuthenticationToken loginToken = new UsernamePasswordAuthenticationToken(username, password);
+			return getAuthenticationManager().authenticate(loginToken);
+		} else {
+			response.setStatus(HttpServletResponse.SC_ACCEPTED);
+			UserAuthentication userAuthentication = new UserAuthentication(new User("anonymousUser"));
+			return userAuthentication;
+		}		
 	}
 
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 			Authentication authentication) throws IOException, ServletException {
+		
 		_logger.info("StatelessLoginFilter.successfulAuthentication");
-		// Lookup the complete User object from the database and create an
-		// Authentication for it
-		final User authenticatedUser = userDetailsService.loadUserByUsername(authentication.getName());
-		final UserAuthentication userAuthentication = new UserAuthentication(authenticatedUser);
-
-		// Add the custom token as HTTP header to the response
-		tokenAuthenticationService.addAuthentication(response, userAuthentication);
-
-		// Add the authentication to the Security context
-		SecurityContextHolder.getContext().setAuthentication(userAuthentication);
+		
+		if (response.getHeader("Access-Control-Allow-Origin") == null || response.getHeader("Access-Control-Allow-Origin").isEmpty()) {
+			// Authorize (allow) all domains to consume the content
+			response.addHeader("Access-Control-Allow-Origin", "*");
+			response.addHeader("Access-Control-Allow-Methods", "API, UPDATE, GET, OPTIONS, HEAD, PUT, POST, DELETE, PATCH");
+			response.addHeader("Access-Control-Allow-Headers", "Origin, X-Auth-Token, X-Requested-With, Content-Type, X-Codingpedia");
+		}
+				
+		if (!HttpMethod.OPTIONS.name().equals(request.getMethod())) {			
+			// Lookup the complete User object from the database and create an
+			// Authentication for it
+			final User authenticatedUser = userDetailsService.loadUserByUsername(authentication.getName());
+			final UserAuthentication userAuthentication = new UserAuthentication(authenticatedUser);	
+			// Add the custom token as HTTP header to the response
+			tokenAuthenticationService.addAuthentication(response, userAuthentication);	
+			// Add the authentication to the Security context
+			SecurityContextHolder.getContext().setAuthentication(userAuthentication);
+		} else {
+			response.setStatus(HttpServletResponse.SC_ACCEPTED);
+			return;
+		}
 		chain.doFilter(request, response);
 	}
 }

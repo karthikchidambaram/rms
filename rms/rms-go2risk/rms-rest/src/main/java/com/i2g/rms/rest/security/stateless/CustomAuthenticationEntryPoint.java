@@ -20,10 +20,8 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response,
-			AuthenticationException authException) throws IOException, ServletException {
-		
-		_logger.info("Inside CustomAuthenticationEntryPoint.commence()");
-		
+			AuthenticationException authException) throws IOException, ServletException {		
+		_logger.info("Inside CustomAuthenticationEntryPoint.commence()");		
 		response.setContentType(RMSSecurityProperties.APPLICATION_RESPONSE_TYPE);
 		response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 		PrintWriter out = response.getWriter();

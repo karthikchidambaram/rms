@@ -26,6 +26,12 @@ public class ResponseHandlerInterceptor implements HandlerInterceptor {
 	
 	@Override
 	public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler) throws Exception {
+		if (response.getHeader("Access-Control-Allow-Origin") == null || response.getHeader("Access-Control-Allow-Origin").isEmpty()) {
+			// Authorize (allow) all domains to consume the content
+			response.addHeader("Access-Control-Allow-Origin", "*");
+			response.addHeader("Access-Control-Allow-Methods", "API, UPDATE, GET, OPTIONS, HEAD, PUT, POST, DELETE, PATCH");
+			response.addHeader("Access-Control-Allow-Headers", "Origin, X-Auth-Token, X-Requested-With, Content-Type, X-Codingpedia");
+		}
 		// Set the response in the context holder
 		ResponseContextHolder.setResponse(response);
 		_logger.info("Response Handler Interceptor: Set HttpServletResponse in thread local context.");
