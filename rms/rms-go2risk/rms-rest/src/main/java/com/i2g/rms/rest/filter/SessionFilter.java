@@ -44,6 +44,7 @@ public class SessionFilter implements Filter {
 	@Override
 	public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain)
 			throws IOException, ServletException {
+		_logger.info("*************** Inside Session Filter ****************");
 		// OPTIONS requests (pre-flight for RESTful calls) do not require an
 		// authenticated user; only if it's not an OPTIONS request do we need
 		// to verify a valid user exists in context.
@@ -51,7 +52,7 @@ public class SessionFilter implements Filter {
 		final HttpServletResponse httpResponse = (HttpServletResponse) response;
 		
 		if (!HttpMethod.OPTIONS.name().equals(httpRequest.getMethod())) {
-			
+			_logger.info("*************** Inside Session Filter: Under Not OPTIONS method ****************");
 			boolean authenticated = false;
 			final Authentication auth = SecurityContextHolder.getContext().getAuthentication();			
 			

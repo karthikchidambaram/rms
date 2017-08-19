@@ -2,6 +2,7 @@ package com.i2g.rms.persistence.dao.tablemaintenance;
 
 import java.util.List;
 
+import com.i2g.rms.domain.model.tablemaintenance.IncidentLocation;
 import com.i2g.rms.domain.model.tablemaintenance.IncidentLocationDetail;
 
 /**
@@ -17,7 +18,7 @@ public interface IncidentLocationDetailDao {
 
 	public IncidentLocationDetail getByCode(final String code);
 
-	public IncidentLocationDetail create(final String code, final String description);
+	public IncidentLocationDetail create(final String code, final String description, final IncidentLocation incidentLocation);
 
 	public IncidentLocationDetail update(final String code, final String description);
 

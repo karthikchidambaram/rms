@@ -100,7 +100,7 @@ public class InjuryType extends AbstractDataModel<String> implements Serializabl
 	 * 
 	 * @param id
 	 */
-	protected void setId(String id) {
+	protected void setId(final String id) {
 		_id = id;
 	}
 
@@ -121,7 +121,7 @@ public class InjuryType extends AbstractDataModel<String> implements Serializabl
 	 * 
 	 * @param description
 	 */
-	public void setDescription(String description) {
+	public void setDescription(final String description) {
 		_description = description;
 	}
 
@@ -131,7 +131,7 @@ public class InjuryType extends AbstractDataModel<String> implements Serializabl
 		return _injuryTypeDetails;
 	}
 
-	public void setInjuryTypeDetails(Set<InjuryTypeDetail> injuryTypeDetails) {
+	public void setInjuryTypeDetails(final Set<InjuryTypeDetail> injuryTypeDetails) {
 		_injuryTypeDetails = injuryTypeDetails;
 	}
 

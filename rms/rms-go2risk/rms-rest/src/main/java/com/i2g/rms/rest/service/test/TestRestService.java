@@ -3,10 +3,10 @@ package com.i2g.rms.rest.service.test;
 import java.util.List;
 
 import com.i2g.rms.rest.model.UserContextRO;
-import com.i2g.rms.rest.model.test.DepartmentRO;
 import com.i2g.rms.rest.model.test.MyDepartmentRO;
 import com.i2g.rms.rest.model.test.MyEmployeeRO;
 import com.i2g.rms.rest.model.test.PaginationRO;
+import com.i2g.rms.rest.model.test.TestDepartmentRO;
 import com.i2g.rms.rest.model.test.TestMessageRO;
 
 /**
@@ -22,9 +22,9 @@ public interface TestRestService {
 
 	public TestMessageRO greetCustomer();
 	
-	public DepartmentRO getDeptByDeptNo(final Long deptNo);
+	public TestDepartmentRO getDeptByDeptNo(final Long deptNo);
 	
-	public List<DepartmentRO> getAllDepartments();
+	public List<TestDepartmentRO> getAllDepartments();
 	
 	public String testErrorMessage();
 	
@@ -38,9 +38,9 @@ public interface TestRestService {
 	
 	public String testSecondLevelCache();
 	
-	public DepartmentRO createDepartment(final DepartmentRO departmentRO);
+	public TestDepartmentRO createDepartment(final TestDepartmentRO departmentRO);
 	
-	public DepartmentRO updateDepartment(final DepartmentRO departmentRO);
+	public TestDepartmentRO updateDepartment(final TestDepartmentRO departmentRO);
 
 	public void deleteDepartment(final Long deptNo);
 	

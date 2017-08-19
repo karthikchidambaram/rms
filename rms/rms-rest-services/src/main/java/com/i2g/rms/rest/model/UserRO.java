@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.i2g.rms.rest.model.incident.IncidentRO;
 import com.i2g.rms.rest.model.tablemaintenance.EmployeeTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.GenderTypeRO;
+import com.i2g.rms.rest.model.tablemaintenance.PositionRO;
 
 /**
  * REST Object for returning user details to the REST client.

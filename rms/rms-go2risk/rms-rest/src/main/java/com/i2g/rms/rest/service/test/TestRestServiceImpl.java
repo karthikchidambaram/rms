@@ -10,13 +10,13 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.i2g.rms.domain.model.test.Department;
 import com.i2g.rms.domain.model.test.MyDepartment;
+import com.i2g.rms.domain.model.test.TestDepartment;
 import com.i2g.rms.rest.model.UserContextRO;
-import com.i2g.rms.rest.model.test.DepartmentRO;
 import com.i2g.rms.rest.model.test.MyDepartmentRO;
 import com.i2g.rms.rest.model.test.MyEmployeeRO;
 import com.i2g.rms.rest.model.test.PaginationRO;
+import com.i2g.rms.rest.model.test.TestDepartmentRO;
 import com.i2g.rms.rest.model.test.TestMessageRO;
 import com.i2g.rms.rest.service.RestMessage;
 import com.i2g.rms.service.exception.ResourceNotFoundException;
@@ -55,16 +55,16 @@ public class TestRestServiceImpl extends TestAbstractRestService implements Test
 	}
 
 	@Override
-	public DepartmentRO getDeptByDeptNo(final Long deptNo) {
-		Department department = _testService.getDeptByDeptNo(deptNo);
-		return _mapperService.map(department, DepartmentRO.class);
+	public TestDepartmentRO getDeptByDeptNo(final Long deptNo) {
+		TestDepartment department = _testService.getDeptByDeptNo(deptNo);
+		return _mapperService.map(department, TestDepartmentRO.class);
 	}
 
 	@Override
-	public List<DepartmentRO> getAllDepartments() {
-		List<Department> departments = _testService.getAllDepartments();
-		List<DepartmentRO> departmentROs = departments.isEmpty() ? Collections.emptyList()
-				: _mapperService.map(departments, DepartmentRO.class);
+	public List<TestDepartmentRO> getAllDepartments() {
+		List<TestDepartment> departments = _testService.getAllDepartments();
+		List<TestDepartmentRO> departmentROs = departments.isEmpty() ? Collections.emptyList()
+				: _mapperService.map(departments, TestDepartmentRO.class);
 		return departmentROs;
 	}
 
@@ -168,26 +168,26 @@ public class TestRestServiceImpl extends TestAbstractRestService implements Test
 	}
 
 	@Override
-	public DepartmentRO createDepartment(final DepartmentRO departmentRO) {
+	public TestDepartmentRO createDepartment(final TestDepartmentRO departmentRO) {
 		//Validate if the input parameters are valid
 		validateDepartmentParams(departmentRO);
 		return _mapperService.map(
 				_testService.createDepartment(departmentRO.getDeptNo(), departmentRO.getDname(), departmentRO.getLoc()),
-				DepartmentRO.class);
+				TestDepartmentRO.class);
 	}
 	
 	@Override
-	public DepartmentRO updateDepartment(final DepartmentRO departmentRO) {
+	public TestDepartmentRO updateDepartment(final TestDepartmentRO departmentRO) {
 		//Validate input parameters
 		validateDepartmentParams(departmentRO);
 		//Check if there is an existing department before the update.
 		//We can search by deptNo because it is unique.
-		Department department = _testService.getDeptByDeptNo(departmentRO.getDeptNo());
+		TestDepartment department = _testService.getDeptByDeptNo(departmentRO.getDeptNo());
 		validateDepartment(department);
 		//Set the new values
 		department.setDname(departmentRO.getDname());
 		department.setLoc(departmentRO.getLoc());
-		return _mapperService.map(_testService.updateDepartment(department), DepartmentRO.class);
+		return _mapperService.map(_testService.updateDepartment(department), TestDepartmentRO.class);
 	}
 	
 	@Override
@@ -198,12 +198,12 @@ public class TestRestServiceImpl extends TestAbstractRestService implements Test
 		}
 		//Check if there is an existing department before the delete.
 		//We can search by deptNo because it is unique.
-		Department department = _testService.getDeptByDeptNo(deptNo);
+		TestDepartment department = _testService.getDeptByDeptNo(deptNo);
 		validateDepartment(department);
 		_testService.deleteDepartment(department);
 	}
 	
-	private void validateDepartmentParams(final DepartmentRO departmentRO) {
+	private void validateDepartmentParams(final TestDepartmentRO departmentRO) {
 		if (departmentRO == null) {
 			throw new ResourceNotValidException(_messageBuilder.build(RestMessage.INVALID_REQUEST_BODY));
 		}
@@ -239,7 +239,7 @@ public class TestRestServiceImpl extends TestAbstractRestService implements Test
 		}
 	}
 	
-	private void validateDepartment(final Department department) {
+	private void validateDepartment(final TestDepartment department) {
 		if (department == null) {
 			throw new ResourceNotFoundException(_messageBuilder.build(RestMessage.DEPT_DOES_NOT_EXIST));
 		}

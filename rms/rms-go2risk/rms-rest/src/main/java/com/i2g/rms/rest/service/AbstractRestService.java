@@ -133,6 +133,20 @@ public abstract class AbstractRestService {
 			throw new ResourceNotValidException(_messageBuilder.build(RestMessage.INPUT_OBJECT_NULL_OR_EMPTY));
 		}
 	}
+	
+	/**
+	 * Validation method for table maintenance objects. Validates {@code object}
+	 * for null or empty.
+	 * 
+	 * @param object
+	 * @throws ResourceNotValidException
+	 *             if the input object is null or emtpy.
+	 */
+	protected void validateParentObject(final Object object) {
+		if (object == null) {
+			throw new ResourceNotValidException(_messageBuilder.build(RestMessage.PARENT_OBJECT_NULL_OR_EMPTY));
+		}
+	}
 
 	/**
 	 * Validation method for table maintenance objects. Validates {@code code}
@@ -145,6 +159,20 @@ public abstract class AbstractRestService {
 	protected void validateCode(final String code) {
 		if (code == null || code.trim().isEmpty()) {
 			throw new ResourceNotValidException(_messageBuilder.build(RestMessage.CODE_NULL_OR_EMPTY));
+		}
+	}
+	
+	/**
+	 * Validation method for table maintenance objects. Validates {@code code}
+	 * for null or empty.
+	 * 
+	 * @param code
+	 * @throws ResourceNotValidException
+	 *             if the input object is null or emtpy.
+	 */
+	protected void validateParentCode(final String code) {
+		if (code == null || code.trim().isEmpty()) {
+			throw new ResourceNotValidException(_messageBuilder.build(RestMessage.PARENT_CODE_NULL_OR_EMPTY));
 		}
 	}
 

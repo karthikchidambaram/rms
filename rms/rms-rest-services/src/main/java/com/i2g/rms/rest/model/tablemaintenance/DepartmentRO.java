@@ -1,8 +1,8 @@
-package com.i2g.rms.rest.model;
+package com.i2g.rms.rest.model.tablemaintenance;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.i2g.rms.rest.model.tablemaintenance.PositionLevelRO;
+import com.i2g.rms.rest.model.AbstractEntityRO;
 
 /**
  * REST Object for returning table maintenance details to the REST client.
@@ -13,13 +13,12 @@ import com.i2g.rms.rest.model.tablemaintenance.PositionLevelRO;
  */
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PositionRO extends AbstractEntityRO {
+public class DepartmentRO extends AbstractEntityRO {
 	
 	private String _id;
 	private String _description;
-	private PositionLevelRO _positionLevel;
 	private OrganizationRO _organization;
-	private DepartmentRO _department;
+	private String _parentId;
 
 	public String getId() {
 		return _id;
@@ -52,30 +51,16 @@ public class PositionRO extends AbstractEntityRO {
 	}
 
 	/**
-	 * @return the positionLevel
+	 * @return the parentId
 	 */
-	public PositionLevelRO getPositionLevel() {
-		return _positionLevel;
+	public String getParentId() {
+		return _parentId;
 	}
 
 	/**
-	 * @param positionLevel the positionLevel to set
+	 * @param parentId the parentId to set
 	 */
-	public void setPositionLevel(final PositionLevelRO positionLevel) {
-		_positionLevel = positionLevel;
-	}
-
-	/**
-	 * @return the department
-	 */
-	public DepartmentRO getDepartment() {
-		return _department;
-	}
-
-	/**
-	 * @param department the department to set
-	 */
-	public void setDepartment(final DepartmentRO department) {
-		_department = department;
+	public void setParentId(final String parentId) {
+		_parentId = parentId;
 	}	
 }

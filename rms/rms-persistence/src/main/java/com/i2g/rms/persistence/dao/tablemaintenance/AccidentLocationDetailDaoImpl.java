@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.i2g.rms.domain.model.tablemaintenance.AccidentLocation;
 import com.i2g.rms.domain.model.tablemaintenance.AccidentLocationDetail;
 import com.i2g.rms.persistence.hibernate.AbstractHibernateDao;
 
@@ -82,12 +83,14 @@ public class AccidentLocationDetailDaoImpl extends AbstractHibernateDao<String, 
 	 * @return a table maintenance object.
 	 */
 	@Override
-	public AccidentLocationDetail create(final String code, final String description) {
+	public AccidentLocationDetail create(final String code, final String description, final AccidentLocation accidentLocation) {
 		// Validate input parameter(s) if any..
 		validateCode(code);
 		validateDescription(description);
+		//validate parent object
+		validateObject(accidentLocation);
 		// Create the new object (record)
-		AccidentLocationDetail object = new AccidentLocationDetail(code, description);
+		AccidentLocationDetail object = new AccidentLocationDetail(code, description, accidentLocation);
 		// Issue save
 		save(object);
 		return object;

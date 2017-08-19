@@ -1,4 +1,4 @@
-package com.i2g.rms.domain.model;
+package com.i2g.rms.domain.model.tablemaintenance;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -13,7 +13,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.i2g.rms.domain.model.tablemaintenance.PositionLevel;
+import com.i2g.rms.domain.model.AbstractDataModel;
 
 /**
  * Entity representation of Department.
@@ -74,6 +74,20 @@ public class Position extends AbstractDataModel<String> implements Serializable 
 	 * 
 	 * @param code
 	 * @param description
+	 * @param organization
+	 */
+	public Position(final String code, final String description, final Organization organization) {
+		_id = Objects.requireNonNull(code, "Position code cannot be null.");
+		_description = Objects.requireNonNull(description, "Position description cannot be null.");
+		_organization = Objects.requireNonNull(organization, "Organization cannot be null.");
+	}
+	
+	/**
+	 * Creates a new instance of {@code Position} with the specified
+	 * code and description.
+	 * 
+	 * @param code
+	 * @param description
 	 * @param positionLevel
 	 * @param department
 	 */
@@ -81,6 +95,20 @@ public class Position extends AbstractDataModel<String> implements Serializable 
 		_id = Objects.requireNonNull(code, "Position code cannot be null.");
 		_description = Objects.requireNonNull(description, "Position description cannot be null.");
 		_positionLevel = Objects.requireNonNull(positionLevel, "Position level cannot be null.");
+		_department = Objects.requireNonNull(department, "Department cannot be null.");
+	}
+	
+	/**
+	 * Creates a new instance of {@code Position} with the specified
+	 * code and description.
+	 * 
+	 * @param code
+	 * @param description
+	 * @param department
+	 */
+	public Position(final String code, final String description, final Department department) {
+		_id = Objects.requireNonNull(code, "Position code cannot be null.");
+		_description = Objects.requireNonNull(description, "Position description cannot be null.");
 		_department = Objects.requireNonNull(department, "Department cannot be null.");
 	}
 	
@@ -150,7 +178,6 @@ public class Position extends AbstractDataModel<String> implements Serializable 
 	 */
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "POSTN_LVL_CDE")
-	@Size(min = 1, max = 16, message = "Position level code must be between {min} and {max} characters")
 	public PositionLevel getPositionLevel() {
 		return _positionLevel;
 	}
@@ -167,7 +194,6 @@ public class Position extends AbstractDataModel<String> implements Serializable 
 	 */
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "ORG_CDE")
-	@Size(min = 1, max = 16, message = "Organization code must be between {min} and {max} characters")
 	public Organization getOrganization() {
 		return _organization;
 	}
@@ -184,7 +210,6 @@ public class Position extends AbstractDataModel<String> implements Serializable 
 	 */
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "DEPT_CDE")
-	@Size(min = 1, max = 16, message = "Department code must be between {min} and {max} characters")
 	public Department getDepartment() {
 		return _department;
 	}

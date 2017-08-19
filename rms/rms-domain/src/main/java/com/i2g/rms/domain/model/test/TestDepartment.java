@@ -23,7 +23,7 @@ import com.i2g.rms.domain.model.AbstractDataModel;
  */
 @Entity
 @Table(name = "RMS_TEST_DEPT")
-public class Department extends AbstractDataModel<Long> implements Serializable, Comparable<Department> {
+public class TestDepartment extends AbstractDataModel<Long> implements Serializable, Comparable<TestDepartment> {
 
 	/**
 	 * 
@@ -39,7 +39,7 @@ public class Department extends AbstractDataModel<Long> implements Serializable,
 	/**
 	 * Default empty constructor required for Hibernate.
 	 */
-	protected Department() {
+	protected TestDepartment() {
 	}
 
 	/**
@@ -53,7 +53,7 @@ public class Department extends AbstractDataModel<Long> implements Serializable,
 	 * 
 	 * @param builder
 	 */
-	private Department(final Builder builder) {
+	private TestDepartment(final Builder builder) {
 		_deptNo = Objects.requireNonNull(builder._deptNo, "Department number cannot be null or empty");
 		_dname = Objects.requireNonNull(builder._dname, "Department name cannot be null or empty");
 		_loc = Objects.requireNonNull(builder._loc, "Department location cannot be null or empty");
@@ -111,7 +111,7 @@ public class Department extends AbstractDataModel<Long> implements Serializable,
 	}
 
 	@Override
-	public int compareTo(final Department o) {
+	public int compareTo(final TestDepartment o) {
 		if (getCreated() == null) {
 			return 1;
 		} else if (o == null || o.getCreated() == null) {
@@ -122,7 +122,7 @@ public class Department extends AbstractDataModel<Long> implements Serializable,
 
 	@Override
 	public boolean equals(final Object obj) {
-		return obj == this || (obj instanceof Department && ((Department) obj)._id == _id);
+		return obj == this || (obj instanceof TestDepartment && ((TestDepartment) obj)._id == _id);
 	}
 
 	@Override
@@ -137,7 +137,7 @@ public class Department extends AbstractDataModel<Long> implements Serializable,
 
 	/**
 	 * Implementation of Builder pattern for constructing immutable instances of
-	 * {@link Department}.
+	 * {@link TestDepartment}.
 	 */
 	public final static class Builder {
 		/** Department Number. */
@@ -146,12 +146,12 @@ public class Department extends AbstractDataModel<Long> implements Serializable,
 		private String _loc;
 
 		/**
-		 * Builds a new immutable instance of {@link Department}.
+		 * Builds a new immutable instance of {@link TestDepartment}.
 		 * 
 		 * @return new immutable instance
 		 */
-		public Department build() {
-			return new Department(this);
+		public TestDepartment build() {
+			return new TestDepartment(this);
 		}
 
 		/**

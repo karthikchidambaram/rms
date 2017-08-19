@@ -10,8 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.i2g.rms.domain.model.tablemaintenance.IncidentLocation;
-import com.i2g.rms.domain.model.tablemaintenance.IncidentLocationDetail;
+import com.i2g.rms.domain.model.tablemaintenance.PositionLevel;
 import com.i2g.rms.persistence.hibernate.AbstractHibernateDao;
 
 /**
@@ -23,18 +22,18 @@ import com.i2g.rms.persistence.hibernate.AbstractHibernateDao;
  *
  */
 @Repository
-public class IncidentLocationDetailDaoImpl extends AbstractHibernateDao<String, IncidentLocationDetail> implements IncidentLocationDetailDao {
+public class PositionLevelDaoImpl extends AbstractHibernateDao<String, PositionLevel> implements PositionLevelDao {
 
-	private final Logger _logger = LoggerFactory.getLogger(IncidentLocationDetailDaoImpl.class);
+	private final Logger _logger = LoggerFactory.getLogger(PositionLevelDaoImpl.class);
 
 	@Autowired
 	private HibernateTemplate _hibernateTemplate;
 
 	/**
-	 * Creates a new instance of {@link IncidentLocationDetailDaoImpl}.
+	 * Creates a new instance of {@link PositionLevelDaoImpl}.
 	 */
-	private IncidentLocationDetailDaoImpl() {
-		super(IncidentLocationDetail.class);
+	private PositionLevelDaoImpl() {
+		super(PositionLevel.class);
 	}
 
 	public HibernateTemplate getHibernateTemplate() {
@@ -53,8 +52,8 @@ public class IncidentLocationDetailDaoImpl extends AbstractHibernateDao<String, 
 	 */
 	@SuppressWarnings({ "deprecation", "unchecked" })
 	@Override
-	public List<IncidentLocationDetail> get() {
-		return (List<IncidentLocationDetail>) applySearch(getSession().createCriteria(_modelType)).list();
+	public List<PositionLevel> get() {
+		return (List<PositionLevel>) applySearch(getSession().createCriteria(_modelType)).list();
 	}
 
 	/**
@@ -66,10 +65,10 @@ public class IncidentLocationDetailDaoImpl extends AbstractHibernateDao<String, 
 	 */
 	@SuppressWarnings("deprecation")
 	@Override
-	public IncidentLocationDetail getByCode(final String code) {
+	public PositionLevel getByCode(final String code) {
 		// Validate input parameter(s) if any..
 		validateCode(code);
-		return (IncidentLocationDetail) applySearch(getSession().createCriteria(_modelType)
+		return (PositionLevel) applySearch(getSession().createCriteria(_modelType)
 				.add(Restrictions.eq("id", Objects.requireNonNull(code, "Code cannot be null or empty."))))
 						.uniqueResult();
 	}
@@ -83,13 +82,12 @@ public class IncidentLocationDetailDaoImpl extends AbstractHibernateDao<String, 
 	 * @return a table maintenance object.
 	 */
 	@Override
-	public IncidentLocationDetail create(final String code, final String description, final IncidentLocation incidentLocation) {
+	public PositionLevel create(final String code, final String description) {
 		// Validate input parameter(s) if any..
 		validateCode(code);
 		validateDescription(description);
-		validateObject(incidentLocation);
 		// Create the new object (record)
-		IncidentLocationDetail object = new IncidentLocationDetail(code, description, incidentLocation);
+		PositionLevel object = new PositionLevel(code, description);
 		// Issue save
 		save(object);
 		return object;
@@ -108,12 +106,12 @@ public class IncidentLocationDetailDaoImpl extends AbstractHibernateDao<String, 
 	 * @return a table maintenance object.
 	 */
 	@Override
-	public IncidentLocationDetail update(final String code, final String description) {
+	public PositionLevel update(final String code, final String description) {
 		// Validate input parameter(s) if any..
 		validateCode(code);
 		validateDescription(description);
 		// Check if the record exists before issuing the update.
-		IncidentLocationDetail object = getByCode(code);
+		PositionLevel object = getByCode(code);
 		validateObject(object);
 		// Set the new value(s).
 		object.setDescription(description);		
@@ -131,7 +129,7 @@ public class IncidentLocationDetailDaoImpl extends AbstractHibernateDao<String, 
 	public void delete(final String code) {
 		// Validate input parameter(s) if any..
 		validateCode(code);
-		IncidentLocationDetail object = getByCode(code);
+		PositionLevel object = getByCode(code);
 		// Check if the object exists in database before issuing the delete
 		validateObject(object);
 		// Issue delete

@@ -2,6 +2,7 @@ package com.i2g.rms.persistence.dao.tablemaintenance;
 
 import java.util.List;
 
+import com.i2g.rms.domain.model.tablemaintenance.InjuryTypeDetail;
 import com.i2g.rms.domain.model.tablemaintenance.InjuryTypeDetailSpec;
 
 /**
@@ -17,7 +18,7 @@ public interface InjuryTypeDetailSpecDao {
 
 	public InjuryTypeDetailSpec getByCode(final String code);
 
-	public InjuryTypeDetailSpec create(final String code, final String description);
+	public InjuryTypeDetailSpec create(final String code, final String description, final InjuryTypeDetail injuryTypeDetail);
 
 	public InjuryTypeDetailSpec update(final String code, final String description);
 

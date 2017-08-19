@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.i2g.rms.domain.model.test.Department;
+import com.i2g.rms.domain.model.test.TestDepartment;
 import com.i2g.rms.persistence.hibernate.AbstractHibernateDao;
 
 /**
@@ -23,18 +23,18 @@ import com.i2g.rms.persistence.hibernate.AbstractHibernateDao;
  *
  */
 @Repository
-public class DepartmentDaoImpl extends AbstractHibernateDao<Long, Department> implements DepartmentDao {
+public class TestDepartmentDaoImpl extends AbstractHibernateDao<Long, TestDepartment> implements TestDepartmentDao {
 
-	private final Logger _logger = LoggerFactory.getLogger(DepartmentDaoImpl.class);
+	private final Logger _logger = LoggerFactory.getLogger(TestDepartmentDaoImpl.class);
 
 	@Autowired
 	private HibernateTemplate _hibernateTemplate;
 
 	/**
-	 * Creates a new instance of {@link DepartmentDaoImpl}.
+	 * Creates a new instance of {@link TestDepartmentDaoImpl}.
 	 */
-	private DepartmentDaoImpl() {
-		super(Department.class);
+	private TestDepartmentDaoImpl() {
+		super(TestDepartment.class);
 	}
 
 	public HibernateTemplate getHibernateTemplate() {
@@ -52,25 +52,25 @@ public class DepartmentDaoImpl extends AbstractHibernateDao<Long, Department> im
 
 	// Method to return one department by id
 	@Override
-	public Department getDeptByDeptNo(final Long deptNo) {
-		return (Department) applySearch(getSession().createCriteria(_modelType)
+	public TestDepartment getDeptByDeptNo(final Long deptNo) {
+		return (TestDepartment) applySearch(getSession().createCriteria(_modelType)
 				.add(Restrictions.eq("deptNo", Objects.requireNonNull(deptNo, "Department number cannot be null"))))
 						.uniqueResult();
 	}
 
 	// Method to return all departments
 	@Override
-	public List<Department> getAllDepartments() {
-		// return (List<Department>)
-		// hibernateTemplate.findByCriteria(DetachedCriteria.forClass(Department.class));
-		return (List<Department>) applySearch(getSession().createCriteria(_modelType), Order.asc("deptNo").ignoreCase())
+	public List<TestDepartment> getAllDepartments() {
+		// return (List<TestDepartment>)
+		// hibernateTemplate.findByCriteria(DetachedCriteria.forClass(TestDepartment.class));
+		return (List<TestDepartment>) applySearch(getSession().createCriteria(_modelType), Order.asc("deptNo").ignoreCase())
 				.list();
 	}
 
 	// Method to create a new department in the table RMS_TEST_DEPT
 	@Override
-	public Department createDepartment(final Long deptNo, final String dname, final String loc) {
-		final Department department = new Department.Builder().setDeptNo(deptNo).setDname(dname).setLoc(loc).build();
+	public TestDepartment createDepartment(final Long deptNo, final String dname, final String loc) {
+		final TestDepartment department = new TestDepartment.Builder().setDeptNo(deptNo).setDname(dname).setLoc(loc).build();
 		LocalDateTime now = getCurrentTimestamp();
 		department.setCreated(now);
 		department.setCreatedBy("ADMIN");
@@ -81,7 +81,7 @@ public class DepartmentDaoImpl extends AbstractHibernateDao<Long, Department> im
 	}
 
 	@Override
-	public Department updateDepartment(final Department department) {
+	public TestDepartment updateDepartment(final TestDepartment department) {
 		if (department == null) {
 			throw new IllegalStateException("Department does not exist.");
 		}
@@ -93,7 +93,7 @@ public class DepartmentDaoImpl extends AbstractHibernateDao<Long, Department> im
 	}
 
 	@Override
-	public void deleteDepartment(final Department department) {
+	public void deleteDepartment(final TestDepartment department) {
 		super.delete(department);
 	}
 }

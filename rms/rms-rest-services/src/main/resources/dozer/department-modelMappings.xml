@@ -5,8 +5,8 @@
 
 	<!-- Convert an Department Attribues to/from an DepartmentRO -->
 	<mapping>
-		<class-a>com.i2g.rms.domain.model.test.Department</class-a>
-		<class-b>com.i2g.rms.rest.model.test.DepartmentRO</class-b>
+		<class-a>com.i2g.rms.domain.model.test.TestDepartment</class-a>
+		<class-b>com.i2g.rms.rest.model.test.TestDepartmentRO</class-b>
 	</mapping>
 
 	<mapping>

@@ -292,6 +292,34 @@ public interface RequestMappingConstants {
 	String UPDATE_VEHICLE_DAMAGE_TYPE			= TABLE_MAINTENANCE + "/vehicle-damage-type/update-vehicle-damage-type";
 	String DELETE_VEHICLE_DAMAGE_TYPE			= TABLE_MAINTENANCE + "/vehicle-damage-type/delete-vehicle-damage-type/{code}";
 	
+	/** Organization Request Mappings */
+	String GET_ORGANIZATIONS				= TABLE_MAINTENANCE + "/organization/organizations";
+	String GET_ORGANIZATION_BY_CODE 		= TABLE_MAINTENANCE + "/organization/{code}";
+	String CREATE_ORGANIZATION				= TABLE_MAINTENANCE + "/organization/create-organization";
+	String UPDATE_ORGANIZATION				= TABLE_MAINTENANCE + "/organization/update-organization";
+	String DELETE_ORGANIZATION				= TABLE_MAINTENANCE + "/organization/delete-organization/{code}";
+	
+	/** Department Request Mappings */
+	String GET_DEPARTMENTS				= TABLE_MAINTENANCE + "/department/departments";
+	String GET_DEPARTMENT_BY_CODE 		= TABLE_MAINTENANCE + "/department/{code}";
+	String CREATE_DEPARTMENT			= TABLE_MAINTENANCE + "/department/create-department";
+	String UPDATE_DEPARTMENT			= TABLE_MAINTENANCE + "/department/update-department";
+	String DELETE_DEPARTMENT			= TABLE_MAINTENANCE + "/department/delete-department/{code}";
+	
+	/** Position Request Mappings */
+	String GET_POSITIONS				= TABLE_MAINTENANCE + "/position/positions";
+	String GET_POSITION_BY_CODE 		= TABLE_MAINTENANCE + "/position/{code}";
+	String CREATE_POSITION				= TABLE_MAINTENANCE + "/position/create-position";
+	String UPDATE_POSITION				= TABLE_MAINTENANCE + "/position/update-position";
+	String DELETE_POSITION				= TABLE_MAINTENANCE + "/position/delete-position/{code}";
+	
+	/** Position Level Request Mappings */
+	String GET_POSITION_LEVELS				= TABLE_MAINTENANCE + "/position-level/position-levels";
+	String GET_POSITION_LEVEL_BY_CODE 		= TABLE_MAINTENANCE + "/position-level/{code}";
+	String CREATE_POSITION_LEVEL			= TABLE_MAINTENANCE + "/position-level/create-position-level";
+	String UPDATE_POSITION_LEVEL			= TABLE_MAINTENANCE + "/position-level/update-position-level";
+	String DELETE_POSITION_LEVEL			= TABLE_MAINTENANCE + "/position-level/delete-position-level/{code}";
+	
 	/** Incidents */
 	String INCIDENT 							= SECURED + "/incident";
 	String GET_INCIDENTS						= INCIDENT + "/incidents";

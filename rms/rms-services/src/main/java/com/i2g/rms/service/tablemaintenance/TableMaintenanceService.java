@@ -10,6 +10,7 @@ import com.i2g.rms.domain.model.tablemaintenance.BodyPart;
 import com.i2g.rms.domain.model.tablemaintenance.ClaimRequestRegistrationType;
 import com.i2g.rms.domain.model.tablemaintenance.ClaimStatus;
 import com.i2g.rms.domain.model.tablemaintenance.ClaimType;
+import com.i2g.rms.domain.model.tablemaintenance.Department;
 import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeature;
 import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeatureDetail;
 import com.i2g.rms.domain.model.tablemaintenance.DocumentCategory;
@@ -29,7 +30,10 @@ import com.i2g.rms.domain.model.tablemaintenance.InjuryType;
 import com.i2g.rms.domain.model.tablemaintenance.InjuryTypeDetail;
 import com.i2g.rms.domain.model.tablemaintenance.InjuryTypeDetailSpec;
 import com.i2g.rms.domain.model.tablemaintenance.LossType;
+import com.i2g.rms.domain.model.tablemaintenance.Organization;
 import com.i2g.rms.domain.model.tablemaintenance.PolicyType;
+import com.i2g.rms.domain.model.tablemaintenance.Position;
+import com.i2g.rms.domain.model.tablemaintenance.PositionLevel;
 import com.i2g.rms.domain.model.tablemaintenance.SuspectType;
 import com.i2g.rms.domain.model.tablemaintenance.VehicleDamageType;
 import com.i2g.rms.domain.model.tablemaintenance.WeaponType;
@@ -60,7 +64,7 @@ public interface TableMaintenanceService {
 	/** Methods related to Accident Location Detail */
 	public List<AccidentLocationDetail> getAccidentLocationDetails();
 	public AccidentLocationDetail getAccidentLocationDetailByCode(final String code);
-	public AccidentLocationDetail createAccidentLocationDetail(final String code, final String description);
+	public AccidentLocationDetail createAccidentLocationDetail(final String code, final String description, final AccidentLocation accidentLocation);
 	public AccidentLocationDetail updateAccidentLocationDetail(final String code, final String description);
 	public void deleteAccidentLocationDetail(final String code);
 	
@@ -102,7 +106,7 @@ public interface TableMaintenanceService {
 	/** Methods related to Distinguishing Feature Detail */
 	public List<DistinguishingFeatureDetail> getDistinguishingFeatureDetails();
 	public DistinguishingFeatureDetail getDistinguishingFeatureDetailByCode(final String code);
-	public DistinguishingFeatureDetail createDistinguishingFeatureDetail(final String code, final String description);
+	public DistinguishingFeatureDetail createDistinguishingFeatureDetail(final String code, final String description, final DistinguishingFeature distinguishingFeature);
 	public DistinguishingFeatureDetail updateDistinguishingFeatureDetail(final String code, final String description);
 	public void deleteDistinguishingFeatureDetail(final String code);
 	
@@ -144,7 +148,7 @@ public interface TableMaintenanceService {
 	/** Methods related to Incident Location Detail */
 	public List<IncidentLocationDetail> getIncidentLocationDetails();
 	public IncidentLocationDetail getIncidentLocationDetailByCode(final String code);
-	public IncidentLocationDetail createIncidentLocationDetail(final String code, final String description);
+	public IncidentLocationDetail createIncidentLocationDetail(final String code, final String description, final IncidentLocation incidentLocation);
 	public IncidentLocationDetail updateIncidentLocationDetail(final String code, final String description);
 	public void deleteIncidentLocationDetail(final String code);
 	
@@ -172,14 +176,14 @@ public interface TableMaintenanceService {
 	/** Methods related to Injury Type Detail */
 	public List<InjuryTypeDetail> getInjuryTypeDetails();
 	public InjuryTypeDetail getInjuryTypeDetailByCode(final String code);
-	public InjuryTypeDetail createInjuryTypeDetail(final String code, final String description);
+	public InjuryTypeDetail createInjuryTypeDetail(final String code, final String description, final InjuryType injuryType);
 	public InjuryTypeDetail updateInjuryTypeDetail(final String code, final String description);
 	public void deleteInjuryTypeDetail(final String code);
 	
 	/** Methods related to Injury Type Detail Spec */
 	public List<InjuryTypeDetailSpec> getInjuryTypeDetailSpecs();
 	public InjuryTypeDetailSpec getInjuryTypeDetailSpecByCode(final String code);
-	public InjuryTypeDetailSpec createInjuryTypeDetailSpec(final String code, final String description);
+	public InjuryTypeDetailSpec createInjuryTypeDetailSpec(final String code, final String description, final InjuryTypeDetail injuryTypeDetail);
 	public InjuryTypeDetailSpec updateInjuryTypeDetailSpec(final String code, final String description);
 	public void deleteInjuryTypeDetailSpec(final String code);
 	
@@ -266,4 +270,35 @@ public interface TableMaintenanceService {
 	public VehicleDamageType createVehicleDamageType(final String code, final String description);
 	public VehicleDamageType updateVehicleDamageType(final String code, final String description);
 	public void deleteVehicleDamageType(final String code);
+	
+	/** Methods related to Organization */
+	public List<Organization> getOrganizations();
+	public Organization getOrganizationByCode(final String code);
+	public Organization createOrganization(final String code, final String description);
+	public Organization updateOrganization(final String code, final String description);
+	public void deleteOrganization(final String code);
+	
+	/** Methods related to Department */
+	public List<Department> getDepartments();
+	public Department getDepartmentByCode(final String code);
+	public Department createDepartment(final String code, final String description, final Organization organization);
+	public Department updateDepartment(final String code, final String description);
+	public void deleteDepartment(final String code);
+	
+	/** Methods related to Position Level */
+	public List<PositionLevel> getPositionLevels();
+	public PositionLevel getPositionLevelByCode(final String code);
+	public PositionLevel createPositionLevel(final String code, final String description);
+	public PositionLevel updatePositionLevel(final String code, final String description);
+	public void deletePositionLevel(final String code);
+	
+	/** Methods related to Position */
+	public List<Position> getPositions();
+	public Position getPositionByCode(final String code);
+	public Position createPosition(final String code, final String description, final Organization organization);
+	public Position createPosition(final String code, final String description, final Department department);
+	public Position createPosition(final String code, final String description, final PositionLevel positionLevel, final Organization organization);
+	public Position createPosition(final String code, final String description, final PositionLevel positionLevel, final Department department);
+	public Position updatePosition(final String code, final String description);
+	public void deletePosition(final String code);
 }

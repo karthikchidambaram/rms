@@ -2,7 +2,7 @@ package com.i2g.rms.rest.model.test;
 
 import com.i2g.rms.rest.model.AbstractEntityRO;
 
-public class DepartmentRO extends AbstractEntityRO {
+public class TestDepartmentRO extends AbstractEntityRO {
 
 	private Long _id;
 	private Long _deptNo;

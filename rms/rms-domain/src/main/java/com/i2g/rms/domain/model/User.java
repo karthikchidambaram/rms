@@ -48,6 +48,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.i2g.rms.domain.model.incident.Incident;
 import com.i2g.rms.domain.model.tablemaintenance.EmployeeType;
 import com.i2g.rms.domain.model.tablemaintenance.GenderType;
+import com.i2g.rms.domain.model.tablemaintenance.Position;
 
 /**
  * Entity representation of User table.

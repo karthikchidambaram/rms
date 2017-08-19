@@ -23,6 +23,7 @@ import com.i2g.rms.rest.model.tablemaintenance.BodyPartRO;
 import com.i2g.rms.rest.model.tablemaintenance.ClaimRequestRegistrationTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.ClaimStatusRO;
 import com.i2g.rms.rest.model.tablemaintenance.ClaimTypeRO;
+import com.i2g.rms.rest.model.tablemaintenance.DepartmentRO;
 import com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeatureDetailRO;
 import com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeatureRO;
 import com.i2g.rms.rest.model.tablemaintenance.DocumentCategoryRO;
@@ -42,7 +43,10 @@ import com.i2g.rms.rest.model.tablemaintenance.InjuryTypeDetailRO;
 import com.i2g.rms.rest.model.tablemaintenance.InjuryTypeDetailSpecRO;
 import com.i2g.rms.rest.model.tablemaintenance.InjuryTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.LossTypeRO;
+import com.i2g.rms.rest.model.tablemaintenance.OrganizationRO;
 import com.i2g.rms.rest.model.tablemaintenance.PolicyTypeRO;
+import com.i2g.rms.rest.model.tablemaintenance.PositionLevelRO;
+import com.i2g.rms.rest.model.tablemaintenance.PositionRO;
 import com.i2g.rms.rest.model.tablemaintenance.SuspectTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.TableMaintenanceRO;
 import com.i2g.rms.rest.model.tablemaintenance.VehicleDamageTypeRO;
@@ -930,5 +934,113 @@ public class TableMaintenanceController extends AbstractRestController {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteVehicleDamageType(@PathVariable final String code) {
 		_tableMaintenanceRestService.deleteVehicleDamageType(code);
+	}
+	
+	/** Methods related to Organization */
+	@RequestMapping(value = RequestMappingConstants.GET_ORGANIZATIONS, method = RequestMethod.GET)
+	public List<OrganizationRO> getOrganizations() {
+		return _tableMaintenanceRestService.getOrganizations();
+	}
+
+	@RequestMapping(value = RequestMappingConstants.GET_ORGANIZATION_BY_CODE, method = RequestMethod.GET)
+	public OrganizationRO getOrganizationByCode(@PathVariable final String code) {
+		return _tableMaintenanceRestService.getOrganizationByCode(code);
+	}
+
+	@RequestMapping(value = RequestMappingConstants.CREATE_ORGANIZATION, method = RequestMethod.POST)
+	public OrganizationRO createOrganization(final @Valid @RequestBody OrganizationRO organizationRO) {
+		return _tableMaintenanceRestService.createOrganization(organizationRO);
+	}
+
+	@RequestMapping(value = RequestMappingConstants.UPDATE_ORGANIZATION, method = RequestMethod.PUT)
+	public OrganizationRO updateOrganization(final @Valid @RequestBody OrganizationRO organizationRO) {
+		return _tableMaintenanceRestService.updateOrganization(organizationRO);
+	}
+
+	@RequestMapping(value = RequestMappingConstants.DELETE_ORGANIZATION, method = RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void deleteOrganization(@PathVariable final String code) {
+		_tableMaintenanceRestService.deleteOrganization(code);
+	}
+	
+	/** Methods related to Department */
+	@RequestMapping(value = RequestMappingConstants.GET_DEPARTMENTS, method = RequestMethod.GET)
+	public List<DepartmentRO> getDepartments() {
+		return _tableMaintenanceRestService.getDepartments();
+	}
+
+	@RequestMapping(value = RequestMappingConstants.GET_DEPARTMENT_BY_CODE, method = RequestMethod.GET)
+	public DepartmentRO getDepartmentByCode(@PathVariable final String code) {
+		return _tableMaintenanceRestService.getDepartmentByCode(code);
+	}
+
+	@RequestMapping(value = RequestMappingConstants.CREATE_DEPARTMENT, method = RequestMethod.POST)
+	public DepartmentRO createDepartment(final @Valid @RequestBody DepartmentRO departmentRO) {
+		return _tableMaintenanceRestService.createDepartment(departmentRO);
+	}
+
+	@RequestMapping(value = RequestMappingConstants.UPDATE_DEPARTMENT, method = RequestMethod.PUT)
+	public DepartmentRO updateDepartment(final @Valid @RequestBody DepartmentRO departmentRO) {
+		return _tableMaintenanceRestService.updateDepartment(departmentRO);
+	}
+
+	@RequestMapping(value = RequestMappingConstants.DELETE_DEPARTMENT, method = RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void deleteDepartment(@PathVariable final String code) {
+		_tableMaintenanceRestService.deleteDepartment(code);
+	}
+	
+	/** Methods related to Position */
+	@RequestMapping(value = RequestMappingConstants.GET_POSITIONS, method = RequestMethod.GET)
+	public List<PositionRO> getPositions() {
+		return _tableMaintenanceRestService.getPositions();
+	}
+
+	@RequestMapping(value = RequestMappingConstants.GET_POSITION_BY_CODE, method = RequestMethod.GET)
+	public PositionRO getPositionByCode(@PathVariable final String code) {
+		return _tableMaintenanceRestService.getPositionByCode(code);
+	}
+
+	@RequestMapping(value = RequestMappingConstants.CREATE_POSITION, method = RequestMethod.POST)
+	public PositionRO createPosition(final @Valid @RequestBody PositionRO positionRO) {
+		return _tableMaintenanceRestService.createPosition(positionRO);
+	}
+
+	@RequestMapping(value = RequestMappingConstants.UPDATE_POSITION, method = RequestMethod.PUT)
+	public PositionRO updatePosition(final @Valid @RequestBody PositionRO positionRO) {
+		return _tableMaintenanceRestService.updatePosition(positionRO);
+	}
+
+	@RequestMapping(value = RequestMappingConstants.DELETE_POSITION, method = RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void deletePosition(@PathVariable final String code) {
+		_tableMaintenanceRestService.deletePosition(code);
+	}
+	
+	/** Methods related to Position Level */
+	@RequestMapping(value = RequestMappingConstants.GET_POSITION_LEVELS, method = RequestMethod.GET)
+	public List<PositionLevelRO> getPositionLevels() {
+		return _tableMaintenanceRestService.getPositionLevels();
+	}
+
+	@RequestMapping(value = RequestMappingConstants.GET_POSITION_LEVEL_BY_CODE, method = RequestMethod.GET)
+	public PositionLevelRO getPositionLevelByCode(@PathVariable final String code) {
+		return _tableMaintenanceRestService.getPositionLevelByCode(code);
+	}
+
+	@RequestMapping(value = RequestMappingConstants.CREATE_POSITION_LEVEL, method = RequestMethod.POST)
+	public PositionLevelRO createPositionLevel(final @Valid @RequestBody PositionLevelRO positionLevelRO) {
+		return _tableMaintenanceRestService.createPositionLevel(positionLevelRO);
+	}
+
+	@RequestMapping(value = RequestMappingConstants.UPDATE_POSITION_LEVEL, method = RequestMethod.PUT)
+	public PositionLevelRO updatePositionLevel(final @Valid @RequestBody PositionLevelRO positionLevelRO) {
+		return _tableMaintenanceRestService.updatePositionLevel(positionLevelRO);
+	}
+
+	@RequestMapping(value = RequestMappingConstants.DELETE_POSITION_LEVEL, method = RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void deletePositionLevel(@PathVariable final String code) {
+		_tableMaintenanceRestService.deletePositionLevel(code);
 	}
 }

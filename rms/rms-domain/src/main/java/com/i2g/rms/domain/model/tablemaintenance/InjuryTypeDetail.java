@@ -121,7 +121,7 @@ public class InjuryTypeDetail extends AbstractDataModel<String> implements Seria
 	 * 
 	 * @param id
 	 */
-	protected void setId(String id) {
+	protected void setId(final String id) {
 		_id = id;
 	}
 
@@ -142,7 +142,7 @@ public class InjuryTypeDetail extends AbstractDataModel<String> implements Seria
 	 * 
 	 * @param description
 	 */
-	public void setDescription(String description) {
+	public void setDescription(final String description) {
 		_description = description;
 	}
 
@@ -153,7 +153,7 @@ public class InjuryTypeDetail extends AbstractDataModel<String> implements Seria
 		return _injuryType;
 	}
 
-	public void setInjuryType(InjuryType injuryType) {
+	public void setInjuryType(final InjuryType injuryType) {
 		_injuryType = injuryType;
 	}
 	
@@ -163,7 +163,7 @@ public class InjuryTypeDetail extends AbstractDataModel<String> implements Seria
 		return _injuryTypeDetailSpecs;
 	}
 
-	public void setInjuryTypeDetailSpecs(Set<InjuryTypeDetailSpec> injuryTypeDetailSpecs) {
+	public void setInjuryTypeDetailSpecs(final Set<InjuryTypeDetailSpec> injuryTypeDetailSpecs) {
 		_injuryTypeDetailSpecs = injuryTypeDetailSpecs;
 	}
 

@@ -10,6 +10,7 @@ import com.i2g.rms.rest.model.tablemaintenance.BodyPartRO;
 import com.i2g.rms.rest.model.tablemaintenance.ClaimRequestRegistrationTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.ClaimStatusRO;
 import com.i2g.rms.rest.model.tablemaintenance.ClaimTypeRO;
+import com.i2g.rms.rest.model.tablemaintenance.DepartmentRO;
 import com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeatureDetailRO;
 import com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeatureRO;
 import com.i2g.rms.rest.model.tablemaintenance.DocumentCategoryRO;
@@ -29,7 +30,10 @@ import com.i2g.rms.rest.model.tablemaintenance.InjuryTypeDetailRO;
 import com.i2g.rms.rest.model.tablemaintenance.InjuryTypeDetailSpecRO;
 import com.i2g.rms.rest.model.tablemaintenance.InjuryTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.LossTypeRO;
+import com.i2g.rms.rest.model.tablemaintenance.OrganizationRO;
 import com.i2g.rms.rest.model.tablemaintenance.PolicyTypeRO;
+import com.i2g.rms.rest.model.tablemaintenance.PositionLevelRO;
+import com.i2g.rms.rest.model.tablemaintenance.PositionRO;
 import com.i2g.rms.rest.model.tablemaintenance.SuspectTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.TableMaintenanceRO;
 import com.i2g.rms.rest.model.tablemaintenance.VehicleDamageTypeRO;
@@ -267,4 +271,32 @@ public interface TableMaintenanceRestService {
 	public VehicleDamageTypeRO createVehicleDamageType(final VehicleDamageTypeRO vehicleDamageTypeRO);
 	public VehicleDamageTypeRO updateVehicleDamageType(final VehicleDamageTypeRO vehicleDamageTypeRO);
 	public void deleteVehicleDamageType(final String code);	
+	
+	/** Methods related to Organization */
+	public List<OrganizationRO> getOrganizations();
+	public OrganizationRO getOrganizationByCode(final String code);
+	public OrganizationRO createOrganization(final OrganizationRO organizationRO);
+	public OrganizationRO updateOrganization(final OrganizationRO organizationRO);
+	public void deleteOrganization(final String code);
+	
+	/** Methods related to Department */
+	public List<DepartmentRO> getDepartments();
+	public DepartmentRO getDepartmentByCode(final String code);
+	public DepartmentRO createDepartment(final DepartmentRO departmentRO);
+	public DepartmentRO updateDepartment(final DepartmentRO departmentRO);
+	public void deleteDepartment(final String code);
+	
+	/** Methods related to Position */
+	public List<PositionRO> getPositions();
+	public PositionRO getPositionByCode(final String code);
+	public PositionRO createPosition(final PositionRO positionRO);
+	public PositionRO updatePosition(final PositionRO positionRO);
+	public void deletePosition(final String code);
+	
+	/** Methods related to Position Level */
+	public List<PositionLevelRO> getPositionLevels();
+	public PositionLevelRO getPositionLevelByCode(final String code);
+	public PositionLevelRO createPositionLevel(final PositionLevelRO positionLevelRO);
+	public PositionLevelRO updatePositionLevel(final PositionLevelRO positionLevelRO);
+	public void deletePositionLevel(final String code);
 }

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.i2g.rms.domain.model.tablemaintenance.InjuryType;
 import com.i2g.rms.domain.model.tablemaintenance.InjuryTypeDetail;
 import com.i2g.rms.persistence.hibernate.AbstractHibernateDao;
 
@@ -82,12 +83,13 @@ public class InjuryTypeDetailDaoImpl extends AbstractHibernateDao<String, Injury
 	 * @return a table maintenance object.
 	 */
 	@Override
-	public InjuryTypeDetail create(final String code, final String description) {
+	public InjuryTypeDetail create(final String code, final String description, final InjuryType injuryType) {
 		// Validate input parameter(s) if any..
 		validateCode(code);
 		validateDescription(description);
+		validateObject(injuryType);
 		// Create the new object (record)
-		InjuryTypeDetail object = new InjuryTypeDetail(code, description);
+		InjuryTypeDetail object = new InjuryTypeDetail(code, description, injuryType);
 		// Issue save
 		save(object);
 		return object;

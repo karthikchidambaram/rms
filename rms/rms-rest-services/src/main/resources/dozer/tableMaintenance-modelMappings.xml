@@ -135,6 +135,21 @@
 	</mapping>
 	
 	<mapping>
+		<class-a>com.i2g.rms.domain.model.tablemaintenance.Organization</class-a>
+		<class-b>com.i2g.rms.rest.model.tablemaintenance.OrganizationRO</class-b>
+	</mapping>
+	
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.tablemaintenance.Department</class-a>
+		<class-b>com.i2g.rms.rest.model.tablemaintenance.DepartmentRO</class-b>		
+	</mapping>
+	
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.tablemaintenance.Position</class-a>
+		<class-b>com.i2g.rms.rest.model.tablemaintenance.PositionRO</class-b>
+	</mapping>
+	
+	<mapping>
 		<class-a>com.i2g.rms.domain.model.tablemaintenance.PositionLevel</class-a>
 		<class-b>com.i2g.rms.rest.model.tablemaintenance.PositionLevelRO</class-b>
 	</mapping>

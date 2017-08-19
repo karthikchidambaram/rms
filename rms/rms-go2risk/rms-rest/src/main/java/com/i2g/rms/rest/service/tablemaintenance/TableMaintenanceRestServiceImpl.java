@@ -10,6 +10,14 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.i2g.rms.domain.model.tablemaintenance.AccidentLocation;
+import com.i2g.rms.domain.model.tablemaintenance.Department;
+import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeature;
+import com.i2g.rms.domain.model.tablemaintenance.IncidentLocation;
+import com.i2g.rms.domain.model.tablemaintenance.InjuryType;
+import com.i2g.rms.domain.model.tablemaintenance.InjuryTypeDetail;
+import com.i2g.rms.domain.model.tablemaintenance.Organization;
+import com.i2g.rms.domain.model.tablemaintenance.PositionLevel;
 import com.i2g.rms.rest.model.tablemaintenance.AccidentLocationDetailRO;
 import com.i2g.rms.rest.model.tablemaintenance.AccidentLocationRO;
 import com.i2g.rms.rest.model.tablemaintenance.AccidentTypeRO;
@@ -18,6 +26,7 @@ import com.i2g.rms.rest.model.tablemaintenance.BodyPartRO;
 import com.i2g.rms.rest.model.tablemaintenance.ClaimRequestRegistrationTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.ClaimStatusRO;
 import com.i2g.rms.rest.model.tablemaintenance.ClaimTypeRO;
+import com.i2g.rms.rest.model.tablemaintenance.DepartmentRO;
 import com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeatureDetailRO;
 import com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeatureRO;
 import com.i2g.rms.rest.model.tablemaintenance.DocumentCategoryRO;
@@ -37,7 +46,10 @@ import com.i2g.rms.rest.model.tablemaintenance.InjuryTypeDetailRO;
 import com.i2g.rms.rest.model.tablemaintenance.InjuryTypeDetailSpecRO;
 import com.i2g.rms.rest.model.tablemaintenance.InjuryTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.LossTypeRO;
+import com.i2g.rms.rest.model.tablemaintenance.OrganizationRO;
 import com.i2g.rms.rest.model.tablemaintenance.PolicyTypeRO;
+import com.i2g.rms.rest.model.tablemaintenance.PositionLevelRO;
+import com.i2g.rms.rest.model.tablemaintenance.PositionRO;
 import com.i2g.rms.rest.model.tablemaintenance.SuspectTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.TableMaintenanceRO;
 import com.i2g.rms.rest.model.tablemaintenance.VehicleDamageTypeRO;
@@ -246,10 +258,19 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@Transactional
 	public AccidentLocationDetailRO createAccidentLocationDetail(final AccidentLocationDetailRO accidentLocationDetailsRO) {
+		//Validate input object
 		validateObject(accidentLocationDetailsRO);
+		//Validate code
 		validateCode(accidentLocationDetailsRO.getId());
+		//Validate description
 		validateDescription(accidentLocationDetailsRO.getDescription());
-		return _mapperService.map(_tableMaintenanceService.createAccidentLocationDetail(accidentLocationDetailsRO.getId(), accidentLocationDetailsRO.getDescription()), AccidentLocationDetailRO.class);
+		//Validate parent code
+		validateParentCode(accidentLocationDetailsRO.getParentId());
+		//Get the parent object
+		AccidentLocation accidentLocation = _tableMaintenanceService.getAccidentLocationByCode(accidentLocationDetailsRO.getParentId());
+		//Validate parent object
+		validateParentObject(accidentLocation);
+		return _mapperService.map(_tableMaintenanceService.createAccidentLocationDetail(accidentLocationDetailsRO.getId(), accidentLocationDetailsRO.getDescription(), accidentLocation), AccidentLocationDetailRO.class);
 	}
 
 	@Override
@@ -499,7 +520,10 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 		validateObject(distinguishingFeaturesDetailRO);
 		validateCode(distinguishingFeaturesDetailRO.getId());
 		validateDescription(distinguishingFeaturesDetailRO.getDescription());
-		return _mapperService.map(_tableMaintenanceService.createDistinguishingFeatureDetail(distinguishingFeaturesDetailRO.getId(), distinguishingFeaturesDetailRO.getDescription()), DistinguishingFeatureDetailRO.class);
+		validateParentCode(distinguishingFeaturesDetailRO.getParentId());
+		DistinguishingFeature distinguishingFeature = _tableMaintenanceService.getDistinguishingFeatureByCode(distinguishingFeaturesDetailRO.getParentId());
+		validateParentObject(distinguishingFeature);
+		return _mapperService.map(_tableMaintenanceService.createDistinguishingFeatureDetail(distinguishingFeaturesDetailRO.getId(), distinguishingFeaturesDetailRO.getDescription(), distinguishingFeature), DistinguishingFeatureDetailRO.class);
 	}
 
 	@Override
@@ -749,7 +773,9 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 		validateObject(incidentLocationDetailsRO);
 		validateCode(incidentLocationDetailsRO.getId());
 		validateDescription(incidentLocationDetailsRO.getDescription());
-		return _mapperService.map(_tableMaintenanceService.createIncidentLocationDetail(incidentLocationDetailsRO.getId(), incidentLocationDetailsRO.getDescription()), IncidentLocationDetailRO.class);
+		validateParentCode(incidentLocationDetailsRO.getParentId());
+		IncidentLocation incidentLocation = _tableMaintenanceService.getIncidentLocationByCode(incidentLocationDetailsRO.getParentId());
+		return _mapperService.map(_tableMaintenanceService.createIncidentLocationDetail(incidentLocationDetailsRO.getId(), incidentLocationDetailsRO.getDescription(), incidentLocation), IncidentLocationDetailRO.class);
 	}
 
 	@Override
@@ -919,7 +945,10 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 		validateObject(injuryTypeDetailsRO);
 		validateCode(injuryTypeDetailsRO.getId());
 		validateDescription(injuryTypeDetailsRO.getDescription());
-		return _mapperService.map(_tableMaintenanceService.createInjuryTypeDetail(injuryTypeDetailsRO.getId(), injuryTypeDetailsRO.getDescription()), InjuryTypeDetailRO.class);
+		validateParentCode(injuryTypeDetailsRO.getParentId());
+		InjuryType injuryType = _tableMaintenanceService.getInjuryTypeByCode(injuryTypeDetailsRO.getParentId());
+		validateParentObject(injuryType);
+		return _mapperService.map(_tableMaintenanceService.createInjuryTypeDetail(injuryTypeDetailsRO.getId(), injuryTypeDetailsRO.getDescription(), injuryType), InjuryTypeDetailRO.class);
 	}
 
 	@Override
@@ -960,11 +989,14 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@Transactional
-	public InjuryTypeDetailSpecRO createInjuryTypeDetailSpec(final InjuryTypeDetailSpecRO injuryTypeDetailsSpecRO) {
-		validateObject(injuryTypeDetailsSpecRO);
-		validateCode(injuryTypeDetailsSpecRO.getId());
-		validateDescription(injuryTypeDetailsSpecRO.getDescription());
-		return _mapperService.map(_tableMaintenanceService.createInjuryTypeDetailSpec(injuryTypeDetailsSpecRO.getId(), injuryTypeDetailsSpecRO.getDescription()), InjuryTypeDetailSpecRO.class);
+	public InjuryTypeDetailSpecRO createInjuryTypeDetailSpec(final InjuryTypeDetailSpecRO injuryTypeDetailSpecRO) {
+		validateObject(injuryTypeDetailSpecRO);
+		validateCode(injuryTypeDetailSpecRO.getId());
+		validateDescription(injuryTypeDetailSpecRO.getDescription());
+		validateParentCode(injuryTypeDetailSpecRO.getParentId());
+		InjuryTypeDetail injuryTypeDetail = _tableMaintenanceService.getInjuryTypeDetailByCode(injuryTypeDetailSpecRO.getParentId());
+		validateParentObject(injuryTypeDetail);
+		return _mapperService.map(_tableMaintenanceService.createInjuryTypeDetailSpec(injuryTypeDetailSpecRO.getId(), injuryTypeDetailSpecRO.getDescription(), injuryTypeDetail), InjuryTypeDetailSpecRO.class);
 	}
 
 	@Override
@@ -1085,7 +1117,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 		validateObject(accidentTypeRO);
 		validateCode(accidentTypeRO.getId());
 		validateDescription(accidentTypeRO.getDescription());
-		return _mapperService.map(_tableMaintenanceService.createWeaponType(accidentTypeRO.getId(), accidentTypeRO.getDescription()), AccidentTypeRO.class);
+		return _mapperService.map(_tableMaintenanceService.createAccidentType(accidentTypeRO.getId(), accidentTypeRO.getDescription()), AccidentTypeRO.class);
 	}
 
 	@Override
@@ -1094,7 +1126,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 		validateObject(accidentTypeRO);
 		validateCode(accidentTypeRO.getId());
 		validateDescription(accidentTypeRO.getDescription());
-		return _mapperService.map(_tableMaintenanceService.updateWeaponType(accidentTypeRO.getId(), accidentTypeRO.getDescription()), AccidentTypeRO.class);
+		return _mapperService.map(_tableMaintenanceService.updateAccidentType(accidentTypeRO.getId(), accidentTypeRO.getDescription()), AccidentTypeRO.class);
 	}
 
 	@Override
@@ -1124,7 +1156,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 		validateObject(bodyPartRO);
 		validateCode(bodyPartRO.getId());
 		validateDescription(bodyPartRO.getDescription());
-		return _mapperService.map(_tableMaintenanceService.createWeaponType(bodyPartRO.getId(), bodyPartRO.getDescription()), BodyPartRO.class);
+		return _mapperService.map(_tableMaintenanceService.createBodyPart(bodyPartRO.getId(), bodyPartRO.getDescription()), BodyPartRO.class);
 	}
 
 	@Override
@@ -1133,7 +1165,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 		validateObject(bodyPartRO);
 		validateCode(bodyPartRO.getId());
 		validateDescription(bodyPartRO.getDescription());
-		return _mapperService.map(_tableMaintenanceService.updateWeaponType(bodyPartRO.getId(), bodyPartRO.getDescription()), BodyPartRO.class);
+		return _mapperService.map(_tableMaintenanceService.updateBodyPart(bodyPartRO.getId(), bodyPartRO.getDescription()), BodyPartRO.class);
 	}
 
 	@Override
@@ -1163,7 +1195,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 		validateObject(documentCategoryRO);
 		validateCode(documentCategoryRO.getId());
 		validateDescription(documentCategoryRO.getDescription());
-		return _mapperService.map(_tableMaintenanceService.createWeaponType(documentCategoryRO.getId(), documentCategoryRO.getDescription()), DocumentCategoryRO.class);
+		return _mapperService.map(_tableMaintenanceService.createDocumentCategory(documentCategoryRO.getId(), documentCategoryRO.getDescription()), DocumentCategoryRO.class);
 	}
 
 	@Override
@@ -1172,7 +1204,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 		validateObject(documentCategoryRO);
 		validateCode(documentCategoryRO.getId());
 		validateDescription(documentCategoryRO.getDescription());
-		return _mapperService.map(_tableMaintenanceService.updateWeaponType(documentCategoryRO.getId(), documentCategoryRO.getDescription()), DocumentCategoryRO.class);
+		return _mapperService.map(_tableMaintenanceService.updateDocumentCategory(documentCategoryRO.getId(), documentCategoryRO.getDescription()), DocumentCategoryRO.class);
 	}
 
 	@Override
@@ -1202,7 +1234,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 		validateObject(documentTypeRO);
 		validateCode(documentTypeRO.getId());
 		validateDescription(documentTypeRO.getDescription());
-		return _mapperService.map(_tableMaintenanceService.createWeaponType(documentTypeRO.getId(), documentTypeRO.getDescription()), DocumentTypeRO.class);
+		return _mapperService.map(_tableMaintenanceService.createDocumentType(documentTypeRO.getId(), documentTypeRO.getDescription()), DocumentTypeRO.class);
 	}
 
 	@Override
@@ -1211,7 +1243,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 		validateObject(documentTypeRO);
 		validateCode(documentTypeRO.getId());
 		validateDescription(documentTypeRO.getDescription());
-		return _mapperService.map(_tableMaintenanceService.updateWeaponType(documentTypeRO.getId(), documentTypeRO.getDescription()), DocumentTypeRO.class);
+		return _mapperService.map(_tableMaintenanceService.updateDocumentType(documentTypeRO.getId(), documentTypeRO.getDescription()), DocumentTypeRO.class);
 	}
 
 	@Override
@@ -1241,7 +1273,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 		validateObject(genderTypeRO);
 		validateCode(genderTypeRO.getId());
 		validateDescription(genderTypeRO.getDescription());
-		return _mapperService.map(_tableMaintenanceService.createWeaponType(genderTypeRO.getId(), genderTypeRO.getDescription()), GenderTypeRO.class);
+		return _mapperService.map(_tableMaintenanceService.createGenderType(genderTypeRO.getId(), genderTypeRO.getDescription()), GenderTypeRO.class);
 	}
 
 	@Override
@@ -1250,7 +1282,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 		validateObject(genderTypeRO);
 		validateCode(genderTypeRO.getId());
 		validateDescription(genderTypeRO.getDescription());
-		return _mapperService.map(_tableMaintenanceService.updateWeaponType(genderTypeRO.getId(), genderTypeRO.getDescription()), GenderTypeRO.class);
+		return _mapperService.map(_tableMaintenanceService.updateGenderType(genderTypeRO.getId(), genderTypeRO.getDescription()), GenderTypeRO.class);
 	}
 
 	@Override
@@ -1280,7 +1312,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 		validateObject(incidentCategoryRO);
 		validateCode(incidentCategoryRO.getId());
 		validateDescription(incidentCategoryRO.getDescription());
-		return _mapperService.map(_tableMaintenanceService.createWeaponType(incidentCategoryRO.getId(), incidentCategoryRO.getDescription()), IncidentCategoryRO.class);
+		return _mapperService.map(_tableMaintenanceService.createIncidentCategory(incidentCategoryRO.getId(), incidentCategoryRO.getDescription()), IncidentCategoryRO.class);
 	}
 
 	@Override
@@ -1289,7 +1321,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 		validateObject(incidentCategoryRO);
 		validateCode(incidentCategoryRO.getId());
 		validateDescription(incidentCategoryRO.getDescription());
-		return _mapperService.map(_tableMaintenanceService.updateWeaponType(incidentCategoryRO.getId(), incidentCategoryRO.getDescription()), IncidentCategoryRO.class);
+		return _mapperService.map(_tableMaintenanceService.updateIncidentCategory(incidentCategoryRO.getId(), incidentCategoryRO.getDescription()), IncidentCategoryRO.class);
 	}
 
 	@Override
@@ -1319,7 +1351,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 		validateObject(injuredPersonTypeRO);
 		validateCode(injuredPersonTypeRO.getId());
 		validateDescription(injuredPersonTypeRO.getDescription());
-		return _mapperService.map(_tableMaintenanceService.createWeaponType(injuredPersonTypeRO.getId(), injuredPersonTypeRO.getDescription()), InjuredPersonTypeRO.class);
+		return _mapperService.map(_tableMaintenanceService.createInjuredPersonType(injuredPersonTypeRO.getId(), injuredPersonTypeRO.getDescription()), InjuredPersonTypeRO.class);
 	}
 
 	@Override
@@ -1328,7 +1360,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 		validateObject(injuredPersonTypeRO);
 		validateCode(injuredPersonTypeRO.getId());
 		validateDescription(injuredPersonTypeRO.getDescription());
-		return _mapperService.map(_tableMaintenanceService.updateWeaponType(injuredPersonTypeRO.getId(), injuredPersonTypeRO.getDescription()), InjuredPersonTypeRO.class);
+		return _mapperService.map(_tableMaintenanceService.updateInjuredPersonType(injuredPersonTypeRO.getId(), injuredPersonTypeRO.getDescription()), InjuredPersonTypeRO.class);
 	}
 
 	@Override
@@ -1358,7 +1390,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 		validateObject(lossTypeRO);
 		validateCode(lossTypeRO.getId());
 		validateDescription(lossTypeRO.getDescription());
-		return _mapperService.map(_tableMaintenanceService.createWeaponType(lossTypeRO.getId(), lossTypeRO.getDescription()), LossTypeRO.class);
+		return _mapperService.map(_tableMaintenanceService.createLossType(lossTypeRO.getId(), lossTypeRO.getDescription()), LossTypeRO.class);
 	}
 
 	@Override
@@ -1367,7 +1399,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 		validateObject(lossTypeRO);
 		validateCode(lossTypeRO.getId());
 		validateDescription(lossTypeRO.getDescription());
-		return _mapperService.map(_tableMaintenanceService.updateWeaponType(lossTypeRO.getId(), lossTypeRO.getDescription()), LossTypeRO.class);
+		return _mapperService.map(_tableMaintenanceService.updateLossType(lossTypeRO.getId(), lossTypeRO.getDescription()), LossTypeRO.class);
 	}
 
 	@Override
@@ -1397,7 +1429,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 		validateObject(policyTypeRO);
 		validateCode(policyTypeRO.getId());
 		validateDescription(policyTypeRO.getDescription());
-		return _mapperService.map(_tableMaintenanceService.createWeaponType(policyTypeRO.getId(), policyTypeRO.getDescription()), PolicyTypeRO.class);
+		return _mapperService.map(_tableMaintenanceService.createPolicyType(policyTypeRO.getId(), policyTypeRO.getDescription()), PolicyTypeRO.class);
 	}
 
 	@Override
@@ -1406,7 +1438,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 		validateObject(policyTypeRO);
 		validateCode(policyTypeRO.getId());
 		validateDescription(policyTypeRO.getDescription());
-		return _mapperService.map(_tableMaintenanceService.updateWeaponType(policyTypeRO.getId(), policyTypeRO.getDescription()), PolicyTypeRO.class);
+		return _mapperService.map(_tableMaintenanceService.updatePolicyType(policyTypeRO.getId(), policyTypeRO.getDescription()), PolicyTypeRO.class);
 	}
 
 	@Override
@@ -1436,7 +1468,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 		validateObject(vehicleDamageTypeRO);
 		validateCode(vehicleDamageTypeRO.getId());
 		validateDescription(vehicleDamageTypeRO.getDescription());
-		return _mapperService.map(_tableMaintenanceService.createWeaponType(vehicleDamageTypeRO.getId(), vehicleDamageTypeRO.getDescription()), VehicleDamageTypeRO.class);
+		return _mapperService.map(_tableMaintenanceService.createVehicleDamageType(vehicleDamageTypeRO.getId(), vehicleDamageTypeRO.getDescription()), VehicleDamageTypeRO.class);
 	}
 
 	@Override
@@ -1445,7 +1477,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 		validateObject(vehicleDamageTypeRO);
 		validateCode(vehicleDamageTypeRO.getId());
 		validateDescription(vehicleDamageTypeRO.getDescription());
-		return _mapperService.map(_tableMaintenanceService.updateWeaponType(vehicleDamageTypeRO.getId(), vehicleDamageTypeRO.getDescription()), VehicleDamageTypeRO.class);
+		return _mapperService.map(_tableMaintenanceService.updateVehicleDamageType(vehicleDamageTypeRO.getId(), vehicleDamageTypeRO.getDescription()), VehicleDamageTypeRO.class);
 	}
 
 	@Override
@@ -1454,5 +1486,200 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 		// Validate input parameter(s) if any
 		validateCode(code);
 		_tableMaintenanceService.deleteVehicleDamageType(code);		
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public List<OrganizationRO> getOrganizations() {
+		return _mapperService.map(_tableMaintenanceService.getOrganizations(), OrganizationRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public OrganizationRO getOrganizationByCode(final String code) {
+		validateCode(code);
+		return _mapperService.map(_tableMaintenanceService.getOrganizationByCode(code), OrganizationRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public OrganizationRO createOrganization(final OrganizationRO organizationRO) {
+		validateObject(organizationRO);
+		validateCode(organizationRO.getId());
+		validateDescription(organizationRO.getDescription());
+		return _mapperService.map(_tableMaintenanceService.createOrganization(organizationRO.getId(), organizationRO.getDescription()), OrganizationRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public OrganizationRO updateOrganization(final OrganizationRO organizationRO) {
+		validateObject(organizationRO);
+		validateCode(organizationRO.getId());
+		validateDescription(organizationRO.getDescription());
+		return _mapperService.map(_tableMaintenanceService.updateOrganization(organizationRO.getId(), organizationRO.getDescription()), OrganizationRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public void deleteOrganization(final String code) {
+		// Validate input parameter(s) if any
+		validateCode(code);
+		_tableMaintenanceService.deleteOrganization(code);
+		
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public List<DepartmentRO> getDepartments() {
+		return _mapperService.map(_tableMaintenanceService.getDepartments(), DepartmentRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public DepartmentRO getDepartmentByCode(final String code) {
+		validateCode(code);
+		return _mapperService.map(_tableMaintenanceService.getDepartmentByCode(code), DepartmentRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public DepartmentRO createDepartment(final DepartmentRO departmentRO) {
+		validateObject(departmentRO);
+		validateCode(departmentRO.getId());
+		validateDescription(departmentRO.getDescription());
+		validateParentCode(departmentRO.getParentId());
+		Organization organization = _tableMaintenanceService.getOrganizationByCode(departmentRO.getParentId());
+		validateParentObject(organization);
+		return _mapperService.map(_tableMaintenanceService.createDepartment(departmentRO.getId(), departmentRO.getDescription(), organization), DepartmentRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public DepartmentRO updateDepartment(DepartmentRO departmentRO) {
+		validateObject(departmentRO);
+		validateCode(departmentRO.getId());
+		validateDescription(departmentRO.getDescription());
+		return _mapperService.map(_tableMaintenanceService.updateDepartment(departmentRO.getId(), departmentRO.getDescription()), DepartmentRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public void deleteDepartment(final String code) {
+		// Validate input parameter(s) if any
+		validateCode(code);
+		_tableMaintenanceService.deleteDepartment(code);		
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public List<PositionRO> getPositions() {
+		return _mapperService.map(_tableMaintenanceService.getPositions(), PositionRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public PositionRO getPositionByCode(final String code) {
+		validateCode(code);
+		return _mapperService.map(_tableMaintenanceService.getPositionByCode(code), PositionRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public PositionRO createPosition(final PositionRO positionRO) {
+		
+		PositionRO _positionRO = null;
+		PositionLevel _positionLevel = null;
+		Organization _organization = null;
+		Department _department = null;
+		
+		validateObject(positionRO);
+		validateCode(positionRO.getId());
+		validateDescription(positionRO.getDescription());
+		
+		String parentOrganizationId = positionRO.getParentOrganizationId();
+		String parentDepartmentId = positionRO.getParentDepartmentId();
+		String parentPositionLevelId = positionRO.getParentPositionLevelId();
+		
+		if (parentPositionLevelId != null) {
+			_positionLevel = _tableMaintenanceService.getPositionLevelByCode(parentPositionLevelId);
+			validateParentObject(_positionLevel);
+			if (parentDepartmentId != null) {
+				_department = _tableMaintenanceService.getDepartmentByCode(parentDepartmentId);
+				validateParentObject(_department);
+				_positionRO = _mapperService.map(_tableMaintenanceService.createPosition(positionRO.getId(), positionRO.getDescription(), _positionLevel, _department), PositionRO.class); 
+			} else if (parentOrganizationId != null) {
+				_organization = _tableMaintenanceService.getOrganizationByCode(parentOrganizationId);
+				validateParentObject(_organization);
+				_positionRO = _mapperService.map(_tableMaintenanceService.createPosition(positionRO.getId(), positionRO.getDescription(), _positionLevel, _organization), PositionRO.class);
+			}
+		} else {
+			if (parentDepartmentId != null) {
+				_department = _tableMaintenanceService.getDepartmentByCode(parentDepartmentId);
+				validateParentObject(_department);
+				_positionRO = _mapperService.map(_tableMaintenanceService.createPosition(positionRO.getId(), positionRO.getDescription(), _department), PositionRO.class); 
+			} else if (parentOrganizationId != null) {
+				_organization = _tableMaintenanceService.getOrganizationByCode(parentOrganizationId);
+				validateParentObject(_organization);
+				_positionRO = _mapperService.map(_tableMaintenanceService.createPosition(positionRO.getId(), positionRO.getDescription(), _organization), PositionRO.class);
+			}
+		}
+		
+		return _positionRO;
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public PositionRO updatePosition(final PositionRO positionRO) {
+		validateObject(positionRO);
+		validateCode(positionRO.getId());
+		validateDescription(positionRO.getDescription());
+		return _mapperService.map(_tableMaintenanceService.updatePosition(positionRO.getId(), positionRO.getDescription()), PositionRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public void deletePosition(String code) {
+		// Validate input parameter(s) if any
+		validateCode(code);
+		_tableMaintenanceService.deletePosition(code);		
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public List<PositionLevelRO> getPositionLevels() {
+		return _mapperService.map(_tableMaintenanceService.getPositionLevels(), PositionLevelRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public PositionLevelRO getPositionLevelByCode(final String code) {
+		validateCode(code);
+		return _mapperService.map(_tableMaintenanceService.getPositionLevelByCode(code), PositionLevelRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public PositionLevelRO createPositionLevel(final PositionLevelRO positionLevelRO) {
+		validateObject(positionLevelRO);
+		validateCode(positionLevelRO.getId());
+		validateDescription(positionLevelRO.getDescription());
+		return _mapperService.map(_tableMaintenanceService.createPositionLevel(positionLevelRO.getId(), positionLevelRO.getDescription()), PositionLevelRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public PositionLevelRO updatePositionLevel(final PositionLevelRO positionLevelRO) {
+		validateObject(positionLevelRO);
+		validateCode(positionLevelRO.getId());
+		validateDescription(positionLevelRO.getDescription());
+		return _mapperService.map(_tableMaintenanceService.updatePositionLevel(positionLevelRO.getId(), positionLevelRO.getDescription()), PositionLevelRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	public void deletePositionLevel(final String code) {
+		// Validate input parameter(s) if any
+		validateCode(code);
+		_tableMaintenanceService.deletePositionLevel(code);
 	}
 }

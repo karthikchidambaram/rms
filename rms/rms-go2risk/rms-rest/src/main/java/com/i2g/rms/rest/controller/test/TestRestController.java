@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.i2g.rms.domain.model.test.Pagination;
 import com.i2g.rms.rest.constants.RequestMappingConstants;
 import com.i2g.rms.rest.model.UserContextRO;
-import com.i2g.rms.rest.model.test.DepartmentRO;
 import com.i2g.rms.rest.model.test.MyDepartmentRO;
 import com.i2g.rms.rest.model.test.MyEmployeeRO;
 import com.i2g.rms.rest.model.test.PaginationRO;
+import com.i2g.rms.rest.model.test.TestDepartmentRO;
 import com.i2g.rms.rest.model.test.TestMessageRO;
 import com.i2g.rms.rest.search.Searchable;
 import com.i2g.rms.rest.service.test.TestRestService;
@@ -48,12 +48,12 @@ public class TestRestController extends TestAbstractRestController {
 	}
 
 	@RequestMapping(value = RequestMappingConstants.TEST_GET_DEPT_BY_DEPTNO, method = RequestMethod.GET)
-	public DepartmentRO getDeptByDeptNo(@PathVariable final Long deptNo) {
+	public TestDepartmentRO getDeptByDeptNo(@PathVariable final Long deptNo) {
 		return _testRestService.getDeptByDeptNo(deptNo);
 	}
 
 	@RequestMapping(value = RequestMappingConstants.TEST_GET_ALL_DEPARTMENTS, method = RequestMethod.GET)
-	public List<DepartmentRO> getAllDepartments() {
+	public List<TestDepartmentRO> getAllDepartments() {
 		return _testRestService.getAllDepartments();
 	}
 
@@ -90,13 +90,13 @@ public class TestRestController extends TestAbstractRestController {
 
 	@RequestMapping(value = RequestMappingConstants.TEST_CREATE_DEPARTMENT, method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
-	public DepartmentRO createDepartment(final @Valid @RequestBody DepartmentRO departmentRO) {
+	public TestDepartmentRO createDepartment(final @Valid @RequestBody TestDepartmentRO departmentRO) {
 		return _testRestService.createDepartment(departmentRO);
 	}
 
 	@RequestMapping(value = RequestMappingConstants.TEST_UPDATE_DEPARTMENT, method = RequestMethod.PUT)
 	@ResponseStatus(HttpStatus.OK)
-	public DepartmentRO updateDepartment(final @Valid @RequestBody DepartmentRO departmentRO) {
+	public TestDepartmentRO updateDepartment(final @Valid @RequestBody TestDepartmentRO departmentRO) {
 		return _testRestService.updateDepartment(departmentRO);
 	}
 

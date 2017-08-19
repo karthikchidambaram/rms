@@ -18,6 +18,7 @@ public class IncidentLocationDetailRO extends AbstractEntityRO {
 	private String _id;
 	private String _description;
 	private IncidentLocationRO _incidentLocation;
+	private String _parentId;
 
 	public String getId() {
 		return _id;
@@ -41,5 +42,21 @@ public class IncidentLocationDetailRO extends AbstractEntityRO {
 
 	public void setIncidentLocation(final IncidentLocationRO incidentLocation) {
 		_incidentLocation = incidentLocation;
-	}	
+	}
+
+	/**
+	 * @return the parentId
+	 */
+	public String getParentId() {
+		return _parentId;
+	}
+
+	/**
+	 * @param parentId
+	 *            the parentId to set
+	 */
+	public void setParentId(final String parentId) {
+		_parentId = parentId;
+	}
+
 }

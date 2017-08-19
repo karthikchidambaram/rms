@@ -1,26 +1,30 @@
-package com.i2g.rms.domain.model;
+package com.i2g.rms.domain.model.tablemaintenance;
 
 import java.io.Serializable;
 import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.i2g.rms.domain.model.AbstractDataModel;
+
 /**
- * Entity representation of Organization.
+ * Entity representation of Department.
  * 
  * @since 1.0.0
  * @author Karthikeyan Chidambaram
  * @author RMS Development Team
  */
 @Entity
-@Table(name = "RMS_ORG")
-public class Organization extends AbstractDataModel<String> implements Serializable {
-
+@Table(name = "RMS_DEPT")
+public class Department extends AbstractDataModel<String> implements Serializable {
 	/**
 	 * 
 	 */
@@ -28,33 +32,47 @@ public class Organization extends AbstractDataModel<String> implements Serializa
 	/** Primary surrogate key ID */
 	private String _id;
 	private String _description;
+	private Organization _organization;
 	
 	/**
 	 * Default empty constructor required for Hibernate.
 	 */
-	public Organization() {
+	public Department() {
 	}
 
 	/**
-	 * Creates a new instance of {@code Organization} with the specified
+	 * Creates a new instance of {@code Department} with the specified
 	 * code.
 	 * 
 	 * @param code
 	 */
-	public Organization(final String code) {
-		_id = Objects.requireNonNull(code, "Organization code cannot be null.");
+	public Department(final String code) {
+		_id = Objects.requireNonNull(code, "Department code cannot be null.");
 	}
 	
 	/**
-	 * Creates a new instance of {@code Organization} with the specified
+	 * Creates a new instance of {@code Department} with the specified
 	 * code and description.
 	 * 
 	 * @param code
 	 * @param description
 	 */
-	public Organization(final String code, final String description) {
-		_id = Objects.requireNonNull(code, "Organization code cannot be null.");
-		_description = Objects.requireNonNull(description, "Organization description cannot be null.");
+	public Department(final String code, final String description) {
+		_id = Objects.requireNonNull(code, "Department code cannot be null.");
+		_description = Objects.requireNonNull(description, "Department description cannot be null.");
+	}
+	
+	/**
+	 * Creates a new instance of {@code Department} with the specified
+	 * code and description.
+	 * 
+	 * @param code
+	 * @param description
+	 */
+	public Department(final String code, final String description, final Organization organization) {
+		_id = Objects.requireNonNull(code, "Department code cannot be null.");
+		_description = Objects.requireNonNull(description, "Department description cannot be null.");
+		_organization = Objects.requireNonNull(organization, "Organization cannot be null in a department.");
 	}
 	
 	@Id
@@ -67,7 +85,7 @@ public class Organization extends AbstractDataModel<String> implements Serializa
 	}
 
 	/**
-	 * Sets the Organization.
+	 * Sets the Department.
 	 * 
 	 * <p>
 	 * <strong>Note:</strong> This method has protected access to prevent
@@ -105,7 +123,7 @@ public class Organization extends AbstractDataModel<String> implements Serializa
 	
 	@Override
 	public boolean equals(final Object obj) {
-		return obj == this || (obj instanceof Organization && Objects.equals(_id, ((Organization) obj)._id));
+		return obj == this || (obj instanceof Department && Objects.equals(_id, ((Department) obj)._id));
 	}
 
 	@Override
@@ -117,4 +135,20 @@ public class Organization extends AbstractDataModel<String> implements Serializa
 	public String toString() {
 		return "Code: " + _id + ", Description: " + _description;
 	}
+
+	/**
+	 * @return the organization
+	 */
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "ORG_CDE")
+	public Organization getOrganization() {
+		return _organization;
+	}
+
+	/**
+	 * @param organization the organization to set
+	 */
+	public void setOrganization(final Organization organization) {
+		_organization = organization;
+	}	
 }

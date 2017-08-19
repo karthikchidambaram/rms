@@ -2,6 +2,7 @@ package com.i2g.rms.persistence.dao.tablemaintenance;
 
 import java.util.List;
 
+import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeature;
 import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeatureDetail;
 
 /**
@@ -17,7 +18,7 @@ public interface DistinguishingFeatureDetailDao {
 
 	public DistinguishingFeatureDetail getByCode(final String code);
 
-	public DistinguishingFeatureDetail create(final String code, final String description);
+	public DistinguishingFeatureDetail create(final String code, final String description, final DistinguishingFeature distinguishingFeature);
 
 	public DistinguishingFeatureDetail update(final String code, final String description);
 

@@ -28,7 +28,7 @@ public class ResponseHandlerInterceptor implements HandlerInterceptor {
 	public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler) throws Exception {
 		// Set the response in the context holder
 		ResponseContextHolder.setResponse(response);
-		_logger.trace("Set HttpServletResponse in thread local context");
+		_logger.info("Response Handler Interceptor: Set HttpServletResponse in thread local context.");
 		return true;
 	}
 	

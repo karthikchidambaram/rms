@@ -1,7 +1,8 @@
-package com.i2g.rms.rest.model;
+package com.i2g.rms.rest.model.tablemaintenance;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.i2g.rms.rest.model.AbstractEntityRO;
 
 /**
  * REST Object for returning table maintenance details to the REST client.
@@ -12,11 +13,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  */
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class DepartmentRO extends AbstractEntityRO {
+public class OrganizationRO extends AbstractEntityRO {
 	
 	private String _id;
 	private String _description;
-	private OrganizationRO _organization;
 
 	public String getId() {
 		return _id;
@@ -33,18 +33,4 @@ public class DepartmentRO extends AbstractEntityRO {
 	public void setDescription(final String description) {
 		_description = description;
 	}
-
-	/**
-	 * @return the organization
-	 */
-	public OrganizationRO getOrganization() {
-		return _organization;
-	}
-
-	/**
-	 * @param organization the organization to set
-	 */
-	public void setOrganization(final OrganizationRO organization) {
-		_organization = organization;
-	}	
 }

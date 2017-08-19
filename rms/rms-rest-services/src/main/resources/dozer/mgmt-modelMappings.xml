@@ -62,21 +62,6 @@
 	</mapping>
 	
 	<mapping>
-		<class-a>com.i2g.rms.domain.model.Organization</class-a>
-		<class-b>com.i2g.rms.rest.model.OrganizationRO</class-b>
-	</mapping>
-	
-	<mapping>
-		<class-a>com.i2g.rms.domain.model.Department</class-a>
-		<class-b>com.i2g.rms.rest.model.DepartmentRO</class-b>
-	</mapping>
-	
-	<mapping>
-		<class-a>com.i2g.rms.domain.model.Position</class-a>
-		<class-b>com.i2g.rms.rest.model.PositionRO</class-b>
-	</mapping>
-	
-	<mapping>
 		<class-a>com.i2g.rms.domain.model.incident.SearchIncident</class-a>
 		<class-b>com.i2g.rms.rest.model.incident.SearchIncidentRO</class-b>
 	</mapping>

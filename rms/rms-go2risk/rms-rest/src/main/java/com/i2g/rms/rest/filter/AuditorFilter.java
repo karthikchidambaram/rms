@@ -46,12 +46,17 @@ public class AuditorFilter implements Filter {
 	@Override
 	public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain)
 			throws IOException, ServletException {
+		_logger.info("*************** Inside Auditor Filter ****************");
+		
 		// OPTIONS requests (pre-flight for RESTful calls) do not require an
 		// authenticated user; only if it's not an OPTIONS request do we need
 		// to verify a valid user exists in context and set it accordingly
+		
 		final HttpServletRequest httpRequest = (HttpServletRequest) request;
 		final HttpServletResponse httpResponse = (HttpServletResponse) response;
+		
 		if (!HttpMethod.OPTIONS.name().equals(httpRequest.getMethod())) {
+			_logger.info("*************** Inside Auditor Filter: Not OPTIONS method ****************");
 			String username = "Anonymous";
 			final Authentication auth = SecurityContextHolder.getContext().getAuthentication();			
 			if (auth != null) {				

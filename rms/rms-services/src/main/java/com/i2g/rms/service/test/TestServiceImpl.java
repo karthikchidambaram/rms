@@ -8,11 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.i2g.rms.domain.model.test.Department;
+import com.i2g.rms.domain.model.test.TestDepartment;
 import com.i2g.rms.domain.model.test.MyDepartment;
 import com.i2g.rms.domain.model.test.MyEmployee;
 import com.i2g.rms.domain.model.test.Pagination;
-import com.i2g.rms.persistence.dao.test.DepartmentDao;
+import com.i2g.rms.persistence.dao.test.TestDepartmentDao;
 import com.i2g.rms.persistence.dao.test.HibernateEHCacheMainTest;
 import com.i2g.rms.persistence.dao.test.MyDepartmentDao;
 import com.i2g.rms.persistence.dao.test.PaginationDao;
@@ -30,7 +30,7 @@ public class TestServiceImpl extends TestAbstractService implements TestService 
 	private final Logger _logger = LoggerFactory.getLogger(TestServiceImpl.class);
 
 	@Autowired
-	private DepartmentDao _departmentDao;
+	private TestDepartmentDao _testDepartmentDao;
 	@Autowired
 	private PaginationDao _paginationDao;
 	@Autowired
@@ -42,19 +42,19 @@ public class TestServiceImpl extends TestAbstractService implements TestService 
 
 	@Override
 	public String greetCustomer() {
-		return _departmentDao.greetCustomer();
+		return _testDepartmentDao.greetCustomer();
 	}
 	
 	@Override
 	@Transactional(readOnly = true)
-	public Department getDeptByDeptNo(final Long deptNo) {
-		return _departmentDao.getDeptByDeptNo(deptNo);
+	public TestDepartment getDeptByDeptNo(final Long deptNo) {
+		return _testDepartmentDao.getDeptByDeptNo(deptNo);
 	}
 	
 	@Override
 	@Transactional(readOnly = true)
-	public List<Department> getAllDepartments() {
-		return _departmentDao.getAllDepartments();
+	public List<TestDepartment> getAllDepartments() {
+		return _testDepartmentDao.getAllDepartments();
 	}
 	
 	@Override
@@ -81,20 +81,20 @@ public class TestServiceImpl extends TestAbstractService implements TestService 
 	
 	@Override
 	@Transactional
-	public Department createDepartment(final Long deptNo, final String dname, final String loc) {
-		return _departmentDao.createDepartment(deptNo, dname, loc);
+	public TestDepartment createDepartment(final Long deptNo, final String dname, final String loc) {
+		return _testDepartmentDao.createDepartment(deptNo, dname, loc);
 	}
 	
 	@Override
 	@Transactional
-	public Department updateDepartment(Department department) {
-		return _departmentDao.updateDepartment(department);
+	public TestDepartment updateDepartment(TestDepartment department) {
+		return _testDepartmentDao.updateDepartment(department);
 	}
 
 	@Override
 	@Transactional
-	public void deleteDepartment(final Department department) {
-		_departmentDao.deleteDepartment(department);
+	public void deleteDepartment(final TestDepartment department) {
+		_testDepartmentDao.deleteDepartment(department);
 	}
 	
 	@Override

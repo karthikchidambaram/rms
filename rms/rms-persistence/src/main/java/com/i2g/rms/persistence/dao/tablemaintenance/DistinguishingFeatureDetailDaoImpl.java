@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeature;
 import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeatureDetail;
 import com.i2g.rms.persistence.hibernate.AbstractHibernateDao;
 
@@ -82,12 +83,13 @@ public class DistinguishingFeatureDetailDaoImpl extends AbstractHibernateDao<Str
 	 * @return a table maintenance object.
 	 */
 	@Override
-	public DistinguishingFeatureDetail create(final String code, final String description) {
+	public DistinguishingFeatureDetail create(final String code, final String description, final DistinguishingFeature distinguishingFeature) {
 		// Validate input parameter(s) if any..
 		validateCode(code);
 		validateDescription(description);
+		validateObject(distinguishingFeature);
 		// Create the new object (record)
-		DistinguishingFeatureDetail object = new DistinguishingFeatureDetail(code, description);
+		DistinguishingFeatureDetail object = new DistinguishingFeatureDetail(code, description, distinguishingFeature);
 		// Issue save
 		save(object);
 		return object;
