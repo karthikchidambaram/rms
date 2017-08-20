@@ -24,7 +24,7 @@ public class TokenAuthenticationService {
 
 	public void addAuthentication(HttpServletResponse response, UserAuthentication authentication) {
 		final User user = authentication.getDetails();
-		user.setExpires(System.currentTimeMillis() + RMSSecurityProperties.TEN_DAYS);
+		user.setExpires(System.currentTimeMillis() + RMSSecurityProperties.TEN_DAYS_IN_MILLIS);
 		response.addHeader(RMSSecurityProperties.AUTH_HEADER_NAME, tokenHandler.createTokenForUser(user));
 	}
 

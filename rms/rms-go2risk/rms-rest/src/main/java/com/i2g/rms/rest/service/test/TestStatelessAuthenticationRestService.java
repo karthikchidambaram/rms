@@ -1,5 +1,8 @@
 package com.i2g.rms.rest.service.test;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import com.i2g.rms.rest.model.UserContextRO;
 
 /**
@@ -11,6 +14,6 @@ import com.i2g.rms.rest.model.UserContextRO;
  */
 public interface TestStatelessAuthenticationRestService {
 
-	public UserContextRO doLogin();
+	public UserContextRO doLogin(final HttpServletRequest request, final HttpServletResponse response);
 	
 }

@@ -2,12 +2,15 @@ package com.i2g.rms.rest.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class UserContextRO {
 
 	private String _userId;
 	private String _firstName;
 	private String _lastName;
 	private List<String> _roles;
+	private String _xAuthToken;
 
 	public String getUserId() {
 		return _userId;
@@ -40,4 +43,19 @@ public class UserContextRO {
 	public void setLastName(final String lastName) {
 		_lastName = lastName;
 	}
+
+	/**
+	 * @return the xAuthToken
+	 */
+	@JsonProperty("XAuthToken")
+	public String getXAuthToken() {
+		return _xAuthToken;
+	}
+
+	/**
+	 * @param xAuthToken the xAuthToken to set
+	 */
+	public void setXAuthToken(final String xAuthToken) {
+		_xAuthToken = xAuthToken;
+	}	
 }

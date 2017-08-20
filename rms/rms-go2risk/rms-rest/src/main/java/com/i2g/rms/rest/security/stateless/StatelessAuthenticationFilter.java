@@ -15,6 +15,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
 
+import com.i2g.rms.util.security.RMSSecurityProperties;
+
 public class StatelessAuthenticationFilter extends GenericFilterBean {
 	
 	private final Logger _logger = LoggerFactory.getLogger(StatelessAuthenticationFilter.class);
@@ -35,9 +37,10 @@ public class StatelessAuthenticationFilter extends GenericFilterBean {
 			// Authorize (allow) all domains to consume the content
 			((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Origin", "*");
 			((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Methods", "API, UPDATE, GET, OPTIONS, HEAD, PUT, POST, DELETE, PATCH");
-			((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Headers", "Authorization, Accept, Origin, X-Auth-Token, X-Requested-With, Content-Type, X-Codingpedia");
-			((HttpServletResponse) servletResponse).addHeader("Access-Control-Expose-Headers", "Authorization, Accept, Origin, X-Auth-Token, X-Requested-With, Content-Type, X-Codingpedia");
+			((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Headers", "Authorization, Accept, Origin, X-AUTH-TOKEN, X-Requested-With, Content-Type, X-Codingpedia, location, info");
+			((HttpServletResponse) servletResponse).addHeader("Access-Control-Expose-Headers", "Authorization, Accept, Origin, X-AUTH-TOKEN, X-Requested-With, Content-Type, X-Codingpedia, location, info");
 			((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Credentials", "true");
+			((HttpServletResponse) servletResponse).addHeader("Access-Control-Max-Age", RMSSecurityProperties.TEN_DAYS_IN_SECONDS);
 		}
 		
 		if (!HttpMethod.OPTIONS.name().equals(httpRequest.getMethod())) {			

@@ -20,6 +20,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.i2g.rms.domain.model.User;
 import com.i2g.rms.rest.security.stateless.UserAuthentication;
+import com.i2g.rms.util.security.RMSSecurityProperties;
 
 /**
  * Implementation of JEE {@link Filter} for checking if the user is
@@ -54,9 +55,10 @@ public class SessionFilter implements Filter {
 			// Authorize (allow) all domains to consume the content
 			((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Origin", "*");
 			((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Methods", "API, UPDATE, GET, OPTIONS, HEAD, PUT, POST, DELETE, PATCH");
-			((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Headers", "Authorization, Accept, Origin, X-Auth-Token, X-Requested-With, Content-Type, X-Codingpedia");
-			((HttpServletResponse) servletResponse).addHeader("Access-Control-Expose-Headers", "Authorization, Accept, Origin, X-Auth-Token, X-Requested-With, Content-Type, X-Codingpedia");
+			((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Headers", "Authorization, Accept, Origin, X-AUTH-TOKEN, X-Requested-With, Content-Type, X-Codingpedia, location, info");
+			((HttpServletResponse) servletResponse).addHeader("Access-Control-Expose-Headers", "Authorization, Accept, Origin, X-AUTH-TOKEN, X-Requested-With, Content-Type, X-Codingpedia, location, info");
 			((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Credentials", "true");
+			((HttpServletResponse) servletResponse).addHeader("Access-Control-Max-Age", RMSSecurityProperties.TEN_DAYS_IN_SECONDS);			 
 		}
 		
 		if (!HttpMethod.OPTIONS.name().equals(httpRequest.getMethod())) {

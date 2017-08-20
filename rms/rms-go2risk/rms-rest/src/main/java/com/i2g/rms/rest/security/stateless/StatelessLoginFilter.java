@@ -21,6 +21,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import com.i2g.rms.domain.model.User;
 import com.i2g.rms.rest.constants.RequestConstants;
 import com.i2g.rms.rest.service.PasswordRelatedRestService;
+import com.i2g.rms.util.security.RMSSecurityProperties;
 
 public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter {
 
@@ -48,9 +49,10 @@ public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter
 			// Authorize (allow) all domains to consume the content
 			response.addHeader("Access-Control-Allow-Origin", "*");
 			response.addHeader("Access-Control-Allow-Methods", "API, UPDATE, GET, OPTIONS, HEAD, PUT, POST, DELETE, PATCH");
-			response.addHeader("Access-Control-Allow-Headers", "Authorization, Accept, Origin, X-Auth-Token, X-Requested-With, Content-Type, X-Codingpedia");
-			response.addHeader("Access-Control-Expose-Headers", "Authorization, Accept, Origin, X-Auth-Token, X-Requested-With, Content-Type, X-Codingpedia");
+			response.addHeader("Access-Control-Allow-Headers", "Authorization, Accept, Origin, X-AUTH-TOKEN, X-Requested-With, Content-Type, X-Codingpedia, location, info");
+			response.addHeader("Access-Control-Expose-Headers", "Authorization, Accept, Origin, X-AUTH-TOKEN, X-Requested-With, Content-Type, X-Codingpedia, location, info");
 			response.addHeader("Access-Control-Allow-Credentials", "true");
+			response.addHeader("Access-Control-Max-Age", RMSSecurityProperties.TEN_DAYS_IN_SECONDS);
 		}
 		
 		if (!HttpMethod.OPTIONS.name().equals(request.getMethod())) {
@@ -75,9 +77,10 @@ public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter
 			// Authorize (allow) all domains to consume the content
 			response.addHeader("Access-Control-Allow-Origin", "*");
 			response.addHeader("Access-Control-Allow-Methods", "API, UPDATE, GET, OPTIONS, HEAD, PUT, POST, DELETE, PATCH");
-			response.addHeader("Access-Control-Allow-Headers", "Authorization, Accept, Origin, X-Auth-Token, X-Requested-With, Content-Type, X-Codingpedia");
-			response.addHeader("Access-Control-Expose-Headers", "Authorization, Accept, Origin, X-Auth-Token, X-Requested-With, Content-Type, X-Codingpedia");
+			response.addHeader("Access-Control-Allow-Headers", "Authorization, Accept, Origin, X-AUTH-TOKEN, X-Requested-With, Content-Type, X-Codingpedia, location, info");
+			response.addHeader("Access-Control-Expose-Headers", "Authorization, Accept, Origin, X-AUTH-TOKEN, X-Requested-With, Content-Type, X-Codingpedia, location, info");
 			response.addHeader("Access-Control-Allow-Credentials", "true");
+			response.addHeader("Access-Control-Max-Age", RMSSecurityProperties.TEN_DAYS_IN_SECONDS);
 		}
 				
 		if (!HttpMethod.OPTIONS.name().equals(request.getMethod())) {			

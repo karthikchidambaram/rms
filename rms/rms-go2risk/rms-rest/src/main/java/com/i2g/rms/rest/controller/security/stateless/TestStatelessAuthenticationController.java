@@ -2,6 +2,9 @@ package com.i2g.rms.rest.controller.security.stateless;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -41,8 +44,8 @@ public class TestStatelessAuthenticationController {
 	}
 	
 	@RequestMapping(value = "/p/api/login", method = RequestMethod.POST)
-	public UserContextRO doLogin() {
-		return _testStatelessAuthenticationRestService.doLogin();
+	public UserContextRO doLogin(final HttpServletRequest request, final HttpServletResponse response) {
+		return _testStatelessAuthenticationRestService.doLogin(request, response);
 	}
 	
 	@RequestMapping(value = RequestMappingConstants.LOGIN_ACTION_STATELESS, method = RequestMethod.POST)
