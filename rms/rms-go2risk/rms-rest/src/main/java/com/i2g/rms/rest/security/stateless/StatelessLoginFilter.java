@@ -49,6 +49,7 @@ public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter
 			response.addHeader("Access-Control-Allow-Origin", "*");
 			response.addHeader("Access-Control-Allow-Methods", "API, UPDATE, GET, OPTIONS, HEAD, PUT, POST, DELETE, PATCH");
 			response.addHeader("Access-Control-Allow-Headers", "Authorization, Accept, Origin, X-Auth-Token, X-Requested-With, Content-Type, X-Codingpedia");
+			response.addHeader("Access-Control-Expose-Headers", "Authorization, Accept, Origin, X-Auth-Token, X-Requested-With, Content-Type, X-Codingpedia");
 			response.addHeader("Access-Control-Allow-Credentials", "true");
 		}
 		
@@ -75,6 +76,7 @@ public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter
 			response.addHeader("Access-Control-Allow-Origin", "*");
 			response.addHeader("Access-Control-Allow-Methods", "API, UPDATE, GET, OPTIONS, HEAD, PUT, POST, DELETE, PATCH");
 			response.addHeader("Access-Control-Allow-Headers", "Authorization, Accept, Origin, X-Auth-Token, X-Requested-With, Content-Type, X-Codingpedia");
+			response.addHeader("Access-Control-Expose-Headers", "Authorization, Accept, Origin, X-Auth-Token, X-Requested-With, Content-Type, X-Codingpedia");
 			response.addHeader("Access-Control-Allow-Credentials", "true");
 		}
 				

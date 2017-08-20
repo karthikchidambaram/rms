@@ -55,6 +55,7 @@ public class SessionFilter implements Filter {
 			((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Origin", "*");
 			((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Methods", "API, UPDATE, GET, OPTIONS, HEAD, PUT, POST, DELETE, PATCH");
 			((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Headers", "Authorization, Accept, Origin, X-Auth-Token, X-Requested-With, Content-Type, X-Codingpedia");
+			((HttpServletResponse) servletResponse).addHeader("Access-Control-Expose-Headers", "Authorization, Accept, Origin, X-Auth-Token, X-Requested-With, Content-Type, X-Codingpedia");
 			((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Credentials", "true");
 		}
 		
