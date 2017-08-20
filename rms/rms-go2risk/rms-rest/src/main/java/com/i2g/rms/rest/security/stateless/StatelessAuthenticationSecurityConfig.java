@@ -82,31 +82,26 @@ public class StatelessAuthenticationSecurityConfig extends WebSecurityConfigurer
 	@Bean
 	@Override
 	public AuthenticationManager authenticationManagerBean() throws Exception {
-		_logger.info("Inside StatelessAuthenticationSecurityConfig.authenticationManagerBean()");
 		return super.authenticationManagerBean();
 	}
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		_logger.info("Inside StatelessAuthenticationSecurityConfig.configure(AuthenticationManagerBuilder auth)");
 		auth.authenticationProvider(authenticationProvider());
 	}
 
 	@Override
 	protected UserDetailsService userDetailsService() {
-		_logger.info("Inside StatelessAuthenticationSecurityConfig.userDetailsService()");
 		return userDetailsService;
 	}	
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
-		_logger.info("Inside StatelessAuthenticationSecurityConfig.passwordEncoder()");
 		return new BCryptPasswordEncoder();
 	}
 
 	@Bean
 	public DaoAuthenticationProvider authenticationProvider() {
-		_logger.info("Inside StatelessAuthenticationSecurityConfig.authenticationProvider()");
 		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
 		authenticationProvider.setUserDetailsService(userDetailsService);
 		authenticationProvider.setPasswordEncoder(passwordEncoder());

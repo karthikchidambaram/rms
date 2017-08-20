@@ -19,6 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.i2g.rms.domain.model.User;
 import com.i2g.rms.domain.support.Auditor;
+import com.i2g.rms.rest.constants.RequestConstants;
 import com.i2g.rms.rest.security.stateless.UserAuthentication;
 
 /**
@@ -45,15 +46,13 @@ public class AuditorFilter implements Filter {
 
 	@Override
 	public void doFilter(final ServletRequest servletRequest, final ServletResponse servletResponse, final FilterChain chain) throws IOException, ServletException {
-		_logger.info("*************** Inside Auditor Filter ****************");
-		
 		// OPTIONS requests (pre-flight for RESTful calls) do not require an
 		// authenticated user; only if it's not an OPTIONS request do we need
 		// to verify a valid user exists in context and set it accordingly
 		
 		final HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
 		final HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
-		String username = "anonymousUser";
+		String username = RequestConstants.ANONYMOUS_USER;
 		
 		if (!HttpMethod.OPTIONS.name().equals(httpRequest.getMethod())) {
 			final Authentication auth = SecurityContextHolder.getContext().getAuthentication();			

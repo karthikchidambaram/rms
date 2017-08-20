@@ -19,6 +19,7 @@ import org.springframework.security.web.authentication.AbstractAuthenticationPro
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.i2g.rms.domain.model.User;
+import com.i2g.rms.rest.constants.RequestConstants;
 import com.i2g.rms.rest.service.PasswordRelatedRestService;
 
 public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter {
@@ -43,12 +44,13 @@ public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException, IOException, ServletException {
 		
-		_logger.info("StatelessLoginFilter.attemptAuthentication");
-		
-		// Authorize (allow) all domains to consume the content
-		response.addHeader("Access-Control-Allow-Origin", "*");
-		response.addHeader("Access-Control-Allow-Methods", "API, UPDATE, GET, OPTIONS, HEAD, PUT, POST, DELETE, PATCH");
-		response.addHeader("Access-Control-Allow-Headers", "Origin, X-Auth-Token, X-Requested-With, Content-Type, X-Codingpedia");
+		if (response.getHeader("Access-Control-Allow-Origin") == null || response.getHeader("Access-Control-Allow-Origin").isEmpty()) {
+			// Authorize (allow) all domains to consume the content
+			response.addHeader("Access-Control-Allow-Origin", "*");
+			response.addHeader("Access-Control-Allow-Methods", "API, UPDATE, GET, OPTIONS, HEAD, PUT, POST, DELETE, PATCH");
+			response.addHeader("Access-Control-Allow-Headers", "Authorization, Accept, Origin, X-Auth-Token, X-Requested-With, Content-Type, X-Codingpedia");
+			response.addHeader("Access-Control-Allow-Credentials", "true");
+		}
 		
 		if (!HttpMethod.OPTIONS.name().equals(request.getMethod())) {
 			// Parse the credentials from the request
@@ -59,7 +61,7 @@ public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter
 			return getAuthenticationManager().authenticate(loginToken);
 		} else {
 			response.setStatus(HttpServletResponse.SC_ACCEPTED);
-			UserAuthentication userAuthentication = new UserAuthentication(new User("anonymousUser"));
+			UserAuthentication userAuthentication = new UserAuthentication(new User(RequestConstants.ANONYMOUS_USER));
 			return userAuthentication;
 		}		
 	}
@@ -68,13 +70,12 @@ public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 			Authentication authentication) throws IOException, ServletException {
 		
-		_logger.info("StatelessLoginFilter.successfulAuthentication");
-		
 		if (response.getHeader("Access-Control-Allow-Origin") == null || response.getHeader("Access-Control-Allow-Origin").isEmpty()) {
 			// Authorize (allow) all domains to consume the content
 			response.addHeader("Access-Control-Allow-Origin", "*");
 			response.addHeader("Access-Control-Allow-Methods", "API, UPDATE, GET, OPTIONS, HEAD, PUT, POST, DELETE, PATCH");
-			response.addHeader("Access-Control-Allow-Headers", "Origin, X-Auth-Token, X-Requested-With, Content-Type, X-Codingpedia");
+			response.addHeader("Access-Control-Allow-Headers", "Authorization, Accept, Origin, X-Auth-Token, X-Requested-With, Content-Type, X-Codingpedia");
+			response.addHeader("Access-Control-Allow-Credentials", "true");
 		}
 				
 		if (!HttpMethod.OPTIONS.name().equals(request.getMethod())) {			

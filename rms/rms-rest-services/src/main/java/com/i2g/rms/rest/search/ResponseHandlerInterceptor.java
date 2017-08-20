@@ -30,11 +30,12 @@ public class ResponseHandlerInterceptor implements HandlerInterceptor {
 			// Authorize (allow) all domains to consume the content
 			response.addHeader("Access-Control-Allow-Origin", "*");
 			response.addHeader("Access-Control-Allow-Methods", "API, UPDATE, GET, OPTIONS, HEAD, PUT, POST, DELETE, PATCH");
-			response.addHeader("Access-Control-Allow-Headers", "Origin, X-Auth-Token, X-Requested-With, Content-Type, X-Codingpedia");
+			response.addHeader("Access-Control-Allow-Headers", "Authorization, Accept, Origin, X-Auth-Token, X-Requested-With, Content-Type, X-Codingpedia");
+			response.addHeader("Access-Control-Allow-Credentials", "true");
 		}
 		// Set the response in the context holder
 		ResponseContextHolder.setResponse(response);
-		_logger.info("Response Handler Interceptor: Set HttpServletResponse in thread local context.");
+		_logger.trace("Response Handler Interceptor: Set HttpServletResponse in thread local context.");
 		return true;
 	}
 	
