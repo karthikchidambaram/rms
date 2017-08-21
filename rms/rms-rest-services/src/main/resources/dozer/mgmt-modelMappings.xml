@@ -12,6 +12,10 @@
 			<a>user</a>
 			<b>user</b>
 		</field-exclude>		
+		<field-exclude>
+			<a>password</a>
+			<b>password</b>
+		</field-exclude>
 	</mapping>
 
 	<mapping>
@@ -44,6 +48,10 @@
 			<a>incidents</a>
 			<b>incidents</b>
 		</field-exclude>
+		<field-exclude>
+			<a>password</a>
+			<b>password</b>
+		</field-exclude>		
 	</mapping>
 	
 	<mapping>
