@@ -2,6 +2,7 @@ package com.i2g.rms.rest.service.incident;
 
 import java.util.List;
 
+import com.i2g.rms.rest.model.UserRO;
 import com.i2g.rms.rest.model.incident.IncidentRO;
 
 /**
@@ -15,5 +16,6 @@ public interface IncidentRestService {
 	
 	public List<IncidentRO> get();
 	public IncidentRO getIncidentByUniqueIncidentId(final String uniqueIncidentId);
-	
+	public UserRO addIncident();
+	public IncidentRO logIncident();
 }

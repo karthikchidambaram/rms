@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.i2g.rms.domain.model.incident.Incident;
 import com.i2g.rms.rest.constants.RequestMappingConstants;
 import com.i2g.rms.rest.controller.AbstractRestController;
+import com.i2g.rms.rest.model.UserRO;
 import com.i2g.rms.rest.model.incident.IncidentRO;
 import com.i2g.rms.rest.search.Searchable;
 import com.i2g.rms.rest.service.incident.IncidentRestService;
@@ -37,5 +38,15 @@ public class IncidentController extends AbstractRestController {
 	@RequestMapping(value = RequestMappingConstants.GET_INCIDENT_BY_UNIQUE_INCIDENT_ID, method = RequestMethod.GET)
 	public IncidentRO getIncidentByUniqueIncidentId(@PathVariable final String uniqueIncidentId) {
 		return _incidentRestService.getIncidentByUniqueIncidentId(uniqueIncidentId);
+	}
+	
+	@RequestMapping(value = RequestMappingConstants.ADD_INCIDENT, method = RequestMethod.GET)
+	public UserRO addIncident() {
+		return _incidentRestService.addIncident();
+	}
+	
+	@RequestMapping(value = RequestMappingConstants.LOG_INCIDENT, method = RequestMethod.POST)
+	public IncidentRO logIncident() {
+		return _incidentRestService.logIncident();
 	}
 }

@@ -34,4 +34,9 @@ public class IncidentServiceImpl extends AbstractService implements IncidentServ
 	public Incident getIncidentByUniqueIncidentId(final String uniqueIncidentId) {
 		return _incidentDao.getIncidentByUniqueIncidentId(uniqueIncidentId);
 	}
+
+	@Override
+	public Incident logIncident(Incident incident) {
+		return _incidentDao.logIncident(incident);
+	}
 }

@@ -324,6 +324,8 @@ public interface RequestMappingConstants {
 	String INCIDENT 							= SECURED + "/incident";
 	String GET_INCIDENTS						= INCIDENT + "/incidents";
 	String GET_INCIDENT_BY_UNIQUE_INCIDENT_ID 	= INCIDENT + "/{uniqueIncidentId}";
+	String ADD_INCIDENT 						= INCIDENT + "/add-incident";
+	String LOG_INCIDENT 						= INCIDENT + "/log-incident";
 	
 	/** Search Incidents */
 	String SEARCH_INCIDENT						= SECURED + "/search-incident";

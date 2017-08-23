@@ -7,10 +7,12 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.i2g.rms.domain.model.User;
 import com.i2g.rms.rest.mapping.MapperService;
 import com.i2g.rms.service.exception.ResourceNotFoundException;
 import com.i2g.rms.service.exception.ResourceNotValidException;
@@ -41,13 +43,24 @@ public abstract class AbstractRestService {
 	protected String getPrincipalFromContext() {
 		String userName = null;
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
 		if (principal instanceof UserDetails) {
 			userName = ((UserDetails) principal).getUsername();
 		} else {
 			userName = principal.toString();
 		}
 		return userName;
+	}
+	
+	protected String getUsernameFromContext() {
+		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		final User user = (auth.getDetails() == null) ? (User) auth.getPrincipal() : (User) auth.getDetails();
+		return user.getUsername();	
+	}
+	
+	protected User getUserFromContext() {
+		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		final User user = (auth.getDetails() == null) ? (User) auth.getPrincipal() : (User) auth.getDetails();
+		return user;	
 	}
 
 	/**
@@ -126,11 +139,24 @@ public abstract class AbstractRestService {
 	 * 
 	 * @param object
 	 * @throws ResourceNotValidException
-	 *             if the input object is null or emtpy.
+	 *             if the input object is null or empty.
 	 */
 	protected void validateObject(final Object object) {
 		if (object == null) {
 			throw new ResourceNotValidException(_messageBuilder.build(RestMessage.INPUT_OBJECT_NULL_OR_EMPTY));
+		}
+	}
+	
+	/**
+	 * Generic method which validates object for null or empty.
+	 *  
+	 * @param object
+	 * @throws ResourceNotValidException
+	 *             if the object is null or empty.
+	 */
+	protected void validateGenericObject(final Object object) {
+		if (object == null) {
+			throw new ResourceNotValidException(_messageBuilder.build(RestMessage.OBJECT_NULL_OR_EMPTY));
 		}
 	}
 	
@@ -230,6 +256,26 @@ public abstract class AbstractRestService {
 	protected void validateCredentials(final String[] credentials) {
 		if (credentials == null) {
 			throw new ResourceNotValidException(_messageBuilder.build(RestMessage.CREDENTIALS_NOT_PRESENT_IN_REQUEST));
+		}
+	}
+	
+	protected void validateUniqueIncidentId(final String uniqueIncidentId) {
+		if (uniqueIncidentId == null || uniqueIncidentId.trim().isEmpty()) {
+			throw new ResourceNotValidException(_messageBuilder.build(RestMessage.UNIQUE_INCIDENT_ID_NULL_OR_EMPTY));
+		}
+	}
+	
+	/**
+	 * Validation method for User object. Validates {@code user}
+	 * for null or empty.
+	 * 
+	 * @param user
+	 * @throws ResourceNotValidException
+	 *             if the user object is null or empty.
+	 */
+	protected void validateUserObject(final User user) {
+		if (user == null) {
+			throw new ResourceNotValidException(_messageBuilder.build(RestMessage.UNABLE_TO_FETCH_USER_DETAILS));
 		}
 	}
 }

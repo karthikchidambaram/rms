@@ -86,11 +86,14 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 	 * @param builder
 	 */
 	private Incident(final Builder builder) {
-		_id = Objects.requireNonNull(builder._id, "Incident Id cannot be null.");
-		_uniqueIncidentId = Objects.requireNonNull(builder._uniqueIncidentId, "Unique Incident Id cannot be null.");
-		_incidentStatus = Objects.requireNonNull(builder._incidentStatus, "Incident status cannot be null.");
-		_incidentReportedBy = Objects.requireNonNull(builder._user, "The user (object) who reported the incident cannot be null.");
-		_statusFlag = Objects.requireNonNull(builder._statusFlag, "Incident status flag cannot be null.");
+		_uniqueIncidentId = Objects.requireNonNull(builder._uniqueIncidentId, "Unique Incident Id cannot be null or empty.");
+		_incidentReportedBy = Objects.requireNonNull(builder._incidentReportedBy, "The user (object) who reported the incident cannot be null.");
+		_statusFlag = Objects.requireNonNull(builder._statusFlag, "Status flag cannot be null or empty.");
+		_incidentStatus = Objects.requireNonNull(builder._incidentStatus, "Incident status cannot be null or empty.");
+		_personInjured = Objects.requireNonNull(builder._personInjured, "Person injured flag cannot be null or empty.");
+		_propertyDamage = Objects.requireNonNull(builder._propertyDamage, "Property damage flag cannot be null or empty.");
+		_crimeInvolved = Objects.requireNonNull(builder._crimeInvolved, "Crime involved flag cannot be null or empty.");
+		_incidentOpenedDateTime = Objects.requireNonNull(builder._incidentOpenedDateTime, "Incident open date and time cannot be null or empty.");
 	}
 
 	/**
@@ -134,6 +137,11 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 		_uniqueIncidentId = uniqueIncidentId;
 	}
 
+	/**
+	 * Incident open date and time. Default to current time stamp in database.
+	 * 
+	 * @return incidentOpenedDateTime
+	 */
 	@Column(name = "INC_OPN_DTM")
 	@Type(type = "com.i2g.rms.domain.model.type.LocalDateTimeType")
 	public LocalDateTime getIncidentOpenedDateTime() {
@@ -146,7 +154,6 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "INC_TYP_CDE")
-	@Size(min = 1, max = 16, message = "Incident type code must be between {min} and {max} characters")
 	public IncidentType getIncidentType() {
 		return _incidentType;
 	}
@@ -155,8 +162,7 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 		_incidentType = incidentType;
 	}
 	
-	@Column(name = "INC_PLACE")
-	@Size(min = 1, max = 256, message = "Place of incident must be between {min} and {max} characters")
+	@Column(name = "INC_PLACE", length = 256)
 	public String getPlaceOfIncident() {
 		return _placeOfIncident;
 	}
@@ -165,8 +171,7 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 		_placeOfIncident = placeOfIncident;
 	}
 	
-	@Column(name = "LNDMRK")
-	@Size(min = 1, max = 64, message = "Nearest landmark of the place of incident must be between {min} and {max} characters")
+	@Column(name = "LNDMRK", length = 64)
 	public String getLandmark() {
 		return _landmark;
 	}
@@ -177,7 +182,6 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ENTY_PNT_CDE")
-	@Size(min = 1, max = 16, message = "Entry point code must be between {min} and {max} characters")
 	public EntryPoint getEntryPoint() {
 		return _entryPoint;
 	}
@@ -187,7 +191,6 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 	}
 	
 	@Column(name = "INC_STS", nullable = false)
-	@Size(min = 1, max = 16, message = "Incident status code must be between {min} and {max} characters")
 	@Enumerated(EnumType.STRING)
 	@NotNull
 	public IncidentStatus getIncidentStatus() {
@@ -200,7 +203,6 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "INC_LOC_CHLD_CDE")
-	@Size(min = 1, max = 16, message = "Incident location details code must be between {min} and {max} characters")
 	public IncidentLocationDetail getIncidentLocationDetails() {
 		return _incidentLocationDetails;
 	}
@@ -209,8 +211,7 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 		_incidentLocationDetails = incidentLocationDetails;
 	}
 	
-	@Column(name = "INC_DESC")
-	@Size(min = 1, max = 256, message = "Incident type code must be between {min} and {max} characters")
+	@Column(name = "INC_DESC", length = 256)
 	public String getIncidentDescription() {
 		return _incidentDescription;
 	}
@@ -220,7 +221,6 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 	}
 	
 	@Column(name = "STS_FLG", nullable = false)
-	@Size(min = 1, max = 16, message = "Status flag code must be between {min} and {max} characters")
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	public StatusFlag getStatusFlag() {
@@ -232,7 +232,6 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 	}
 	
 	@Column(name = "PRSN_INJRD", nullable = false)
-	@Size(max = 1, message = "Person injured is 'Yes' or 'No' data type. The max length for the corresponding code is 1.")
 	@Enumerated(EnumType.STRING)
 	@NotNull
 	public YesNoType getPersonInjured() {
@@ -244,7 +243,6 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 	}
 	
 	@Column(name = "PROP_DAMAGE", nullable = false)
-	@Size(max = 1, message = "Property damage is 'Yes' or 'No' data type. The max length for the corresponding code is 1.")
 	@Enumerated(EnumType.STRING)
 	@NotNull
 	public YesNoType getPropertyDamage() {
@@ -256,7 +254,6 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 	}
 	
 	@Column(name = "CRIME_INVLD", nullable = false)
-	@Size(max = 1, message = "Crime involved is 'Yes' or 'No' data type. The max length for the corresponding code is 1.")
 	@Enumerated(EnumType.STRING)
 	@NotNull
 	public YesNoType getCrimeInvolved() {
@@ -280,7 +277,6 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "INC_CTGRY_CDE")
-	@Size(min = 1, max = 16, message = "Incident category code must be between {min} and {max} characters")
 	public IncidentCategory getIncidentCategory() {
 		return _incidentCategory;
 	}
@@ -369,12 +365,15 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 	 */
 	public final static class Builder {
 
-		private Long _id;
 		private String _uniqueIncidentId;
+		private User _incidentReportedBy;
 		private IncidentStatus _incidentStatus;
-		private User _user;
 		private StatusFlag _statusFlag;
-
+		private YesNoType _personInjured;
+		private YesNoType _propertyDamage;
+		private YesNoType _crimeInvolved;
+		private LocalDateTime _incidentOpenedDateTime;
+		
 		/**
 		 * Builds a new immutable instance of Incident.
 		 * 
@@ -384,34 +383,43 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 			return new Incident(this);
 		}
 
-		/**
-		 * Sets the specified {@code id}.
-		 * 
-		 * @param id
-		 * @return this builder
-		 */
-		public Builder setId(final Long id) {
-			_id = id;
-			return this;
-		}
-
 		public Builder setUniqueIncidentId(final String uniqueIncidentId) {
 			_uniqueIncidentId = uniqueIncidentId;
 			return this;
 		}
 		
-		public Builder setIncidentStatus(final IncidentStatus incidentStatus) {
-			_incidentStatus = incidentStatus;
+		public Builder setIncidentReportedBy(final User incidentReportedBy) {
+			_incidentReportedBy = incidentReportedBy;
 			return this;
 		}
-
-		public Builder setUser(final User user) {
-			_user = user;
-			return this;
-		}		
+		
+		public Builder setIncidentStatus(final IncidentStatus incidentStatus) {
+			_incidentStatus = incidentStatus;
+			return this;		
+		}
 		
 		public Builder setStatusFlag(final StatusFlag statusFlag) {
 			_statusFlag = statusFlag;
+			return this;
+		}
+		
+		public Builder setPersonInjured(final YesNoType personInjured) {
+			_personInjured = personInjured;
+			return this;
+		}
+		
+		public Builder setPropertyDamage(final YesNoType propertyDamage) {
+			_propertyDamage = propertyDamage;
+			return this;
+		}
+		
+		public Builder setCrimeInvolved(final YesNoType crimeInvolved) {
+			_crimeInvolved = crimeInvolved;
+			return this;
+		}
+		
+		public Builder setIncidentOpenedDateTime(final LocalDateTime incidentOpenedDateTime) {
+			_incidentOpenedDateTime = incidentOpenedDateTime;
 			return this;
 		}
 	}

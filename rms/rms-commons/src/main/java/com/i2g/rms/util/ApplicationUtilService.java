@@ -2,10 +2,14 @@ package com.i2g.rms.util;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-public class ApplicationUtils extends ApplicationBaseUtils {
+import org.springframework.stereotype.Service;
+
+@Service
+public class ApplicationUtilService extends ApplicationBaseUtilService {
 
 	public static String getUniqueIncidentId() {
 		return ApplicationConstants.INCIDENT_ID_PREFIX
@@ -51,5 +55,14 @@ public class ApplicationUtils extends ApplicationBaseUtils {
 		} else {
 			return null;
 		}
+	}
+	
+	/**
+	 * Method that gives the current timestamp
+	 * 
+	 * @return
+	 */
+	public static LocalDateTime getCurrentTimestamp() {
+		return LocalDateTime.now();
 	}
 }

@@ -13,6 +13,10 @@ public class ServiceException extends RuntimeException {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	public ServiceException() {
+		super();
+	}
 
 	/**
 	 * Creates a new instance of {@link ServiceException} with the specified

@@ -15,5 +15,6 @@ public interface IncidentService {
 	
 	public List<Incident> get();
 	public Incident getIncidentByUniqueIncidentId(final String uniqueIncidentId);
+	public Incident logIncident(final Incident incident);
 	
 }

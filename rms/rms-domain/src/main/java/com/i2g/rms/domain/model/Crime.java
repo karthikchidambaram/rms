@@ -2,6 +2,7 @@ package com.i2g.rms.domain.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -60,8 +61,7 @@ public class Crime extends AbstractDataModel<Long> implements Serializable {
 	private String _website;
 	private YesNoType _anyWitness;
 	private User _user;
-	private LocalDate _crimeDate;
-	private Long _crimeTime;
+	private LocalDateTime _crimeDateTime;
 	private String _crimeDescription;	
 	
 	/**
@@ -407,38 +407,19 @@ public class Crime extends AbstractDataModel<Long> implements Serializable {
 	}
 	
 	/**
-	 * @return the crimeDate
+	 * @return the crimeDateTime
 	 */
-	@Column(name = "CRME_DT")
-	@Type(type = "com.i2g.rms.domain.model.type.LocalDateType")
-	public LocalDate getCrimeDate() {
-		return _crimeDate;
+	@Column(name = "CRME_DTM")
+	@Type(type = "com.i2g.rms.domain.model.type.LocalDateTimeType")
+	public LocalDateTime getCrimeDateTime() {
+		return _crimeDateTime;
 	}
 
 	/**
-	 * @param crimeDate the crimeDate to set
+	 * @param crimeDateTime the crimeDateTime to set
 	 */
-	public void setCrimeDate(final LocalDate crimeDate) {
-		_crimeDate = crimeDate;
-	}
-
-	/**
-	 * @return the crimeTime
-	 */
-	@Column(name = "CRME_TIME")
-	public Long getCrimeTime() {
-		return _crimeTime;
-	}
-
-	/**
-	 * @param crimeTime the crimeTime to set
-	 */
-	public void setCrimeTime(final Long crimeTime) {
-		if (crimeTime != null) {
-			_crimeTime = crimeTime;
-		} else {
-			_crimeTime = 0l;
-		}
+	public void setCrimeDateTime(final LocalDateTime crimeDateTime) {
+		_crimeDateTime = crimeDateTime;
 	}
 
 	/**

@@ -204,8 +204,7 @@ public abstract class AbstractHibernateDao<K extends Serializable, T extends Abs
 	}
 
 	/**
-	 * Method which validates {@code object} for table maintenance
-	 * entities.
+	 * Method which validates {@code object} for table maintenance entities.
 	 * 
 	 * @param object
 	 * @throws IllegalArgumentException
@@ -228,6 +227,19 @@ public abstract class AbstractHibernateDao<K extends Serializable, T extends Abs
 	protected void validateCode(final String code) {
 		if (code == null || code.trim().isEmpty()) {
 			throw new IllegalArgumentException("Code cannot be null or emtpy.");
+		}
+	}
+
+	/**
+	 * Method which validates the input parameter {@code param} for entities.
+	 * 
+	 * @param param
+	 * @throws IllegalArgumentException
+	 *             if the param is null or emtpy.
+	 */
+	protected void validateString(final String param) {
+		if (param == null || param.trim().isEmpty()) {
+			throw new IllegalArgumentException("One or more String input parameter(s) is null or empty.");
 		}
 	}
 

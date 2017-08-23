@@ -6,6 +6,7 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.i2g.rms.rest.model.incident.IncidentRO;
 import com.i2g.rms.rest.model.tablemaintenance.EmployeeTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.GenderTypeRO;
@@ -48,7 +49,7 @@ public class UserRO extends AbstractEntityRO {
 	private String _managerLoginId;
 	private PositionRO _position;
 	private EmployeeTypeRO _employeeType;
-	private Set<IncidentRO> _incidents = new HashSet<IncidentRO>(0);
+	private Set<IncidentRO> _incidents = new HashSet<IncidentRO>(0);	
 
 	public long getId() {
 		return _id;

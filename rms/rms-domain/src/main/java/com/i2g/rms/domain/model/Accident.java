@@ -1,7 +1,7 @@
 package com.i2g.rms.domain.model;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -46,8 +46,7 @@ public class Accident extends AbstractDataModel<Long> implements Serializable {
 	private Incident _incident;
 	private String _accidentDescription;
 	private StatusFlag _statusFlag;
-	private LocalDate _accidentDate;
-	private Long _accidentTime;
+	private LocalDateTime _accidentDateTime;
 	private AccidentLocationDetail _accidentLocationDetails;
 	private String _landmark;
 	private AccidentType _accidentType;
@@ -152,38 +151,19 @@ public class Accident extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @return the accidentDate
+	 * @return the accidentDateTime
 	 */
-	@Column(name = "ACC_DT")
-	@Type(type = "com.i2g.rms.domain.model.type.LocalDateType")
-	public LocalDate getAccidentDate() {
-		return _accidentDate;
+	@Column(name = "ACC_DTM")
+	@Type(type = "com.i2g.rms.domain.model.type.LocalDateTimeType")
+	public LocalDateTime getAccidentDateTime() {
+		return _accidentDateTime;
 	}
 
 	/**
-	 * @param accidentDate the accidentDate to set
+	 * @param accidentDateTime the accidentDateTime to set
 	 */
-	public void setAccidentDate(final LocalDate accidentDate) {
-		_accidentDate = accidentDate;
-	}
-
-	/**
-	 * @return the accidentTime
-	 */
-	@Column(name = "ACC_TIME")
-	public Long getAccidentTime() {
-		return _accidentTime;
-	}
-
-	/**
-	 * @param accidentTime the accidentTime to set
-	 */
-	public void setAccidentTime(final Long accidentTime) {
-		if (accidentTime != null) {
-			_accidentTime = accidentTime;
-		} else {
-			_accidentTime = 0l;
-		}
+	public void setAccidentDateTime(final LocalDateTime accidentDateTime) {
+		_accidentDateTime = accidentDateTime;
 	}
 
 	/**

@@ -89,77 +89,13 @@ public class TestRestServiceImpl extends TestAbstractRestService implements Test
 	@Override
 	@Transactional(readOnly = true)
 	public List<MyDepartmentRO> getMyDepartments() {
-
-		return _mapperService.map(_testService.getMyDepartments(), MyDepartmentRO.class);
-
-		/*
-		 * List<MyDepartment> myDepartments = new ArrayList<>();
-		 * List<MyDepartmentRO> myDepartmentROs = new ArrayList<>();
-		 * 
-		 * myDepartments = _testService.getMyDepartments();
-		 * 
-		 * for (MyDepartment myDepartment : myDepartments) {
-		 * 
-		 * MyDepartmentRO myDepartmentRO = new MyDepartmentRO();
-		 * 
-		 * myDepartmentRO.setDeptNo(myDepartment.getDeptNo());
-		 * myDepartmentRO.setDName(myDepartment.getDName());
-		 * myDepartmentRO.setLoc(myDepartment.getLoc());
-		 * 
-		 * Set<MyEmployee> myEmployees = new HashSet<MyEmployee>(0);
-		 * Set<MyEmployeeRO> myEmployeeROs = new HashSet<MyEmployeeRO>(0);
-		 * myEmployees = myDepartment.getEmployees();
-		 * 
-		 * for (MyEmployee myEmployee : myEmployees) {
-		 * 
-		 * MyEmployeeRO myEmployeeRO = new MyEmployeeRO();
-		 * 
-		 * myEmployeeRO.setEmpNo(myEmployee.getEmpNo());
-		 * myEmployeeRO.setEName(myEmployee.getEName());
-		 * myEmployeeRO.setJob(myEmployee.getJob());
-		 * myEmployeeRO.setMgr(myEmployee.getMgr());
-		 * myEmployeeRO.setHireDate(myEmployee.getHireDate());
-		 * myEmployeeRO.setSal(myEmployee.getSal());
-		 * myEmployeeRO.setComm(myEmployee.getComm());
-		 * 
-		 * myEmployeeROs.add(myEmployeeRO); }
-		 * myDepartmentRO.setEmployees(myEmployeeROs);
-		 * myDepartmentROs.add(myDepartmentRO); } return myDepartmentROs;
-		 */
+		return _mapperService.map(_testService.getMyDepartments(), MyDepartmentRO.class);		
 	}
 
 	@Override
 	@Transactional(readOnly = true)
 	public List<MyEmployeeRO> getMyEmployees() {
-
 		return _mapperService.map(_testService.getMyEmployees(), MyEmployeeRO.class);
-
-		/*
-		 * List<MyEmployee> myEmployees = new ArrayList<>(); List<MyEmployeeRO>
-		 * myEmployeeROs = new ArrayList<>(); myEmployees =
-		 * _testService.getMyEmployees();
-		 * 
-		 * for (MyEmployee myEmployee : myEmployees) {
-		 * 
-		 * MyEmployeeRO myEmployeeRO = new MyEmployeeRO();
-		 * 
-		 * myEmployeeRO.setEmpNo(myEmployee.getEmpNo());
-		 * myEmployeeRO.setEName(myEmployee.getEName());
-		 * myEmployeeRO.setJob(myEmployee.getJob());
-		 * myEmployeeRO.setMgr(myEmployee.getMgr());
-		 * myEmployeeRO.setSal(myEmployee.getSal());
-		 * myEmployeeRO.setComm(myEmployee.getComm());
-		 * 
-		 * MyDepartment myDepartment = myEmployee.getDepartment();
-		 * MyDepartmentRO myDepartmentRO = new MyDepartmentRO();
-		 * myDepartmentRO.setDeptNo(myDepartment.getDeptNo());
-		 * myDepartmentRO.setDName(myDepartment.getDName());
-		 * myDepartmentRO.setLoc(myDepartment.getLoc());
-		 * 
-		 * myEmployeeRO.setDepartment(myDepartmentRO);
-		 * 
-		 * myEmployeeROs.add(myEmployeeRO); } return myEmployeeROs;
-		 */
 	}
 
 	@Override
