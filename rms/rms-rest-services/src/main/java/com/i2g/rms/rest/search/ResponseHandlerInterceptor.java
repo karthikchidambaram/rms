@@ -32,8 +32,8 @@ public class ResponseHandlerInterceptor implements HandlerInterceptor {
 			// Authorize (allow) all domains to consume the content
 			response.addHeader("Access-Control-Allow-Origin", "*");
 			response.addHeader("Access-Control-Allow-Methods", "API, UPDATE, GET, OPTIONS, HEAD, PUT, POST, DELETE, PATCH");
-			response.addHeader("Access-Control-Allow-Headers", "Authorization, Accept, Origin, X-AUTH-TOKEN, X-Requested-With, Content-Type, X-Codingpedia, location, info");
-			response.addHeader("Access-Control-Expose-Headers", "Authorization, Accept, Origin, X-AUTH-TOKEN, X-Requested-With, Content-Type, X-Codingpedia, location, info");
+			response.addHeader("Access-Control-Allow-Headers", "Authorization, Search, Accept, Origin, X-AUTH-TOKEN, X-Requested-With, Content-Type, X-Codingpedia, location, info");
+			response.addHeader("Access-Control-Expose-Headers", "Authorization, Search, Accept, Origin, X-AUTH-TOKEN, X-Requested-With, Content-Type, X-Codingpedia, location, info");
 			response.addHeader("Access-Control-Allow-Credentials", "true");
 			response.addHeader("Access-Control-Max-Age", RMSSecurityProperties.TEN_DAYS_IN_SECONDS);
 		}

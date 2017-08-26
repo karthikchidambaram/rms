@@ -59,12 +59,19 @@ public class SearchIncident extends AbstractDataModel<Long> implements Serializa
 	private String departmentDescription;
 	private String positionCode;
 	private String positionDescription;
+	
+	/**
+	 * Default empty constructor required for Hibernate.
+	 */
+	protected SearchIncident() {
+	}
 
 	/**
 	 * @return the id
 	 */
 	@Id
 	@Column(name = "INC_ID")
+	@Override
 	public Long getId() {
 		return id;
 	}

@@ -6,8 +6,6 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.i2g.rms.rest.model.incident.IncidentRO;
 import com.i2g.rms.rest.model.tablemaintenance.EmployeeTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.GenderTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.PositionRO;
@@ -46,10 +44,10 @@ public class UserRO extends AbstractEntityRO {
 	private String _fax;
 	private String _email;
 	private String _employeeId;
-	private String _managerLoginId;
 	private PositionRO _position;
 	private EmployeeTypeRO _employeeType;
-	private Set<IncidentRO> _incidents = new HashSet<IncidentRO>(0);	
+	private UserRO _manager;
+	private Set<UserRO> _subordinates = new HashSet<UserRO>(0);
 
 	public long getId() {
 		return _id;
@@ -315,20 +313,6 @@ public class UserRO extends AbstractEntityRO {
 	}
 
 	/**
-	 * @return the managerLoginId
-	 */
-	public String getManagerLoginId() {
-		return _managerLoginId;
-	}
-
-	/**
-	 * @param managerLoginId the managerLoginId to set
-	 */
-	public void setManagerLoginId(final String managerLoginId) {
-		_managerLoginId = managerLoginId;
-	}
-
-	/**
 	 * @return the position
 	 */
 	public PositionRO getPosition() {
@@ -357,16 +341,30 @@ public class UserRO extends AbstractEntityRO {
 	}
 
 	/**
-	 * @return the incidents
+	 * @return the manager
 	 */
-	public Set<IncidentRO> getIncidents() {
-		return _incidents;
+	public UserRO getManager() {
+		return _manager;
 	}
 
 	/**
-	 * @param incidents the incidents to set
+	 * @param manager the manager to set
 	 */
-	public void setIncidents(final Set<IncidentRO> incidents) {
-		_incidents = incidents;
+	public void setManager(final UserRO manager) {
+		_manager = manager;
+	}
+
+	/**
+	 * @return the subordinates
+	 */
+	public Set<UserRO> getSubordinates() {
+		return _subordinates;
+	}
+
+	/**
+	 * @param subordinates the subordinates to set
+	 */
+	public void setSubordinates(final Set<UserRO> subordinates) {
+		_subordinates = subordinates;
 	}	
 }

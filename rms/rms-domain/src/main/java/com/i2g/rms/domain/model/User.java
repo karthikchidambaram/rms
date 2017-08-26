@@ -45,7 +45,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.i2g.rms.domain.model.incident.Incident;
 import com.i2g.rms.domain.model.tablemaintenance.EmployeeType;
 import com.i2g.rms.domain.model.tablemaintenance.GenderType;
 import com.i2g.rms.domain.model.tablemaintenance.Position;
@@ -63,7 +62,7 @@ import com.i2g.rms.domain.model.tablemaintenance.Position;
 @DynamicUpdate
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "userCache")
-@JsonIgnoreProperties({"incidents"})
+@JsonIgnoreProperties({"subordinates"})
 public class User extends AbstractDataModel<Long> implements Serializable, org.springframework.security.core.userdetails.UserDetails {
 
 	/**
@@ -98,9 +97,10 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	private String _fax;
 	private String _email;
 	private String _employeeId;
-	private String _managerLoginId;
 	private Position _position;
-	private EmployeeType _employeeType;	
+	private EmployeeType _employeeType;
+	private User _manager;
+	private Set<User> _subordinates = new HashSet<User>(0);
 		
 	@NotNull
 	@Transient
@@ -120,10 +120,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY, orphanRemoval = true)
 	@Transient
-	private Set<UserAuthority> _authorities;
-	
-	/** Tells if the current user is a suspect to one or many incidents. */ 
-	private Set<Incident> _incidents = new HashSet<Incident>(0);
+	private Set<UserAuthority> _authorities;	
 	
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -131,12 +128,12 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	protected User() {
 	}
 	
-	public User(String loginId) {
+	public User(final String loginId) {
 		_username = loginId;
 		_loginId = loginId;
 	}
 
-	public User(String loginId, Date expires) {
+	public User(final String loginId, final Date expires) {
 		_username = loginId;
 		_loginId = loginId;
 		_expires = expires.getTime();
@@ -194,7 +191,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 		return _loginId;
 	}
 
-	public void setLoginId(String loginId) {
+	public void setLoginId(final String loginId) {
 		_loginId = loginId;
 		_username = loginId;
 	}
@@ -208,7 +205,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	}
 	
 	@JsonProperty
-	public void setPassword(String password) {
+	public void setPassword(final String password) {
 		_password = password;
 	}
 	
@@ -219,7 +216,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 		return _firstName;
 	}
 
-	public void setFirstName(String firstName) {
+	public void setFirstName(final String firstName) {
 		_firstName = firstName;
 	}
 
@@ -229,7 +226,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 		return _lastName;
 	}
 
-	public void setLastName(String lastName) {
+	public void setLastName(final String lastName) {
 		_lastName = lastName;
 	}
 
@@ -239,7 +236,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 		return _middleName;
 	}
 
-	public void setMiddleName(String middleName) {
+	public void setMiddleName(final String middleName) {
 		_middleName = middleName;
 	}
 
@@ -249,7 +246,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 		return _title;
 	}
 
-	public void setTitle(String title) {
+	public void setTitle(final String title) {
 		_title = title;
 	}
 
@@ -259,7 +256,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 		return _nameSuffix;
 	}
 
-	public void setNameSuffix(String nameSuffix) {
+	public void setNameSuffix(final String nameSuffix) {
 		_nameSuffix = nameSuffix;
 	}
 
@@ -270,7 +267,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 		return _statusFlag;
 	}
 
-	public void setStatusFlag(StatusFlag statusFlag) {
+	public void setStatusFlag(final StatusFlag statusFlag) {
 		_statusFlag = statusFlag;
 	}
 
@@ -314,7 +311,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 		return _passwordHistory;
 	}
 
-	public void setPasswordHistory(Set<PasswordHistory> passwordHistory) {
+	public void setPasswordHistory(final Set<PasswordHistory> passwordHistory) {
 		_passwordHistory = passwordHistory;
 	}
 
@@ -389,7 +386,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 		 * @param password
 		 * @return this builder
 		 */
-		public Builder setPassword(String password) {
+		public Builder setPassword(final String password) {
 			_password = password;
 			return this;
 		}
@@ -400,7 +397,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 		 * @param firstName
 		 * @return this builder
 		 */
-		public Builder setFirstName(String firstName) {
+		public Builder setFirstName(final String firstName) {
 			_firstName = firstName;
 			return this;
 		}
@@ -411,7 +408,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 		 * @param statusFlag
 		 * @return this builder
 		 */
-		public Builder setStatusFlag(StatusFlag statusFlag) {
+		public Builder setStatusFlag(final StatusFlag statusFlag) {
 			_statusFlag = statusFlag;
 			return this;
 		}
@@ -453,7 +450,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	}
 	
 	@Transient
-	public void setUsername(String username) {
+	public void setUsername(final String username) {
 		_username = username;
 		_loginId = username;
 	}
@@ -493,7 +490,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 		return !_accountEnabled;
 	}
 	
-	private List<GrantedAuthority> buildUserAuthority(Set<Role> roles) {
+	private List<GrantedAuthority> buildUserAuthority(final Set<Role> roles) {
 		Set<GrantedAuthority> setAuths = new HashSet<GrantedAuthority>();
 
 		// Build user's authorities
@@ -670,22 +667,6 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	}
 
 	/**
-	 * @return the managerLoginId
-	 */
-	@Column(name = "MGR_LGN_ID")
-	@Size(min = 1, max = 64, message = "Manager/Supervisor Login ID must be between {min} and {max} characters")
-	public String getManagerLoginId() {
-		return _managerLoginId;
-	}
-
-	/**
-	 * @param managerLoginId the managerLoginId to set
-	 */
-	public void setManagerLoginId(final String managerLoginId) {
-		_managerLoginId = managerLoginId;
-	}
-
-	/**
 	 * @return the position
 	 */
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -720,17 +701,33 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	}
 
 	/**
-	 * @return the incidents
+	 * @return the manager
 	 */
-	@ManyToMany(mappedBy = "employeeSuspects")
-	public Set<Incident> getIncidents() {
-		return _incidents;
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "MGR_ID")
+	public User getManager() {
+		return _manager;
 	}
 
 	/**
-	 * @param incidents the incidents to set
+	 * @param manager the manager to set
 	 */
-	public void setIncidents(final Set<Incident> incidents) {
-		_incidents = incidents;
+	public void setManager(final User manager) {
+		_manager = manager;
+	}
+	
+	/**
+	 * @return the subordinates
+	 */
+	@OneToMany(mappedBy = "manager", fetch = FetchType.EAGER)
+	public Set<User> getSubordinates() {
+		return _subordinates;
+	}
+
+	/**
+	 * @param subordinates the subordinates to set
+	 */
+	public void setSubordinates(final Set<User> subordinates) {
+		_subordinates = subordinates;
 	}	
 }

@@ -36,7 +36,7 @@ public class UserLookupRO extends AbstractEntityRO {
 	private String alternatePhone;
 	private String email;
 	private String employeeId;
-	private String managerLoginId;
+	private Long managerId;
 	private String employeeTypeCode;
 	private String employeeTypeDescription;
 	private String positionCode;
@@ -260,18 +260,18 @@ public class UserLookupRO extends AbstractEntityRO {
 	}
 
 	/**
-	 * @return the managerLoginId
+	 * @return the managerId
 	 */
-	public String getManagerLoginId() {
-		return managerLoginId;
+	public Long getManagerId() {
+		return managerId;
 	}
 
 	/**
-	 * @param managerLoginId
-	 *            the managerLoginId to set
+	 * @param managerId
+	 *            the managerId to set
 	 */
-	public void setManagerLoginId(final String managerLoginId) {
-		this.managerLoginId = managerLoginId;
+	public void setManagerId(final Long managerId) {
+		this.managerId = managerId;
 	}
 
 	/**

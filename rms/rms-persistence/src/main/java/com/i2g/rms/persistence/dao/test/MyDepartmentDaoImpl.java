@@ -3,10 +3,6 @@ package com.i2g.rms.persistence.dao.test;
 import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -71,18 +67,10 @@ public class MyDepartmentDaoImpl implements MyDepartmentDao {
 	
 	@SuppressWarnings("deprecation")
 	@Override
-	public MyDepartment getMyDeptByDeptNo(final Long deptNo) {
-		
-		/*CriteriaBuilder criteriaBuilder = getSession().getCriteriaBuilder();
-		CriteriaQuery<MyDepartment> criteriaQuery = criteriaBuilder.createQuery(MyDepartment.class);
-		Root<MyDepartment> myDepartments = criteriaQuery.from(MyDepartment.class);
-		criteriaQuery.select(myDepartments);
-		criteriaQuery.where(criteriaBuilder.equal(myDepartments.get("deptNo"), deptNo));*/
-		
+	public MyDepartment getMyDeptByDeptNo(final Long deptNo) {		
 		Criteria criteria = getSession().createCriteria(MyDepartment.class);
 		criteria.add(Restrictions.eq("deptNo", Objects.requireNonNull(deptNo, "Department number cannot be null")));
-		return (MyDepartment) criteria.uniqueResult();
-		
+		return (MyDepartment) criteria.uniqueResult();		
 	}
 
 	// Method to return all departments
@@ -112,15 +100,8 @@ public class MyDepartmentDaoImpl implements MyDepartmentDao {
 		if (myDepartment == null) {
 			throw new IllegalStateException("MyDepartment does not exist.");
 		}
-		// Begin transaction
-		//_hibernateTemplate.getSessionFactory().getCurrentSession().getTransaction().begin();
-		
 		// Perform save or update
 		_hibernateTemplate.saveOrUpdate(myDepartment);
-		//_hibernateTemplate.flush();
-		
-		// Commit transaction
-		//_hibernateTemplate.getSessionFactory().getCurrentSession().getTransaction().commit();
 		return myDepartment;
 	}
 

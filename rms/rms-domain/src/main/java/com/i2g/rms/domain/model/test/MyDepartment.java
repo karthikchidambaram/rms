@@ -81,7 +81,7 @@ public class MyDepartment implements Serializable {
 		_loc = loc;
 	}
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "department")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "department")
 	public Set<MyEmployee> getEmployees() {
 		return _employees;
 	}

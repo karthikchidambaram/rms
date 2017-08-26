@@ -29,5 +29,7 @@ public class RMSBCryptPasswordEncoderTest {
 		System.out.println("BCrypted Password for claimsHandler1: " + rMSBCryptPasswordEncoderTest.getBCryptPassword("claimsHandler1"));
 		System.out.println("BCrypted Password for claimsHandler2: " + rMSBCryptPasswordEncoderTest.getBCryptPassword("claimsHandler2"));
 		System.out.println("BCrypted Password for investigator1: " + rMSBCryptPasswordEncoderTest.getBCryptPassword("investigator1"));
+		System.out.println("BCrypted Password for mgr1: " + rMSBCryptPasswordEncoderTest.getBCryptPassword("mgr1"));
+		System.out.println("BCrypted Password for mgr2: " + rMSBCryptPasswordEncoderTest.getBCryptPassword("mgr2"));
 	}
 }

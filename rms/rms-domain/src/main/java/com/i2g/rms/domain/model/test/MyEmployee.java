@@ -4,8 +4,11 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Cacheable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -21,6 +25,9 @@ import javax.persistence.UniqueConstraint;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Immutable;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "EMP", uniqueConstraints = @UniqueConstraint(columnNames = "EMPNO"))
@@ -37,11 +44,12 @@ public class MyEmployee implements Serializable {
 	private Integer _empNo;
 	private String _eName;
 	private String _job;
-	private Integer _mgr;
 	private Date _hireDate;
 	private Float _sal;
 	private Float _comm;
 	private MyDepartment _department;
+	private MyEmployee _manager;
+	private Set<MyEmployee> _subordinates = new HashSet<MyEmployee>(0);
 
 	public MyEmployee() {
 	}
@@ -71,7 +79,7 @@ public class MyEmployee implements Serializable {
 		return _empNo;
 	}
 
-	public void setEmpNo(Integer empNo) {
+	public void setEmpNo(final Integer empNo) {
 		_empNo = empNo;
 	}
 
@@ -80,7 +88,7 @@ public class MyEmployee implements Serializable {
 		return _eName;
 	}
 
-	public void setEName(String eName) {
+	public void setEName(final String eName) {
 		_eName = eName;
 	}
 
@@ -89,17 +97,8 @@ public class MyEmployee implements Serializable {
 		return _job;
 	}
 
-	public void setJob(String job) {
+	public void setJob(final String job) {
 		_job = job;
-	}
-
-	@Column(name = "MGR")
-	public Integer getMgr() {
-		return _mgr;
-	}
-
-	public void setMgr(Integer mgr) {
-		_mgr = mgr;
 	}
 
 	@Temporal(TemporalType.DATE)
@@ -108,7 +107,7 @@ public class MyEmployee implements Serializable {
 		return _hireDate;
 	}
 
-	public void setHireDate(Date hireDate) {
+	public void setHireDate(final Date hireDate) {
 		_hireDate = hireDate;
 	}
 
@@ -117,7 +116,7 @@ public class MyEmployee implements Serializable {
 		return _sal;
 	}
 
-	public void setSal(Float sal) {
+	public void setSal(final Float sal) {
 		_sal = sal;
 	}
 
@@ -126,17 +125,48 @@ public class MyEmployee implements Serializable {
 		return _comm;
 	}
 
-	public void setComm(Float comm) {
+	public void setComm(final Float comm) {
 		_comm = comm;
 	}
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "DEPTNO")
 	public MyDepartment getDepartment() {
 		return _department;
 	}
 
-	public void setDepartment(MyDepartment department) {
+	public void setDepartment(final MyDepartment department) {
 		_department = department;
 	}
+
+	/**
+	 * @return the manager
+	 */
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "MGR")
+	public MyEmployee getManager() {
+		return _manager;
+	}
+
+	/**
+	 * @param manager the manager to set
+	 */
+	public void setManager(final MyEmployee manager) {
+		_manager = manager;
+	}
+
+	/**
+	 * @return the subordinates
+	 */
+	@OneToMany(mappedBy = "manager", fetch = FetchType.EAGER)
+	public Set<MyEmployee> getSubordinates() {
+		return _subordinates;
+	}
+
+	/**
+	 * @param subordinates the subordinates to set
+	 */
+	public void setSubordinates(final Set<MyEmployee> subordinates) {
+		_subordinates = subordinates;
+	}	
 }

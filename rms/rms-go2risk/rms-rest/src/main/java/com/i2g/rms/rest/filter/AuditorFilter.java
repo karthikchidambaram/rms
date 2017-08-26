@@ -65,19 +65,17 @@ public class AuditorFilter implements Filter {
 							username = user.getUsername();
 						}
 					}
-				} else {
-					if (auth.getPrincipal() instanceof User) {
-						final User user = (User) auth.getPrincipal();
-						if (user != null) {
-							if ((user.getUsername() != null) && !(user.getUsername().isEmpty()) && !(user.getUsername().equalsIgnoreCase("anonymousUser"))) {
-								// Set username in auditing contexts
-								username = user.getUsername();
-							}
+				} else if (auth.getPrincipal() instanceof User) {
+					final User user = (User) auth.getPrincipal();
+					if (user != null) {
+						if ((user.getUsername() != null) && !(user.getUsername().isEmpty()) && !(user.getUsername().equalsIgnoreCase("anonymousUser"))) {
+							// Set username in auditing contexts
+							username = user.getUsername();
 						}
 					}
 				}
-			}			
-		}
+			}
+		}		
 		
 		Auditor.setName(username);
 		_logger.info("Auditor name has been set to: " + Auditor.getName());

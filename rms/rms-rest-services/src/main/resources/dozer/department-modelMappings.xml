@@ -21,6 +21,10 @@
 			<a>department</a>
 			<b>department</b>
 		</field-exclude>
+		<field-exclude>
+			<a>subordinates</a>
+			<b>subordinates</b>
+		</field-exclude>
 	</mapping>
 
 </mappings>

@@ -47,7 +47,7 @@ public class UserLookup extends AbstractDataModel<Long> implements Serializable 
 	private String alternatePhone;
 	private String email;
 	private String employeeId;
-	private String managerLoginId;
+	private Long managerId;
 	private String employeeTypeCode;
 	private String employeeTypeDescription;
 	private String positionCode;
@@ -206,19 +206,23 @@ public class UserLookup extends AbstractDataModel<Long> implements Serializable 
 	}
 
 	/**
-	 * @return the managerLoginId
+	 * @return the managerId
 	 */
-	@Column(name = "MGR_LGN_ID")
-	public String getManagerLoginId() {
-		return managerLoginId;
+	@Column(name = "MGR_ID")
+	public Long getManagerId() {
+		return managerId;
 	}
 
 	/**
-	 * @param managerLoginId
-	 *            the managerLoginId to set
+	 * @param managerId
+	 *            the managerId to set
 	 */
-	public void setManagerLoginId(String managerLoginId) {
-		this.managerLoginId = managerLoginId;
+	public void setManagerId(Long managerId) {
+		if (managerId != null) {
+			this.managerId = managerId;
+		} else {
+			this.managerId = 0l;
+		}
 	}
 
 	/**

@@ -57,7 +57,7 @@ public interface RequestMappingConstants {
 	String TEST_HIBERNATE_SECOND_LEVEL_CACHE 	= TEST + "/second-level-cache";
 	String TEST_CREATE_DEPARTMENT 				= TEST + "/department/create-department";
 	String TEST_UPDATE_DEPARTMENT 				= TEST + "/department/update-department";
-	String TEST_DELETE_DEPARTMENT 				= TEST + "/department/delete-department/{deptNo}";
+	String TEST_DELETE_DEPARTMENT 				= TEST + "/department/delete-department/{deptNo}";	
 	
 	String TEST_AUTHENTICATION 					= TEST_SECURED + "/test-authentication";
 	String TEST_CREATE_MY_DEPARTMENT 			= TEST_SECURED + "/my-department/create-my-department";
@@ -333,4 +333,5 @@ public interface RequestMappingConstants {
 	/** Lookups */
 	String USER_LOOKUP 							= SECURED + "/user-lookup";
 	String SUSPECT_LOOKUP 						= SECURED + "/suspect-lookup";
+	String MANAGER_LOOKUP 						= SECURED + "/manager-lookup";
 }

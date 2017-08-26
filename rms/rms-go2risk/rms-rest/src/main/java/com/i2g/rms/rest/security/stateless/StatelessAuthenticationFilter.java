@@ -37,8 +37,8 @@ public class StatelessAuthenticationFilter extends GenericFilterBean {
 			// Authorize (allow) all domains to consume the content
 			((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Origin", "*");
 			((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Methods", "API, UPDATE, GET, OPTIONS, HEAD, PUT, POST, DELETE, PATCH");
-			((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Headers", "Authorization, Accept, Origin, X-AUTH-TOKEN, X-Requested-With, Content-Type, X-Codingpedia, location, info");
-			((HttpServletResponse) servletResponse).addHeader("Access-Control-Expose-Headers", "Authorization, Accept, Origin, X-AUTH-TOKEN, X-Requested-With, Content-Type, X-Codingpedia, location, info");
+			((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Headers", "Authorization, Search, Accept, Origin, X-AUTH-TOKEN, X-Requested-With, Content-Type, X-Codingpedia, location, info");
+			((HttpServletResponse) servletResponse).addHeader("Access-Control-Expose-Headers", "Authorization, Search, Accept, Origin, X-AUTH-TOKEN, X-Requested-With, Content-Type, X-Codingpedia, location, info");
 			((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Credentials", "true");
 			((HttpServletResponse) servletResponse).addHeader("Access-Control-Max-Age", RMSSecurityProperties.TEN_DAYS_IN_SECONDS);
 		}

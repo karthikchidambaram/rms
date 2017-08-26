@@ -15,7 +15,7 @@
 		<field-exclude>
 			<a>password</a>
 			<b>password</b>
-		</field-exclude>
+		</field-exclude>		
 	</mapping>
 
 	<mapping>
@@ -45,13 +45,18 @@
 		<class-a>com.i2g.rms.domain.model.User</class-a>
 		<class-b>com.i2g.rms.rest.model.UserRO</class-b>
 		<field-exclude>
-			<a>incidents</a>
-			<b>incidents</b>
-		</field-exclude>
-		<field-exclude>
 			<a>password</a>
 			<b>password</b>
 		</field-exclude>		
+		<field-exclude>
+			<a>subordinates</a>
+			<b>subordinates</b>
+		</field-exclude>
+	</mapping>
+	
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.Manager</class-a>
+		<class-b>com.i2g.rms.rest.model.ManagerRO</class-b>
 	</mapping>
 	
 	<mapping>

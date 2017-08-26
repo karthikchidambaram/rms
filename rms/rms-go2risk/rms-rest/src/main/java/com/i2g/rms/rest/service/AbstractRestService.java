@@ -13,7 +13,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.i2g.rms.domain.model.User;
+import com.i2g.rms.rest.constants.RequestConstants;
 import com.i2g.rms.rest.mapping.MapperService;
+import com.i2g.rms.rest.security.stateless.UserAuthentication;
 import com.i2g.rms.service.exception.ResourceNotFoundException;
 import com.i2g.rms.service.exception.ResourceNotValidException;
 import com.i2g.rms.service.message.MessageBuilder;
@@ -52,14 +54,41 @@ public abstract class AbstractRestService {
 	}
 	
 	protected String getUsernameFromContext() {
+		String username = RequestConstants.ANONYMOUS_USER;
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		final User user = (auth.getDetails() == null) ? (User) auth.getPrincipal() : (User) auth.getDetails();
-		return user.getUsername();	
+		
+		if (auth != null) {
+			if (auth instanceof UserAuthentication) {					
+				final User user = (User) auth.getDetails();
+				if (user != null) {
+					if ((user.getUsername() != null) && !(user.getUsername().isEmpty()) && !(user.getUsername().equalsIgnoreCase("anonymousUser"))) {
+						// Set username in auditing contexts
+						username = user.getUsername();
+					}
+				}
+			} else if (auth.getPrincipal() instanceof User) {
+				final User user = (User) auth.getPrincipal();
+				if (user != null) {
+					if ((user.getUsername() != null) && !(user.getUsername().isEmpty()) && !(user.getUsername().equalsIgnoreCase("anonymousUser"))) {
+						// Set username in auditing contexts
+						username = user.getUsername();
+					}
+				}
+			}
+		}
+		return username;	
 	}
 	
 	protected User getUserFromContext() {
+		User user = null;
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		final User user = (auth.getDetails() == null) ? (User) auth.getPrincipal() : (User) auth.getDetails();
+		if (auth != null) {
+			if (auth instanceof UserAuthentication) {					
+				user = (User) auth.getDetails();				
+			} else if (auth.getPrincipal() instanceof User) {
+				user = (User) auth.getPrincipal();				
+			}
+		}
 		return user;	
 	}
 
