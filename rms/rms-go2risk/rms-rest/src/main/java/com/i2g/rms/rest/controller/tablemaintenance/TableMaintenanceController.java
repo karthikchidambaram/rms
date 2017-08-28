@@ -134,6 +134,11 @@ public class TableMaintenanceController extends AbstractRestController {
 	public AccidentLocationDetailRO getAccidentLocationDetailByCode(@PathVariable final String code) {
 		return _tableMaintenanceRestService.getAccidentLocationDetailByCode(code);
 	}
+	
+	@RequestMapping(value = RequestMappingConstants.GET_ACCIDENT_LOCATION_DETAILS_FOR_PARENT_CODE, method = RequestMethod.GET)
+	public List<AccidentLocationDetailRO> getAccidentLocationDetailsForParent(@PathVariable final String code) {
+		return _tableMaintenanceRestService.getAccidentLocationDetailsForParent(code);
+	}
 
 	@RequestMapping(value = RequestMappingConstants.CREATE_ACCIDENT_LOCATION_DETAIL, method = RequestMethod.POST)
 	public AccidentLocationDetailRO createAccidentLocationDetail(final @Valid @RequestBody AccidentLocationDetailRO accidentLocationDetailsRO) {
@@ -457,6 +462,11 @@ public class TableMaintenanceController extends AbstractRestController {
 	@RequestMapping(value = RequestMappingConstants.GET_INCIDENT_LOCATION_DETAIL_BY_CODE, method = RequestMethod.GET)
 	public IncidentLocationDetailRO getIncidentLocationDetailByCode(@PathVariable final String code) {
 		return _tableMaintenanceRestService.getIncidentLocationDetailByCode(code);
+	}
+	
+	@RequestMapping(value = RequestMappingConstants.GET_INCIDENT_LOCATION_DETAILS_FOR_PARENT_CODE, method = RequestMethod.GET)
+	public List<IncidentLocationDetailRO> getIncidentLocationDetailsForParent(@PathVariable final String code) {
+		return _tableMaintenanceRestService.getIncidentLocationDetailsForParent(code);
 	}
 
 	@RequestMapping(value = RequestMappingConstants.CREATE_INCIDENT_LOCATION_DETAIL, method = RequestMethod.POST)

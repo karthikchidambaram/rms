@@ -63,6 +63,7 @@ public interface TableMaintenanceService {
 	
 	/** Methods related to Accident Location Detail */
 	public List<AccidentLocationDetail> getAccidentLocationDetails();
+	public List<AccidentLocationDetail> getAccidentLocationDetailsForParent(final AccidentLocation accidentLocation);
 	public AccidentLocationDetail getAccidentLocationDetailByCode(final String code);
 	public AccidentLocationDetail createAccidentLocationDetail(final String code, final String description, final AccidentLocation accidentLocation);
 	public AccidentLocationDetail updateAccidentLocationDetail(final String code, final String description);
@@ -148,6 +149,7 @@ public interface TableMaintenanceService {
 	/** Methods related to Incident Location Detail */
 	public List<IncidentLocationDetail> getIncidentLocationDetails();
 	public IncidentLocationDetail getIncidentLocationDetailByCode(final String code);
+	public List<IncidentLocationDetail> getIncidentLocationDetailsForParent(final IncidentLocation incidentLocation);
 	public IncidentLocationDetail createIncidentLocationDetail(final String code, final String description, final IncidentLocation incidentLocation);
 	public IncidentLocationDetail updateIncidentLocationDetail(final String code, final String description);
 	public void deleteIncidentLocationDetail(final String code);

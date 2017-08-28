@@ -83,11 +83,12 @@ public interface RequestMappingConstants {
 	String DELETE_ACCIDENT_LOCATION 		= TABLE_MAINTENANCE + "/accident-location/delete-accident-location/{code}";
 	
 	/** Accident Location Detail Request Mappings */
-	String GET_ACCIDENT_LOCATION_DETAILS			= TABLE_MAINTENANCE + "/accident-location-detail/accident-location-details";
-	String GET_ACCIDENT_LOCATION_DETAIL_BY_CODE 	= TABLE_MAINTENANCE + "/accident-location-detail/{code}";
-	String CREATE_ACCIDENT_LOCATION_DETAIL 			= TABLE_MAINTENANCE + "/accident-location-detail/create-accident-location-detail";
-	String UPDATE_ACCIDENT_LOCATION_DETAIL 			= TABLE_MAINTENANCE + "/accident-location-detail/update-accident-location-detail";
-	String DELETE_ACCIDENT_LOCATION_DETAIL 			= TABLE_MAINTENANCE + "/accident-location-detail/delete-accident-location-detail/{code}";
+	String GET_ACCIDENT_LOCATION_DETAILS					= TABLE_MAINTENANCE + "/accident-location-detail/accident-location-details";
+	String GET_ACCIDENT_LOCATION_DETAIL_BY_CODE 			= TABLE_MAINTENANCE + "/accident-location-detail/{code}";
+	String GET_ACCIDENT_LOCATION_DETAILS_FOR_PARENT_CODE	= TABLE_MAINTENANCE + "/accident-location-detail/accident-location/{code}";
+	String CREATE_ACCIDENT_LOCATION_DETAIL 					= TABLE_MAINTENANCE + "/accident-location-detail/create-accident-location-detail";
+	String UPDATE_ACCIDENT_LOCATION_DETAIL 					= TABLE_MAINTENANCE + "/accident-location-detail/update-accident-location-detail";
+	String DELETE_ACCIDENT_LOCATION_DETAIL 					= TABLE_MAINTENANCE + "/accident-location-detail/delete-accident-location-detail/{code}";
 	
 	/** Asset Category Request Mappings */
 	String GET_ASSET_CATEGORIES			= TABLE_MAINTENANCE + "/asset-category/asset-categories";
@@ -167,11 +168,12 @@ public interface RequestMappingConstants {
 	String DELETE_INCIDENT_LOCATION 		= TABLE_MAINTENANCE + "/incident-location/delete-incident-location/{code}";
 	
 	/** Incident Location Detail Request Mappings */
-	String GET_INCIDENT_LOCATION_DETAILS			= TABLE_MAINTENANCE + "/incident-location-detail/incident-location-details";
-	String GET_INCIDENT_LOCATION_DETAIL_BY_CODE 	= TABLE_MAINTENANCE + "/incident-location-detail/{code}";
-	String CREATE_INCIDENT_LOCATION_DETAIL 			= TABLE_MAINTENANCE + "/incident-location-detail/create-incident-location-detail";
-	String UPDATE_INCIDENT_LOCATION_DETAIL 			= TABLE_MAINTENANCE + "/incident-location-detail/update-incident-location-detail";
-	String DELETE_INCIDENT_LOCATION_DETAIL 			= TABLE_MAINTENANCE + "/incident-location-detail/delete-incident-location-detail/{code}";
+	String GET_INCIDENT_LOCATION_DETAILS					= TABLE_MAINTENANCE + "/incident-location-detail/incident-location-details";
+	String GET_INCIDENT_LOCATION_DETAIL_BY_CODE 			= TABLE_MAINTENANCE + "/incident-location-detail/{code}";
+	String GET_INCIDENT_LOCATION_DETAILS_FOR_PARENT_CODE 	= TABLE_MAINTENANCE + "/incident-location-detail/incident-location/{code}";
+	String CREATE_INCIDENT_LOCATION_DETAIL 					= TABLE_MAINTENANCE + "/incident-location-detail/create-incident-location-detail";
+	String UPDATE_INCIDENT_LOCATION_DETAIL 					= TABLE_MAINTENANCE + "/incident-location-detail/update-incident-location-detail";
+	String DELETE_INCIDENT_LOCATION_DETAIL 					= TABLE_MAINTENANCE + "/incident-location-detail/delete-incident-location-detail/{code}";
 	
 	/** Incident Type Request Mappings */
 	String GET_INCIDENT_TYPES			= TABLE_MAINTENANCE + "/incident-type/incident-types";

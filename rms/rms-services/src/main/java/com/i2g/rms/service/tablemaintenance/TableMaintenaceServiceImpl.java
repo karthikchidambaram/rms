@@ -237,6 +237,11 @@ public class TableMaintenaceServiceImpl extends AbstractService implements Table
 	public AccidentLocationDetail getAccidentLocationDetailByCode(final String code) {
 		return _accidentLocationDetailDao.getByCode(code);
 	}
+	
+	@Override
+	public List<AccidentLocationDetail> getAccidentLocationDetailsForParent(final AccidentLocation accidentLocation) {
+		return _accidentLocationDetailDao.get(accidentLocation);
+	}
 
 	@Override
 	public AccidentLocationDetail createAccidentLocationDetail(final String code, final String description, final AccidentLocation accidentLocation) {
@@ -576,6 +581,11 @@ public class TableMaintenaceServiceImpl extends AbstractService implements Table
 	@Override
 	public IncidentLocationDetail getIncidentLocationDetailByCode(final String code) {
 		return _incidentLocationDetailDao.getByCode(code);
+	}
+	
+	@Override
+	public List<IncidentLocationDetail> getIncidentLocationDetailsForParent(final IncidentLocation incidentLocation) {
+		return _incidentLocationDetailDao.get(incidentLocation);
 	}
 
 	@Override
@@ -1224,5 +1234,5 @@ public class TableMaintenaceServiceImpl extends AbstractService implements Table
 	@Transactional
 	public void deletePosition(final String code) {
 		_positionDao.delete(code);		
-	}
+	}		
 }

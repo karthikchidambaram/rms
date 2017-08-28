@@ -15,6 +15,8 @@ import com.i2g.rms.domain.model.tablemaintenance.AccidentLocationDetail;
 public interface AccidentLocationDetailDao {
 	
 	public List<AccidentLocationDetail> get();
+	
+	public List<AccidentLocationDetail> get(final AccidentLocation accidentLocation);
 
 	public AccidentLocationDetail getByCode(final String code);
 

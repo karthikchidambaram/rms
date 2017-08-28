@@ -23,7 +23,8 @@ import com.i2g.rms.persistence.hibernate.AbstractHibernateDao;
  *
  */
 @Repository
-public class AccidentLocationDetailDaoImpl extends AbstractHibernateDao<String, AccidentLocationDetail> implements AccidentLocationDetailDao {
+public class AccidentLocationDetailDaoImpl extends AbstractHibernateDao<String, AccidentLocationDetail>
+		implements AccidentLocationDetailDao {
 
 	private final Logger _logger = LoggerFactory.getLogger(AccidentLocationDetailDaoImpl.class);
 
@@ -83,11 +84,12 @@ public class AccidentLocationDetailDaoImpl extends AbstractHibernateDao<String, 
 	 * @return a table maintenance object.
 	 */
 	@Override
-	public AccidentLocationDetail create(final String code, final String description, final AccidentLocation accidentLocation) {
+	public AccidentLocationDetail create(final String code, final String description,
+			final AccidentLocation accidentLocation) {
 		// Validate input parameter(s) if any..
 		validateCode(code);
 		validateDescription(description);
-		//validate parent object
+		// validate parent object
 		validateObject(accidentLocation);
 		// Create the new object (record)
 		AccidentLocationDetail object = new AccidentLocationDetail(code, description, accidentLocation);
@@ -117,7 +119,7 @@ public class AccidentLocationDetailDaoImpl extends AbstractHibernateDao<String, 
 		AccidentLocationDetail object = getByCode(code);
 		validateObject(object);
 		// Set the new value(s).
-		object.setDescription(description);		
+		object.setDescription(description);
 		// Issue update
 		update(object);
 		return object;
@@ -137,5 +139,17 @@ public class AccidentLocationDetailDaoImpl extends AbstractHibernateDao<String, 
 		validateObject(object);
 		// Issue delete
 		super.delete(object);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<AccidentLocationDetail> get(final AccidentLocation accidentLocation) {
+		// Check if the object is valid and not null or empty
+		validateObject(accidentLocation);
+		return (List<AccidentLocationDetail>) applySearch(
+				getSession().createCriteria(_modelType)
+						.add(Restrictions.eq("accidentLocation",
+								Objects.requireNonNull(accidentLocation, "Accident location object cannot be null."))))
+										.list();
 	}
 }

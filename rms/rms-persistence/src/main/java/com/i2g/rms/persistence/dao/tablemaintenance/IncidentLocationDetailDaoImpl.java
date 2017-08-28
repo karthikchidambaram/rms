@@ -23,7 +23,8 @@ import com.i2g.rms.persistence.hibernate.AbstractHibernateDao;
  *
  */
 @Repository
-public class IncidentLocationDetailDaoImpl extends AbstractHibernateDao<String, IncidentLocationDetail> implements IncidentLocationDetailDao {
+public class IncidentLocationDetailDaoImpl extends AbstractHibernateDao<String, IncidentLocationDetail>
+		implements IncidentLocationDetailDao {
 
 	private final Logger _logger = LoggerFactory.getLogger(IncidentLocationDetailDaoImpl.class);
 
@@ -83,7 +84,8 @@ public class IncidentLocationDetailDaoImpl extends AbstractHibernateDao<String, 
 	 * @return a table maintenance object.
 	 */
 	@Override
-	public IncidentLocationDetail create(final String code, final String description, final IncidentLocation incidentLocation) {
+	public IncidentLocationDetail create(final String code, final String description,
+			final IncidentLocation incidentLocation) {
 		// Validate input parameter(s) if any..
 		validateCode(code);
 		validateDescription(description);
@@ -116,7 +118,7 @@ public class IncidentLocationDetailDaoImpl extends AbstractHibernateDao<String, 
 		IncidentLocationDetail object = getByCode(code);
 		validateObject(object);
 		// Set the new value(s).
-		object.setDescription(description);		
+		object.setDescription(description);
 		// Issue update
 		update(object);
 		return object;
@@ -136,5 +138,16 @@ public class IncidentLocationDetailDaoImpl extends AbstractHibernateDao<String, 
 		validateObject(object);
 		// Issue delete
 		super.delete(object);
+	}
+
+	@Override
+	public List<IncidentLocationDetail> get(final IncidentLocation incidentLocation) {
+		// Check if the object is valid and not null or empty
+		validateObject(incidentLocation);
+		return (List<IncidentLocationDetail>) applySearch(
+				getSession().createCriteria(_modelType)
+						.add(Restrictions.eq("incidentLocation",
+								Objects.requireNonNull(incidentLocation, "Incident location object cannot be null."))))
+										.list();
 	}
 }

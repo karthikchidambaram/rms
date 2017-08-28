@@ -65,6 +65,7 @@ public interface TableMaintenanceRestService {
 	/** Methods related to Accident Location Detail */
 	public List<AccidentLocationDetailRO> getAccidentLocationDetails();
 	public AccidentLocationDetailRO getAccidentLocationDetailByCode(final String code);
+	public List<AccidentLocationDetailRO> getAccidentLocationDetailsForParent(final String code);
 	public AccidentLocationDetailRO createAccidentLocationDetail(final AccidentLocationDetailRO accidentLocationDetailsRO);
 	public AccidentLocationDetailRO updateAccidentLocationDetail(final AccidentLocationDetailRO accidentLocationDetailsRO);
 	public void deleteAccidentLocationDetail(final String code);
@@ -149,6 +150,7 @@ public interface TableMaintenanceRestService {
 	/** Methods related to Incident Location Detail */
 	public List<IncidentLocationDetailRO> getIncidentLocationDetails();
 	public IncidentLocationDetailRO getIncidentLocationDetailByCode(final String code);
+	public List<IncidentLocationDetailRO> getIncidentLocationDetailsForParent(final String code);
 	public IncidentLocationDetailRO createIncidentLocationDetail(final IncidentLocationDetailRO incidentLocationDetailsRO);
 	public IncidentLocationDetailRO updateIncidentLocationDetail(final IncidentLocationDetailRO incidentLocationDetailsRO);
 	public void deleteIncidentLocationDetail(final String code);

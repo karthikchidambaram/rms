@@ -250,6 +250,18 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 	public List<AccidentLocationDetailRO> getAccidentLocationDetails() {
 		return _mapperService.map(_tableMaintenanceService.getAccidentLocationDetails(), AccidentLocationDetailRO.class);
 	}
+	
+	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional
+	public List<AccidentLocationDetailRO> getAccidentLocationDetailsForParent(final String code) {
+		//Validate code
+		validateCode(code);
+		AccidentLocation accidentLocation = _tableMaintenanceService.getAccidentLocationByCode(code);
+		//Validate object
+		validateObject(accidentLocation);
+		return _mapperService.map(_tableMaintenanceService.getAccidentLocationDetailsForParent(accidentLocation), AccidentLocationDetailRO.class);		
+	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
@@ -258,7 +270,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 		validateCode(code);
 		return _mapperService.map(_tableMaintenanceService.getAccidentLocationDetailByCode(code), AccidentLocationDetailRO.class);
 	}
-
+	
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@Transactional
@@ -769,6 +781,18 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 	public IncidentLocationDetailRO getIncidentLocationDetailByCode(final String code) {
 		validateCode(code);
 		return _mapperService.map(_tableMaintenanceService.getIncidentLocationDetailByCode(code), IncidentLocationDetailRO.class);
+	}
+	
+	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional
+	public List<IncidentLocationDetailRO> getIncidentLocationDetailsForParent(String code) {
+		//Validate code
+		validateCode(code);
+		IncidentLocation incidentLocation = _tableMaintenanceService.getIncidentLocationByCode(code);
+		//Validate object
+		validateObject(incidentLocation);
+		return _mapperService.map(_tableMaintenanceService.getIncidentLocationDetailsForParent(incidentLocation), IncidentLocationDetailRO.class);
 	}
 
 	@Override
@@ -1686,5 +1710,5 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 		// Validate input parameter(s) if any
 		validateCode(code);
 		_tableMaintenanceService.deletePositionLevel(code);
-	}
+	}		
 }
