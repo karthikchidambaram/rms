@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.i2g.rms.rest.model.AbstractEntityRO;
 
 /**
@@ -14,7 +13,6 @@ import com.i2g.rms.rest.model.AbstractEntityRO;
  * @author Karthikeyan Chidambaram
  * @author RMS Development Team
  */
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DistinguishingFeatureRO extends AbstractEntityRO {
 

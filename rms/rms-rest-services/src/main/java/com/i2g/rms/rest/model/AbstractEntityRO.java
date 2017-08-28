@@ -12,7 +12,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  * @author Karthikeyan Chidambaram
  *
  */
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class AbstractEntityRO {
 	

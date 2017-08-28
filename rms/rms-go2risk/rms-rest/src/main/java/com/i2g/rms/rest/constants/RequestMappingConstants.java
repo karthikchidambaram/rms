@@ -328,7 +328,7 @@ public interface RequestMappingConstants {
 	String LOG_INCIDENT 						= INCIDENT + "/log-incident";
 	
 	/** Search Incidents */
-	String SEARCH_INCIDENT						= SECURED + "/search-incident";
+	String SEARCH_INCIDENT							= SECURED + "/search-incident";	
 	
 	/** Lookups */
 	String USER_LOOKUP 							= SECURED + "/user-lookup";

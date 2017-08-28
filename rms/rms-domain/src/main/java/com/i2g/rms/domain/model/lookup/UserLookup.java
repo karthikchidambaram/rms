@@ -48,6 +48,7 @@ public class UserLookup extends AbstractDataModel<Long> implements Serializable 
 	private String email;
 	private String employeeId;
 	private Long managerId;
+	private String managerName;
 	private String employeeTypeCode;
 	private String employeeTypeDescription;
 	private String positionCode;
@@ -545,5 +546,20 @@ public class UserLookup extends AbstractDataModel<Long> implements Serializable 
 	public void setDateOfLeaving(final LocalDate dateOfLeaving) {
 		this.dateOfLeaving = dateOfLeaving;
 	}
+
+	/**
+	 * @return the managerName
+	 */
+	@Column(name = "MGR_NAME")
+	public String getManagerName() {
+		return managerName;
+	}
+
+	/**
+	 * @param managerName the managerName to set
+	 */
+	public void setManagerName(final String managerName) {
+		this.managerName = managerName;
+	}	
 
 }

@@ -47,7 +47,7 @@ public class SearchRO {
 	 * @return sorting requests
 	 */
 	public List<SortRO> getSorts() {
-		return sorts != null ? sorts : Collections.EMPTY_LIST;
+		return sorts != null ? sorts : Collections.emptyList();
 	}
 	
 	/**
@@ -65,7 +65,7 @@ public class SearchRO {
 	 * @return filtering requests
 	 */
 	public List<FilterRO> getFilters() {
-		return filters != null ? filters : Collections.EMPTY_LIST;
+		return filters != null ? filters : Collections.emptyList();
 	}
 	
 	/**

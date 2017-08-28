@@ -3,7 +3,6 @@ package com.i2g.rms.rest.model.incident;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.i2g.rms.rest.model.AbstractEntityRO;
 import com.i2g.rms.rest.model.StatusFlagRO;
 
@@ -14,7 +13,6 @@ import com.i2g.rms.rest.model.StatusFlagRO;
  * @author Karthikeyan Chidambaram
  *
  */
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SearchIncidentRO extends AbstractEntityRO {
 

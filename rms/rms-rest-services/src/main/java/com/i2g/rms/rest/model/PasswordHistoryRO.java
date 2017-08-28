@@ -1,7 +1,6 @@
 package com.i2g.rms.rest.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
  * REST Object for returning password history details to the REST client.
@@ -10,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  * @author Karthikeyan Chidambaram
  * @author RMS Development Team
  */
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PasswordHistoryRO extends AbstractEntityRO {
 

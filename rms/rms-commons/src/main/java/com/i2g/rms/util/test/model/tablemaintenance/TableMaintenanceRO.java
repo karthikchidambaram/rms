@@ -3,7 +3,6 @@ package com.i2g.rms.util.test.model.tablemaintenance;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
  * REST Object for returning TableMaintenanceRO to the REST client.
@@ -12,7 +11,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  * @author Karthikeyan Chidambaram
  * @author RMS Development Team
  */
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TableMaintenanceRO {
 	

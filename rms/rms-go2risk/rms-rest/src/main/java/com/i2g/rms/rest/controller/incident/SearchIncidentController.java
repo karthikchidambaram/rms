@@ -32,4 +32,5 @@ public class SearchIncidentController extends AbstractRestController {
 	public List<SearchIncidentRO> get() {
 		return _searchIncidentRestService.get();
 	}
+	
 }

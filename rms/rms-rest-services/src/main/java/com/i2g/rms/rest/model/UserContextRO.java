@@ -2,8 +2,10 @@ package com.i2g.rms.rest.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UserContextRO {
 
 	private String _userId;

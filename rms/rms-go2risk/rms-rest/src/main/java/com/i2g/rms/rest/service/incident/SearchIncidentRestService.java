@@ -13,6 +13,6 @@ import com.i2g.rms.rest.model.incident.SearchIncidentRO;
  */
 public interface SearchIncidentRestService {
 
-	public List<SearchIncidentRO> get();
+	public List<SearchIncidentRO> get();	
 
 }

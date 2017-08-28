@@ -5,20 +5,18 @@ package com.i2g.rms.rest.model.search;
  * @author Karthikeyan Chidambaram
  */
 public class FilterRO {
-
+	
+	/**
+	 * Enum constants for the available operators to apply in a filter.
+	 */
 	public enum Operator {
-		EQ,
-		NEQ,
-		STARTSWITH,
-		ENDSWITH,
-		CONTAINS,
-		DOESNOTCONTAIN
+		EQ, NEQ, STARTS_WITH, ENDS_WITH, CONTAINS, NOT_CONTAINS, GT, LT
 	}
 
 	private String field;
 	private Operator operator;
 	private String value;
-
+	
 	public String getField() {
 		return field;
 	}
@@ -42,5 +40,4 @@ public class FilterRO {
 	public void setValue(String value) {
 		this.value = value;
 	}
-
 }

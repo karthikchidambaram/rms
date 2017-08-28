@@ -3,7 +3,6 @@ package com.i2g.rms.rest.model.lookup;
 import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.i2g.rms.rest.model.AbstractEntityRO;
 
 /**
@@ -13,7 +12,6 @@ import com.i2g.rms.rest.model.AbstractEntityRO;
  * @author Karthikeyan Chidambaram
  *
  */
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SuspectLookupRO extends AbstractEntityRO {
 

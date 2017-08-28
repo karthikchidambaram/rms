@@ -3,7 +3,6 @@ package com.i2g.rms.rest.model.lookup;
 import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.i2g.rms.rest.model.AbstractEntityRO;
 import com.i2g.rms.rest.model.StatusFlagRO;
 
@@ -14,7 +13,6 @@ import com.i2g.rms.rest.model.StatusFlagRO;
  * @author Karthikeyan Chidambaram
  *
  */
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserLookupRO extends AbstractEntityRO {
 
@@ -37,6 +35,7 @@ public class UserLookupRO extends AbstractEntityRO {
 	private String email;
 	private String employeeId;
 	private Long managerId;
+	private String managerName;
 	private String employeeTypeCode;
 	private String employeeTypeDescription;
 	private String positionCode;
@@ -499,4 +498,18 @@ public class UserLookupRO extends AbstractEntityRO {
 		this.dateOfLeaving = dateOfLeaving;
 	}
 
+	/**
+	 * @return the managerName
+	 */
+	public String getManagerName() {
+		return managerName;
+	}
+
+	/**
+	 * @param managerName the managerName to set
+	 */
+	public void setManagerName(final String managerName) {
+		this.managerName = managerName;
+	}
+	
 }

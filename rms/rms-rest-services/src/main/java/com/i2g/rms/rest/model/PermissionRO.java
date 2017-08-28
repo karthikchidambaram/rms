@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
  * REST Object for returning permissions associated to a role to the REST
@@ -14,7 +13,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  * @author Karthikeyan Chidambaram
  * @author RMS Development Team
  */
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PermissionRO extends AbstractEntityRO {
 

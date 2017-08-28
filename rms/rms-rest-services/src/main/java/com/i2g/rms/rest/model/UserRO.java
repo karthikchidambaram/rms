@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.i2g.rms.rest.model.tablemaintenance.EmployeeTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.GenderTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.PositionRO;
@@ -17,7 +16,6 @@ import com.i2g.rms.rest.model.tablemaintenance.PositionRO;
  * @author Karthikeyan Chidambaram
  * @author RMS Development Team
  */
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserRO extends AbstractEntityRO {
 
