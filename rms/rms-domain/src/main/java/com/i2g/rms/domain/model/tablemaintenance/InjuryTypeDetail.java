@@ -148,7 +148,6 @@ public class InjuryTypeDetail extends AbstractDataModel<String> implements Seria
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "REF_CDE")
-	@Size(min = 1, max = 16, message = "Injury type code must be between {min} and {max} characters")
 	public InjuryType getInjuryType() {
 		return _injuryType;
 	}

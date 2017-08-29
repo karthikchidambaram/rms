@@ -106,6 +106,7 @@ public interface TableMaintenanceService {
 	
 	/** Methods related to Distinguishing Feature Detail */
 	public List<DistinguishingFeatureDetail> getDistinguishingFeatureDetails();
+	public List<DistinguishingFeatureDetail> getDistinguishingFeatureDetailsForParent(final DistinguishingFeature distinguishingFeature);
 	public DistinguishingFeatureDetail getDistinguishingFeatureDetailByCode(final String code);
 	public DistinguishingFeatureDetail createDistinguishingFeatureDetail(final String code, final String description, final DistinguishingFeature distinguishingFeature);
 	public DistinguishingFeatureDetail updateDistinguishingFeatureDetail(final String code, final String description);
@@ -177,6 +178,7 @@ public interface TableMaintenanceService {
 	
 	/** Methods related to Injury Type Detail */
 	public List<InjuryTypeDetail> getInjuryTypeDetails();
+	public List<InjuryTypeDetail> getInjuryTypeDetailsForParent(final InjuryType injuryType);
 	public InjuryTypeDetail getInjuryTypeDetailByCode(final String code);
 	public InjuryTypeDetail createInjuryTypeDetail(final String code, final String description, final InjuryType injuryType);
 	public InjuryTypeDetail updateInjuryTypeDetail(final String code, final String description);
@@ -184,6 +186,7 @@ public interface TableMaintenanceService {
 	
 	/** Methods related to Injury Type Detail Spec */
 	public List<InjuryTypeDetailSpec> getInjuryTypeDetailSpecs();
+	public List<InjuryTypeDetailSpec> getInjuryTypeDetailSpecsForParent(final InjuryTypeDetail injuryTypeDetail);
 	public InjuryTypeDetailSpec getInjuryTypeDetailSpecByCode(final String code);
 	public InjuryTypeDetailSpec createInjuryTypeDetailSpec(final String code, final String description, final InjuryTypeDetail injuryTypeDetail);
 	public InjuryTypeDetailSpec updateInjuryTypeDetailSpec(final String code, final String description);
@@ -282,6 +285,7 @@ public interface TableMaintenanceService {
 	
 	/** Methods related to Department */
 	public List<Department> getDepartments();
+	public List<Department> getDepartmentsForOrganization(final Organization organization);
 	public Department getDepartmentByCode(final String code);
 	public Department createDepartment(final String code, final String description, final Organization organization);
 	public Department updateDepartment(final String code, final String description);
@@ -296,6 +300,9 @@ public interface TableMaintenanceService {
 	
 	/** Methods related to Position */
 	public List<Position> getPositions();
+	public List<Position> getPositionsForOrganization(final Organization organization);
+	public List<Position> getPositionsForDepartment(final Department department);
+	public List<Position> getPositionsForPositionLevel(final PositionLevel positionLevel);
 	public Position getPositionByCode(final String code);
 	public Position createPosition(final String code, final String description, final Organization organization);
 	public Position createPosition(final String code, final String description, final Department department);

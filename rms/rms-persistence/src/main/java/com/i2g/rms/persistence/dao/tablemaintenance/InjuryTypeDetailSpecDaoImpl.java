@@ -23,8 +23,10 @@ import com.i2g.rms.persistence.hibernate.AbstractHibernateDao;
  *
  */
 @Repository
-public class InjuryTypeDetailSpecDaoImpl extends AbstractHibernateDao<String, InjuryTypeDetailSpec> implements InjuryTypeDetailSpecDao {
+public class InjuryTypeDetailSpecDaoImpl extends AbstractHibernateDao<String, InjuryTypeDetailSpec>
+		implements InjuryTypeDetailSpecDao {
 
+	@SuppressWarnings("unused")
 	private final Logger _logger = LoggerFactory.getLogger(InjuryTypeDetailSpecDaoImpl.class);
 
 	@Autowired
@@ -83,7 +85,8 @@ public class InjuryTypeDetailSpecDaoImpl extends AbstractHibernateDao<String, In
 	 * @return a table maintenance object.
 	 */
 	@Override
-	public InjuryTypeDetailSpec create(final String code, final String description, final InjuryTypeDetail injuryTypeDetail) {
+	public InjuryTypeDetailSpec create(final String code, final String description,
+			final InjuryTypeDetail injuryTypeDetail) {
 		// Validate input parameter(s) if any..
 		validateCode(code);
 		validateDescription(description);
@@ -116,7 +119,7 @@ public class InjuryTypeDetailSpecDaoImpl extends AbstractHibernateDao<String, In
 		InjuryTypeDetailSpec object = getByCode(code);
 		validateObject(object);
 		// Set the new value(s).
-		object.setDescription(description);		
+		object.setDescription(description);
 		// Issue update
 		update(object);
 		return object;
@@ -136,5 +139,17 @@ public class InjuryTypeDetailSpecDaoImpl extends AbstractHibernateDao<String, In
 		validateObject(object);
 		// Issue delete
 		super.delete(object);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<InjuryTypeDetailSpec> get(final InjuryTypeDetail injuryTypeDetail) {
+		// Check if the object is valid and not null or empty
+		validateObject(injuryTypeDetail);
+		return (List<InjuryTypeDetailSpec>) applySearch(
+				getSession().createCriteria(_modelType)
+						.add(Restrictions.eq("injuryTypeDetail",
+								Objects.requireNonNull(injuryTypeDetail, "Injury type detail object cannot be null."))))
+										.list();
 	}
 }

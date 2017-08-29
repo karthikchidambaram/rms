@@ -296,6 +296,11 @@ public class TableMaintenanceController extends AbstractRestController {
 	public List<DistinguishingFeatureDetailRO> getDistinguishingFeatureDetails() {
 		return _tableMaintenanceRestService.getDistinguishingFeatureDetails();
 	}
+	
+	@RequestMapping(value = RequestMappingConstants.GET_DISTINGUISHING_FEATURE_DETAILS_FOR_PARENT, method = RequestMethod.GET)
+	public List<DistinguishingFeatureDetailRO> getDistinguishingFeatureDetailsForParent(@PathVariable final String code) {
+		return _tableMaintenanceRestService.getDistinguishingFeatureDetailsForParent(code);
+	}
 
 	@RequestMapping(value = RequestMappingConstants.GET_DISTINGUISHING_FEATURE_DETAIL_BY_CODE, method = RequestMethod.GET)
 	public DistinguishingFeatureDetailRO getDistinguishingFeatureDetailByCode(@PathVariable final String code) {
@@ -571,6 +576,11 @@ public class TableMaintenanceController extends AbstractRestController {
 	public List<InjuryTypeDetailRO> getInjuryTypeDetails() {
 		return _tableMaintenanceRestService.getInjuryTypeDetails();
 	}
+	
+	@RequestMapping(value = RequestMappingConstants.GET_INJURY_TYPE_DETAILS_FOR_PARENT, method = RequestMethod.GET)
+	public List<InjuryTypeDetailRO> getInjuryTypeDetailsForParent(@PathVariable final String code) {
+		return _tableMaintenanceRestService.getInjuryTypeDetailsForParent(code);
+	}
 
 	@RequestMapping(value = RequestMappingConstants.GET_INJURY_TYPE_DETAIL_BY_CODE, method = RequestMethod.GET)
 	public InjuryTypeDetailRO getInjuryTypeDetailByCode(@PathVariable final String code) {
@@ -597,6 +607,11 @@ public class TableMaintenanceController extends AbstractRestController {
 	@RequestMapping(value = RequestMappingConstants.GET_INJURY_TYPE_DETAIL_SPECS, method = RequestMethod.GET)
 	public List<InjuryTypeDetailSpecRO> getInjuryTypeDetailSpecs() {
 		return _tableMaintenanceRestService.getInjuryTypeDetailSpecs();
+	}
+	
+	@RequestMapping(value = RequestMappingConstants.GET_INJURY_TYPE_DETAIL_SPECS_FOR_PARENT, method = RequestMethod.GET)
+	public List<InjuryTypeDetailSpecRO> getInjuryTypeDetailSpecsForParent(@PathVariable final String code) {
+		return _tableMaintenanceRestService.getInjuryTypeDetailSpecsForParent(code);
 	}
 
 	@RequestMapping(value = RequestMappingConstants.GET_INJURY_TYPE_DETAIL_SPEC_BY_CODE, method = RequestMethod.GET)
@@ -978,6 +993,11 @@ public class TableMaintenanceController extends AbstractRestController {
 	public List<DepartmentRO> getDepartments() {
 		return _tableMaintenanceRestService.getDepartments();
 	}
+	
+	@RequestMapping(value = RequestMappingConstants.GET_DEPARTMENTS_FOR_ORGANIZATION, method = RequestMethod.GET)
+	public List<DepartmentRO> getDepartmentsForOrganization(@PathVariable final String code) {
+		return _tableMaintenanceRestService.getDepartmentsForOrganization(code);
+	}
 
 	@RequestMapping(value = RequestMappingConstants.GET_DEPARTMENT_BY_CODE, method = RequestMethod.GET)
 	public DepartmentRO getDepartmentByCode(@PathVariable final String code) {
@@ -1004,6 +1024,21 @@ public class TableMaintenanceController extends AbstractRestController {
 	@RequestMapping(value = RequestMappingConstants.GET_POSITIONS, method = RequestMethod.GET)
 	public List<PositionRO> getPositions() {
 		return _tableMaintenanceRestService.getPositions();
+	}
+	
+	@RequestMapping(value = RequestMappingConstants.GET_POSITIONS_FOR_ORGANIZATION, method = RequestMethod.GET)
+	public List<PositionRO> getPositionsForOrganization(@PathVariable final String code) {
+		return _tableMaintenanceRestService.getPositionsForOrganization(code);
+	}
+	
+	@RequestMapping(value = RequestMappingConstants.GET_POSITIONS_FOR_DEPARTMENT, method = RequestMethod.GET)
+	public List<PositionRO> getPositionsForDepartment(@PathVariable final String code) {
+		return _tableMaintenanceRestService.getPositionsForDepartment(code);
+	}
+	
+	@RequestMapping(value = RequestMappingConstants.GET_POSITIONS_FOR_POSITION_LEVEL, method = RequestMethod.GET)
+	public List<PositionRO> getPositionsForPositionLevel(@PathVariable final String code) {
+		return _tableMaintenanceRestService.getPositionsForPositionLevel(code);
 	}
 
 	@RequestMapping(value = RequestMappingConstants.GET_POSITION_BY_CODE, method = RequestMethod.GET)

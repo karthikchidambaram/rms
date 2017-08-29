@@ -15,6 +15,8 @@ import com.i2g.rms.domain.model.tablemaintenance.InjuryTypeDetail;
 public interface InjuryTypeDetailDao {
 	
 	public List<InjuryTypeDetail> get();
+	
+	public List<InjuryTypeDetail> get(final InjuryType injuryType);
 
 	public InjuryTypeDetail getByCode(final String code);
 

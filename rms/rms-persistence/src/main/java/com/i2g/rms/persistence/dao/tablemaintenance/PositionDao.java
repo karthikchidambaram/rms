@@ -17,6 +17,12 @@ import com.i2g.rms.domain.model.tablemaintenance.PositionLevel;
 public interface PositionDao {
 	
 	public List<Position> get();
+	
+	public List<Position> get(final Organization organization);
+	
+	public List<Position> get(final Department department);
+	
+	public List<Position> get(final PositionLevel positionLevel);
 
 	public Position getByCode(final String code);
 

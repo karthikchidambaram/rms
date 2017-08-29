@@ -87,7 +87,8 @@ public class PositionDaoImpl extends AbstractHibernateDao<String, Position> impl
 	 * @return a table maintenance object.
 	 */
 	@Override
-	public Position create(final String code, final String description, final PositionLevel positionLevel, final Organization organization) {
+	public Position create(final String code, final String description, final PositionLevel positionLevel,
+			final Organization organization) {
 		// Validate input parameter(s) if any..
 		validateCode(code);
 		validateDescription(description);
@@ -99,7 +100,7 @@ public class PositionDaoImpl extends AbstractHibernateDao<String, Position> impl
 		save(object);
 		return object;
 	}
-	
+
 	/**
 	 * Create a record in the table maintenance object.
 	 * 
@@ -121,7 +122,7 @@ public class PositionDaoImpl extends AbstractHibernateDao<String, Position> impl
 		save(object);
 		return object;
 	}
-	
+
 	/**
 	 * Create a record in the table maintenance object.
 	 * 
@@ -133,7 +134,8 @@ public class PositionDaoImpl extends AbstractHibernateDao<String, Position> impl
 	 * @return a table maintenance object.
 	 */
 	@Override
-	public Position create(final String code, final String description, final PositionLevel positionLevel, final Department department) {
+	public Position create(final String code, final String description, final PositionLevel positionLevel,
+			final Department department) {
 		// Validate input parameter(s) if any..
 		validateCode(code);
 		validateDescription(description);
@@ -145,7 +147,7 @@ public class PositionDaoImpl extends AbstractHibernateDao<String, Position> impl
 		save(object);
 		return object;
 	}
-	
+
 	/**
 	 * Create a record in the table maintenance object.
 	 * 
@@ -189,7 +191,7 @@ public class PositionDaoImpl extends AbstractHibernateDao<String, Position> impl
 		Position object = getByCode(code);
 		validateObject(object);
 		// Set the new value(s).
-		object.setDescription(description);		
+		object.setDescription(description);
 		// Issue update
 		update(object);
 		return object;
@@ -209,5 +211,35 @@ public class PositionDaoImpl extends AbstractHibernateDao<String, Position> impl
 		validateObject(object);
 		// Issue delete
 		super.delete(object);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Position> get(Organization organization) {
+		// Check if the object is valid and not null or empty
+		validateObject(organization);
+		return (List<Position>) applySearch(getSession().createCriteria(_modelType).add(Restrictions.eq("organization",
+				Objects.requireNonNull(organization, "Organization object cannot be null.")))).list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Position> get(Department department) {
+		// Check if the object is valid and not null or empty
+		validateObject(department);
+		return (List<Position>) applySearch(getSession().createCriteria(_modelType).add(Restrictions.eq("department",
+				Objects.requireNonNull(department, "Department object cannot be null.")))).list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Position> get(PositionLevel positionLevel) {
+		// Check if the object is valid and not null or empty
+		validateObject(positionLevel);
+		return (List<Position>) applySearch(
+				getSession().createCriteria(_modelType)
+						.add(Restrictions.eq("positionLevel",
+								Objects.requireNonNull(positionLevel, "Position Level object cannot be null."))))
+										.list();
 	}
 }

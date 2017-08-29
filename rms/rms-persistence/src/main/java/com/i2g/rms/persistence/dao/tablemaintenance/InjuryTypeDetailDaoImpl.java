@@ -23,7 +23,8 @@ import com.i2g.rms.persistence.hibernate.AbstractHibernateDao;
  *
  */
 @Repository
-public class InjuryTypeDetailDaoImpl extends AbstractHibernateDao<String, InjuryTypeDetail> implements InjuryTypeDetailDao {
+public class InjuryTypeDetailDaoImpl extends AbstractHibernateDao<String, InjuryTypeDetail>
+		implements InjuryTypeDetailDao {
 
 	private final Logger _logger = LoggerFactory.getLogger(InjuryTypeDetailDaoImpl.class);
 
@@ -116,7 +117,7 @@ public class InjuryTypeDetailDaoImpl extends AbstractHibernateDao<String, Injury
 		InjuryTypeDetail object = getByCode(code);
 		validateObject(object);
 		// Set the new value(s).
-		object.setDescription(description);		
+		object.setDescription(description);
 		// Issue update
 		update(object);
 		return object;
@@ -136,5 +137,14 @@ public class InjuryTypeDetailDaoImpl extends AbstractHibernateDao<String, Injury
 		validateObject(object);
 		// Issue delete
 		super.delete(object);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<InjuryTypeDetail> get(final InjuryType injuryType) {
+		// Check if the object is valid and not null or empty
+		validateObject(injuryType);
+		return (List<InjuryTypeDetail>) applySearch(getSession().createCriteria(_modelType).add(Restrictions
+				.eq("injuryType", Objects.requireNonNull(injuryType, "Injury type object cannot be null.")))).list();
 	}
 }

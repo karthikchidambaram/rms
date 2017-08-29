@@ -15,6 +15,8 @@ import com.i2g.rms.domain.model.tablemaintenance.Organization;
 public interface DepartmentDao {
 	
 	public List<Department> get();
+	
+	public List<Department> get(final Organization organization);
 
 	public Department getByCode(final String code);
 

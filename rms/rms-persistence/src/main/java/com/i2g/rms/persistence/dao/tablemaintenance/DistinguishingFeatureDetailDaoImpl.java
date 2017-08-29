@@ -23,7 +23,8 @@ import com.i2g.rms.persistence.hibernate.AbstractHibernateDao;
  *
  */
 @Repository
-public class DistinguishingFeatureDetailDaoImpl extends AbstractHibernateDao<String, DistinguishingFeatureDetail> implements DistinguishingFeatureDetailDao {
+public class DistinguishingFeatureDetailDaoImpl extends AbstractHibernateDao<String, DistinguishingFeatureDetail>
+		implements DistinguishingFeatureDetailDao {
 
 	private final Logger _logger = LoggerFactory.getLogger(DistinguishingFeatureDetailDaoImpl.class);
 
@@ -83,7 +84,8 @@ public class DistinguishingFeatureDetailDaoImpl extends AbstractHibernateDao<Str
 	 * @return a table maintenance object.
 	 */
 	@Override
-	public DistinguishingFeatureDetail create(final String code, final String description, final DistinguishingFeature distinguishingFeature) {
+	public DistinguishingFeatureDetail create(final String code, final String description,
+			final DistinguishingFeature distinguishingFeature) {
 		// Validate input parameter(s) if any..
 		validateCode(code);
 		validateDescription(description);
@@ -116,7 +118,7 @@ public class DistinguishingFeatureDetailDaoImpl extends AbstractHibernateDao<Str
 		DistinguishingFeatureDetail object = getByCode(code);
 		validateObject(object);
 		// Set the new value(s).
-		object.setDescription(description);		
+		object.setDescription(description);
 		// Issue update
 		update(object);
 		return object;
@@ -136,5 +138,16 @@ public class DistinguishingFeatureDetailDaoImpl extends AbstractHibernateDao<Str
 		validateObject(object);
 		// Issue delete
 		super.delete(object);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<DistinguishingFeatureDetail> get(final DistinguishingFeature distinguishingFeature) {
+		// Check if the object is valid and not null or empty
+		validateObject(distinguishingFeature);
+		return (List<DistinguishingFeatureDetail>) applySearch(
+				getSession().createCriteria(_modelType).add(Restrictions.eq("distinguishingFeature", Objects
+						.requireNonNull(distinguishingFeature, "Distinguishing feature object cannot be null."))))
+								.list();
 	}
 }

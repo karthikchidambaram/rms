@@ -86,6 +86,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 	/** Generic approach */
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public List<TableMaintenanceRO> get(final String tableName, final String operation) {
 		validateTableName(tableName);
 		validateOperation(operation);
@@ -104,6 +105,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public TableMaintenanceRO getByCode(String tableName, String operation, String code) {
 		validateTableName(tableName);
 		validateOperation(operation);
@@ -121,8 +123,8 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 	}
 
 	@Override
-	@Transactional
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional	
 	public TableMaintenanceRO create(TableMaintenanceRO tableMaintenanceRO, String tableName, String operation) {
 		TableMaintenanceRO tableMaintenanceRONew = null;
 		validateTableName(tableName);
@@ -201,14 +203,14 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 	/** Methods related to Accident Location */
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<AccidentLocationRO> getAccidentLocations() {
 		return _mapperService.map(_tableMaintenanceService.getAccidentLocations(), AccidentLocationRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
-	@Transactional
+	@Transactional(readOnly = true)
 	public AccidentLocationRO getAccidentLocationByCode(final String code) {
 		validateCode(code);
 		return _mapperService.map(_tableMaintenanceService.getAccidentLocationByCode(code), AccidentLocationRO.class);
@@ -246,14 +248,14 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 	/** Methods related to Accident Location Detail */
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<AccidentLocationDetailRO> getAccidentLocationDetails() {
 		return _mapperService.map(_tableMaintenanceService.getAccidentLocationDetails(), AccidentLocationDetailRO.class);
 	}
 	
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<AccidentLocationDetailRO> getAccidentLocationDetailsForParent(final String code) {
 		//Validate code
 		validateCode(code);
@@ -265,7 +267,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
-	@Transactional
+	@Transactional(readOnly = true)
 	public AccidentLocationDetailRO getAccidentLocationDetailByCode(final String code) {
 		validateCode(code);
 		return _mapperService.map(_tableMaintenanceService.getAccidentLocationDetailByCode(code), AccidentLocationDetailRO.class);
@@ -312,12 +314,14 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 	/** Methods related to Asset Category */
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public List<AssetCategoryRO> getAssetCategories() {
 		return _mapperService.map(_tableMaintenanceService.getAssetCategories(), AssetCategoryRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public AssetCategoryRO getAssetCategoryByCode(final String code) {
 		validateCode(code);
 		return _mapperService.map(_tableMaintenanceService.getAssetCategoryByCode(code), AssetCategoryRO.class);
@@ -325,6 +329,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public AssetCategoryRO createAssetCategory(final AssetCategoryRO assetCategoryRO) {
 		validateObject(assetCategoryRO);
 		validateCode(assetCategoryRO.getId());
@@ -334,6 +339,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public AssetCategoryRO updateAssetCategory(final AssetCategoryRO assetCategoryRO) {
 		validateObject(assetCategoryRO);
 		validateCode(assetCategoryRO.getId());
@@ -343,6 +349,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public void deleteAssetCategory(final String code) {
 		// Validate input parameter(s) if any
 		validateCode(code);
@@ -352,12 +359,14 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 	/** Methods related to Claim Request Registration Type */
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public List<ClaimRequestRegistrationTypeRO> getClaimRequestRegistrationTypes() {
 		return _mapperService.map(_tableMaintenanceService.getClaimRequestRegistrationTypes(), ClaimRequestRegistrationTypeRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public ClaimRequestRegistrationTypeRO getClaimRequestRegistrationTypeByCode(final String code) {
 		validateCode(code);
 		return _mapperService.map(_tableMaintenanceService.getClaimRequestRegistrationTypeByCode(code), ClaimRequestRegistrationTypeRO.class);
@@ -365,6 +374,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public ClaimRequestRegistrationTypeRO createClaimRequestRegistrationType(final ClaimRequestRegistrationTypeRO claimRequestRegistrationTypeRO) {
 		validateObject(claimRequestRegistrationTypeRO);
 		validateCode(claimRequestRegistrationTypeRO.getId());
@@ -374,6 +384,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public ClaimRequestRegistrationTypeRO updateClaimRequestRegistrationType(final ClaimRequestRegistrationTypeRO claimRequestRegistrationTypeRO) {
 		validateObject(claimRequestRegistrationTypeRO);
 		validateCode(claimRequestRegistrationTypeRO.getId());
@@ -383,6 +394,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public void deleteClaimRequestRegistrationType(final String code) {
 		// Validate input parameter(s) if any
 		validateCode(code);
@@ -392,12 +404,14 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 	/** Methods related to Claim Status */
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public List<ClaimStatusRO> getClaimStatuses() {
 		return _mapperService.map(_tableMaintenanceService.getClaimStatuses(), ClaimStatusRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public ClaimStatusRO getClaimStatusByCode(final String code) {
 		validateCode(code);
 		return _mapperService.map(_tableMaintenanceService.getClaimStatusByCode(code), ClaimStatusRO.class);
@@ -405,6 +419,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public ClaimStatusRO createClaimStatus(final ClaimStatusRO claimStatusRO) {
 		validateObject(claimStatusRO);
 		validateCode(claimStatusRO.getId());
@@ -414,6 +429,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public ClaimStatusRO updateClaimStatus(final ClaimStatusRO claimStatusRO) {
 		validateObject(claimStatusRO);
 		validateCode(claimStatusRO.getId());
@@ -423,6 +439,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public void deleteClaimStatus(final String code) {
 		// Validate input parameter(s) if any
 		validateCode(code);
@@ -432,12 +449,14 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 	/** Methods related to Claim Type */
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public List<ClaimTypeRO> getClaimTypes() {
 		return _mapperService.map(_tableMaintenanceService.getClaimTypes(), ClaimTypeRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public ClaimTypeRO getClaimTypeByCode(final String code) {
 		validateCode(code);
 		return _mapperService.map(_tableMaintenanceService.getClaimTypeByCode(code), ClaimTypeRO.class);
@@ -445,6 +464,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public ClaimTypeRO createClaimType(final ClaimTypeRO claimTypeRO) {
 		validateObject(claimTypeRO);
 		validateCode(claimTypeRO.getId());
@@ -454,6 +474,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public ClaimTypeRO updateClaimType(final ClaimTypeRO claimTypeRO) {
 		validateObject(claimTypeRO);
 		validateCode(claimTypeRO.getId());
@@ -463,6 +484,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public void deleteClaimType(final String code) {
 		// Validate input parameter(s) if any
 		validateCode(code);
@@ -472,14 +494,14 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 	/** Methods related to Distinguishing Features */
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<DistinguishingFeatureRO> getDistinguishingFeatures() {
 		return _mapperService.map(_tableMaintenanceService.getDistinguishingFeatures(), DistinguishingFeatureRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
-	@Transactional
+	@Transactional(readOnly = true)
 	public DistinguishingFeatureRO getDistinguishingFeatureByCode(final String code) {
 		validateCode(code);
 		return _mapperService.map(_tableMaintenanceService.getDistinguishingFeatureByCode(code), DistinguishingFeatureRO.class);
@@ -517,14 +539,26 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 	/** Methods related to Distinguishing Features Detail */
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<DistinguishingFeatureDetailRO> getDistinguishingFeatureDetails() {
 		return _mapperService.map(_tableMaintenanceService.getDistinguishingFeatureDetails(), DistinguishingFeatureDetailRO.class);
+	}
+	
+	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
+	public List<DistinguishingFeatureDetailRO> getDistinguishingFeatureDetailsForParent(final String code) {
+		//Validate code
+		validateCode(code);
+		DistinguishingFeature distinguishingFeature = _tableMaintenanceService.getDistinguishingFeatureByCode(code);
+		//Validate object
+		validateObject(distinguishingFeature);
+		return _mapperService.map(_tableMaintenanceService.getDistinguishingFeatureDetailsForParent(distinguishingFeature), DistinguishingFeatureDetailRO.class);		
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
-	@Transactional
+	@Transactional(readOnly = true)
 	public DistinguishingFeatureDetailRO getDistinguishingFeatureDetailByCode(final String code) {
 		validateCode(code);
 		return _mapperService.map(_tableMaintenanceService.getDistinguishingFeatureDetailByCode(code), DistinguishingFeatureDetailRO.class);
@@ -565,12 +599,14 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 	/** Methods related to Employee Type */
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public List<EmployeeTypeRO> getEmployeeTypes() {
 		return _mapperService.map(_tableMaintenanceService.getEmployeeTypes(), EmployeeTypeRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public EmployeeTypeRO getEmployeeTypeByCode(final String code) {
 		validateCode(code);
 		return _mapperService.map(_tableMaintenanceService.getEmployeeTypeByCode(code), EmployeeTypeRO.class);
@@ -578,6 +614,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public EmployeeTypeRO createEmployeeType(final EmployeeTypeRO employeeTypeRO) {
 		validateObject(employeeTypeRO);
 		validateCode(employeeTypeRO.getId());
@@ -587,6 +624,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public EmployeeTypeRO updateEmployeeType(final EmployeeTypeRO employeeTypeRO) {
 		validateObject(employeeTypeRO);
 		validateCode(employeeTypeRO.getId());
@@ -596,6 +634,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public void deleteEmployeeType(final String code) {
 		// Validate input parameter(s) if any
 		validateCode(code);
@@ -605,12 +644,14 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 	/** Methods related to Entry Point */
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public List<EntryPointRO> getEntryPoints() {
 		return _mapperService.map(_tableMaintenanceService.getEntryPoints(), EntryPointRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public EntryPointRO getEntryPointByCode(final String code) {
 		validateCode(code);
 		return _mapperService.map(_tableMaintenanceService.getEntryPointByCode(code), EntryPointRO.class);
@@ -618,6 +659,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public EntryPointRO createEntryPoint(final EntryPointRO entryPointRO) {
 		validateObject(entryPointRO);
 		validateCode(entryPointRO.getId());
@@ -627,6 +669,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public EntryPointRO updateEntryPoint(final EntryPointRO entryPointRO) {
 		validateObject(entryPointRO);
 		validateCode(entryPointRO.getId());
@@ -636,6 +679,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public void deleteEntryPoint(final String code) {
 		// Validate input parameter(s) if any
 		validateCode(code);
@@ -645,12 +689,14 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 	/** Methods related to Event Type */
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public List<EventTypeRO> getEventTypes() {
 		return _mapperService.map(_tableMaintenanceService.getEventTypes(), EventTypeRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public EventTypeRO getEventTypeByCode(final String code) {
 		validateCode(code);
 		return _mapperService.map(_tableMaintenanceService.getEventTypeByCode(code), EventTypeRO.class);
@@ -658,6 +704,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public EventTypeRO createEventType(final EventTypeRO eventTypeRO) {
 		validateObject(eventTypeRO);
 		validateCode(eventTypeRO.getId());
@@ -667,6 +714,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public EventTypeRO updateEventType(final EventTypeRO eventTypeRO) {
 		validateObject(eventTypeRO);
 		validateCode(eventTypeRO.getId());
@@ -676,6 +724,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public void deleteEventType(final String code) {
 		// Validate input parameter(s) if any
 		validateCode(code);
@@ -685,12 +734,14 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 	/** Methods related to External Agency */
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public List<ExternalAgencyRO> getExternalAgencies() {
 		return _mapperService.map(_tableMaintenanceService.getExternalAgencies(), ExternalAgencyRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public ExternalAgencyRO getExternalAgencyByCode(final String code) {
 		validateCode(code);
 		return _mapperService.map(_tableMaintenanceService.getExternalAgencyByCode(code), ExternalAgencyRO.class);
@@ -698,6 +749,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public ExternalAgencyRO createExternalAgency(final ExternalAgencyRO externalAgencyRO) {
 		validateObject(externalAgencyRO);
 		validateCode(externalAgencyRO.getId());
@@ -707,6 +759,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public ExternalAgencyRO updateExternalAgency(final ExternalAgencyRO externalAgencyRO) {
 		validateObject(externalAgencyRO);
 		validateCode(externalAgencyRO.getId());
@@ -716,6 +769,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public void deleteExternalAgency(final String code) {
 		// Validate input parameter(s) if any
 		validateCode(code);
@@ -725,14 +779,14 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 	/** Methods related to Incident Location */
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<IncidentLocationRO> getIncidentLocations() {
 		return _mapperService.map(_tableMaintenanceService.getIncidentLocations(), IncidentLocationRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
-	@Transactional
+	@Transactional(readOnly = true)
 	public IncidentLocationRO getIncidentLocationByCode(final String code) {
 		validateCode(code);
 		return _mapperService.map(_tableMaintenanceService.getIncidentLocationByCode(code), IncidentLocationRO.class);
@@ -770,14 +824,14 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 	/** Methods related to Incident Location Detail */
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<IncidentLocationDetailRO> getIncidentLocationDetails() {
 		return _mapperService.map(_tableMaintenanceService.getIncidentLocationDetails(), IncidentLocationDetailRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
-	@Transactional
+	@Transactional(readOnly = true)
 	public IncidentLocationDetailRO getIncidentLocationDetailByCode(final String code) {
 		validateCode(code);
 		return _mapperService.map(_tableMaintenanceService.getIncidentLocationDetailByCode(code), IncidentLocationDetailRO.class);
@@ -785,7 +839,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 	
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<IncidentLocationDetailRO> getIncidentLocationDetailsForParent(String code) {
 		//Validate code
 		validateCode(code);
@@ -829,12 +883,14 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 	/** Methods related to Incident Type */
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public List<IncidentTypeRO> getIncidentTypes() {
 		return _mapperService.map(_tableMaintenanceService.getIncidentTypes(), IncidentTypeRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public IncidentTypeRO getIncidentTypeByCode(final String code) {
 		validateCode(code);
 		return _mapperService.map(_tableMaintenanceService.getIncidentTypeByCode(code), IncidentTypeRO.class);
@@ -842,6 +898,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public IncidentTypeRO createIncidentType(final IncidentTypeRO incidentTypeRO) {
 		validateObject(incidentTypeRO);
 		validateCode(incidentTypeRO.getId());
@@ -851,6 +908,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public IncidentTypeRO updateIncidentType(final IncidentTypeRO incidentTypeRO) {
 		validateObject(incidentTypeRO);
 		validateCode(incidentTypeRO.getId());
@@ -860,6 +918,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public void deleteIncidentType(final String code) {
 		// Validate input parameter(s) if any
 		validateCode(code);
@@ -869,12 +928,14 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 	/** Methods related to Injury Cause */
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public List<InjuryCauseRO> getInjuryCauses() {
 		return _mapperService.map(_tableMaintenanceService.getInjuryCauses(), InjuryCauseRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public InjuryCauseRO getInjuryCauseByCode(final String code) {
 		validateCode(code);
 		return _mapperService.map(_tableMaintenanceService.getInjuryCauseByCode(code), InjuryCauseRO.class);
@@ -882,6 +943,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public InjuryCauseRO createInjuryCause(final InjuryCauseRO injuryCauseRO) {
 		validateObject(injuryCauseRO);
 		validateCode(injuryCauseRO.getId());
@@ -891,6 +953,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public InjuryCauseRO updateInjuryCause(final InjuryCauseRO injuryCauseRO) {
 		validateObject(injuryCauseRO);
 		validateCode(injuryCauseRO.getId());
@@ -900,6 +963,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public void deleteInjuryCause(final String code) {
 		// Validate input parameter(s) if any
 		validateCode(code);
@@ -909,14 +973,14 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 	/** Methods related to Injury Type */
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<InjuryTypeRO> getInjuryTypes() {
 		return _mapperService.map(_tableMaintenanceService.getInjuryTypes(), InjuryTypeRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
-	@Transactional
+	@Transactional(readOnly = true)
 	public InjuryTypeRO getInjuryTypeByCode(final String code) {
 		validateCode(code);
 		return _mapperService.map(_tableMaintenanceService.getInjuryTypeByCode(code), InjuryTypeRO.class);
@@ -954,14 +1018,26 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 	/** Methods related to Injury Type Details */
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<InjuryTypeDetailRO> getInjuryTypeDetails() {
 		return _mapperService.map(_tableMaintenanceService.getInjuryTypeDetails(), InjuryTypeDetailRO.class);
+	}
+	
+	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
+	public List<InjuryTypeDetailRO> getInjuryTypeDetailsForParent(final String code) {
+		//Validate code
+		validateCode(code);
+		InjuryType injuryType = _tableMaintenanceService.getInjuryTypeByCode(code);
+		//Validate object
+		validateObject(injuryType);
+		return _mapperService.map(_tableMaintenanceService.getInjuryTypeDetailsForParent(injuryType), InjuryTypeDetailRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
-	@Transactional
+	@Transactional(readOnly = true)
 	public InjuryTypeDetailRO getInjuryTypeDetailByCode(final String code) {
 		validateCode(code);
 		return _mapperService.map(_tableMaintenanceService.getInjuryTypeDetailByCode(code), InjuryTypeDetailRO.class);
@@ -1002,14 +1078,26 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 	/** Methods related to Injury Type Details Specification */
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<InjuryTypeDetailSpecRO> getInjuryTypeDetailSpecs() {
 		return _mapperService.map(_tableMaintenanceService.getInjuryTypeDetailSpecs(), InjuryTypeDetailSpecRO.class);
+	}
+	
+	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
+	public List<InjuryTypeDetailSpecRO> getInjuryTypeDetailSpecsForParent(final String code) {
+		//Validate code
+		validateCode(code);
+		InjuryTypeDetail injuryTypeDetail = _tableMaintenanceService.getInjuryTypeDetailByCode(code);
+		//Validate object
+		validateObject(injuryTypeDetail);
+		return _mapperService.map(_tableMaintenanceService.getInjuryTypeDetailSpecsForParent(injuryTypeDetail), InjuryTypeDetailSpecRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
-	@Transactional
+	@Transactional(readOnly = true)
 	public InjuryTypeDetailSpecRO getInjuryTypeDetailSpecByCode(final String code) {
 		validateCode(code);
 		return _mapperService.map(_tableMaintenanceService.getInjuryTypeDetailSpecByCode(code), InjuryTypeDetailSpecRO.class);
@@ -1050,12 +1138,14 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 	/** Methods related to Suspect Type */
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public List<SuspectTypeRO> getSuspectTypes() {
 		return _mapperService.map(_tableMaintenanceService.getSuspectTypes(), SuspectTypeRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public SuspectTypeRO getSuspectTypeByCode(final String code) {
 		validateCode(code);
 		return _mapperService.map(_tableMaintenanceService.getSuspectTypeByCode(code), SuspectTypeRO.class);
@@ -1063,6 +1153,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public SuspectTypeRO createSuspectType(final SuspectTypeRO suspectTypeRO) {
 		validateObject(suspectTypeRO);
 		validateCode(suspectTypeRO.getId());
@@ -1072,6 +1163,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public SuspectTypeRO updateSuspectType(final SuspectTypeRO suspectTypeRO) {
 		validateObject(suspectTypeRO);
 		validateCode(suspectTypeRO.getId());
@@ -1081,6 +1173,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public void deleteSuspectType(final String code) {
 		// Validate input parameter(s) if any
 		validateCode(code);
@@ -1090,12 +1183,14 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 	/** Methods related to Weapon Involved */	
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public List<WeaponTypeRO> getWeaponTypes() {
 		return _mapperService.map(_tableMaintenanceService.getWeaponTypes(), WeaponTypeRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public WeaponTypeRO getWeaponTypeByCode(final String code) {
 		validateCode(code);
 		return _mapperService.map(_tableMaintenanceService.getWeaponTypeByCode(code), WeaponTypeRO.class);
@@ -1103,6 +1198,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public WeaponTypeRO createWeaponType(final WeaponTypeRO weaponInvolvedRO) {
 		validateObject(weaponInvolvedRO);
 		validateCode(weaponInvolvedRO.getId());
@@ -1112,6 +1208,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public WeaponTypeRO updateWeaponType(final WeaponTypeRO weaponInvolvedRO) {
 		validateObject(weaponInvolvedRO);
 		validateCode(weaponInvolvedRO.getId());
@@ -1121,6 +1218,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public void deleteWeaponType(final String code) {
 		// Validate input parameter(s) if any
 		validateCode(code);
@@ -1129,12 +1227,14 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 	
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public List<AccidentTypeRO> getAccidentTypes() {
 		return _mapperService.map(_tableMaintenanceService.getAccidentTypes(), AccidentTypeRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public AccidentTypeRO getAccidentTypeByCode(String code) {
 		validateCode(code);
 		return _mapperService.map(_tableMaintenanceService.getAccidentTypeByCode(code), AccidentTypeRO.class);
@@ -1142,6 +1242,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public AccidentTypeRO createAccidentType(AccidentTypeRO accidentTypeRO) {
 		validateObject(accidentTypeRO);
 		validateCode(accidentTypeRO.getId());
@@ -1151,6 +1252,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public AccidentTypeRO updateAccidentType(AccidentTypeRO accidentTypeRO) {
 		validateObject(accidentTypeRO);
 		validateCode(accidentTypeRO.getId());
@@ -1160,6 +1262,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public void deleteAccidentType(String code) {
 		// Validate input parameter(s) if any
 		validateCode(code);
@@ -1168,12 +1271,14 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public List<BodyPartRO> getBodyParts() {
 		return _mapperService.map(_tableMaintenanceService.getBodyParts(), BodyPartRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public BodyPartRO getBodyPartByCode(String code) {
 		validateCode(code);
 		return _mapperService.map(_tableMaintenanceService.getBodyPartByCode(code), BodyPartRO.class);
@@ -1181,6 +1286,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public BodyPartRO createBodyPart(BodyPartRO bodyPartRO) {
 		validateObject(bodyPartRO);
 		validateCode(bodyPartRO.getId());
@@ -1190,6 +1296,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public BodyPartRO updateBodyPart(BodyPartRO bodyPartRO) {
 		validateObject(bodyPartRO);
 		validateCode(bodyPartRO.getId());
@@ -1199,6 +1306,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public void deleteBodyPart(String code) {
 		// Validate input parameter(s) if any
 		validateCode(code);
@@ -1207,12 +1315,14 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public List<DocumentCategoryRO> getDocumentCategories() {
 		return _mapperService.map(_tableMaintenanceService.getDocumentCategories(), DocumentCategoryRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public DocumentCategoryRO getDocumentCategoryByCode(String code) {
 		validateCode(code);
 		return _mapperService.map(_tableMaintenanceService.getDocumentCategoryByCode(code), DocumentCategoryRO.class);
@@ -1220,6 +1330,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public DocumentCategoryRO createDocumentCategory(DocumentCategoryRO documentCategoryRO) {
 		validateObject(documentCategoryRO);
 		validateCode(documentCategoryRO.getId());
@@ -1229,6 +1340,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public DocumentCategoryRO updateDocumentCategory(DocumentCategoryRO documentCategoryRO) {
 		validateObject(documentCategoryRO);
 		validateCode(documentCategoryRO.getId());
@@ -1238,6 +1350,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public void deleteDocumentCategory(String code) {
 		// Validate input parameter(s) if any
 		validateCode(code);
@@ -1246,12 +1359,14 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public List<DocumentTypeRO> getDocumentTypes() {
 		return _mapperService.map(_tableMaintenanceService.getDocumentTypes(), DocumentTypeRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public DocumentTypeRO getDocumentTypeByCode(String code) {
 		validateCode(code);
 		return _mapperService.map(_tableMaintenanceService.getDocumentTypeByCode(code), DocumentTypeRO.class);
@@ -1259,6 +1374,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public DocumentTypeRO createDocumentType(DocumentTypeRO documentTypeRO) {
 		validateObject(documentTypeRO);
 		validateCode(documentTypeRO.getId());
@@ -1268,6 +1384,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public DocumentTypeRO updateDocumentType(DocumentTypeRO documentTypeRO) {
 		validateObject(documentTypeRO);
 		validateCode(documentTypeRO.getId());
@@ -1277,6 +1394,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public void deleteDocumentType(String code) {
 		// Validate input parameter(s) if any
 		validateCode(code);
@@ -1285,12 +1403,14 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public List<GenderTypeRO> getGenderTypes() {
 		return _mapperService.map(_tableMaintenanceService.getGenderTypes(), GenderTypeRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public GenderTypeRO getGenderTypeByCode(String code) {
 		validateCode(code);
 		return _mapperService.map(_tableMaintenanceService.getGenderTypeByCode(code), GenderTypeRO.class);
@@ -1298,6 +1418,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public GenderTypeRO createGenderType(GenderTypeRO genderTypeRO) {
 		validateObject(genderTypeRO);
 		validateCode(genderTypeRO.getId());
@@ -1307,6 +1428,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public GenderTypeRO updateGenderType(GenderTypeRO genderTypeRO) {
 		validateObject(genderTypeRO);
 		validateCode(genderTypeRO.getId());
@@ -1316,6 +1438,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public void deleteGenderType(String code) {
 		// Validate input parameter(s) if any
 		validateCode(code);
@@ -1324,12 +1447,14 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public List<IncidentCategoryRO> getIncidentCategories() {
 		return _mapperService.map(_tableMaintenanceService.getIncidentCategories(), IncidentCategoryRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public IncidentCategoryRO getIncidentCategoryByCode(String code) {
 		validateCode(code);
 		return _mapperService.map(_tableMaintenanceService.getIncidentCategoryByCode(code), IncidentCategoryRO.class);
@@ -1337,6 +1462,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public IncidentCategoryRO createIncidentCategory(IncidentCategoryRO incidentCategoryRO) {
 		validateObject(incidentCategoryRO);
 		validateCode(incidentCategoryRO.getId());
@@ -1346,6 +1472,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public IncidentCategoryRO updateIncidentCategory(IncidentCategoryRO incidentCategoryRO) {
 		validateObject(incidentCategoryRO);
 		validateCode(incidentCategoryRO.getId());
@@ -1355,6 +1482,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public void deleteIncidentCategory(String code) {
 		// Validate input parameter(s) if any
 		validateCode(code);
@@ -1363,12 +1491,14 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public List<InjuredPersonTypeRO> getInjuredPersonTypes() {
 		return _mapperService.map(_tableMaintenanceService.getInjuredPersonTypes(), InjuredPersonTypeRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public InjuredPersonTypeRO getInjuredPersonTypeByCode(String code) {
 		validateCode(code);
 		return _mapperService.map(_tableMaintenanceService.getInjuredPersonTypeByCode(code), InjuredPersonTypeRO.class);
@@ -1376,6 +1506,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public InjuredPersonTypeRO createInjuredPersonType(InjuredPersonTypeRO injuredPersonTypeRO) {
 		validateObject(injuredPersonTypeRO);
 		validateCode(injuredPersonTypeRO.getId());
@@ -1385,6 +1516,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public InjuredPersonTypeRO updateInjuredPersonType(InjuredPersonTypeRO injuredPersonTypeRO) {
 		validateObject(injuredPersonTypeRO);
 		validateCode(injuredPersonTypeRO.getId());
@@ -1394,6 +1526,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public void deleteInjuredPersonType(String code) {
 		// Validate input parameter(s) if any
 		validateCode(code);
@@ -1402,12 +1535,14 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public List<LossTypeRO> getLossTypes() {
 		return _mapperService.map(_tableMaintenanceService.getLossTypes(), LossTypeRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public LossTypeRO getLossTypeByCode(String code) {
 		validateCode(code);
 		return _mapperService.map(_tableMaintenanceService.getLossTypeByCode(code), LossTypeRO.class);
@@ -1415,6 +1550,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public LossTypeRO createLossType(LossTypeRO lossTypeRO) {
 		validateObject(lossTypeRO);
 		validateCode(lossTypeRO.getId());
@@ -1424,6 +1560,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public LossTypeRO updateLossType(LossTypeRO lossTypeRO) {
 		validateObject(lossTypeRO);
 		validateCode(lossTypeRO.getId());
@@ -1433,6 +1570,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public void deleteLossType(String code) {
 		// Validate input parameter(s) if any
 		validateCode(code);
@@ -1441,12 +1579,14 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public List<PolicyTypeRO> getPolicyTypes() {
 		return _mapperService.map(_tableMaintenanceService.getPolicyTypes(), PolicyTypeRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public PolicyTypeRO getPolicyTypeByCode(String code) {
 		validateCode(code);
 		return _mapperService.map(_tableMaintenanceService.getPolicyTypeByCode(code), PolicyTypeRO.class);
@@ -1454,6 +1594,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public PolicyTypeRO createPolicyType(PolicyTypeRO policyTypeRO) {
 		validateObject(policyTypeRO);
 		validateCode(policyTypeRO.getId());
@@ -1463,6 +1604,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public PolicyTypeRO updatePolicyType(PolicyTypeRO policyTypeRO) {
 		validateObject(policyTypeRO);
 		validateCode(policyTypeRO.getId());
@@ -1472,6 +1614,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public void deletePolicyType(String code) {
 		// Validate input parameter(s) if any
 		validateCode(code);
@@ -1480,12 +1623,14 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public List<VehicleDamageTypeRO> getVehicleDamageTypes() {
 		return _mapperService.map(_tableMaintenanceService.getVehicleDamageTypes(), VehicleDamageTypeRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public VehicleDamageTypeRO getVehicleDamageTypeByCode(String code) {
 		validateCode(code);
 		return _mapperService.map(_tableMaintenanceService.getVehicleDamageTypeByCode(code), VehicleDamageTypeRO.class);
@@ -1493,6 +1638,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public VehicleDamageTypeRO createVehicleDamageType(VehicleDamageTypeRO vehicleDamageTypeRO) {
 		validateObject(vehicleDamageTypeRO);
 		validateCode(vehicleDamageTypeRO.getId());
@@ -1502,6 +1648,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public VehicleDamageTypeRO updateVehicleDamageType(VehicleDamageTypeRO vehicleDamageTypeRO) {
 		validateObject(vehicleDamageTypeRO);
 		validateCode(vehicleDamageTypeRO.getId());
@@ -1511,6 +1658,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public void deleteVehicleDamageType(String code) {
 		// Validate input parameter(s) if any
 		validateCode(code);
@@ -1519,12 +1667,14 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public List<OrganizationRO> getOrganizations() {
 		return _mapperService.map(_tableMaintenanceService.getOrganizations(), OrganizationRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public OrganizationRO getOrganizationByCode(final String code) {
 		validateCode(code);
 		return _mapperService.map(_tableMaintenanceService.getOrganizationByCode(code), OrganizationRO.class);
@@ -1532,6 +1682,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public OrganizationRO createOrganization(final OrganizationRO organizationRO) {
 		validateObject(organizationRO);
 		validateCode(organizationRO.getId());
@@ -1541,6 +1692,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public OrganizationRO updateOrganization(final OrganizationRO organizationRO) {
 		validateObject(organizationRO);
 		validateCode(organizationRO.getId());
@@ -1550,6 +1702,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public void deleteOrganization(final String code) {
 		// Validate input parameter(s) if any
 		validateCode(code);
@@ -1559,12 +1712,26 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public List<DepartmentRO> getDepartments() {
 		return _mapperService.map(_tableMaintenanceService.getDepartments(), DepartmentRO.class);
+	}
+	
+	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
+	public List<DepartmentRO> getDepartmentsForOrganization(final String code) {
+		//Validate code
+		validateCode(code);
+		Organization organization = _tableMaintenanceService.getOrganizationByCode(code);
+		//Validate object
+		validateObject(organization);
+		return _mapperService.map(_tableMaintenanceService.getDepartmentsForOrganization(organization), DepartmentRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public DepartmentRO getDepartmentByCode(final String code) {
 		validateCode(code);
 		return _mapperService.map(_tableMaintenanceService.getDepartmentByCode(code), DepartmentRO.class);
@@ -1572,6 +1739,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public DepartmentRO createDepartment(final DepartmentRO departmentRO) {
 		validateObject(departmentRO);
 		validateCode(departmentRO.getId());
@@ -1584,6 +1752,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public DepartmentRO updateDepartment(DepartmentRO departmentRO) {
 		validateObject(departmentRO);
 		validateCode(departmentRO.getId());
@@ -1593,6 +1762,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public void deleteDepartment(final String code) {
 		// Validate input parameter(s) if any
 		validateCode(code);
@@ -1601,12 +1771,50 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public List<PositionRO> getPositions() {
 		return _mapperService.map(_tableMaintenanceService.getPositions(), PositionRO.class);
+	}
+	
+	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
+	public List<PositionRO> getPositionsForOrganization(final String code) {
+		//Validate code
+		validateCode(code);
+		Organization organization = _tableMaintenanceService.getOrganizationByCode(code);
+		//Validate object
+		validateObject(organization);
+		return _mapperService.map(_tableMaintenanceService.getPositionsForOrganization(organization), PositionRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
+	public List<PositionRO> getPositionsForDepartment(final String code) {
+		//Validate code
+		validateCode(code);
+		Department department = _tableMaintenanceService.getDepartmentByCode(code);
+		//Validate object
+		validateObject(department);
+		return _mapperService.map(_tableMaintenanceService.getPositionsForDepartment(department), PositionRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
+	public List<PositionRO> getPositionsForPositionLevel(final String code) {
+		//Validate code
+		validateCode(code);
+		PositionLevel positionLevel = _tableMaintenanceService.getPositionLevelByCode(code);
+		//Validate object
+		validateObject(positionLevel);
+		return _mapperService.map(_tableMaintenanceService.getPositionsForPositionLevel(positionLevel), PositionRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public PositionRO getPositionByCode(final String code) {
 		validateCode(code);
 		return _mapperService.map(_tableMaintenanceService.getPositionByCode(code), PositionRO.class);
@@ -1614,6 +1822,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public PositionRO createPosition(final PositionRO positionRO) {
 		
 		PositionRO _positionRO = null;
@@ -1658,6 +1867,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public PositionRO updatePosition(final PositionRO positionRO) {
 		validateObject(positionRO);
 		validateCode(positionRO.getId());
@@ -1667,6 +1877,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public void deletePosition(String code) {
 		// Validate input parameter(s) if any
 		validateCode(code);
@@ -1675,12 +1886,14 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public List<PositionLevelRO> getPositionLevels() {
 		return _mapperService.map(_tableMaintenanceService.getPositionLevels(), PositionLevelRO.class);
 	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
 	public PositionLevelRO getPositionLevelByCode(final String code) {
 		validateCode(code);
 		return _mapperService.map(_tableMaintenanceService.getPositionLevelByCode(code), PositionLevelRO.class);
@@ -1688,6 +1901,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public PositionLevelRO createPositionLevel(final PositionLevelRO positionLevelRO) {
 		validateObject(positionLevelRO);
 		validateCode(positionLevelRO.getId());
@@ -1697,6 +1911,7 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public PositionLevelRO updatePositionLevel(final PositionLevelRO positionLevelRO) {
 		validateObject(positionLevelRO);
 		validateCode(positionLevelRO.getId());
@@ -1706,9 +1921,10 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
 	public void deletePositionLevel(final String code) {
 		// Validate input parameter(s) if any
 		validateCode(code);
 		_tableMaintenanceService.deletePositionLevel(code);
-	}		
+	}						
 }

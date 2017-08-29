@@ -15,8 +15,10 @@ import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeatureDetail;
 public interface DistinguishingFeatureDetailDao {
 	
 	public List<DistinguishingFeatureDetail> get();
+	
+	public List<DistinguishingFeatureDetail> get(final DistinguishingFeature distinguishingFeature);
 
-	public DistinguishingFeatureDetail getByCode(final String code);
+	public DistinguishingFeatureDetail getByCode(final String code);	
 
 	public DistinguishingFeatureDetail create(final String code, final String description, final DistinguishingFeature distinguishingFeature);
 

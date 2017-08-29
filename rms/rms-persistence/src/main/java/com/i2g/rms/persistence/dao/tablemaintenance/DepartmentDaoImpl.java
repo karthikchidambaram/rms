@@ -116,7 +116,7 @@ public class DepartmentDaoImpl extends AbstractHibernateDao<String, Department> 
 		Department object = getByCode(code);
 		validateObject(object);
 		// Set the new value(s).
-		object.setDescription(description);		
+		object.setDescription(description);
 		// Issue update
 		update(object);
 		return object;
@@ -136,5 +136,15 @@ public class DepartmentDaoImpl extends AbstractHibernateDao<String, Department> 
 		validateObject(object);
 		// Issue delete
 		super.delete(object);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Department> get(final Organization organization) {
+		// Check if the object is valid and not null or empty
+		validateObject(organization);
+		return (List<Department>) applySearch(getSession().createCriteria(_modelType).add(Restrictions
+				.eq("organization", Objects.requireNonNull(organization, "Organization object cannot be null."))))
+						.list();
 	}
 }
