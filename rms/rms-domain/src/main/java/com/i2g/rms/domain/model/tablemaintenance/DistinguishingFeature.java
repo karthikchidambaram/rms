@@ -133,7 +133,7 @@ public class DistinguishingFeature extends AbstractDataModel<String> implements 
 		return _distinguishingFeatureDetails;
 	}
 
-	public void setDistinguishingFeatureDetails(Set<DistinguishingFeatureDetail> distinguishingFeatureDetails) {
+	public void setDistinguishingFeatureDetails(final Set<DistinguishingFeatureDetail> distinguishingFeatureDetails) {
 		_distinguishingFeatureDetails = distinguishingFeatureDetails;
 	}
 

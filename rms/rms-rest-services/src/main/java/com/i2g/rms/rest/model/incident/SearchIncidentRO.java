@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.i2g.rms.rest.model.AbstractEntityRO;
 import com.i2g.rms.rest.model.StatusFlagRO;
+import com.i2g.rms.rest.model.YesNoTypeRO;
 
 /**
  * Search Incident RO Object
@@ -22,12 +23,7 @@ public class SearchIncidentRO extends AbstractEntityRO {
 	private StatusFlagRO incidentStatusFlag;
 	private IncidentStatusRO incidentStatus;
 	private LocalDateTime closedDateTime;
-	private String personInjured;
-	private String propertyDamage;
-	private String crimeInvolved;
-	private String description;
-	private String categoryCode;
-	private String categoryDescription;
+	private String description;	
 	private String typeCode;
 	private String typeDescription;
 	private String locationCode;
@@ -44,6 +40,10 @@ public class SearchIncidentRO extends AbstractEntityRO {
 	private String departmentDescription;
 	private String positionCode;
 	private String positionDescription;
+	private YesNoTypeRO propertyDamage;
+	private YesNoTypeRO criminalAttack;
+	private YesNoTypeRO accidentDamage;
+	private YesNoTypeRO vehicleOrAssetDamage;
 
 	/**
 	 * @return the id
@@ -133,52 +133,7 @@ public class SearchIncidentRO extends AbstractEntityRO {
 	 */
 	public void setClosedDateTime(final LocalDateTime closedDateTime) {
 		this.closedDateTime = closedDateTime;
-	}
-
-	/**
-	 * @return the personInjured
-	 */
-	public String getPersonInjured() {
-		return personInjured;
-	}
-
-	/**
-	 * @param personInjured
-	 *            the personInjured to set
-	 */
-	public void setPersonInjured(final String personInjured) {
-		this.personInjured = personInjured;
-	}
-
-	/**
-	 * @return the propertyDamage
-	 */
-	public String getPropertyDamage() {
-		return propertyDamage;
-	}
-
-	/**
-	 * @param propertyDamage
-	 *            the propertyDamage to set
-	 */
-	public void setPropertyDamage(final String propertyDamage) {
-		this.propertyDamage = propertyDamage;
-	}
-
-	/**
-	 * @return the crimeInvolved
-	 */
-	public String getCrimeInvolved() {
-		return crimeInvolved;
-	}
-
-	/**
-	 * @param crimeInvolved
-	 *            the crimeInvolved to set
-	 */
-	public void setCrimeInvolved(final String crimeInvolved) {
-		this.crimeInvolved = crimeInvolved;
-	}
+	}	
 
 	/**
 	 * @return the description
@@ -193,36 +148,6 @@ public class SearchIncidentRO extends AbstractEntityRO {
 	 */
 	public void setDescription(final String description) {
 		this.description = description;
-	}
-
-	/**
-	 * @return the categoryCode
-	 */
-	public String getCategoryCode() {
-		return categoryCode;
-	}
-
-	/**
-	 * @param categoryCode
-	 *            the categoryCode to set
-	 */
-	public void setCategoryCode(final String categoryCode) {
-		this.categoryCode = categoryCode;
-	}
-
-	/**
-	 * @return the categoryDescription
-	 */
-	public String getCategoryDescription() {
-		return categoryDescription;
-	}
-
-	/**
-	 * @param categoryDescription
-	 *            the categoryDescription to set
-	 */
-	public void setCategoryDescription(final String categoryDescription) {
-		this.categoryDescription = categoryDescription;
 	}
 
 	/**
@@ -464,4 +389,60 @@ public class SearchIncidentRO extends AbstractEntityRO {
 	public void setPositionDescription(final String positionDescription) {
 		this.positionDescription = positionDescription;
 	}
+
+	/**
+	 * @return the propertyDamage
+	 */
+	public YesNoTypeRO getPropertyDamage() {
+		return propertyDamage;
+	}
+
+	/**
+	 * @param propertyDamage the propertyDamage to set
+	 */
+	public void setPropertyDamage(final YesNoTypeRO propertyDamage) {
+		this.propertyDamage = propertyDamage;
+	}
+
+	/**
+	 * @return the criminalAttack
+	 */
+	public YesNoTypeRO getCriminalAttack() {
+		return criminalAttack;
+	}
+
+	/**
+	 * @param criminalAttack the criminalAttack to set
+	 */
+	public void setCriminalAttack(final YesNoTypeRO criminalAttack) {
+		this.criminalAttack = criminalAttack;
+	}
+
+	/**
+	 * @return the accidentDamage
+	 */
+	public YesNoTypeRO getAccidentDamage() {
+		return accidentDamage;
+	}
+
+	/**
+	 * @param accidentDamage the accidentDamage to set
+	 */
+	public void setAccidentDamage(final YesNoTypeRO accidentDamage) {
+		this.accidentDamage = accidentDamage;
+	}
+
+	/**
+	 * @return the vehicleOrAssetDamage
+	 */
+	public YesNoTypeRO getVehicleOrAssetDamage() {
+		return vehicleOrAssetDamage;
+	}
+
+	/**
+	 * @param vehicleOrAssetDamage the vehicleOrAssetDamage to set
+	 */
+	public void setVehicleOrAssetDamage(final YesNoTypeRO vehicleOrAssetDamage) {
+		this.vehicleOrAssetDamage = vehicleOrAssetDamage;
+	}	
 }

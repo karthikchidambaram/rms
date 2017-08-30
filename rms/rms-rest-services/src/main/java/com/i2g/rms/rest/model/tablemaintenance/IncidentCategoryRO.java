@@ -14,13 +14,13 @@ import com.i2g.rms.rest.model.AbstractEntityRO;
 public class IncidentCategoryRO extends AbstractEntityRO {
 
 	private String _id;
-	private String _description;
+	private String _description;	
 
 	public String getId() {
 		return _id;
 	}
 
-	public void setId(String id) {
+	public void setId(final String id) {
 		_id = id;
 	}
 
@@ -28,7 +28,7 @@ public class IncidentCategoryRO extends AbstractEntityRO {
 		return _description;
 	}
 
-	public void setDescription(String description) {
+	public void setDescription(final String description) {
 		_description = description;
-	}
+	}	
 }

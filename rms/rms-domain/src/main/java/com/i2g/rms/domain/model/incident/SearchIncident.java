@@ -14,6 +14,7 @@ import org.hibernate.annotations.Type;
 
 import com.i2g.rms.domain.model.AbstractDataModel;
 import com.i2g.rms.domain.model.StatusFlag;
+import com.i2g.rms.domain.model.YesNoType;
 
 /**
  * View for search incident functionality.
@@ -37,12 +38,7 @@ public class SearchIncident extends AbstractDataModel<Long> implements Serializa
 	private StatusFlag incidentStatusFlag;
 	private IncidentStatus incidentStatus;
 	private LocalDateTime closedDateTime;
-	private String personInjured;
-	private String propertyDamage;
-	private String crimeInvolved;
-	private String description;
-	private String categoryCode;
-	private String categoryDescription;
+	private String description;	
 	private String typeCode;
 	private String typeDescription;
 	private String locationCode;
@@ -59,6 +55,10 @@ public class SearchIncident extends AbstractDataModel<Long> implements Serializa
 	private String departmentDescription;
 	private String positionCode;
 	private String positionDescription;
+	private YesNoType propertyDamage;
+	private YesNoType criminalAttack;
+	private YesNoType accidentDamage;
+	private YesNoType vehicleOrAssetDamage;
 	
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -166,55 +166,7 @@ public class SearchIncident extends AbstractDataModel<Long> implements Serializa
 	 */
 	public void setClosedDateTime(final LocalDateTime closedDateTime) {
 		this.closedDateTime = closedDateTime;
-	}
-
-	/**
-	 * @return the personInjured
-	 */
-	@Column(name = "PRSN_INJRD")
-	public String getPersonInjured() {
-		return personInjured;
-	}
-
-	/**
-	 * @param personInjured
-	 *            the personInjured to set
-	 */
-	public void setPersonInjured(final String personInjured) {
-		this.personInjured = personInjured;
-	}
-
-	/**
-	 * @return the propertyDamage
-	 */
-	@Column(name = "PROP_DAMAGE")
-	public String getPropertyDamage() {
-		return propertyDamage;
-	}
-
-	/**
-	 * @param propertyDamage
-	 *            the propertyDamage to set
-	 */
-	public void setPropertyDamage(final String propertyDamage) {
-		this.propertyDamage = propertyDamage;
-	}
-
-	/**
-	 * @return the crimeInvolved
-	 */
-	@Column(name = "CRIME_INVLD")
-	public String getCrimeInvolved() {
-		return crimeInvolved;
-	}
-
-	/**
-	 * @param crimeInvolved
-	 *            the crimeInvolved to set
-	 */
-	public void setCrimeInvolved(final String crimeInvolved) {
-		this.crimeInvolved = crimeInvolved;
-	}
+	}	
 
 	/**
 	 * @return the description
@@ -230,38 +182,6 @@ public class SearchIncident extends AbstractDataModel<Long> implements Serializa
 	 */
 	public void setDescription(final String description) {
 		this.description = description;
-	}
-
-	/**
-	 * @return the categoryCode
-	 */
-	@Column(name = "CTGRY_CDE")
-	public String getCategoryCode() {
-		return categoryCode;
-	}
-
-	/**
-	 * @param categoryCode
-	 *            the categoryCode to set
-	 */
-	public void setCategoryCode(final String categoryCode) {
-		this.categoryCode = categoryCode;
-	}
-
-	/**
-	 * @return the categoryDescription
-	 */
-	@Column(name = "CTGRY_DSCPTN")
-	public String getCategoryDescription() {
-		return categoryDescription;
-	}
-
-	/**
-	 * @param categoryDescription
-	 *            the categoryDescription to set
-	 */
-	public void setCategoryDescription(final String categoryDescription) {
-		this.categoryDescription = categoryDescription;
 	}
 
 	/**
@@ -520,4 +440,68 @@ public class SearchIncident extends AbstractDataModel<Long> implements Serializa
 	public void setPositionDescription(final String positionDescription) {
 		this.positionDescription = positionDescription;
 	}
+
+	/**
+	 * @return the propertyDamage
+	 */
+	@Column(name = "PROP_DMGE")
+	@Enumerated(EnumType.STRING)
+	public YesNoType getPropertyDamage() {
+		return propertyDamage;
+	}
+
+	/**
+	 * @param propertyDamage the propertyDamage to set
+	 */
+	public void setPropertyDamage(final YesNoType propertyDamage) {
+		this.propertyDamage = propertyDamage;
+	}
+
+	/**
+	 * @return the criminalAttack
+	 */
+	@Column(name = "CRIM_ATTK")
+	@Enumerated(EnumType.STRING)
+	public YesNoType getCriminalAttack() {
+		return criminalAttack;
+	}
+
+	/**
+	 * @param criminalAttack the criminalAttack to set
+	 */
+	public void setCriminalAttack(final YesNoType criminalAttack) {
+		this.criminalAttack = criminalAttack;
+	}
+
+	/**
+	 * @return the accidentDamage
+	 */
+	@Column(name = "ACCI_DMGE")
+	@Enumerated(EnumType.STRING)
+	public YesNoType getAccidentDamage() {
+		return accidentDamage;
+	}
+
+	/**
+	 * @param accidentDamage the accidentDamage to set
+	 */
+	public void setAccidentDamage(final YesNoType accidentDamage) {
+		this.accidentDamage = accidentDamage;
+	}
+
+	/**
+	 * @return the vehicleOrAssetDamage
+	 */
+	@Column(name = "VEH_ASST_DMGE")
+	@Enumerated(EnumType.STRING)
+	public YesNoType getVehicleOrAssetDamage() {
+		return vehicleOrAssetDamage;
+	}
+
+	/**
+	 * @param vehicleOrAssetDamage the vehicleOrAssetDamage to set
+	 */
+	public void setVehicleOrAssetDamage(final YesNoType vehicleOrAssetDamage) {
+		this.vehicleOrAssetDamage = vehicleOrAssetDamage;
+	}	
 }

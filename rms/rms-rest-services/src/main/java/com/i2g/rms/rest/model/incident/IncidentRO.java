@@ -11,7 +11,6 @@ import com.i2g.rms.rest.model.SuspectRO;
 import com.i2g.rms.rest.model.UserRO;
 import com.i2g.rms.rest.model.YesNoTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.EntryPointRO;
-import com.i2g.rms.rest.model.tablemaintenance.IncidentCategoryRO;
 import com.i2g.rms.rest.model.tablemaintenance.IncidentLocationDetailRO;
 import com.i2g.rms.rest.model.tablemaintenance.IncidentTypeRO;
 
@@ -36,14 +35,14 @@ public class IncidentRO extends AbstractEntityRO {
 	private IncidentLocationDetailRO _incidentLocationDetails;
 	private String _incidentDescription;
 	private StatusFlagRO _statusFlag;
-	private YesNoTypeRO _personInjured;
-	private YesNoTypeRO _propertyDamage;
-	private YesNoTypeRO _crimeInvolved;
 	private UserRO _incidentReportedBy;
-	private IncidentCategoryRO _incidentCategory;
 	private LocalDateTime _incidentClosedDateTime;
 	private Set<SuspectRO> _suspects = new HashSet<SuspectRO>(0);
 	private Set<UserRO> _employeeSuspects = new HashSet<UserRO>(0);
+	private YesNoTypeRO _propertyDamage;
+	private YesNoTypeRO _criminalAttack;
+	private YesNoTypeRO _accidentDamage;
+	private YesNoTypeRO _vehicleOrAssetDamage;
 	
 	/**
 	 * @return the id
@@ -211,51 +210,6 @@ public class IncidentRO extends AbstractEntityRO {
 	}
 
 	/**
-	 * @return the personInjured
-	 */
-	public YesNoTypeRO getPersonInjured() {
-		return _personInjured;
-	}
-
-	/**
-	 * @param personInjured
-	 *            the personInjured to set
-	 */
-	public void setPersonInjured(final YesNoTypeRO personInjured) {
-		_personInjured = personInjured;
-	}
-
-	/**
-	 * @return the propertyDamage
-	 */
-	public YesNoTypeRO getPropertyDamage() {
-		return _propertyDamage;
-	}
-
-	/**
-	 * @param propertyDamage
-	 *            the propertyDamage to set
-	 */
-	public void setPropertyDamage(final YesNoTypeRO propertyDamage) {
-		_propertyDamage = propertyDamage;
-	}
-
-	/**
-	 * @return the crimeInvolved
-	 */
-	public YesNoTypeRO getCrimeInvolved() {
-		return _crimeInvolved;
-	}
-
-	/**
-	 * @param crimeInvolved
-	 *            the crimeInvolved to set
-	 */
-	public void setCrimeInvolved(final YesNoTypeRO crimeInvolved) {
-		_crimeInvolved = crimeInvolved;
-	}
-
-	/**
 	 * @return the user
 	 */
 	public UserRO getIncidentReportedBy() {
@@ -268,21 +222,6 @@ public class IncidentRO extends AbstractEntityRO {
 	 */
 	public void setIncidentReportedBy(final UserRO incidentReportedBy) {
 		_incidentReportedBy = incidentReportedBy;
-	}
-
-	/**
-	 * @return the incidentCategory
-	 */
-	public IncidentCategoryRO getIncidentCategory() {
-		return _incidentCategory;
-	}
-
-	/**
-	 * @param incidentCategory
-	 *            the incidentCategory to set
-	 */
-	public void setIncidentCategory(final IncidentCategoryRO incidentCategory) {
-		_incidentCategory = incidentCategory;
 	}
 
 	/**
@@ -327,5 +266,37 @@ public class IncidentRO extends AbstractEntityRO {
 	 */
 	public void setEmployeeSuspects(final Set<UserRO> employeeSuspects) {
 		_employeeSuspects = employeeSuspects;
+	}
+
+	public YesNoTypeRO getPropertyDamage() {
+		return _propertyDamage;
+	}
+
+	public YesNoTypeRO getCriminalAttack() {
+		return _criminalAttack;
+	}
+
+	public YesNoTypeRO getAccidentDamage() {
+		return _accidentDamage;
+	}
+
+	public YesNoTypeRO getVehicleOrAssetDamage() {
+		return _vehicleOrAssetDamage;
+	}
+
+	public void setPropertyDamage(final YesNoTypeRO propertyDamage) {
+		_propertyDamage = propertyDamage;
+	}
+
+	public void setCriminalAttack(final YesNoTypeRO criminalAttack) {
+		_criminalAttack = criminalAttack;
+	}
+
+	public void setAccidentDamage(final YesNoTypeRO accidentDamage) {
+		_accidentDamage = accidentDamage;
+	}
+
+	public void setVehicleOrAssetDamage(final YesNoTypeRO vehicleOrAssetDamage) {
+		_vehicleOrAssetDamage = vehicleOrAssetDamage;
 	}	
 }

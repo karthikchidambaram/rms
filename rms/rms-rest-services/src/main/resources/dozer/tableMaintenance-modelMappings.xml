@@ -176,7 +176,7 @@
 	
 	<mapping>
 		<class-a>com.i2g.rms.domain.model.tablemaintenance.IncidentCategory</class-a>
-		<class-b>com.i2g.rms.rest.model.tablemaintenance.IncidentCategoryRO</class-b>
+		<class-b>com.i2g.rms.rest.model.tablemaintenance.IncidentCategoryRO</class-b>		
 	</mapping>
 	
 	<mapping>

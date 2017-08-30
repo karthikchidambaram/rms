@@ -30,7 +30,7 @@ public class IncidentCategory extends AbstractDataModel<String> implements Seria
 	private static final long serialVersionUID = 1L;
 	private String _id;
 	private String _description;
-
+	
 	/**
 	 * Default empty constructor required for Hibernate.
 	 */
@@ -103,7 +103,7 @@ public class IncidentCategory extends AbstractDataModel<String> implements Seria
 	public void setDescription(String description) {
 		_description = description;
 	}
-
+	
 	@Override
 	public boolean equals(final Object obj) {
 		return obj == this || (obj instanceof IncidentCategory && Objects.equals(_id, ((IncidentCategory) obj)._id));

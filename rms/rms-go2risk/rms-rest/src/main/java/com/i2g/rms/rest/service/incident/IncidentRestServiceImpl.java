@@ -72,9 +72,10 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 									.setIncidentReportedBy(user)
 									.setIncidentStatus(IncidentStatus.DRAFT)
 									.setStatusFlag(StatusFlag.ACTIVE)
-									.setPersonInjured(YesNoType.N)
+									.setAccidentDamage(YesNoType.N)
+									.setCriminalAttack(YesNoType.N)
 									.setPropertyDamage(YesNoType.N)
-									.setCrimeInvolved(YesNoType.N)
+									.setVehicleOrAssetDamage(YesNoType.N)
 									.setIncidentOpenedDateTime(ApplicationUtilService.getCurrentTimestamp())
 									.build();
 		//Validate the newly created object
