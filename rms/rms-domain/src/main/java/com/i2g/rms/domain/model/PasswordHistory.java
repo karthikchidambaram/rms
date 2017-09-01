@@ -58,7 +58,6 @@ public class PasswordHistory extends AbstractDataModel<Long> implements Serializ
 	 * @param builder
 	 */
 	private PasswordHistory(final Builder builder) {
-		_id = Objects.requireNonNull(builder._id, "ID cannot be null");
 		_password = Objects.requireNonNull(builder._password, "Password cannot be null");
 		_reasonDescription = Objects.requireNonNull(builder._reasonDescription, "Password change reason description cannot be null");
 		_user = Objects.requireNonNull(builder._user, "User (Object) cannot be null. Foreign Key Constraint Violation.");
@@ -129,7 +128,6 @@ public class PasswordHistory extends AbstractDataModel<Long> implements Serializ
 	 */
 	public final static class Builder {
 
-		private Long _id;
 		private String _password;
 		private String _reasonDescription;
 		private User _user;
@@ -141,17 +139,6 @@ public class PasswordHistory extends AbstractDataModel<Long> implements Serializ
 		 */
 		public PasswordHistory build() {
 			return new PasswordHistory(this);
-		}
-
-		/**
-		 * Sets the specified {@code id}.
-		 * 
-		 * @param id
-		 * @return this builder
-		 */
-		public Builder setId(final Long id) {
-			_id = id;
-			return this;
 		}
 
 		public Builder setPassword(final String password) {

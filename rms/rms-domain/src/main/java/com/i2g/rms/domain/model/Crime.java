@@ -77,7 +77,6 @@ public class Crime extends AbstractDataModel<Long> implements Serializable {
 	 * @param builder
 	 */
 	private Crime(final Builder builder) {
-		_id = Objects.requireNonNull(builder._id, "Crime Id cannot be null.");		
 		_statusFlag = Objects.requireNonNull(builder._statusFlag, "Status flag cannot be null.");
 	}
 	
@@ -467,7 +466,6 @@ public class Crime extends AbstractDataModel<Long> implements Serializable {
 	 */
 	public final static class Builder {
 
-		private Long _id;
 		private StatusFlag _statusFlag;
 
 		/**
@@ -477,17 +475,6 @@ public class Crime extends AbstractDataModel<Long> implements Serializable {
 		 */
 		public Crime build() {
 			return new Crime(this);
-		}
-
-		/**
-		 * Sets the specified {@code id}.
-		 * 
-		 * @param id
-		 * @return this builder
-		 */
-		public Builder setId(final Long id) {
-			_id = id;
-			return this;
 		}
 
 		public Builder setStatusFlag(final StatusFlag statusFlag) {

@@ -70,7 +70,6 @@ public class Asset extends AbstractDataModel<Long> implements Serializable {
 	 * @param builder
 	 */
 	private Asset(final Builder builder) {
-		_id = Objects.requireNonNull(builder._id, "Asset Id cannot be null.");		
 		_statusFlag = Objects.requireNonNull(builder._statusFlag, "Status flag cannot be null.");
 	}
 	
@@ -280,7 +279,6 @@ public class Asset extends AbstractDataModel<Long> implements Serializable {
 	 */
 	public final static class Builder {
 
-		private Long _id;
 		private StatusFlag _statusFlag;
 
 		/**
@@ -290,17 +288,6 @@ public class Asset extends AbstractDataModel<Long> implements Serializable {
 		 */
 		public Asset build() {
 			return new Asset(this);
-		}
-
-		/**
-		 * Sets the specified {@code id}.
-		 * 
-		 * @param id
-		 * @return this builder
-		 */
-		public Builder setId(final Long id) {
-			_id = id;
-			return this;
 		}
 
 		public Builder setStatusFlag(final StatusFlag statusFlag) {

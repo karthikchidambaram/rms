@@ -6,6 +6,7 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.i2g.rms.rest.model.AbstractEntityRO;
+import com.i2g.rms.rest.model.ReportedLossRO;
 import com.i2g.rms.rest.model.StatusFlagRO;
 import com.i2g.rms.rest.model.SuspectRO;
 import com.i2g.rms.rest.model.UserRO;
@@ -43,6 +44,7 @@ public class IncidentRO extends AbstractEntityRO {
 	private YesNoTypeRO _criminalAttack;
 	private YesNoTypeRO _accidentDamage;
 	private YesNoTypeRO _vehicleOrAssetDamage;
+	private Set<ReportedLossRO> _reportedLosses = new HashSet<ReportedLossRO>(0);
 	
 	/**
 	 * @return the id
@@ -298,5 +300,13 @@ public class IncidentRO extends AbstractEntityRO {
 
 	public void setVehicleOrAssetDamage(final YesNoTypeRO vehicleOrAssetDamage) {
 		_vehicleOrAssetDamage = vehicleOrAssetDamage;
-	}	
+	}
+
+	public Set<ReportedLossRO> getReportedLosses() {
+		return _reportedLosses;
+	}
+
+	public void setReportedLosses(final Set<ReportedLossRO> reportedLosses) {
+		_reportedLosses = reportedLosses;
+	}
 }

@@ -20,14 +20,18 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;
 
 import com.i2g.rms.domain.model.AbstractDataModel;
+import com.i2g.rms.domain.model.ReportedLoss;
 import com.i2g.rms.domain.model.StatusFlag;
 import com.i2g.rms.domain.model.Suspect;
 import com.i2g.rms.domain.model.User;
@@ -65,12 +69,13 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 	private StatusFlag _statusFlag;
 	private User _incidentReportedBy;
 	private LocalDateTime _incidentClosedDateTime;
-	private Set<Suspect> _suspects = new HashSet<Suspect>(0);	
+	private Set<Suspect> _suspects = new HashSet<Suspect>(0);
 	private Set<User> _employeeSuspects = new HashSet<User>(0);
 	private YesNoType _propertyDamage;
 	private YesNoType _criminalAttack;
 	private YesNoType _accidentDamage;
 	private YesNoType _vehicleOrAssetDamage;
+	private Set<ReportedLoss> _reportedLosses = new HashSet<ReportedLoss>(0);
 	
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -261,8 +266,8 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 			joinColumns = @JoinColumn(name = "INC_ID"),
 			inverseJoinColumns = @JoinColumn(name = "SUSPT_ID")
 	)
-	public Set<Suspect> getSuspects() {
-		return _suspects;
+	public Set<Suspect> getSuspects() {		
+		return _suspects;		
 	}
 
 	/**
@@ -277,7 +282,7 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 	 */
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(
-			name = "RMS_INC_SUSPT",
+			name = "RMS_INC_USR_SUSPT",
 			joinColumns = @JoinColumn(name = "INC_ID"),
 			inverseJoinColumns = @JoinColumn(name = "USR_ID")
 	)
@@ -358,6 +363,16 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 	 */
 	public void setVehicleOrAssetDamage(final YesNoType vehicleOrAssetDamage) {
 		_vehicleOrAssetDamage = vehicleOrAssetDamage;
+	}
+	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "incident")
+	@Fetch(FetchMode.SUBSELECT)
+	public Set<ReportedLoss> getReportedLosses() {
+		return _reportedLosses;
+	}
+
+	public void setReportedLosses(final Set<ReportedLoss> reportedLosses) {
+		_reportedLosses = reportedLosses;
 	}
 
 	@Override
@@ -453,5 +468,5 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 			_vehicleOrAssetDamage = vehicleOrAssetDamage;
 			return this;
 		}		
-	}
+	}	
 }

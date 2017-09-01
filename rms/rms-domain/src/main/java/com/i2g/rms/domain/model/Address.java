@@ -15,7 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Entity representation of Address.
@@ -26,6 +27,7 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "RMS_ADDR")
+@JsonIgnoreProperties({"user", "building", "asset", "witness", "injuredPerson", "suspect", "crime", "accident"})
 public class Address extends AbstractDataModel<Long> implements Serializable {
 	
 	/**
@@ -41,6 +43,7 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 	private String _localityName;
 	private String _postTown;
 	private String _county;
+	private String _city;
 	private String _postcode;
 	private String _country;
 	private StatusFlag _statusFlag;
@@ -66,7 +69,6 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 	 * @param builder
 	 */
 	private Address(final Builder builder) {
-		_id = Objects.requireNonNull(builder._id, "Address Id cannot be null.");		
 		_statusFlag = Objects.requireNonNull(builder._statusFlag, "Status flag cannot be null.");
 	}
 	
@@ -102,8 +104,7 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the organizationName
 	 */
-	@Column(name = "ORG_NAM")
-	@Size(min = 1, max = 64, message = "Organization name must be between {min} and {max} characters")
+	@Column(name = "ORG_NAM", length = 64)
 	public String getOrganizationName() {
 		return _organizationName;
 	}
@@ -118,8 +119,7 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the buildingName
 	 */
-	@Column(name = "BLDNG_NAM")
-	@Size(min = 1, max = 64, message = "Building name must be between {min} and {max} characters")
+	@Column(name = "BLDNG_NAM", length = 64)
 	public String getBuildingName() {
 		return _buildingName;
 	}
@@ -134,8 +134,7 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the streetName
 	 */
-	@Column(name = "ST_NAM")
-	@Size(min = 1, max = 64, message = "Street name must be between {min} and {max} characters")
+	@Column(name = "ST_NAM", length = 64)
 	public String getStreetName() {
 		return _streetName;
 	}
@@ -150,8 +149,7 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the localityName
 	 */
-	@Column(name = "LCLTY_NAM")
-	@Size(min = 1, max = 64, message = "Locality name must be between {min} and {max} characters")
+	@Column(name = "LCLTY_NAM", length = 64)
 	public String getLocalityName() {
 		return _localityName;
 	}
@@ -166,8 +164,7 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the postTown
 	 */
-	@Column(name = "PST_TWN")
-	@Size(min = 1, max = 64, message = "Post town must be between {min} and {max} characters")
+	@Column(name = "PST_TWN", length = 64)
 	public String getPostTown() {
 		return _postTown;
 	}
@@ -182,8 +179,7 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the county
 	 */
-	@Column(name = "CNTY")
-	@Size(min = 1, max = 64, message = "County must be between {min} and {max} characters")
+	@Column(name = "CNTY", length = 64)
 	public String getCounty() {
 		return _county;
 	}
@@ -198,8 +194,7 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the postCode
 	 */
-	@Column(name = "PST_CDE")
-	@Size(min = 1, max = 64, message = "Postcode must be between {min} and {max} characters")
+	@Column(name = "PST_CDE", length = 64)
 	public String getPostcode() {
 		return _postcode;
 	}
@@ -214,8 +209,7 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the country
 	 */
-	@Column(name = "CNTRY")
-	@Size(min = 1, max = 64, message = "Country name must be between {min} and {max} characters")
+	@Column(name = "CNTRY", length = 64)
 	public String getCountry() {
 		return _country;
 	}
@@ -231,7 +225,6 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 	 * @return the statusFlag
 	 */
 	@Column(name = "STS_FLG", nullable = false)
-	@Size(min = 1, max = 16, message = "Status flag code must be between {min} and {max} characters")
 	@Enumerated(EnumType.STRING)
 	public StatusFlag getStatusFlag() {
 		return _statusFlag;
@@ -372,6 +365,15 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 		_accident = accident;
 	}
 	
+	@Column(name = "CITY", length = 64)
+	public String getCity() {
+		return _city;
+	}
+
+	public void setCity(final String city) {
+		_city = city;
+	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(_id, _statusFlag);
@@ -398,6 +400,7 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 		+ "Locality Name: " + _localityName + ", "
 		+ "Post Town: " + _postTown + ", "
 		+ "County: " + _county + ", "
+		+ "City: " + _city + ", "
 		+ "Postcode: " + _postcode + ", "
 		+ "Country: " + _country + ", "
 		+ "Status Flag: " + _statusFlag;
@@ -409,7 +412,6 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 	 */
 	public final static class Builder {
 
-		private Long _id;
 		private StatusFlag _statusFlag;
 
 		/**
@@ -421,20 +423,9 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 			return new Address(this);
 		}
 
-		/**
-		 * Sets the specified {@code id}.
-		 * 
-		 * @param id
-		 * @return this builder
-		 */
-		public Builder setId(final Long id) {
-			_id = id;
-			return this;
-		}
-
 		public Builder setStatusFlag(final StatusFlag statusFlag) {
 			_statusFlag = statusFlag;
 			return this;
 		}
-	}
+	}	
 }

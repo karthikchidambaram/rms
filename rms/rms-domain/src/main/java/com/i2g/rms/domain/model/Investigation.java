@@ -67,7 +67,6 @@ public class Investigation extends AbstractDataModel<Long> implements Serializab
 	 * @param builder
 	 */
 	private Investigation(final Builder builder) {
-		_id = Objects.requireNonNull(builder._id, "Investigation Id cannot be null.");		
 		_statusFlag = Objects.requireNonNull(builder._statusFlag, "Status flag cannot be null.");
 	}
 	
@@ -347,7 +346,6 @@ public class Investigation extends AbstractDataModel<Long> implements Serializab
 	 */
 	public final static class Builder {
 
-		private Long _id;
 		private StatusFlag _statusFlag;
 
 		/**
@@ -357,17 +355,6 @@ public class Investigation extends AbstractDataModel<Long> implements Serializab
 		 */
 		public Investigation build() {
 			return new Investigation(this);
-		}
-
-		/**
-		 * Sets the specified {@code id}.
-		 * 
-		 * @param id
-		 * @return this builder
-		 */
-		public Builder setId(final Long id) {
-			_id = id;
-			return this;
 		}
 
 		public Builder setStatusFlag(final StatusFlag statusFlag) {

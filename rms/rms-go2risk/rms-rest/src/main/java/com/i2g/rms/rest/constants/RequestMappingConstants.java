@@ -330,11 +330,12 @@ public interface RequestMappingConstants {
 	String DELETE_POSITION_LEVEL			= TABLE_MAINTENANCE + "/position-level/delete-position-level/{code}";
 	
 	/** Incidents */
-	String INCIDENT 							= SECURED + "/incident";
-	String GET_INCIDENTS						= INCIDENT + "/incidents";
-	String GET_INCIDENT_BY_UNIQUE_INCIDENT_ID 	= INCIDENT + "/{uniqueIncidentId}";
-	String ADD_INCIDENT 						= INCIDENT + "/add-incident";
-	String LOG_INCIDENT 						= INCIDENT + "/log-incident";
+	String INCIDENT 									= SECURED + "/incident";
+	String GET_INCIDENTS								= INCIDENT + "/incidents";
+	String GET_INCIDENT_BY_UNIQUE_INCIDENT_ID 			= INCIDENT + "/{uniqueIncidentId}";
+	String ADD_INCIDENT 								= INCIDENT + "/add-incident";
+	String LOG_INCIDENT 								= INCIDENT + "/log-incident";
+	String ADD_INCIDENT_DETAILS							= INCIDENT + "/add-incident-details";
 	
 	/** Search Incidents */
 	String SEARCH_INCIDENT							= SECURED + "/search-incident";	
@@ -343,4 +344,10 @@ public interface RequestMappingConstants {
 	String USER_LOOKUP 							= SECURED + "/user-lookup";
 	String SUSPECT_LOOKUP 						= SECURED + "/suspect-lookup";
 	String MANAGER_LOOKUP 						= SECURED + "/manager-lookup";
+	
+	/** Address */
+	String ADDRESS 								= SECURED + "/address";
+	String GET_ADDRESSES						= ADDRESS + "/addresses";
+	String GET_ADDRESS							= ADDRESS + "/{id}";
+	String CREATE_ADDRESS						= ADDRESS + "/create-address";
 }

@@ -58,7 +58,6 @@ public class InvestigationTeam extends AbstractDataModel<Long> implements Serial
 	 * @param builder
 	 */
 	private InvestigationTeam(final Builder builder) {
-		_id = Objects.requireNonNull(builder._id, "ID cannot be null");
 		_investigationTeamName = Objects.requireNonNull(builder._investigationTeamName, "Investigation team name cannot be null.");
 		_investigationTeamDescription = Objects.requireNonNull(builder._investigationTeamDescription, "Investigation team description cannot be null.");
 	}
@@ -151,7 +150,6 @@ public class InvestigationTeam extends AbstractDataModel<Long> implements Serial
 	 */
 	public final static class Builder {
 
-		private Long _id;
 		private String _investigationTeamName;
 		private String _investigationTeamDescription;
 
@@ -162,17 +160,6 @@ public class InvestigationTeam extends AbstractDataModel<Long> implements Serial
 		 */
 		public InvestigationTeam build() {
 			return new InvestigationTeam(this);
-		}
-
-		/**
-		 * Sets the specified {@code id}.
-		 * 
-		 * @param id
-		 * @return this builder
-		 */
-		public Builder setId(final Long id) {
-			_id = id;
-			return this;
 		}
 
 		public Builder setInvestigationTeamName(final String investigationTeamName) {

@@ -70,7 +70,6 @@ public class ClaimHistory extends AbstractDataModel<Long> implements Serializabl
 	 * @param builder
 	 */
 	private ClaimHistory(final Builder builder) {
-		_id = Objects.requireNonNull(builder._id, "Claim history Id cannot be null.");		
 		_statusFlag = Objects.requireNonNull(builder._statusFlag, "Status flag cannot be null.");
 	}
 	
@@ -388,7 +387,6 @@ public class ClaimHistory extends AbstractDataModel<Long> implements Serializabl
 	 */
 	public final static class Builder {
 
-		private Long _id;
 		private StatusFlag _statusFlag;
 
 		/**
@@ -398,17 +396,6 @@ public class ClaimHistory extends AbstractDataModel<Long> implements Serializabl
 		 */
 		public ClaimHistory build() {
 			return new ClaimHistory(this);
-		}
-
-		/**
-		 * Sets the specified {@code id}.
-		 * 
-		 * @param id
-		 * @return this builder
-		 */
-		public Builder setId(final Long id) {
-			_id = id;
-			return this;
 		}
 
 		public Builder setStatusFlag(final StatusFlag statusFlag) {

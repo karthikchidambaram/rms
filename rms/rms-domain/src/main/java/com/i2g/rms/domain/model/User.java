@@ -101,6 +101,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	private EmployeeType _employeeType;
 	private User _manager;
 	private Set<User> _subordinates = new HashSet<User>(0);
+	private Set<Address> _address = new HashSet<Address>(0);
 		
 	@NotNull
 	@Transient
@@ -146,7 +147,6 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	 * @param builder
 	 */
 	private User(final Builder builder) {
-		_id = Objects.requireNonNull(builder._id, "ID cannot be null.");
 		_loginId = Objects.requireNonNull(builder._loginId, "User login ID cannot be null.");
 		_password = Objects.requireNonNull(builder._password, "Password cannot be null.");
 		_firstName = Objects.requireNonNull(builder._firstName, "First name cannot be null.");
@@ -342,7 +342,6 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	 */
 	public final static class Builder {
 
-		private Long _id;
 		private String _loginId;
 		private String _password;
 		private String _firstName;
@@ -356,17 +355,6 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 		 */
 		public User build() {
 			return new User(this);
-		}
-
-		/**
-		 * Sets the specified {@code id}.
-		 * 
-		 * @param id
-		 * @return this builder
-		 */
-		public Builder setId(final Long id) {
-			_id = id;
-			return this;
 		}
 
 		/**
@@ -729,5 +717,15 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	 */
 	public void setSubordinates(final Set<User> subordinates) {
 		_subordinates = subordinates;
+	}
+	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "user")
+	@Fetch(FetchMode.SUBSELECT)
+	public Set<Address> getAddress() {
+		return _address;
+	}
+
+	public void setAddress(final Set<Address> address) {
+		_address = address;
 	}	
 }

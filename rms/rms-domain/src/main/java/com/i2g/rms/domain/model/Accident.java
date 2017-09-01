@@ -66,7 +66,6 @@ public class Accident extends AbstractDataModel<Long> implements Serializable {
 	 * @param builder
 	 */
 	private Accident(final Builder builder) {
-		_id = Objects.requireNonNull(builder._id, "Accident Id cannot be null.");
 		_incident = Objects.requireNonNull(builder._incident, "Incident (object) cannot be null inside accident details.");
 		_statusFlag = Objects.requireNonNull(builder._statusFlag, "Accident status flag cannot be null.");
 	}
@@ -278,7 +277,6 @@ public class Accident extends AbstractDataModel<Long> implements Serializable {
 	 */
 	public final static class Builder {
 
-		private Long _id;
 		private Incident _incident;
 		private StatusFlag _statusFlag;
 
@@ -289,17 +287,6 @@ public class Accident extends AbstractDataModel<Long> implements Serializable {
 		 */
 		public Accident build() {
 			return new Accident(this);
-		}
-
-		/**
-		 * Sets the specified {@code id}.
-		 * 
-		 * @param id
-		 * @return this builder
-		 */
-		public Builder setId(final Long id) {
-			_id = id;
-			return this;
 		}
 
 		public Builder seIncident(final Incident incident) {

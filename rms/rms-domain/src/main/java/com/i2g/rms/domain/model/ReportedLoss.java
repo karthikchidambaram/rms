@@ -2,7 +2,7 @@ package com.i2g.rms.domain.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -18,10 +18,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Type;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.i2g.rms.domain.model.incident.Incident;
 import com.i2g.rms.domain.model.tablemaintenance.ExternalAgency;
 import com.i2g.rms.domain.model.tablemaintenance.LossType;
@@ -35,6 +35,7 @@ import com.i2g.rms.domain.model.tablemaintenance.LossType;
  */
 @Entity
 @Table(name = "RMS_RPT_LOSS")
+@JsonIgnoreProperties({"incident"})
 public class ReportedLoss extends AbstractDataModel<Long> implements Serializable {
 	
 	/**
@@ -50,8 +51,7 @@ public class ReportedLoss extends AbstractDataModel<Long> implements Serializabl
 	private BigDecimal _lossValue;
 	private YesNoType _externalAgencyContacted;
 	private ExternalAgency _externalAgency;
-	private LocalDate _dateContacted;
-	private Long _timeContacted;
+	private LocalDateTime _dateTimeContacted;
 	private BigDecimal _costEstimation;
 		
 	/**
@@ -67,7 +67,6 @@ public class ReportedLoss extends AbstractDataModel<Long> implements Serializabl
 	 * @param builder
 	 */
 	private ReportedLoss(final Builder builder) {
-		_id = Objects.requireNonNull(builder._id, "Reported loss Id cannot be null.");		
 		_statusFlag = Objects.requireNonNull(builder._statusFlag, "Status flag cannot be null.");
 	}
 	
@@ -120,7 +119,6 @@ public class ReportedLoss extends AbstractDataModel<Long> implements Serializabl
 	 * @return the statusFlag
 	 */
 	@Column(name = "STS_FLG", nullable = false)
-	@Size(min = 1, max = 16, message = "Status flag code must be between {min} and {max} characters")
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	public StatusFlag getStatusFlag() {
@@ -139,7 +137,6 @@ public class ReportedLoss extends AbstractDataModel<Long> implements Serializabl
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "LOS_TYP_CDE")
-	@Size(min = 1, max = 16, message = "Loss type code must be between {min} and {max} characters")
 	public LossType getLossType() {
 		return _lossType;
 	}
@@ -170,7 +167,6 @@ public class ReportedLoss extends AbstractDataModel<Long> implements Serializabl
 	 * @return the externalAgencyContacted
 	 */
 	@Column(name = "EXTNL_AGNCY_CNTD")
-	@Size(max = 1, message = "Any external agency contacted is 'Yes' or 'No' data type. The max length for the corresponding code is 1.")
 	@Enumerated(EnumType.STRING)
 	public YesNoType getExternalAgencyContacted() {
 		return _externalAgencyContacted;
@@ -188,7 +184,6 @@ public class ReportedLoss extends AbstractDataModel<Long> implements Serializabl
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "EXTNL_AGNCY_TYP_CDE")
-	@Size(min = 1, max = 16, message = "External agency type code must be between {min} and {max} characters")
 	public ExternalAgency getExternalAgency() {
 		return _externalAgency;
 	}
@@ -201,38 +196,19 @@ public class ReportedLoss extends AbstractDataModel<Long> implements Serializabl
 	}
 
 	/**
-	 * @return the dateContacted
+	 * @return the dateTimeContacted
 	 */
-	@Column(name = "DT_CNTD")
-	@Type(type = "com.i2g.rms.domain.model.type.LocalDateType")
-	public LocalDate getDateContacted() {
-		return _dateContacted;
+	@Column(name = "CNTD_DTM")
+	@Type(type = "com.i2g.rms.domain.model.type.LocalDateTimeType")
+	public LocalDateTime getDateTimeContacted() {
+		return _dateTimeContacted;
 	}
 
 	/**
-	 * @param dateContacted the dateContacted to set
+	 * @param dateTimeContacted the dateTimeContacted to set
 	 */
-	public void setDateContacted(final LocalDate dateContacted) {
-		_dateContacted = dateContacted;
-	}
-
-	/**
-	 * @return the timeContacted
-	 */
-	@Column(name = "TIME_CNTD")
-	public Long getTimeContacted() {
-		return _timeContacted;
-	}
-
-	/**
-	 * @param timeContacted the timeContacted to set
-	 */
-	public void setTimeContacted(final Long timeContacted) {
-		if (timeContacted != null) {
-			_timeContacted = timeContacted;
-		} else {
-			_timeContacted = 0l;
-		}
+	public void setDateTimeContacted(final LocalDateTime dateTimeContacted) {
+		_dateTimeContacted = dateTimeContacted;
 	}
 
 	/**
@@ -279,7 +255,6 @@ public class ReportedLoss extends AbstractDataModel<Long> implements Serializabl
 	 */
 	public final static class Builder {
 
-		private Long _id;
 		private StatusFlag _statusFlag;
 
 		/**
@@ -289,17 +264,6 @@ public class ReportedLoss extends AbstractDataModel<Long> implements Serializabl
 		 */
 		public ReportedLoss build() {
 			return new ReportedLoss(this);
-		}
-
-		/**
-		 * Sets the specified {@code id}.
-		 * 
-		 * @param id
-		 * @return this builder
-		 */
-		public Builder setId(final Long id) {
-			_id = id;
-			return this;
 		}
 
 		public Builder setStatusFlag(final StatusFlag statusFlag) {

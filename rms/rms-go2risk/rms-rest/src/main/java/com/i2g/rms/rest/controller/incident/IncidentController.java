@@ -2,8 +2,11 @@ package com.i2g.rms.rest.controller.incident;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,7 +15,9 @@ import com.i2g.rms.domain.model.incident.Incident;
 import com.i2g.rms.rest.constants.RequestMappingConstants;
 import com.i2g.rms.rest.controller.AbstractRestController;
 import com.i2g.rms.rest.model.UserRO;
+import com.i2g.rms.rest.model.incident.IncidentDetailRO;
 import com.i2g.rms.rest.model.incident.IncidentRO;
+import com.i2g.rms.rest.model.incident.LogIncidentRO;
 import com.i2g.rms.rest.search.Searchable;
 import com.i2g.rms.rest.service.incident.IncidentRestService;
 
@@ -46,7 +51,12 @@ public class IncidentController extends AbstractRestController {
 	}
 	
 	@RequestMapping(value = RequestMappingConstants.LOG_INCIDENT, method = RequestMethod.POST)
-	public IncidentRO logIncident() {
-		return _incidentRestService.logIncident();
+	public IncidentRO logIncident(final @Valid @RequestBody LogIncidentRO logIncidentRO) {
+		return _incidentRestService.logIncident(logIncidentRO);
+	}
+	
+	@RequestMapping(value = RequestMappingConstants.ADD_INCIDENT_DETAILS, method = RequestMethod.POST)
+	public IncidentRO addIncidentDetail(final @Valid @RequestBody IncidentDetailRO incidentDetailRO) {
+		return _incidentRestService.addIncidentDetail(incidentDetailRO);
 	}
 }

@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -17,11 +18,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -56,7 +59,7 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	private String _lastName;
 	private String _nameSuffix;
 	private GenderType _genderType;
-	private DistinguishingFeatureDetail _distinguishingFeaturesDetail;
+	private DistinguishingFeatureDetail _distinguishingFeatureDetail;
 	private LocalDate _dateOfBirth;
 	private Integer _age;
 	private String _phone;
@@ -67,6 +70,7 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	private YesNoType _weaponInvolved;
 	private WeaponType _weaponType;
 	private SuspectType _suspectType;
+	private Set<Address> _address = new HashSet<Address>(0);
 	private Set<Incident> _incidents = new HashSet<Incident>(0);
 	
 	/**
@@ -82,8 +86,7 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	 * @param builder
 	 */
 	private Suspect(final Builder builder) {
-		_id = Objects.requireNonNull(builder._id, "Suspect Id cannot be null.");		
-		_statusFlag = Objects.requireNonNull(builder._statusFlag, "Status flag cannot be null.");
+		_statusFlag = Objects.requireNonNull(builder._statusFlag, "Suspect status flag cannot be null.");
 	}
 	
 	/**
@@ -119,7 +122,6 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	 * @return the statusFlag
 	 */
 	@Column(name = "STS_FLG", nullable = false)
-	@Size(min = 1, max = 16, message = "Status flag code must be between {min} and {max} characters")
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	public StatusFlag getStatusFlag() {
@@ -136,8 +138,7 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the title
 	 */
-	@Column(name = "TITLE")
-	@Size(min = 1, max = 32, message = "Title must be between {min} and {max} characters")
+	@Column(name = "TITLE", length = 32)
 	public String getTitle() {
 		return _title;
 	}
@@ -152,8 +153,7 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the firstName
 	 */
-	@Column(name = "FNAME")
-	@Size(min = 1, max = 64, message = "First name must be between {min} and {max} characters")
+	@Column(name = "FNAME", length = 64)
 	public String getFirstName() {
 		return _firstName;
 	}
@@ -168,8 +168,7 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the middleName
 	 */
-	@Column(name = "MNAME")
-	@Size(min = 1, max = 64, message = "Middle name must be between {min} and {max} characters")
+	@Column(name = "MNAME", length = 64)
 	public String getMiddleName() {
 		return _middleName;
 	}
@@ -177,15 +176,14 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @param middleName the middleName to set
 	 */
-	public void setMiddleName(String middleName) {
+	public void setMiddleName(final String middleName) {
 		_middleName = middleName;
 	}
 
 	/**
 	 * @return the lastName
 	 */
-	@Column(name = "LNAME")
-	@Size(min = 1, max = 64, message = "Last name must be between {min} and {max} characters")
+	@Column(name = "LNAME", length = 64)
 	public String getLastName() {
 		return _lastName;
 	}
@@ -200,8 +198,7 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the nameSuffix
 	 */
-	@Column(name = "NAM_SUFFIX")
-	@Size(min = 1, max = 32, message = "Last name must be between {min} and {max} characters")
+	@Column(name = "NAM_SUFFIX", length = 32)
 	public String getNameSuffix() {
 		return _nameSuffix;
 	}
@@ -218,7 +215,6 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "GNDR_TYP_CDE")
-	@Size(min = 1, max = 16, message = "Gender type code must be between {min} and {max} characters")
 	public GenderType getGenderType() {
 		return _genderType;
 	}
@@ -231,20 +227,19 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @return the distinguishingFeaturesDetail
+	 * @return the distinguishingFeatureDetail
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "DIST_FEA_CHLD_CDE")
-	@Size(min = 1, max = 16, message = "Distinguishing features code must be between {min} and {max} characters")
-	public DistinguishingFeatureDetail getDistinguishingFeaturesDetail() {
-		return _distinguishingFeaturesDetail;
+	public DistinguishingFeatureDetail getDistinguishingFeatureDetail() {
+		return _distinguishingFeatureDetail;
 	}
 
 	/**
-	 * @param distinguishingFeaturesDetail the distinguishingFeaturesDetail to set
+	 * @param distinguishingFeatureDetail the distinguishingFeatureDetail to set
 	 */
-	public void setDistinguishingFeaturesDetail(final DistinguishingFeatureDetail distinguishingFeaturesDetail) {
-		_distinguishingFeaturesDetail = distinguishingFeaturesDetail;
+	public void setDistinguishingFeatureDetail(final DistinguishingFeatureDetail distinguishingFeatureDetail) {
+		_distinguishingFeatureDetail = distinguishingFeatureDetail;
 	}
 
 	/**
@@ -285,8 +280,7 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the phone
 	 */
-	@Column(name = "PHN")
-	@Size(min = 1, max = 20, message = "Phone number must be between {min} and {max} characters")
+	@Column(name = "PHN", length = 20)
 	public String getPhone() {
 		return _phone;
 	}
@@ -301,8 +295,7 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the alternatePhone
 	 */
-	@Column(name = "ALT_PHN")
-	@Size(min = 1, max = 20, message = "Alternate phone number must be between {min} and {max} characters")
+	@Column(name = "ALT_PHN", length = 20)
 	public String getAlternatePhone() {
 		return _alternatePhone;
 	}
@@ -317,8 +310,7 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the fax
 	 */
-	@Column(name = "FAX")
-	@Size(min = 1, max = 20, message = "Fax number must be between {min} and {max} characters")
+	@Column(name = "FAX", length = 20)
 	public String getFax() {
 		return _fax;
 	}
@@ -333,8 +325,7 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the email
 	 */
-	@Column(name = "EML")
-	@Size(min = 1, max = 128, message = "Email must be between {min} and {max} characters")
+	@Column(name = "EML", length = 128)
 	public String getEmail() {
 		return _email;
 	}
@@ -349,8 +340,7 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the website
 	 */
-	@Column(name = "WEB_STE")
-	@Size(min = 1, max = 128, message = "Website address must be between {min} and {max} characters")
+	@Column(name = "WEB_STE", length = 128)
 	public String getWebsite() {
 		return _website;
 	}
@@ -366,7 +356,6 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	 * @return the weaponInvolved
 	 */
 	@Column(name = "WPN_INVLD")
-	@Size(max = 1, message = "Any weapon involved is 'Yes' or 'No' data type. The max length for the corresponding code is 1.")
 	@Enumerated(EnumType.STRING)
 	public YesNoType getWeaponInvolved() {
 		return _weaponInvolved;
@@ -384,7 +373,6 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "WPN_TYP_CDE")
-	@Size(min = 1, max = 16, message = "Weapon type code must be between {min} and {max} characters")
 	public WeaponType getWeaponType() {
 		return _weaponType;
 	}
@@ -401,7 +389,6 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "SUSPT_TYP_CDE")
-	@Size(min = 1, max = 16, message = "Suspect type code must be between {min} and {max} characters")
 	public SuspectType getSuspectType() {
 		return _suspectType;
 	}
@@ -413,17 +400,21 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 		_suspectType = suspectType;
 	}
 	
-	/**
-	 * @return the incidents
-	 */
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "suspect")
+	@Fetch(FetchMode.SUBSELECT)
+	public Set<Address> getAddress() {
+		return _address;
+	}
+
+	public void setAddress(final Set<Address> address) {
+		_address = address;
+	}
+	
 	@ManyToMany(mappedBy = "suspects")
 	public Set<Incident> getIncidents() {
 		return _incidents;
 	}
 
-	/**
-	 * @param incidents the incidents to set
-	 */
 	public void setIncidents(final Set<Incident> incidents) {
 		_incidents = incidents;
 	}
@@ -457,7 +448,6 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	 */
 	public final static class Builder {
 
-		private Long _id;
 		private StatusFlag _statusFlag;
 
 		/**
@@ -467,17 +457,6 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 		 */
 		public Suspect build() {
 			return new Suspect(this);
-		}
-
-		/**
-		 * Sets the specified {@code id}.
-		 * 
-		 * @param id
-		 * @return this builder
-		 */
-		public Builder setId(final Long id) {
-			_id = id;
-			return this;
 		}
 
 		public Builder setStatusFlag(final StatusFlag statusFlag) {

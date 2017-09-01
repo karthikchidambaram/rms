@@ -47,7 +47,6 @@ public class Pagination extends AbstractDataModel<Long> implements Serializable 
 	 * @param builder
 	 */
 	private Pagination(final Builder builder) {
-		_id = Objects.requireNonNull(builder._id, "ID cannot be null");
 		_type = Objects.requireNonNull(builder._type, "Type code cannot be null");
 		_description = Objects.requireNonNull(builder._description, "Description text cannot be null");
 	}
@@ -129,7 +128,6 @@ public class Pagination extends AbstractDataModel<Long> implements Serializable 
 	 */
 	public final static class Builder {
 
-		private Long _id;
 		private String _type;
 		private String _description;
 
@@ -140,17 +138,6 @@ public class Pagination extends AbstractDataModel<Long> implements Serializable 
 		 */
 		public Pagination build() {
 			return new Pagination(this);
-		}
-
-		/**
-		 * Sets the specified {@code id}.
-		 * 
-		 * @param id
-		 * @return this builder
-		 */
-		public Builder setId(final Long id) {
-			_id = id;
-			return this;
 		}
 
 		/**

@@ -36,7 +36,12 @@ public class IncidentServiceImpl extends AbstractService implements IncidentServ
 	}
 
 	@Override
-	public Incident logIncident(Incident incident) {
+	public Incident logIncident(final Incident incident) {
 		return _incidentDao.logIncident(incident);
+	}
+
+	@Override
+	public Incident updateIncident(final Incident incident) {
+		return _incidentDao.updateIncident(incident);
 	}
 }

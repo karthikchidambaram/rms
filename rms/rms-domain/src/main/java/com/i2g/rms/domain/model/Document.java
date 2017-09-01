@@ -61,7 +61,6 @@ public class Document extends AbstractDataModel<Long> implements Serializable {
 	 * @param builder
 	 */
 	private Document(final Builder builder) {
-		_id = Objects.requireNonNull(builder._id, "Document Id cannot be null.");		
 		_statusFlag = Objects.requireNonNull(builder._statusFlag, "Status flag cannot be null.");
 	}
 	
@@ -222,7 +221,6 @@ public class Document extends AbstractDataModel<Long> implements Serializable {
 	 */
 	public final static class Builder {
 
-		private Long _id;
 		private StatusFlag _statusFlag;
 
 		/**
@@ -232,17 +230,6 @@ public class Document extends AbstractDataModel<Long> implements Serializable {
 		 */
 		public Document build() {
 			return new Document(this);
-		}
-
-		/**
-		 * Sets the specified {@code id}.
-		 * 
-		 * @param id
-		 * @return this builder
-		 */
-		public Builder setId(final Long id) {
-			_id = id;
-			return this;
 		}
 
 		public Builder setStatusFlag(final StatusFlag statusFlag) {

@@ -67,7 +67,6 @@ public class Role extends AbstractDataModel<Long> implements Serializable {
 	 * @param builder
 	 */
 	private Role(final Builder builder) {
-		_id = Objects.requireNonNull(builder._id, "ID cannot be null");
 		_roleName = Objects.requireNonNull(builder._roleName, "Role name cannot be null");
 		_roleDescription = Objects.requireNonNull(builder._roleDescription, "Role Description cannot be null");
 	}
@@ -176,7 +175,6 @@ public class Role extends AbstractDataModel<Long> implements Serializable {
 	 */
 	public final static class Builder {
 
-		private Long _id;
 		private String _roleName;
 		private String _roleDescription;
 
@@ -187,17 +185,6 @@ public class Role extends AbstractDataModel<Long> implements Serializable {
 		 */
 		public Role build() {
 			return new Role(this);
-		}
-
-		/**
-		 * Sets the specified {@code id}.
-		 * 
-		 * @param id
-		 * @return this builder
-		 */
-		public Builder setId(final Long id) {
-			_id = id;
-			return this;
 		}
 
 		public Builder setRoleName(final String roleName) {

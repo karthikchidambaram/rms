@@ -78,7 +78,6 @@ public class Witness extends AbstractDataModel<Long> implements Serializable {
 	 * @param builder
 	 */
 	private Witness(final Builder builder) {
-		_id = Objects.requireNonNull(builder._id, "Witness Id cannot be null.");		
 		_statusFlag = Objects.requireNonNull(builder._statusFlag, "Status flag cannot be null.");
 	}
 	
@@ -499,7 +498,6 @@ public class Witness extends AbstractDataModel<Long> implements Serializable {
 	 */
 	public final static class Builder {
 
-		private Long _id;
 		private StatusFlag _statusFlag;
 
 		/**
@@ -509,17 +507,6 @@ public class Witness extends AbstractDataModel<Long> implements Serializable {
 		 */
 		public Witness build() {
 			return new Witness(this);
-		}
-
-		/**
-		 * Sets the specified {@code id}.
-		 * 
-		 * @param id
-		 * @return this builder
-		 */
-		public Builder setId(final Long id) {
-			_id = id;
-			return this;
 		}
 
 		public Builder setStatusFlag(final StatusFlag statusFlag) {

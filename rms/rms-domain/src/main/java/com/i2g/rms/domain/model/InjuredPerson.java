@@ -85,7 +85,6 @@ public class InjuredPerson extends AbstractDataModel<Long> implements Serializab
 	 * @param builder
 	 */
 	private InjuredPerson(final Builder builder) {
-		_id = Objects.requireNonNull(builder._id, "Injured Person Id cannot be null");
 		_statusFlag = Objects.requireNonNull(builder._statusFlag, "Injured person status flag cannot be null.");		
 	}
 
@@ -512,7 +511,6 @@ public class InjuredPerson extends AbstractDataModel<Long> implements Serializab
 	 */
 	public final static class Builder {
 
-		private Long _id;
 		private StatusFlag _statusFlag;
 		
 		/**
@@ -522,17 +520,6 @@ public class InjuredPerson extends AbstractDataModel<Long> implements Serializab
 		 */
 		public InjuredPerson build() {
 			return new InjuredPerson(this);
-		}
-
-		/**
-		 * Sets the specified {@code id}.
-		 * 
-		 * @param id
-		 * @return this builder
-		 */
-		public Builder setId(final Long id) {
-			_id = id;
-			return this;
 		}
 
 		public Builder setStatusFlag(final StatusFlag statusFlag) {

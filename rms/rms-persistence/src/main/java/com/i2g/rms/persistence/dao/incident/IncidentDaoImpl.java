@@ -13,19 +13,17 @@ import org.springframework.stereotype.Repository;
 
 import com.i2g.rms.domain.model.StatusFlag;
 import com.i2g.rms.domain.model.incident.Incident;
-import com.i2g.rms.persistence.dao.UserDao;
 import com.i2g.rms.persistence.hibernate.AbstractHibernateDao;
 
 @Repository
 public class IncidentDaoImpl extends AbstractHibernateDao<Long, Incident> implements IncidentDao {
 	
+	@SuppressWarnings("unused")
 	private final Logger _logger = LoggerFactory.getLogger(IncidentDaoImpl.class);
 
 	@Autowired
 	private HibernateTemplate _hibernateTemplate;
-	@Autowired
-	private UserDao _userDao;
-
+	
 	protected IncidentDaoImpl() {
 		super(Incident.class);		
 	}
@@ -38,9 +36,20 @@ public class IncidentDaoImpl extends AbstractHibernateDao<Long, Incident> implem
 		_hibernateTemplate = hibernateTemplate;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Incident> get() {
-		return (List<Incident>) applySearch(getSession().createCriteria(_modelType)).list();
+		final Criteria criteria = getSession().createCriteria(_modelType);
+		criteria.add(Restrictions.eq("statusFlag", StatusFlag.ACTIVE));
+		return (List<Incident>) criteria.list();
+	}
+	
+	@Override
+	public Incident get(final long id) {
+		final Criteria criteria = getSession().createCriteria(_modelType);
+		criteria.add(Restrictions.eq("id", Objects.requireNonNull(id, "Incident id cannot be null or empty.")));
+		criteria.add(Restrictions.eq("statusFlag", StatusFlag.ACTIVE));
+		return (Incident) criteria.uniqueResult();
 	}
 
 	@Override
@@ -62,12 +71,16 @@ public class IncidentDaoImpl extends AbstractHibernateDao<Long, Incident> implem
 			return null;
 		}
 	}
-
+	
 	@Override
-	public Incident get(final long id) {
-		final Criteria criteria = getSession().createCriteria(_modelType);
-		criteria.add(Restrictions.eq("id", Objects.requireNonNull(id, "Incident id cannot be null or empty.")));
-		criteria.add(Restrictions.eq("statusFlag", StatusFlag.ACTIVE));
-		return (Incident) criteria.uniqueResult();
-	}
+	public Incident updateIncident(final Incident incident) {
+		//Validate the object before save.
+		validateObject(incident);
+		Long id = save(incident);
+		if (id != null) {
+			return get(id);	
+		} else {
+			return null;
+		}
+	}		
 }

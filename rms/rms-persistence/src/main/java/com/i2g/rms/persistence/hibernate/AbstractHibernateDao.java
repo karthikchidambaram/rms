@@ -2,6 +2,7 @@ package com.i2g.rms.persistence.hibernate;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -213,6 +214,12 @@ public abstract class AbstractHibernateDao<K extends Serializable, T extends Abs
 	protected void validateObject(final Object object) {
 		if (object == null) {
 			throw new IllegalArgumentException("Object is null or empty.");
+		}
+	}
+	
+	protected void validateCollectionObject(final Collection<?> collectionObject) {
+		if (collectionObject == null || collectionObject.isEmpty()) {
+			throw new IllegalArgumentException("Collection of object(s) is null or empty.");
 		}
 	}
 

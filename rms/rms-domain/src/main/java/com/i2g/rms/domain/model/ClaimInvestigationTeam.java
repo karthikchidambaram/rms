@@ -58,7 +58,6 @@ public class ClaimInvestigationTeam extends AbstractDataModel<Long> implements S
 	 * @param builder
 	 */
 	private ClaimInvestigationTeam(final Builder builder) {
-		_id = Objects.requireNonNull(builder._id, "ID cannot be null");
 		_claimInvestigationTeamName = Objects.requireNonNull(builder._claimInvestigationTeamName, "Claim investigation team name cannot be null.");
 		_claimInvestigationTeamDescription = Objects.requireNonNull(builder._claimInvestigationTeamDescription, "Claim investigation team description cannot be null.");
 	}
@@ -147,7 +146,6 @@ public class ClaimInvestigationTeam extends AbstractDataModel<Long> implements S
 	 */
 	public final static class Builder {
 
-		private Long _id;
 		private String _claimInvestigationTeamName;
 		private String _claimInvestigationTeamDescription;
 
@@ -158,17 +156,6 @@ public class ClaimInvestigationTeam extends AbstractDataModel<Long> implements S
 		 */
 		public ClaimInvestigationTeam build() {
 			return new ClaimInvestigationTeam(this);
-		}
-
-		/**
-		 * Sets the specified {@code id}.
-		 * 
-		 * @param id
-		 * @return this builder
-		 */
-		public Builder setId(final Long id) {
-			_id = id;
-			return this;
 		}
 
 		public Builder setClaimInvestigationTeamName(final String claimInvestigationTeamName) {
