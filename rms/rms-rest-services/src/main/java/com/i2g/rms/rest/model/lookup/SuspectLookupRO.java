@@ -21,6 +21,7 @@ public class SuspectLookupRO extends AbstractEntityRO {
 	private String middleName;
 	private String lastName;
 	private String nameSuffix;
+	private String fullName;
 	private LocalDate dateOfBirth;
 	private Integer age;
 	private String phone;
@@ -272,4 +273,11 @@ public class SuspectLookupRO extends AbstractEntityRO {
 		this.typeDescription = typeDescription;
 	}
 
+	public String getFullName() {
+		return fullName;
+	}
+
+	public void setFullName(final String fullName) {
+		this.fullName = fullName;
+	}
 }

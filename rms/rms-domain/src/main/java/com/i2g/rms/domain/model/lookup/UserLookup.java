@@ -36,6 +36,7 @@ public class UserLookup extends AbstractDataModel<Long> implements Serializable 
 	private String middleName;
 	private String lastName;
 	private String nameSuffix;
+	private String fullName;
 	private LocalDate dateOfBirth;
 	private Integer age;
 	private LocalDate dateOfJoining;
@@ -556,10 +557,19 @@ public class UserLookup extends AbstractDataModel<Long> implements Serializable 
 	}
 
 	/**
-	 * @param managerName the managerName to set
+	 * @param managerName
+	 *            the managerName to set
 	 */
 	public void setManagerName(final String managerName) {
 		this.managerName = managerName;
-	}	
+	}
 
+	@Column(name = "FULL_NAME")
+	public String getFullName() {
+		return fullName;
+	}
+
+	public void setFullName(final String fullName) {
+		this.fullName = fullName;
+	}
 }

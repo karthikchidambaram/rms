@@ -23,6 +23,7 @@ public class UserLookupRO extends AbstractEntityRO {
 	private String middleName;
 	private String lastName;
 	private String nameSuffix;
+	private String fullName;
 	private LocalDate dateOfBirth;
 	private Integer age;
 	private LocalDate dateOfJoining;
@@ -506,10 +507,18 @@ public class UserLookupRO extends AbstractEntityRO {
 	}
 
 	/**
-	 * @param managerName the managerName to set
+	 * @param managerName
+	 *            the managerName to set
 	 */
 	public void setManagerName(final String managerName) {
 		this.managerName = managerName;
 	}
-	
+
+	public String getFullName() {
+		return fullName;
+	}
+
+	public void setFullName(final String fullName) {
+		this.fullName = fullName;
+	}
 }
