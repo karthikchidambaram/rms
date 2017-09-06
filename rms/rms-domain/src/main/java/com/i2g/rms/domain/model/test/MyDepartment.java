@@ -1,7 +1,5 @@
 package com.i2g.rms.domain.model.test;
 
-import static javax.persistence.GenerationType.IDENTITY;
-
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -10,7 +8,6 @@ import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -81,7 +78,7 @@ public class MyDepartment implements Serializable {
 		_loc = loc;
 	}
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "department")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "department")
 	public Set<MyEmployee> getEmployees() {
 		return _employees;
 	}

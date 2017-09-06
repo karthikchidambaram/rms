@@ -2,8 +2,11 @@ package com.i2g.rms.domain.model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -13,19 +16,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Type;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.i2g.rms.domain.model.incident.Incident;
+import com.i2g.rms.domain.model.tablemaintenance.AccidentLocation;
 import com.i2g.rms.domain.model.tablemaintenance.AccidentLocationDetail;
 import com.i2g.rms.domain.model.tablemaintenance.AccidentType;
-import com.i2g.rms.domain.model.tablemaintenance.InjuryCause;
-import com.i2g.rms.domain.model.tablemaintenance.InjuryTypeDetailSpec;
 
 /**
  * Entity representation of Incident.
@@ -36,6 +41,7 @@ import com.i2g.rms.domain.model.tablemaintenance.InjuryTypeDetailSpec;
  */
 @Entity
 @Table(name = "RMS_ACC")
+@JsonIgnoreProperties({"incident"})
 public class Accident extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * 
@@ -47,29 +53,33 @@ public class Accident extends AbstractDataModel<Long> implements Serializable {
 	private String _accidentDescription;
 	private StatusFlag _statusFlag;
 	private LocalDateTime _accidentDateTime;
+	private AccidentLocation _accidentLocation;
 	private AccidentLocationDetail _accidentLocationDetails;
 	private String _landmark;
-	private AccidentType _accidentType;
-	private InjuryTypeDetailSpec _injuryTypeDetailsSpec;
-	private InjuryCause _injuryCause;	
-	
+	private String _accidentPlace;
+	private AccidentType _accidentType;	
+	private Set<InjuredPerson> _injuredPersons = new HashSet<InjuredPerson>(0);
+	private Set<User> _employeeInjuredPersons = new HashSet<User>(0);
+	private Set<Witness> _witnesses = new HashSet<Witness>(0);
+	private Set<User> _employeeWitnesses = new HashSet<User>(0);
+
 	/**
 	 * Default empty constructor required for Hibernate.
 	 */
 	protected Accident() {
 	}
-	
+
 	/**
-	 * Creates a new immutable instance of {@link Accident} from the
-	 * specified {@code builder}.
+	 * Creates a new immutable instance of {@link Accident} from the specified
+	 * {@code builder}.
 	 * 
 	 * @param builder
 	 */
 	private Accident(final Builder builder) {
-		_incident = Objects.requireNonNull(builder._incident, "Incident (object) cannot be null inside accident details.");
+		_incident = Objects.requireNonNull(builder._incident, "Incident object cannot be null for an accident record.");
 		_statusFlag = Objects.requireNonNull(builder._statusFlag, "Accident status flag cannot be null.");
 	}
-	
+
 	/**
 	 * Return the Accident primary key ID.
 	 * 
@@ -102,14 +112,16 @@ public class Accident extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the incident
 	 */
-	@ManyToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "INC_ID")
+	@NotNull
 	public Incident getIncident() {
 		return _incident;
 	}
 
 	/**
-	 * @param incident the incident to set
+	 * @param incident
+	 *            the incident to set
 	 */
 	public void setIncident(final Incident incident) {
 		_incident = incident;
@@ -118,14 +130,14 @@ public class Accident extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the accidentDescription
 	 */
-	@Column(name = "ACC_DESC")
-	@Size(min = 1, max = 256, message = "Accident description must be between {min} and {max} characters")
+	@Column(name = "ACC_DESC", length = 256)
 	public String getAccidentDescription() {
 		return _accidentDescription;
 	}
 
 	/**
-	 * @param accidentDescription the accidentDescription to set
+	 * @param accidentDescription
+	 *            the accidentDescription to set
 	 */
 	public void setAccidentDescription(final String accidentDescription) {
 		_accidentDescription = accidentDescription;
@@ -134,8 +146,7 @@ public class Accident extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the statusFlag
 	 */
-	@Column(name = "STS_FLG", nullable = false)
-	@Size(min = 1, max = 16, message = "Status flag code must be between {min} and {max} characters")
+	@Column(name = "STS_FLG", nullable = false, length = 16)
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	public StatusFlag getStatusFlag() {
@@ -143,7 +154,8 @@ public class Accident extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @param statusFlag the statusFlag to set
+	 * @param statusFlag
+	 *            the statusFlag to set
 	 */
 	public void setStatusFlag(final StatusFlag statusFlag) {
 		_statusFlag = statusFlag;
@@ -159,7 +171,8 @@ public class Accident extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @param accidentDateTime the accidentDateTime to set
+	 * @param accidentDateTime
+	 *            the accidentDateTime to set
 	 */
 	public void setAccidentDateTime(final LocalDateTime accidentDateTime) {
 		_accidentDateTime = accidentDateTime;
@@ -170,13 +183,13 @@ public class Accident extends AbstractDataModel<Long> implements Serializable {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ACC_LOC_CHLD_CDE")
-	@Size(min = 1, max = 16, message = "Accident location code must be between {min} and {max} characters")
 	public AccidentLocationDetail getAccidentLocationDetails() {
 		return _accidentLocationDetails;
 	}
 
 	/**
-	 * @param accidentLocationDetails the accidentLocationDetails to set
+	 * @param accidentLocationDetails
+	 *            the accidentLocationDetails to set
 	 */
 	public void setAccidentLocationDetails(final AccidentLocationDetail accidentLocationDetails) {
 		_accidentLocationDetails = accidentLocationDetails;
@@ -185,14 +198,14 @@ public class Accident extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the landmark
 	 */
-	@Column(name = "LNDMRK")
-	@Size(min = 1, max = 64, message = "Landmark description must be between {min} and {max} characters")
+	@Column(name = "LNDMRK", length = 64)
 	public String getLandmark() {
 		return _landmark;
 	}
 
 	/**
-	 * @param landmark the landmark to set
+	 * @param landmark
+	 *            the landmark to set
 	 */
 	public void setLandmark(final String landmark) {
 		_landmark = landmark;
@@ -203,52 +216,132 @@ public class Accident extends AbstractDataModel<Long> implements Serializable {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ACC_TYP_CDE")
-	@Size(min = 1, max = 16, message = "Accident type code must be between {min} and {max} characters")
 	public AccidentType getAccidentType() {
 		return _accidentType;
 	}
 
 	/**
-	 * @param accidentType the accidentType to set
+	 * @param accidentType
+	 *            the accidentType to set
 	 */
 	public void setAccidentType(final AccidentType accidentType) {
 		_accidentType = accidentType;
 	}
 
 	/**
-	 * @return the injuryTypeDetailsSpec
+	 * @return the injuredPersons
 	 */
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "INJRY_TYP_CHLD_SUB")
-	@Size(min = 1, max = 16, message = "Injury type detail code must be between {min} and {max} characters")
-	public InjuryTypeDetailSpec getInjuryTypeDetailsSpec() {
-		return _injuryTypeDetailsSpec;
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(
+			name = "RMS_ACC_INJRD_PRSN",
+			joinColumns = @JoinColumn(name = "ACC_ID"),
+			inverseJoinColumns = @JoinColumn(name = "INJRD_PRSN_ID")
+	)
+	public Set<InjuredPerson> getInjuredPersons() {
+		return _injuredPersons;
 	}
 
 	/**
-	 * @param injuryTypeDetailsSpec the injuryTypeDetailsSpec to set
+	 * @param injuredPersons
+	 *            the injuredPersons to set
 	 */
-	public void setInjuryTypeDetailsSpec(final InjuryTypeDetailSpec injuryTypeDetailsSpec) {
-		_injuryTypeDetailsSpec = injuryTypeDetailsSpec;
+	public void setInjuredPersons(final Set<InjuredPerson> injuredPersons) {
+		this._injuredPersons = injuredPersons;
 	}
 
 	/**
-	 * @return the injuryCause
+	 * @return the employeeInjuredPersons
 	 */
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "INJRY_CAU_CDE")
-	@Size(min = 1, max = 16, message = "Injury cause code must be between {min} and {max} characters")
-	public InjuryCause getInjuryCause() {
-		return _injuryCause;
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(
+			name = "RMS_ACC_USR_INJRD_PRSN",
+			joinColumns = @JoinColumn(name = "ACC_ID"),
+			inverseJoinColumns = @JoinColumn(name = "USR_ID")
+	)
+	public Set<User> getEmployeeInjuredPersons() {
+		return _employeeInjuredPersons;
 	}
 
 	/**
-	 * @param injuryCause the injuryCause to set
+	 * @param employeeInjuredPersons
+	 *            the employeeInjuredPersons to set
 	 */
-	public void setInjuryCause(final InjuryCause injuryCause) {
-		_injuryCause = injuryCause;
+	public void setEmployeeInjuredPersons(final Set<User> employeeInjuredPersons) {
+		this._employeeInjuredPersons = employeeInjuredPersons;
+	}
+
+	/**
+	 * @return the witnesses
+	 */
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(
+			name = "RMS_ACC_WITNS",
+			joinColumns = @JoinColumn(name = "ACC_ID"),
+			inverseJoinColumns = @JoinColumn(name = "WITNS_ID")
+	)
+	public Set<Witness> getWitnesses() {
+		return _witnesses;
+	}
+
+	/**
+	 * @param witnesses
+	 *            the witnesses to set
+	 */
+	public void setWitnesses(final Set<Witness> witnesses) {
+		this._witnesses = witnesses;
 	}
 	
+	/**
+	 * @return the employeeWitnesses
+	 */
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(
+			name = "RMS_ACC_USR_WITNS",
+			joinColumns = @JoinColumn(name = "ACC_ID"),
+			inverseJoinColumns = @JoinColumn(name = "USR_ID")
+	)
+	public Set<User> getEmployeeWitnesses() {
+		return _employeeWitnesses;
+	}
+
+	/**
+	 * @param employeeWitnesses the employeeWitnesses to set
+	 */
+	public void setEmployeeWitnesses(final Set<User> employeeWitnesses) {
+		_employeeWitnesses = employeeWitnesses;
+	}
+	
+	/**
+	 * @return the accidentPlace
+	 */
+	@Column(name = "ACC_PLACE", length = 256)
+	public String getAccidentPlace() {
+		return _accidentPlace;
+	}
+
+	/**
+	 * @param accidentPlace the accidentPlace to set
+	 */
+	public void setAccidentPlace(final String accidentPlace) {
+		_accidentPlace = accidentPlace;
+	}
+	
+	/**
+	 * @return the accidentLocation
+	 */
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "ACC_LOC_CDE")
+	public AccidentLocation getAccidentLocation() {
+		return _accidentLocation;
+	}
+
+	/**
+	 * @param accidentLocation the accidentLocation to set
+	 */
+	public void setAccidentLocation(final AccidentLocation accidentLocation) {
+		_accidentLocation = accidentLocation;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(_id, _statusFlag);
@@ -260,8 +353,7 @@ public class Accident extends AbstractDataModel<Long> implements Serializable {
 			return true;
 		} else if (obj instanceof Accident) {
 			final Accident other = (Accident) obj;
-			return Objects.equals(_id, other._id) 
-					&& Objects.equals(_statusFlag, other._statusFlag);
+			return Objects.equals(_id, other._id) && Objects.equals(_statusFlag, other._statusFlag);
 		}
 		return false;
 	}
@@ -270,13 +362,12 @@ public class Accident extends AbstractDataModel<Long> implements Serializable {
 	public String toString() {
 		return "Accident Id: " + _id + ", Accident Description: " + _accidentDescription;
 	}
-	
+
 	/**
-	 * Builder pattern for constructing immutable instances of
-	 * {@link Accident}.
+	 * Builder pattern for constructing immutable instances of {@link Accident}.
 	 */
 	public final static class Builder {
-
+		
 		private Incident _incident;
 		private StatusFlag _statusFlag;
 
@@ -288,15 +379,16 @@ public class Accident extends AbstractDataModel<Long> implements Serializable {
 		public Accident build() {
 			return new Accident(this);
 		}
-
-		public Builder seIncident(final Incident incident) {
-			_incident = incident;
-			return this;
-		}
 		
+		public Builder setIncident(final Incident incident) {
+			_incident = incident;
+			return this;	
+		}
+
 		public Builder setStatusFlag(final StatusFlag statusFlag) {
 			_statusFlag = statusFlag;
 			return this;
 		}
+		
 	}
 }

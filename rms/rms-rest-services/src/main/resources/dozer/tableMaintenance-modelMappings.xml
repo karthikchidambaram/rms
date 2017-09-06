@@ -123,6 +123,11 @@
 		<class-a>com.i2g.rms.domain.model.tablemaintenance.SuspectType</class-a>
 		<class-b>com.i2g.rms.rest.model.tablemaintenance.SuspectTypeRO</class-b>
 	</mapping>
+	
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.tablemaintenance.WitnessType</class-a>
+		<class-b>com.i2g.rms.rest.model.tablemaintenance.WitnessTypeRO</class-b>
+	</mapping>
 
 	<mapping>
 		<class-a>com.i2g.rms.domain.model.tablemaintenance.WeaponType</class-a>
@@ -162,6 +167,10 @@
 	<mapping>
 		<class-a>com.i2g.rms.domain.model.tablemaintenance.BodyPart</class-a>
 		<class-b>com.i2g.rms.rest.model.tablemaintenance.BodyPartRO</class-b>
+		<field-exclude>
+		<a>injuredPersons</a>
+		<b>injuredPersons</b>
+		</field-exclude>
 	</mapping>
 	
 	<mapping>

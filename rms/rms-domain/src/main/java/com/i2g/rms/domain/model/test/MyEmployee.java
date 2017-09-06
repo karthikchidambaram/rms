@@ -26,9 +26,6 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Immutable;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 @Entity
 @Table(name = "EMP", uniqueConstraints = @UniqueConstraint(columnNames = "EMPNO"))
 @Immutable
@@ -129,7 +126,7 @@ public class MyEmployee implements Serializable {
 		_comm = comm;
 	}
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "DEPTNO")
 	public MyDepartment getDepartment() {
 		return _department;
@@ -142,7 +139,7 @@ public class MyEmployee implements Serializable {
 	/**
 	 * @return the manager
 	 */
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "MGR")
 	public MyEmployee getManager() {
 		return _manager;
@@ -158,7 +155,7 @@ public class MyEmployee implements Serializable {
 	/**
 	 * @return the subordinates
 	 */
-	@OneToMany(mappedBy = "manager", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "manager", fetch = FetchType.LAZY)
 	public Set<MyEmployee> getSubordinates() {
 		return _subordinates;
 	}

@@ -101,7 +101,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	private EmployeeType _employeeType;
 	private User _manager;
 	private Set<User> _subordinates = new HashSet<User>(0);
-	private Set<Address> _address = new HashSet<Address>(0);
+	private Set<Address> _addresses = new HashSet<Address>(0);
 		
 	@NotNull
 	@Transient
@@ -119,7 +119,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	@Transient
 	private boolean _accountEnabled;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY, orphanRemoval = true)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER, orphanRemoval = true)
 	@Transient
 	private Set<UserAuthority> _authorities;	
 	
@@ -721,11 +721,11 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "user")
 	@Fetch(FetchMode.SUBSELECT)
-	public Set<Address> getAddress() {
-		return _address;
+	public Set<Address> getAddresses() {
+		return _addresses;
 	}
 
-	public void setAddress(final Set<Address> address) {
-		_address = address;
+	public void setAddresses(final Set<Address> address) {
+		_addresses = address;
 	}	
 }

@@ -51,6 +51,7 @@ import com.i2g.rms.rest.model.tablemaintenance.SuspectTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.TableMaintenanceRO;
 import com.i2g.rms.rest.model.tablemaintenance.VehicleDamageTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.WeaponTypeRO;
+import com.i2g.rms.rest.model.tablemaintenance.WitnessTypeRO;
 import com.i2g.rms.rest.service.tablemaintenance.TableMaintenanceRestService;
 
 /**
@@ -1087,5 +1088,32 @@ public class TableMaintenanceController extends AbstractRestController {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deletePositionLevel(@PathVariable final String code) {
 		_tableMaintenanceRestService.deletePositionLevel(code);
+	}
+	
+	/** Methods related to Witness Type */
+	@RequestMapping(value = RequestMappingConstants.GET_WITNESS_TYPES, method = RequestMethod.GET)
+	public List<WitnessTypeRO> getWitnessTypes() {
+		return _tableMaintenanceRestService.getWitnessTypes();
+	}
+
+	@RequestMapping(value = RequestMappingConstants.GET_WITNESS_TYPE_BY_CODE, method = RequestMethod.GET)
+	public WitnessTypeRO getWitnessTypeByCode(@PathVariable final String code) {
+		return _tableMaintenanceRestService.getWitnessTypeByCode(code);
+	}
+
+	@RequestMapping(value = RequestMappingConstants.CREATE_WITNESS_TYPE, method = RequestMethod.POST)
+	public WitnessTypeRO createWitnessType(final @Valid @RequestBody WitnessTypeRO witnessTypeRO) {
+		return _tableMaintenanceRestService.createWitnessType(witnessTypeRO);
+	}
+
+	@RequestMapping(value = RequestMappingConstants.UPDATE_WITNESS_TYPE, method = RequestMethod.PUT)
+	public WitnessTypeRO updateWitnessType(final @Valid @RequestBody WitnessTypeRO witnessTypeRO) {
+		return _tableMaintenanceRestService.updateWitnessType(witnessTypeRO);
+	}
+
+	@RequestMapping(value = RequestMappingConstants.DELETE_WITNESS_TYPE, method = RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void deleteWitnessType(@PathVariable final String code) {
+		_tableMaintenanceRestService.deleteWitnessType(code);
 	}
 }

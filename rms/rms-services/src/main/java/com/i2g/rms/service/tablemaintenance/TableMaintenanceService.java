@@ -37,6 +37,7 @@ import com.i2g.rms.domain.model.tablemaintenance.PositionLevel;
 import com.i2g.rms.domain.model.tablemaintenance.SuspectType;
 import com.i2g.rms.domain.model.tablemaintenance.VehicleDamageType;
 import com.i2g.rms.domain.model.tablemaintenance.WeaponType;
+import com.i2g.rms.domain.model.tablemaintenance.WitnessType;
 
 /**
  * Service interface for all table maintenance operations.
@@ -310,4 +311,11 @@ public interface TableMaintenanceService {
 	public Position createPosition(final String code, final String description, final PositionLevel positionLevel, final Department department);
 	public Position updatePosition(final String code, final String description);
 	public void deletePosition(final String code);
+	
+	/** Methods related to Witness Type */
+	public List<WitnessType> getWitnessTypes();
+	public WitnessType getWitnessTypeByCode(final String code);
+	public WitnessType createWitnessType(final String code, final String description);
+	public WitnessType updateWitnessType(final String code, final String description);
+	public void deleteWitnessType(final String code);
 }

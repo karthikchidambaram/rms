@@ -54,6 +54,7 @@ import com.i2g.rms.rest.model.tablemaintenance.SuspectTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.TableMaintenanceRO;
 import com.i2g.rms.rest.model.tablemaintenance.VehicleDamageTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.WeaponTypeRO;
+import com.i2g.rms.rest.model.tablemaintenance.WitnessTypeRO;
 import com.i2g.rms.rest.service.AbstractRestService;
 import com.i2g.rms.rest.service.RestMessage;
 import com.i2g.rms.service.exception.ResourceNotFoundException;
@@ -1926,5 +1927,50 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 		// Validate input parameter(s) if any
 		validateCode(code);
 		_tableMaintenanceService.deletePositionLevel(code);
-	}						
+	}
+	
+	/** Methods related to Witness Type */
+	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
+	public List<WitnessTypeRO> getWitnessTypes() {
+		return _mapperService.map(_tableMaintenanceService.getWitnessTypes(), WitnessTypeRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'SUPERVISOR', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional(readOnly = true)
+	public WitnessTypeRO getWitnessTypeByCode(final String code) {
+		validateCode(code);
+		return _mapperService.map(_tableMaintenanceService.getWitnessTypeByCode(code), WitnessTypeRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
+	public WitnessTypeRO createWitnessType(final WitnessTypeRO witnessTypeRO) {
+		validateObject(witnessTypeRO);
+		validateCode(witnessTypeRO.getId());
+		validateDescription(witnessTypeRO.getDescription());
+		return _mapperService.map(_tableMaintenanceService.createWitnessType(witnessTypeRO.getId(), witnessTypeRO.getDescription()), WitnessTypeRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
+	public WitnessTypeRO updateWitnessType(final WitnessTypeRO witnessTypeRO) {
+		validateObject(witnessTypeRO);
+		validateCode(witnessTypeRO.getId());
+		validateDescription(witnessTypeRO.getDescription());
+		return _mapperService.map(_tableMaintenanceService.updateWitnessType(witnessTypeRO.getId(), witnessTypeRO.getDescription()), WitnessTypeRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
+	public void deleteWitnessType(final String code) {
+		// Validate input parameter(s) if any
+		validateCode(code);
+		_tableMaintenanceService.deleteWitnessType(code);
+	}
 }

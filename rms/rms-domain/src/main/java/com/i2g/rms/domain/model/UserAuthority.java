@@ -21,7 +21,7 @@ public class UserAuthority implements GrantedAuthority {
 	private static final long serialVersionUID = 1L;
 
 	@NotNull
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JsonIgnoreProperties("authorities")
 	@Id
 	private User _user;

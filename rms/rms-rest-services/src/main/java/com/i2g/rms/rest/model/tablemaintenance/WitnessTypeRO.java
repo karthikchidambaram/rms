@@ -1,11 +1,7 @@
 package com.i2g.rms.rest.model.tablemaintenance;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.i2g.rms.rest.model.AbstractEntityRO;
-import com.i2g.rms.rest.model.InjuredPersonRO;
 
 /**
  * REST Object for returning table maintenance details to the REST client.
@@ -15,11 +11,10 @@ import com.i2g.rms.rest.model.InjuredPersonRO;
  * @author RMS Development Team
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class BodyPartRO extends AbstractEntityRO {
+public class WitnessTypeRO extends AbstractEntityRO {
 
 	private String _id;
 	private String _description;
-	private Set<InjuredPersonRO> _injuredPersons = new HashSet<InjuredPersonRO>(0);
 
 	public String getId() {
 		return _id;
@@ -35,20 +30,5 @@ public class BodyPartRO extends AbstractEntityRO {
 
 	public void setDescription(String description) {
 		_description = description;
-	}
-
-	/**
-	 * @return the injuredPersons
-	 */
-	public Set<InjuredPersonRO> getInjuredPersons() {
-		return _injuredPersons;
-	}
-
-	/**
-	 * @param injuredPersons
-	 *            the injuredPersons to set
-	 */
-	public void setInjuredPersons(final Set<InjuredPersonRO> injuredPersons) {
-		_injuredPersons = injuredPersons;
 	}
 }

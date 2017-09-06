@@ -27,14 +27,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 @Entity
 @Table(name = "RMS_ADDR")
-@JsonIgnoreProperties({"user", "building", "asset", "witness", "injuredPerson", "suspect", "crime", "accident"})
+@JsonIgnoreProperties({ "user", "building", "asset", "witness", "injuredPerson", "suspect", "crime" })
 public class Address extends AbstractDataModel<Long> implements Serializable {
-	
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	/** Primary surrogate key ID */
 	private long _id;
 	private String _organizationName;
@@ -54,24 +54,23 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 	private InjuredPerson _injuredPerson;
 	private Suspect _suspect;
 	private Crime _crime;
-	private Accident _accident;	
-	
+
 	/**
 	 * Default empty constructor required for Hibernate.
 	 */
 	protected Address() {
 	}
-	
+
 	/**
-	 * Creates a new immutable instance of {@link Address} from the
-	 * specified {@code builder}.
+	 * Creates a new immutable instance of {@link Address} from the specified
+	 * {@code builder}.
 	 * 
 	 * @param builder
 	 */
 	private Address(final Builder builder) {
 		_statusFlag = Objects.requireNonNull(builder._statusFlag, "Status flag cannot be null.");
 	}
-	
+
 	/**
 	 * Return the Accident primary key ID.
 	 * 
@@ -110,7 +109,8 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @param organizationName the organizationName to set
+	 * @param organizationName
+	 *            the organizationName to set
 	 */
 	public void setOrganizationName(final String organizationName) {
 		_organizationName = organizationName;
@@ -125,7 +125,8 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @param buildingName the buildingName to set
+	 * @param buildingName
+	 *            the buildingName to set
 	 */
 	public void setBuildingName(final String buildingName) {
 		_buildingName = buildingName;
@@ -140,7 +141,8 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @param streetName the streetName to set
+	 * @param streetName
+	 *            the streetName to set
 	 */
 	public void setStreetName(final String streetName) {
 		_streetName = streetName;
@@ -155,7 +157,8 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @param localityName the localityName to set
+	 * @param localityName
+	 *            the localityName to set
 	 */
 	public void setLocalityName(final String localityName) {
 		_localityName = localityName;
@@ -170,7 +173,8 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @param postTown the postTown to set
+	 * @param postTown
+	 *            the postTown to set
 	 */
 	public void setPostTown(final String postTown) {
 		_postTown = postTown;
@@ -185,7 +189,8 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @param county the county to set
+	 * @param county
+	 *            the county to set
 	 */
 	public void setCounty(final String county) {
 		_county = county;
@@ -200,7 +205,8 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @param postCode the postCode to set
+	 * @param postCode
+	 *            the postCode to set
 	 */
 	public void setPostcode(final String postcode) {
 		_postcode = postcode;
@@ -215,7 +221,8 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @param country the country to set
+	 * @param country
+	 *            the country to set
 	 */
 	public void setCountry(final String country) {
 		_country = country;
@@ -231,7 +238,8 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @param statusFlag the statusFlag to set
+	 * @param statusFlag
+	 *            the statusFlag to set
 	 */
 	public void setStatusFlag(final StatusFlag statusFlag) {
 		_statusFlag = statusFlag;
@@ -247,7 +255,8 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @param user the user to set
+	 * @param user
+	 *            the user to set
 	 */
 	public void setUser(final User user) {
 		_user = user;
@@ -263,7 +272,8 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @param building the building to set
+	 * @param building
+	 *            the building to set
 	 */
 	public void setBuilding(final Building building) {
 		_building = building;
@@ -279,7 +289,8 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @param asset the asset to set
+	 * @param asset
+	 *            the asset to set
 	 */
 	public void setAsset(final Asset asset) {
 		_asset = asset;
@@ -295,7 +306,8 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @param witness the witness to set
+	 * @param witness
+	 *            the witness to set
 	 */
 	public void setWitness(final Witness witness) {
 		_witness = witness;
@@ -311,7 +323,8 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @param injuredPerson the injuredPerson to set
+	 * @param injuredPerson
+	 *            the injuredPerson to set
 	 */
 	public void setInjuredPerson(final InjuredPerson injuredPerson) {
 		_injuredPerson = injuredPerson;
@@ -327,7 +340,8 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @param suspect the suspect to set
+	 * @param suspect
+	 *            the suspect to set
 	 */
 	public void setSuspect(final Suspect suspect) {
 		_suspect = suspect;
@@ -343,28 +357,13 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @param crime the crime to set
+	 * @param crime
+	 *            the crime to set
 	 */
 	public void setCrime(final Crime crime) {
 		_crime = crime;
 	}
 
-	/**
-	 * @return the accident
-	 */
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ACC_ID")
-	public Accident getAccident() {
-		return _accident;
-	}
-
-	/**
-	 * @param accident the accident to set
-	 */
-	public void setAccident(final Accident accident) {
-		_accident = accident;
-	}
-	
 	@Column(name = "CITY", length = 64)
 	public String getCity() {
 		return _city;
@@ -373,7 +372,7 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 	public void setCity(final String city) {
 		_city = city;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(_id, _statusFlag);
@@ -385,30 +384,21 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 			return true;
 		} else if (obj instanceof Address) {
 			final Address other = (Address) obj;
-			return Objects.equals(_id, other._id) 
-					&& Objects.equals(_statusFlag, other._statusFlag);
+			return Objects.equals(_id, other._id) && Objects.equals(_statusFlag, other._statusFlag);
 		}
 		return false;
 	}
 
 	@Override
 	public String toString() {
-		return "Id: " + _id + ", " 
-		+ "Organization Name: " + _organizationName + ", "
-		+ "Building Name: " + _buildingName + ", "
-		+ "Street Name: " + _streetName + ", "
-		+ "Locality Name: " + _localityName + ", "
-		+ "Post Town: " + _postTown + ", "
-		+ "County: " + _county + ", "
-		+ "City: " + _city + ", "
-		+ "Postcode: " + _postcode + ", "
-		+ "Country: " + _country + ", "
-		+ "Status Flag: " + _statusFlag;
+		return "Id: " + _id + ", " + "Organization Name: " + _organizationName + ", " + "Building Name: "
+				+ _buildingName + ", " + "Street Name: " + _streetName + ", " + "Locality Name: " + _localityName + ", "
+				+ "Post Town: " + _postTown + ", " + "County: " + _county + ", " + "City: " + _city + ", "
+				+ "Postcode: " + _postcode + ", " + "Country: " + _country + ", " + "Status Flag: " + _statusFlag;
 	}
-	
+
 	/**
-	 * Builder pattern for constructing immutable instances of
-	 * {@link Address}.
+	 * Builder pattern for constructing immutable instances of {@link Address}.
 	 */
 	public final static class Builder {
 
@@ -427,5 +417,5 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 			_statusFlag = statusFlag;
 			return this;
 		}
-	}	
+	}
 }

@@ -327,7 +327,7 @@ public class Claim extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the claimHistory
 	 */
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "claim")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "claim")
 	@Fetch(FetchMode.SUBSELECT)
 	@JsonIgnoreProperties("claim")
 	public Set<ClaimHistory> getClaimHistory() {

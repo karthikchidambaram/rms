@@ -29,6 +29,7 @@ import org.hibernate.annotations.Type;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.i2g.rms.domain.model.incident.Incident;
+import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeature;
 import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeatureDetail;
 import com.i2g.rms.domain.model.tablemaintenance.GenderType;
 import com.i2g.rms.domain.model.tablemaintenance.SuspectType;
@@ -59,6 +60,7 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	private String _lastName;
 	private String _nameSuffix;
 	private GenderType _genderType;
+	private DistinguishingFeature _distinguishingFeature;
 	private DistinguishingFeatureDetail _distinguishingFeatureDetail;
 	private LocalDate _dateOfBirth;
 	private Integer _age;
@@ -70,7 +72,7 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	private YesNoType _weaponInvolved;
 	private WeaponType _weaponType;
 	private SuspectType _suspectType;
-	private Set<Address> _address = new HashSet<Address>(0);
+	private Set<Address> _addresses = new HashSet<Address>(0);
 	private Set<Incident> _incidents = new HashSet<Incident>(0);
 	
 	/**
@@ -400,14 +402,14 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 		_suspectType = suspectType;
 	}
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "suspect")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "suspect")
 	@Fetch(FetchMode.SUBSELECT)
-	public Set<Address> getAddress() {
-		return _address;
+	public Set<Address> getAddresses() {
+		return _addresses;
 	}
 
-	public void setAddress(final Set<Address> address) {
-		_address = address;
+	public void setAddresses(final Set<Address> address) {
+		_addresses = address;
 	}
 	
 	@ManyToMany(mappedBy = "suspects")
@@ -417,6 +419,22 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 
 	public void setIncidents(final Set<Incident> incidents) {
 		_incidents = incidents;
+	}
+	
+	/**
+	 * @return the distinguishingFeature
+	 */
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "DIST_FEA_CDE")
+	public DistinguishingFeature getDistinguishingFeature() {
+		return _distinguishingFeature;
+	}
+
+	/**
+	 * @param distinguishingFeature the distinguishingFeature to set
+	 */
+	public void setDistinguishingFeature(final DistinguishingFeature distinguishingFeature) {
+		_distinguishingFeature = distinguishingFeature;
 	}
 
 	@Override

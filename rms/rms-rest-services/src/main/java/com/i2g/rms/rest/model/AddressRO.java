@@ -27,6 +27,8 @@ public class AddressRO extends AbstractEntityRO {
 	private BuildingRO building;
 	private AssetRO asset;
 	private SuspectRO suspect;
+	private InjuredPersonRO injuredPerson;
+	private WitnessRO witness;
 
 	public long getId() {
 		return id;
@@ -146,5 +148,35 @@ public class AddressRO extends AbstractEntityRO {
 
 	public void setAsset(final AssetRO asset) {
 		this.asset = asset;
+	}
+
+	/**
+	 * @return the injuredPerson
+	 */
+	public InjuredPersonRO getInjuredPerson() {
+		return injuredPerson;
+	}
+
+	/**
+	 * @param injuredPerson
+	 *            the injuredPerson to set
+	 */
+	public void setInjuredPerson(final InjuredPersonRO injuredPerson) {
+		this.injuredPerson = injuredPerson;
+	}
+
+	/**
+	 * @return the witness
+	 */
+	public WitnessRO getWitness() {
+		return witness;
+	}
+
+	/**
+	 * @param witness
+	 *            the witness to set
+	 */
+	public void setWitness(final WitnessRO witness) {
+		this.witness = witness;
 	}
 }

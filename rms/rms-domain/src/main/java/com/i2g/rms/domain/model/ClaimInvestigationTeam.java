@@ -117,7 +117,7 @@ public class ClaimInvestigationTeam extends AbstractDataModel<Long> implements S
 	 * 
 	 * @return set of associated users
 	 */
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinTable(name = "RMS_CLIM_INVST_TEAM_LEAD", joinColumns = @JoinColumn(name = "CLIM_INVST_TEAM_ID"), inverseJoinColumns = @JoinColumn(name = "USR_ID"))
 	public Set<User> getUsers() {
 		return _users;

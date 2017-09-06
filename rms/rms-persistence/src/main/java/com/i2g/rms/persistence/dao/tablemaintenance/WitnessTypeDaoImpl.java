@@ -10,8 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.i2g.rms.domain.model.tablemaintenance.AccidentLocation;
-import com.i2g.rms.domain.model.tablemaintenance.AccidentLocationDetail;
+import com.i2g.rms.domain.model.tablemaintenance.WitnessType;
 import com.i2g.rms.persistence.hibernate.AbstractHibernateDao;
 
 /**
@@ -23,19 +22,19 @@ import com.i2g.rms.persistence.hibernate.AbstractHibernateDao;
  *
  */
 @Repository
-public class AccidentLocationDetailDaoImpl extends AbstractHibernateDao<String, AccidentLocationDetail>
-		implements AccidentLocationDetailDao {
+public class WitnessTypeDaoImpl extends AbstractHibernateDao<String, WitnessType> implements WitnessTypeDao {
 
-	private final Logger _logger = LoggerFactory.getLogger(AccidentLocationDetailDaoImpl.class);
+	@SuppressWarnings("unused")
+	private final Logger _logger = LoggerFactory.getLogger(WitnessTypeDaoImpl.class);
 
 	@Autowired
 	private HibernateTemplate _hibernateTemplate;
 
 	/**
-	 * Creates a new instance of {@link AccidentLocationDetailDaoImpl}.
+	 * Creates a new instance of {@link WitnessTypeDaoImpl}.
 	 */
-	private AccidentLocationDetailDaoImpl() {
-		super(AccidentLocationDetail.class);
+	private WitnessTypeDaoImpl() {
+		super(WitnessType.class);
 	}
 
 	public HibernateTemplate getHibernateTemplate() {
@@ -54,8 +53,8 @@ public class AccidentLocationDetailDaoImpl extends AbstractHibernateDao<String, 
 	 */
 	@SuppressWarnings({ "deprecation", "unchecked" })
 	@Override
-	public List<AccidentLocationDetail> get() {
-		return (List<AccidentLocationDetail>) applySearch(getSession().createCriteria(_modelType)).list();
+	public List<WitnessType> get() {
+		return (List<WitnessType>) applySearch(getSession().createCriteria(_modelType)).list();
 	}
 
 	/**
@@ -67,10 +66,10 @@ public class AccidentLocationDetailDaoImpl extends AbstractHibernateDao<String, 
 	 */
 	@SuppressWarnings("deprecation")
 	@Override
-	public AccidentLocationDetail getByCode(final String code) {
+	public WitnessType getByCode(final String code) {
 		// Validate input parameter(s) if any..
 		validateCode(code);
-		return (AccidentLocationDetail) applySearch(getSession().createCriteria(_modelType)
+		return (WitnessType) applySearch(getSession().createCriteria(_modelType)
 				.add(Restrictions.eq("id", Objects.requireNonNull(code, "Code cannot be null or empty."))))
 						.uniqueResult();
 	}
@@ -84,14 +83,12 @@ public class AccidentLocationDetailDaoImpl extends AbstractHibernateDao<String, 
 	 * @return a table maintenance object.
 	 */
 	@Override
-	public AccidentLocationDetail create(final String code, final String description, final AccidentLocation accidentLocation) {
+	public WitnessType create(final String code, final String description) {
 		// Validate input parameter(s) if any..
 		validateCode(code);
 		validateDescription(description);
-		// validate parent object
-		validateObject(accidentLocation);
 		// Create the new object (record)
-		AccidentLocationDetail object = new AccidentLocationDetail(code, description, accidentLocation);
+		WitnessType object = new WitnessType(code, description);
 		// Issue save
 		save(object);
 		return object;
@@ -110,15 +107,15 @@ public class AccidentLocationDetailDaoImpl extends AbstractHibernateDao<String, 
 	 * @return a table maintenance object.
 	 */
 	@Override
-	public AccidentLocationDetail update(final String code, final String description) {
+	public WitnessType update(final String code, final String description) {
 		// Validate input parameter(s) if any..
 		validateCode(code);
 		validateDescription(description);
 		// Check if the record exists before issuing the update.
-		AccidentLocationDetail object = getByCode(code);
+		WitnessType object = getByCode(code);
 		validateObject(object);
 		// Set the new value(s).
-		object.setDescription(description);
+		object.setDescription(description);		
 		// Issue update
 		update(object);
 		return object;
@@ -133,22 +130,10 @@ public class AccidentLocationDetailDaoImpl extends AbstractHibernateDao<String, 
 	public void delete(final String code) {
 		// Validate input parameter(s) if any..
 		validateCode(code);
-		AccidentLocationDetail object = getByCode(code);
+		WitnessType object = getByCode(code);
 		// Check if the object exists in database before issuing the delete
 		validateObject(object);
 		// Issue delete
 		super.delete(object);
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<AccidentLocationDetail> get(final AccidentLocation accidentLocation) {
-		// Check if the object is valid and not null or empty
-		validateObject(accidentLocation);
-		return (List<AccidentLocationDetail>) applySearch(
-				getSession().createCriteria(_modelType)
-						.add(Restrictions.eq("accidentLocation",
-								Objects.requireNonNull(accidentLocation, "Accident location object cannot be null."))))
-										.list();
 	}
 }

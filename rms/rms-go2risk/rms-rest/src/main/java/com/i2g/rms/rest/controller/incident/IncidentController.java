@@ -15,6 +15,7 @@ import com.i2g.rms.domain.model.incident.Incident;
 import com.i2g.rms.rest.constants.RequestMappingConstants;
 import com.i2g.rms.rest.controller.AbstractRestController;
 import com.i2g.rms.rest.model.UserRO;
+import com.i2g.rms.rest.model.incident.AccidentDetailRO;
 import com.i2g.rms.rest.model.incident.IncidentDetailRO;
 import com.i2g.rms.rest.model.incident.IncidentRO;
 import com.i2g.rms.rest.model.incident.LogIncidentRO;
@@ -58,5 +59,10 @@ public class IncidentController extends AbstractRestController {
 	@RequestMapping(value = RequestMappingConstants.ADD_INCIDENT_DETAILS, method = RequestMethod.POST)
 	public IncidentRO addIncidentDetail(final @Valid @RequestBody IncidentDetailRO incidentDetailRO) {
 		return _incidentRestService.addIncidentDetail(incidentDetailRO);
+	}
+	
+	@RequestMapping(value = RequestMappingConstants.ADD_ACCIDENT_DETAILS, method = RequestMethod.POST)
+	public IncidentRO addAccidentDetail(final @Valid @RequestBody AccidentDetailRO accidentDetailRO) {
+		return _incidentRestService.addAccidentDetail(accidentDetailRO);
 	}
 }

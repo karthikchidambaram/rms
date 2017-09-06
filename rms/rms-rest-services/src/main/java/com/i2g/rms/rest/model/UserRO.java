@@ -46,7 +46,7 @@ public class UserRO extends AbstractEntityRO {
 	private EmployeeTypeRO _employeeType;
 	private UserRO _manager;
 	private Set<UserRO> _subordinates = new HashSet<UserRO>(0);
-	private Set<AddressRO> _address = new HashSet<AddressRO>(0);
+	private Set<AddressRO> _addresses = new HashSet<AddressRO>(0);
 
 	public long getId() {
 		return _id;
@@ -367,11 +367,11 @@ public class UserRO extends AbstractEntityRO {
 		_subordinates = subordinates;
 	}
 
-	public Set<AddressRO> getAddress() {
-		return _address;
+	public Set<AddressRO> getAddresses() {
+		return _addresses;
 	}
 
-	public void setAddress(final Set<AddressRO> address) {
-		_address = address;
+	public void setAddresses(final Set<AddressRO> address) {
+		_addresses = address;
 	}	
 }

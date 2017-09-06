@@ -40,6 +40,7 @@ import com.i2g.rms.domain.model.tablemaintenance.PositionLevel;
 import com.i2g.rms.domain.model.tablemaintenance.SuspectType;
 import com.i2g.rms.domain.model.tablemaintenance.VehicleDamageType;
 import com.i2g.rms.domain.model.tablemaintenance.WeaponType;
+import com.i2g.rms.domain.model.tablemaintenance.WitnessType;
 import com.i2g.rms.persistence.dao.tablemaintenance.AccidentLocationDao;
 import com.i2g.rms.persistence.dao.tablemaintenance.AccidentLocationDetailDao;
 import com.i2g.rms.persistence.dao.tablemaintenance.AccidentTypeDao;
@@ -76,6 +77,7 @@ import com.i2g.rms.persistence.dao.tablemaintenance.SuspectTypeDao;
 import com.i2g.rms.persistence.dao.tablemaintenance.TableMaintenanceDao;
 import com.i2g.rms.persistence.dao.tablemaintenance.VehicleDamageTypeDao;
 import com.i2g.rms.persistence.dao.tablemaintenance.WeaponTypeDao;
+import com.i2g.rms.persistence.dao.tablemaintenance.WitnessTypeDao;
 import com.i2g.rms.service.AbstractService;
 
 /**
@@ -129,6 +131,8 @@ public class TableMaintenaceServiceImpl extends AbstractService implements Table
 	private InjuryTypeDetailSpecDao _injuryTypeDetailSpecDao;
 	@Autowired
 	private SuspectTypeDao _suspectTypeDao;
+	@Autowired
+	private WitnessTypeDao _witnessTypeDao;
 	@Autowired
 	private WeaponTypeDao _weaponInvolvedDao;
 	@Autowired
@@ -648,7 +652,7 @@ public class TableMaintenaceServiceImpl extends AbstractService implements Table
 	public List<InjuryTypeDetail> getInjuryTypeDetails() {
 		return _injuryTypeDetailDao.get();
 	}
-	
+
 	@Override
 	public List<InjuryTypeDetail> getInjuryTypeDetailsForParent(final InjuryType injuryType) {
 		return _injuryTypeDetailDao.get(injuryType);
@@ -679,7 +683,7 @@ public class TableMaintenaceServiceImpl extends AbstractService implements Table
 	public List<InjuryTypeDetailSpec> getInjuryTypeDetailSpecs() {
 		return _injuryTypeDetailSpecDao.get();
 	}
-	
+
 	@Override
 	public List<InjuryTypeDetailSpec> getInjuryTypeDetailSpecsForParent(final InjuryTypeDetail injuryTypeDetail) {
 		return _injuryTypeDetailSpecDao.get(injuryTypeDetail);
@@ -1037,7 +1041,7 @@ public class TableMaintenaceServiceImpl extends AbstractService implements Table
 	public List<Department> getDepartments() {
 		return _departmentDao.get();
 	}
-	
+
 	@Override
 	public List<Department> getDepartmentsForOrganization(final Organization organization) {
 		return _departmentDao.get(organization);
@@ -1092,7 +1096,7 @@ public class TableMaintenaceServiceImpl extends AbstractService implements Table
 	public List<Position> getPositions() {
 		return _positionDao.get();
 	}
-	
+
 	@Override
 	public List<Position> getPositionsForOrganization(final Organization organization) {
 		return _positionDao.get(organization);
@@ -1143,5 +1147,30 @@ public class TableMaintenaceServiceImpl extends AbstractService implements Table
 	@Override
 	public void deletePosition(final String code) {
 		_positionDao.delete(code);
-	}				
+	}
+
+	@Override
+	public List<WitnessType> getWitnessTypes() {
+		return _witnessTypeDao.get();
+	}
+
+	@Override
+	public WitnessType getWitnessTypeByCode(final String code) {
+		return _witnessTypeDao.getByCode(code);
+	}
+
+	@Override
+	public WitnessType createWitnessType(final String code, final String description) {
+		return _witnessTypeDao.create(code, description);
+	}
+
+	@Override
+	public WitnessType updateWitnessType(final String code, final String description) {
+		return _witnessTypeDao.update(code, description);
+	}
+
+	@Override
+	public void deleteWitnessType(final String code) {
+		_witnessTypeDao.delete(code);
+	}
 }

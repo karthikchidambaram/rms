@@ -5,22 +5,20 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.i2g.rms.rest.model.incident.IncidentRO;
+import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeature;
 import com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeatureDetailRO;
-import com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeatureRO;
 import com.i2g.rms.rest.model.tablemaintenance.GenderTypeRO;
-import com.i2g.rms.rest.model.tablemaintenance.SuspectTypeRO;
-import com.i2g.rms.rest.model.tablemaintenance.WeaponTypeRO;
+import com.i2g.rms.rest.model.tablemaintenance.WitnessTypeRO;
 
 /**
- * REST Object for Suspect.
+ * REST Object for Witness.
  * 
  * @since 1.0.0
  * @author Karthikeyan Chidambaram
  * @author RMS Development Team
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class SuspectRO extends AbstractEntityRO {
+public class WitnessRO extends AbstractEntityRO {
 
 	private long _id;
 	private StatusFlagRO _statusFlag;
@@ -30,7 +28,7 @@ public class SuspectRO extends AbstractEntityRO {
 	private String _lastName;
 	private String _nameSuffix;
 	private GenderTypeRO _genderType;
-	private DistinguishingFeatureRO _distinguishingFeature; 
+	private DistinguishingFeature _distinguishingFeature;
 	private DistinguishingFeatureDetailRO _distinguishingFeatureDetail;
 	private LocalDate _dateOfBirth;
 	private Integer _age;
@@ -39,12 +37,10 @@ public class SuspectRO extends AbstractEntityRO {
 	private String _alternatePhone;
 	private String _email;
 	private String _website;
-	private YesNoTypeRO _weaponInvolved;
-	private WeaponTypeRO _weaponType;
-	private SuspectTypeRO _suspectType;
+	private Set<AccidentRO> _accidents = new HashSet<AccidentRO>(0);
 	private Set<AddressRO> _addresses = new HashSet<AddressRO>(0);
-	private Set<IncidentRO> _incidents = new HashSet<IncidentRO>(0);
-
+	private WitnessTypeRO _witnessType;
+	
 	/**
 	 * @return the id
 	 */
@@ -57,7 +53,7 @@ public class SuspectRO extends AbstractEntityRO {
 	 *            the id to set
 	 */
 	public void setId(final long id) {
-		_id = id;		
+		_id = id;
 	}
 
 	/**
@@ -164,14 +160,6 @@ public class SuspectRO extends AbstractEntityRO {
 	public void setGenderType(final GenderTypeRO genderType) {
 		_genderType = genderType;
 	}
-	
-	public DistinguishingFeatureRO getDistinguishingFeature() {
-		return _distinguishingFeature;
-	}
-
-	public void setDistinguishingFeature(final DistinguishingFeatureRO distinguishingFeature) {
-		_distinguishingFeature = distinguishingFeature;
-	}
 
 	/**
 	 * @return the distinguishingFeatureDetail
@@ -215,26 +203,22 @@ public class SuspectRO extends AbstractEntityRO {
 	 *            the age to set
 	 */
 	public void setAge(final Integer age) {
-		if (age != null) {
-			_age = age;
-		} else {
-			_age = 0;
-		}
+		_age = age;
 	}
 
 	/**
-	 * @return the alternatePhone
+	 * @return the phone
 	 */
-	public String getAlternatePhone() {
-		return _alternatePhone;
+	public String getPhone() {
+		return _phone;
 	}
 
 	/**
-	 * @param alternatePhone
-	 *            the alternatePhone to set
+	 * @param phone
+	 *            the phone to set
 	 */
-	public void setAlternatePhone(final String alternatePhone) {
-		_alternatePhone = alternatePhone;
+	public void setPhone(final String phone) {
+		_phone = phone;
 	}
 
 	/**
@@ -253,18 +237,18 @@ public class SuspectRO extends AbstractEntityRO {
 	}
 
 	/**
-	 * @return the phone
+	 * @return the alternatePhone
 	 */
-	public String getPhone() {
-		return _phone;
+	public String getAlternatePhone() {
+		return _alternatePhone;
 	}
 
 	/**
-	 * @param phone
-	 *            the phone to set
+	 * @param alternatePhone
+	 *            the alternatePhone to set
 	 */
-	public void setPhone(final String phone) {
-		_phone = phone;
+	public void setAlternatePhone(final String alternatePhone) {
+		_alternatePhone = alternatePhone;
 	}
 
 	/**
@@ -298,63 +282,59 @@ public class SuspectRO extends AbstractEntityRO {
 	}
 
 	/**
-	 * @return the weaponInvolved
+	 * @return the accidents
 	 */
-	public YesNoTypeRO getWeaponInvolved() {
-		return _weaponInvolved;
+	public Set<AccidentRO> getAccidents() {
+		return _accidents;
 	}
 
 	/**
-	 * @param weaponInvolved
-	 *            the weaponInvolved to set
+	 * @param accidents
+	 *            the accidents to set
 	 */
-	public void setWeaponInvolved(final YesNoTypeRO weaponInvolved) {
-		_weaponInvolved = weaponInvolved;
+	public void setAccidents(final Set<AccidentRO> accidents) {
+		_accidents = accidents;
 	}
-
+	
 	/**
-	 * @return the weaponType
+	 * @return the addresses
 	 */
-	public WeaponTypeRO getWeaponType() {
-		return _weaponType;
-	}
-
-	/**
-	 * @param weaponType
-	 *            the weaponType to set
-	 */
-	public void setWeaponType(final WeaponTypeRO weaponType) {
-		_weaponType = weaponType;
-	}
-
-	/**
-	 * @return the suspectType
-	 */
-	public SuspectTypeRO getSuspectType() {
-		return _suspectType;
-	}
-
-	/**
-	 * @param suspectType
-	 *            the suspectType to set
-	 */
-	public void setSuspectType(final SuspectTypeRO suspectType) {
-		_suspectType = suspectType;
-	}
-
 	public Set<AddressRO> getAddresses() {
 		return _addresses;
 	}
 
-	public void setAddresses(final Set<AddressRO> address) {
-		_addresses = address;
+	/**
+	 * @param addresses the addresses to set
+	 */
+	public void setAddresses(final Set<AddressRO> addresses) {
+		_addresses = addresses;
 	}
 
-	public Set<IncidentRO> getIncidents() {
-		return _incidents;
+	/**
+	 * @return the witnessType
+	 */
+	public WitnessTypeRO getWitnessType() {
+		return _witnessType;
 	}
 
-	public void setIncidents(final Set<IncidentRO> incidents) {
-		_incidents = incidents;
+	/**
+	 * @param witnessType the witnessType to set
+	 */
+	public void setWitnessType(final WitnessTypeRO witnessType) {
+		_witnessType = witnessType;
+	}
+
+	/**
+	 * @return the distinguishingFeature
+	 */
+	public DistinguishingFeature getDistinguishingFeature() {
+		return _distinguishingFeature;
+	}
+
+	/**
+	 * @param distinguishingFeature the distinguishingFeature to set
+	 */
+	public void setDistinguishingFeature(final DistinguishingFeature distinguishingFeature) {
+		_distinguishingFeature = distinguishingFeature;
 	}	
 }

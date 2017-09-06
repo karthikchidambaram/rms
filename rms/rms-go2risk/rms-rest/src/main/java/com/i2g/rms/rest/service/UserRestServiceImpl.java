@@ -23,6 +23,7 @@ import com.i2g.rms.service.UserService;
 @Service
 public class UserRestServiceImpl extends AbstractRestService implements UserRestService {
 	
+	@SuppressWarnings("unused")
 	private final Logger _logger = LoggerFactory.getLogger(UserRestServiceImpl.class);
 	
 	@Autowired

@@ -38,6 +38,7 @@ import com.i2g.rms.rest.model.tablemaintenance.SuspectTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.TableMaintenanceRO;
 import com.i2g.rms.rest.model.tablemaintenance.VehicleDamageTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.WeaponTypeRO;
+import com.i2g.rms.rest.model.tablemaintenance.WitnessTypeRO;
 
 /**
  * Rest Service Interface for all table maintenance objects.
@@ -308,4 +309,11 @@ public interface TableMaintenanceRestService {
 	public PositionLevelRO createPositionLevel(final PositionLevelRO positionLevelRO);
 	public PositionLevelRO updatePositionLevel(final PositionLevelRO positionLevelRO);
 	public void deletePositionLevel(final String code);
+	
+	/** Methods related to Witness Type */
+	public List<WitnessTypeRO> getWitnessTypes();
+	public WitnessTypeRO getWitnessTypeByCode(final String code);
+	public WitnessTypeRO createWitnessType(final WitnessTypeRO witnessTypeRO);
+	public WitnessTypeRO updateWitnessType(final WitnessTypeRO witnessTypeRO);
+	public void deleteWitnessType(final String code);
 }

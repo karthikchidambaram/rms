@@ -6,6 +6,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +37,7 @@ public class AddressRestServiceImpl extends AbstractRestService implements Addre
 	private UserService _userService;
 	
 	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
 	@Transactional(readOnly = true)
 	public List<AddressRO> get() {
 		List<Address> addresses = _addressService.get();
@@ -44,6 +46,7 @@ public class AddressRestServiceImpl extends AbstractRestService implements Addre
 	}
 
 	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
 	@Transactional(readOnly = true)
 	public AddressRO get(final long id) {
 		if (id > 0) {
@@ -54,6 +57,7 @@ public class AddressRestServiceImpl extends AbstractRestService implements Addre
 	}
 
 	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
 	@Transactional
 	public AddressRO create(final AddressRO addressRO) {
 		//Validate input param (object)

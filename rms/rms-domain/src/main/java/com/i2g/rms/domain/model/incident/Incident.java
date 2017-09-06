@@ -21,6 +21,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -31,12 +32,14 @@ import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;
 
 import com.i2g.rms.domain.model.AbstractDataModel;
+import com.i2g.rms.domain.model.Accident;
 import com.i2g.rms.domain.model.ReportedLoss;
 import com.i2g.rms.domain.model.StatusFlag;
 import com.i2g.rms.domain.model.Suspect;
 import com.i2g.rms.domain.model.User;
 import com.i2g.rms.domain.model.YesNoType;
 import com.i2g.rms.domain.model.tablemaintenance.EntryPoint;
+import com.i2g.rms.domain.model.tablemaintenance.IncidentLocation;
 import com.i2g.rms.domain.model.tablemaintenance.IncidentLocationDetail;
 import com.i2g.rms.domain.model.tablemaintenance.IncidentType;
 
@@ -64,7 +67,8 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 	private String _landmark;
 	private EntryPoint _entryPoint;
 	private IncidentStatus _incidentStatus;
-	private IncidentLocationDetail _incidentLocationDetails;
+	private IncidentLocation _incidentLocation;
+	private IncidentLocationDetail _incidentLocationDetail;
 	private String _incidentDescription;
 	private StatusFlag _statusFlag;
 	private User _incidentReportedBy;
@@ -76,6 +80,7 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 	private YesNoType _accidentDamage;
 	private YesNoType _vehicleOrAssetDamage;
 	private Set<ReportedLoss> _reportedLosses = new HashSet<ReportedLoss>(0);
+	private Accident _accident;
 	
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -208,12 +213,12 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "INC_LOC_CHLD_CDE")
-	public IncidentLocationDetail getIncidentLocationDetails() {
-		return _incidentLocationDetails;
+	public IncidentLocationDetail getIncidentLocationDetail() {
+		return _incidentLocationDetail;
 	}
 
-	public void setIncidentLocationDetails(final IncidentLocationDetail incidentLocationDetails) {
-		_incidentLocationDetails = incidentLocationDetails;
+	public void setIncidentLocationDetail(final IncidentLocationDetail incidentLocationDetail) {
+		_incidentLocationDetail = incidentLocationDetail;
 	}
 	
 	@Column(name = "INC_DESC", length = 256)
@@ -260,7 +265,7 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the suspects
 	 */
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinTable(
 			name = "RMS_INC_SUSPT",
 			joinColumns = @JoinColumn(name = "INC_ID"),
@@ -280,7 +285,7 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the employeeSuspects
 	 */
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinTable(
 			name = "RMS_INC_USR_SUSPT",
 			joinColumns = @JoinColumn(name = "INC_ID"),
@@ -365,7 +370,7 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 		_vehicleOrAssetDamage = vehicleOrAssetDamage;
 	}
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "incident")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "incident")
 	@Fetch(FetchMode.SUBSELECT)
 	public Set<ReportedLoss> getReportedLosses() {
 		return _reportedLosses;
@@ -373,6 +378,37 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 
 	public void setReportedLosses(final Set<ReportedLoss> reportedLosses) {
 		_reportedLosses = reportedLosses;
+	}
+	
+	/**
+	 * @return the accident
+	 */
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "incident")
+	public Accident getAccident() {
+		return _accident;
+	}
+
+	/**
+	 * @param accident the accident to set
+	 */
+	public void setAccident(final Accident accident) {
+		_accident = accident;
+	}
+	
+	/**
+	 * @return the incidentLocation
+	 */
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "INC_LOC_CDE")
+	public IncidentLocation getIncidentLocation() {
+		return _incidentLocation;
+	}
+
+	/**
+	 * @param incidentLocation the incidentLocation to set
+	 */
+	public void setIncidentLocation(final IncidentLocation incidentLocation) {
+		_incidentLocation = incidentLocation;
 	}
 
 	@Override

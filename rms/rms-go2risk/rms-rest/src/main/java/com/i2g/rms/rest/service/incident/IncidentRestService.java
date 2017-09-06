@@ -3,6 +3,7 @@ package com.i2g.rms.rest.service.incident;
 import java.util.List;
 
 import com.i2g.rms.rest.model.UserRO;
+import com.i2g.rms.rest.model.incident.AccidentDetailRO;
 import com.i2g.rms.rest.model.incident.IncidentDetailRO;
 import com.i2g.rms.rest.model.incident.IncidentRO;
 import com.i2g.rms.rest.model.incident.LogIncidentRO;
@@ -21,4 +22,5 @@ public interface IncidentRestService {
 	public UserRO addIncident();
 	public IncidentRO logIncident(final LogIncidentRO logIncidentRO);
 	public IncidentRO addIncidentDetail(final IncidentDetailRO incidentDetailRO);
+	public IncidentRO addAccidentDetail(final AccidentDetailRO accidentDetailRO);
 }

@@ -6,6 +6,7 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.i2g.rms.rest.model.AbstractEntityRO;
+import com.i2g.rms.rest.model.AccidentRO;
 import com.i2g.rms.rest.model.ReportedLossRO;
 import com.i2g.rms.rest.model.StatusFlagRO;
 import com.i2g.rms.rest.model.SuspectRO;
@@ -13,6 +14,7 @@ import com.i2g.rms.rest.model.UserRO;
 import com.i2g.rms.rest.model.YesNoTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.EntryPointRO;
 import com.i2g.rms.rest.model.tablemaintenance.IncidentLocationDetailRO;
+import com.i2g.rms.rest.model.tablemaintenance.IncidentLocationRO;
 import com.i2g.rms.rest.model.tablemaintenance.IncidentTypeRO;
 
 /**
@@ -33,7 +35,8 @@ public class IncidentRO extends AbstractEntityRO {
 	private String _landmark;
 	private EntryPointRO _entryPoint;
 	private IncidentStatusRO _incidentStatus;
-	private IncidentLocationDetailRO _incidentLocationDetails;
+	private IncidentLocationRO _incidentLocation;
+	private IncidentLocationDetailRO _incidentLocationDetail;
 	private String _incidentDescription;
 	private StatusFlagRO _statusFlag;
 	private UserRO _incidentReportedBy;
@@ -45,7 +48,8 @@ public class IncidentRO extends AbstractEntityRO {
 	private YesNoTypeRO _accidentDamage;
 	private YesNoTypeRO _vehicleOrAssetDamage;
 	private Set<ReportedLossRO> _reportedLosses = new HashSet<ReportedLossRO>(0);
-	
+	private Set<AccidentRO> _accidents = new HashSet<AccidentRO>(0);
+
 	/**
 	 * @return the id
 	 */
@@ -167,18 +171,18 @@ public class IncidentRO extends AbstractEntityRO {
 	}
 
 	/**
-	 * @return the incidentLocationDetails
+	 * @return the incidentLocationDetail
 	 */
-	public IncidentLocationDetailRO getIncidentLocationDetails() {
-		return _incidentLocationDetails;
+	public IncidentLocationDetailRO getIncidentLocationDetail() {
+		return _incidentLocationDetail;
 	}
 
 	/**
-	 * @param incidentLocationDetails
-	 *            the incidentLocationDetails to set
+	 * @param incidentLocationDetail
+	 *            the incidentLocationDetail to set
 	 */
-	public void setIncidentLocationDetails(final IncidentLocationDetailRO incidentLocationDetails) {
-		_incidentLocationDetails = incidentLocationDetails;
+	public void setIncidentLocationDetail(final IncidentLocationDetailRO incidentLocationDetail) {
+		_incidentLocationDetail = incidentLocationDetail;
 	}
 
 	/**
@@ -264,7 +268,8 @@ public class IncidentRO extends AbstractEntityRO {
 	}
 
 	/**
-	 * @param employeeSuspects the employeeSuspects to set
+	 * @param employeeSuspects
+	 *            the employeeSuspects to set
 	 */
 	public void setEmployeeSuspects(final Set<UserRO> employeeSuspects) {
 		_employeeSuspects = employeeSuspects;
@@ -309,4 +314,33 @@ public class IncidentRO extends AbstractEntityRO {
 	public void setReportedLosses(final Set<ReportedLossRO> reportedLosses) {
 		_reportedLosses = reportedLosses;
 	}
+
+	/**
+	 * @return the accidents
+	 */
+	public Set<AccidentRO> getAccidents() {
+		return _accidents;
+	}
+
+	/**
+	 * @param accidents
+	 *            the accidents to set
+	 */
+	public void setAccidents(final Set<AccidentRO> accidents) {
+		_accidents = accidents;
+	}
+
+	/**
+	 * @return the incidentLocation
+	 */
+	public IncidentLocationRO getIncidentLocation() {
+		return _incidentLocation;
+	}
+
+	/**
+	 * @param incidentLocation the incidentLocation to set
+	 */
+	public void setIncidentLocation(final IncidentLocationRO incidentLocation) {
+		_incidentLocation = incidentLocation;
+	}	
 }

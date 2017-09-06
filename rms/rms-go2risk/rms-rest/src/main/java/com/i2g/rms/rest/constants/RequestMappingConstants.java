@@ -329,6 +329,13 @@ public interface RequestMappingConstants {
 	String UPDATE_POSITION_LEVEL			= TABLE_MAINTENANCE + "/position-level/update-position-level";
 	String DELETE_POSITION_LEVEL			= TABLE_MAINTENANCE + "/position-level/delete-position-level/{code}";
 	
+	/** Witness Type Request Mappings */
+	String GET_WITNESS_TYPES				= TABLE_MAINTENANCE + "/witness-type/witness-types";
+	String GET_WITNESS_TYPE_BY_CODE 		= TABLE_MAINTENANCE + "/witness-type/{code}";
+	String CREATE_WITNESS_TYPE 				= TABLE_MAINTENANCE + "/witness-type/create-witness-type";
+	String UPDATE_WITNESS_TYPE 				= TABLE_MAINTENANCE + "/witness-type/update-witness-type";
+	String DELETE_WITNESS_TYPE 				= TABLE_MAINTENANCE + "/witness-type/delete-witness-type/{code}";
+	
 	/** Incidents */
 	String INCIDENT 									= SECURED + "/incident";
 	String GET_INCIDENTS								= INCIDENT + "/incidents";
@@ -336,6 +343,7 @@ public interface RequestMappingConstants {
 	String ADD_INCIDENT 								= INCIDENT + "/add-incident";
 	String LOG_INCIDENT 								= INCIDENT + "/log-incident";
 	String ADD_INCIDENT_DETAILS							= INCIDENT + "/add-incident-details";
+	String ADD_ACCIDENT_DETAILS							= INCIDENT + "/add-accident-details";
 	
 	/** Search Incidents */
 	String SEARCH_INCIDENT							= SECURED + "/search-incident";	
