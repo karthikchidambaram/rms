@@ -18,6 +18,6 @@ public interface SuspectDao {
 	
 	public Suspect get(final long id);
 	
-	public Set<Suspect> createNewSuspects(final List<Suspect> suspects);
+	public Set<Suspect> createNewSuspects(final Set<Suspect> suspects);
 	
 }

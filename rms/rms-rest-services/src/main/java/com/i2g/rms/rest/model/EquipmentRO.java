@@ -1,6 +1,7 @@
 package com.i2g.rms.rest.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.i2g.rms.rest.model.tablemaintenance.AssetCategoryRO;
 
 /**
  * REST Object for Equipment RO.
@@ -18,6 +19,7 @@ public class EquipmentRO extends AbstractEntityRO {
 	private String _equipmentId;
 	private String _equipmentDetails;
 	private String _serialNumber;
+	private AssetCategoryRO _assetCategory;
 
 	/**
 	 * @return the id
@@ -108,5 +110,19 @@ public class EquipmentRO extends AbstractEntityRO {
 	public void setSerialNumber(final String serialNumber) {
 		_serialNumber = serialNumber;
 	}
+	
+	/**
+	 * @return the assetCategory
+	 */
+	public AssetCategoryRO getAssetCategory() {
+		return _assetCategory;
+	}
 
+	/**
+	 * @param assetCategory
+	 *            the assetCategory to set
+	 */
+	public void setAssetCategory(final AssetCategoryRO assetCategory) {
+		_assetCategory = assetCategory;
+	}
 }

@@ -36,7 +36,7 @@ public class ReportedLossServiceImpl extends AbstractService implements Reported
 	}
 
 	@Override
-	public Set<ReportedLoss> createNewReportedLosses(final List<ReportedLoss> reportedLosses) {
+	public Set<ReportedLoss> createNewReportedLosses(final Set<ReportedLoss> reportedLosses) {
 		return _reportedLossDao.createNewReportedLosses(reportedLosses);
 	}	
 }

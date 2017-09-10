@@ -27,6 +27,8 @@ public class AssetRO extends AbstractEntityRO {
 	private Set<EquipmentRO> _equipments = new HashSet<EquipmentRO>(0);
 	private Set<BuildingRO> _buildings = new HashSet<BuildingRO>(0);
 	private Set<VehicleRO> _vehicles = new HashSet<VehicleRO>(0);
+	private Set<WitnessRO> _witnesses = new HashSet<WitnessRO>(0);
+	private Set<UserRO> _employeeWitnesses = new HashSet<UserRO>(0);
 
 	/**
 	 * @return the id
@@ -178,4 +180,33 @@ public class AssetRO extends AbstractEntityRO {
 		_vehicles = vehicles;
 	}
 
+	/**
+	 * @return the witnesses
+	 */
+	public Set<WitnessRO> getWitnesses() {
+		return _witnesses;
+	}
+
+	/**
+	 * @param witnesses
+	 *            the witnesses to set
+	 */
+	public void setWitnesses(final Set<WitnessRO> witnesses) {
+		_witnesses = witnesses;
+	}
+
+	/**
+	 * @return the employeeWitnesses
+	 */
+	public Set<UserRO> getEmployeeWitnesses() {
+		return _employeeWitnesses;
+	}
+
+	/**
+	 * @param employeeWitnesses
+	 *            the employeeWitnesses to set
+	 */
+	public void setEmployeeWitnesses(final Set<UserRO> employeeWitnesses) {
+		_employeeWitnesses = employeeWitnesses;
+	}
 }

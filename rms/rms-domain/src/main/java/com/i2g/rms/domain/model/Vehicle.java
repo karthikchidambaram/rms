@@ -16,9 +16,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.i2g.rms.domain.model.tablemaintenance.AssetCategory;
 import com.i2g.rms.domain.model.tablemaintenance.VehicleDamageType;
 
 /**
@@ -49,6 +49,7 @@ public class Vehicle extends AbstractDataModel<Long> implements Serializable {
 	private String _model;
 	private String _commentDescription;
 	private VehicleDamageType _vehicleDamageType;
+	private AssetCategory _assetCategory;
 		
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -63,7 +64,8 @@ public class Vehicle extends AbstractDataModel<Long> implements Serializable {
 	 * @param builder
 	 */
 	private Vehicle(final Builder builder) {
-		_statusFlag = Objects.requireNonNull(builder._statusFlag, "Status flag cannot be null.");
+		_asset = Objects.requireNonNull(builder._asset, "Asset object cannot be null while creating a vehicle.");
+		_statusFlag = Objects.requireNonNull(builder._statusFlag, "Status flag cannot be null.");		
 	}
 	
 	/**
@@ -99,7 +101,6 @@ public class Vehicle extends AbstractDataModel<Long> implements Serializable {
 	 * @return the statusFlag
 	 */
 	@Column(name = "STS_FLG", nullable = false)
-	@Size(min = 1, max = 16, message = "Status flag code must be between {min} and {max} characters")
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	public StatusFlag getStatusFlag() {
@@ -132,8 +133,7 @@ public class Vehicle extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the vehicleRegistrationId
 	 */
-	@Column(name = "VEHCL_REG_ID")
-	@Size(min = 1, max = 32, message = "Vehicle registration ID must be between {min} and {max} characters")
+	@Column(name = "VEHCL_REG_ID", length = 32)
 	public String getVehicleRegistrationId() {
 		return _vehicleRegistrationId;
 	}
@@ -148,8 +148,7 @@ public class Vehicle extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the engineNumber
 	 */
-	@Column(name = "ENGN_NO")
-	@Size(min = 1, max = 64, message = "Engine number must be between {min} and {max} characters")
+	@Column(name = "ENGN_NO", length = 64)
 	public String getEngineNumber() {
 		return _engineNumber;
 	}
@@ -164,8 +163,7 @@ public class Vehicle extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the chasisNumber
 	 */
-	@Column(name = "CHSIS_NO")
-	@Size(min = 1, max = 64, message = "Chasis number must be between {min} and {max} characters")
+	@Column(name = "CHSIS_NO", length = 64)
 	public String getChasisNumber() {
 		return _chasisNumber;
 	}
@@ -180,8 +178,7 @@ public class Vehicle extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the make
 	 */
-	@Column(name = "MKE")
-	@Size(min = 1, max = 32, message = "Vehicle make must be between {min} and {max} characters")
+	@Column(name = "MKE", length = 32)
 	public String getMake() {
 		return _make;
 	}
@@ -196,8 +193,7 @@ public class Vehicle extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the model
 	 */
-	@Column(name = "MDL")
-	@Size(min = 1, max = 32, message = "Vehicle model must be between {min} and {max} characters")
+	@Column(name = "MDL", length = 32)
 	public String getModel() {
 		return _model;
 	}
@@ -212,8 +208,7 @@ public class Vehicle extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the commentDescription
 	 */
-	@Column(name = "COM_DESC")
-	@Size(min = 1, max = 32, message = "Comments description must be between {min} and {max} characters")
+	@Column(name = "COM_DESC", length = 32)
 	public String getCommentDescription() {
 		return _commentDescription;
 	}
@@ -230,7 +225,6 @@ public class Vehicle extends AbstractDataModel<Long> implements Serializable {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "VEHCL_DMGE_TYP_CDE")
-	@Size(min = 1, max = 16, message = "Vehicle damage type code must be between {min} and {max} characters")
 	public VehicleDamageType getVehicleDamageType() {
 		return _vehicleDamageType;
 	}
@@ -241,37 +235,31 @@ public class Vehicle extends AbstractDataModel<Long> implements Serializable {
 	public void setVehicleDamageType(final VehicleDamageType vehicleDamageType) {
 		_vehicleDamageType = vehicleDamageType;
 	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(_id, _statusFlag);
-	}
-
-	@Override
-	public boolean equals(final Object obj) {
-		if (this == obj) {
-			return true;
-		} else if (obj instanceof Vehicle) {
-			final Vehicle other = (Vehicle) obj;
-			return Objects.equals(_id, other._id) 
-					&& Objects.equals(_statusFlag, other._statusFlag);
-		}
-		return false;
-	}
-
-	@Override
-	public String toString() {
-		return "Id: " + _id + ", "		
-		+ "Status Flag: " + _statusFlag;
-	}
 	
+	/**
+	 * @return the assetCategory
+	 */
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "ASST_CTGRY_CDE")
+	public AssetCategory getAssetCategory() {
+		return _assetCategory;
+	}
+
+	/**
+	 * @param assetCategory the assetCategory to set
+	 */
+	public void setAssetCategory(final AssetCategory assetCategory) {
+		_assetCategory = assetCategory;
+	}
+
 	/**
 	 * Builder pattern for constructing immutable instances of
 	 * {@link Vehicle}.
 	 */
 	public final static class Builder {
-
-		private StatusFlag _statusFlag;
+		
+		private Asset _asset;
+		private StatusFlag _statusFlag;		
 
 		/**
 		 * Builds a new immutable instance of Address.
@@ -281,7 +269,12 @@ public class Vehicle extends AbstractDataModel<Long> implements Serializable {
 		public Vehicle build() {
 			return new Vehicle(this);
 		}
-
+		
+		public Builder setAsset(final Asset asset) {
+			_asset = asset;
+			return this;
+		}
+		
 		public Builder setStatusFlag(final StatusFlag statusFlag) {
 			_statusFlag = statusFlag;
 			return this;

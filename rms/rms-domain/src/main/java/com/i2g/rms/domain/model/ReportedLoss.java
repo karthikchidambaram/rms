@@ -67,6 +67,7 @@ public class ReportedLoss extends AbstractDataModel<Long> implements Serializabl
 	 * @param builder
 	 */
 	private ReportedLoss(final Builder builder) {
+		_incident = Objects.requireNonNull(builder._incident, "Incident object cannot be null.");
 		_statusFlag = Objects.requireNonNull(builder._statusFlag, "Status flag cannot be null.");
 	}
 	
@@ -226,29 +227,6 @@ public class ReportedLoss extends AbstractDataModel<Long> implements Serializabl
 		_costEstimation = costEstimation;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(_id, _statusFlag);
-	}
-
-	@Override
-	public boolean equals(final Object obj) {
-		if (this == obj) {
-			return true;
-		} else if (obj instanceof ReportedLoss) {
-			final ReportedLoss other = (ReportedLoss) obj;
-			return Objects.equals(_id, other._id) 
-					&& Objects.equals(_statusFlag, other._statusFlag);
-		}
-		return false;
-	}
-
-	@Override
-	public String toString() {
-		return "Id: " + _id + ", "		
-		+ "Status Flag: " + _statusFlag;
-	}
-	
 	/**
 	 * Builder pattern for constructing immutable instances of
 	 * {@link ReportedLoss}.
@@ -256,6 +234,7 @@ public class ReportedLoss extends AbstractDataModel<Long> implements Serializabl
 	public final static class Builder {
 
 		private StatusFlag _statusFlag;
+		private Incident _incident;
 
 		/**
 		 * Builds a new immutable instance of ReportedLoss.
@@ -264,6 +243,11 @@ public class ReportedLoss extends AbstractDataModel<Long> implements Serializabl
 		 */
 		public ReportedLoss build() {
 			return new ReportedLoss(this);
+		}
+		
+		public Builder setIncident(final Incident incident) {
+			_incident = incident;
+			return this;
 		}
 
 		public Builder setStatusFlag(final StatusFlag statusFlag) {

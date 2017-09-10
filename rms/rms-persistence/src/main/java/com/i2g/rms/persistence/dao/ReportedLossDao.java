@@ -18,6 +18,6 @@ public interface ReportedLossDao {
 	
 	public ReportedLoss get(final long id);
 	
-	public Set<ReportedLoss> createNewReportedLosses(final List<ReportedLoss> reportedLosses);
+	public Set<ReportedLoss> createNewReportedLosses(final Set<ReportedLoss> reportedLosses);
 	
 }

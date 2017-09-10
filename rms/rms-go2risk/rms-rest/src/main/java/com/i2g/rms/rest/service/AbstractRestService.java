@@ -307,4 +307,16 @@ public abstract class AbstractRestService {
 			throw new ResourceNotValidException(_messageBuilder.build(RestMessage.UNABLE_TO_FETCH_USER_DETAILS));
 		}
 	}
+	
+	protected boolean nullOrEmptySafeCheck(final String input) {
+		if (input != null && !input.trim().isEmpty()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	protected String stringTrimmer(final String text) {
+		return text.trim();
+	}
 }

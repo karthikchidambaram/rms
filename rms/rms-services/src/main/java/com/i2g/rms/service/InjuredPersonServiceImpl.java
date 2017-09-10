@@ -36,7 +36,7 @@ public class InjuredPersonServiceImpl extends AbstractService implements Injured
 	}
 
 	@Override
-	public Set<InjuredPerson> createNewInjuredPersons(final List<InjuredPerson> injuredPersons) {
+	public Set<InjuredPerson> createNewInjuredPersons(final Set<InjuredPerson> injuredPersons) {
 		return _injuredPersonDao.createNewInjuredPersons(injuredPersons);
 	}	
 }

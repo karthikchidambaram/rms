@@ -373,30 +373,6 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 		_city = city;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(_id, _statusFlag);
-	}
-
-	@Override
-	public boolean equals(final Object obj) {
-		if (this == obj) {
-			return true;
-		} else if (obj instanceof Address) {
-			final Address other = (Address) obj;
-			return Objects.equals(_id, other._id) && Objects.equals(_statusFlag, other._statusFlag);
-		}
-		return false;
-	}
-
-	@Override
-	public String toString() {
-		return "Id: " + _id + ", " + "Organization Name: " + _organizationName + ", " + "Building Name: "
-				+ _buildingName + ", " + "Street Name: " + _streetName + ", " + "Locality Name: " + _localityName + ", "
-				+ "Post Town: " + _postTown + ", " + "County: " + _county + ", " + "City: " + _city + ", "
-				+ "Postcode: " + _postcode + ", " + "Country: " + _country + ", " + "Status Flag: " + _statusFlag;
-	}
-
 	/**
 	 * Builder pattern for constructing immutable instances of {@link Address}.
 	 */

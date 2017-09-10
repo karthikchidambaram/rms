@@ -18,6 +18,6 @@ public interface WitnessService {
 	
 	public Witness get(final long id);
 	
-	public Set<Witness> createNewWitnesses(final List<Witness> witnesses);
+	public Set<Witness> createNewWitnesses(final Set<Witness> witnesses);
 	
 }

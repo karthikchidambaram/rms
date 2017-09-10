@@ -65,11 +65,7 @@ public class InjuredPersonDaoImpl extends AbstractHibernateDao<Long, InjuredPers
 	}
 
 	@Override
-	/**
-	 * While creating new Injured Persons, there will be no unique id representing the records uniquely.
-	 * So a list will be used. But after saving the records the return collection can be a set.
-	 */	
-	public Set<InjuredPerson> createNewInjuredPersons(final List<InjuredPerson> injuredPersons) {
+	public Set<InjuredPerson> createNewInjuredPersons(final Set<InjuredPerson> injuredPersons) {
 		validateCollectionObject(injuredPersons);
 		final Set<InjuredPerson> newInjuredPersons = new HashSet<InjuredPerson>(0);
 		for (InjuredPerson injuredPerson : injuredPersons) {

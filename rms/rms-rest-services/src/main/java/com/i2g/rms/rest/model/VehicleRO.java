@@ -1,6 +1,7 @@
 package com.i2g.rms.rest.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.i2g.rms.rest.model.tablemaintenance.AssetCategoryRO;
 import com.i2g.rms.rest.model.tablemaintenance.VehicleDamageTypeRO;
 
 /**
@@ -23,6 +24,7 @@ public class VehicleRO extends AbstractEntityRO {
 	private String _model;
 	private String _commentDescription;
 	private VehicleDamageTypeRO _vehicleDamageType;
+	private AssetCategoryRO _assetCategory;
 
 	/**
 	 * @return the id
@@ -173,5 +175,19 @@ public class VehicleRO extends AbstractEntityRO {
 	public void setVehicleDamageType(final VehicleDamageTypeRO vehicleDamageType) {
 		_vehicleDamageType = vehicleDamageType;
 	}
+	
+	/**
+	 * @return the assetCategory
+	 */
+	public AssetCategoryRO getAssetCategory() {
+		return _assetCategory;
+	}
 
+	/**
+	 * @param assetCategory
+	 *            the assetCategory to set
+	 */
+	public void setAssetCategory(final AssetCategoryRO assetCategory) {
+		_assetCategory = assetCategory;
+	}
 }

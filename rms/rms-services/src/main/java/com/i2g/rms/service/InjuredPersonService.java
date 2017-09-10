@@ -18,6 +18,6 @@ public interface InjuredPersonService {
 	
 	public InjuredPerson get(final long id);
 	
-	public Set<InjuredPerson> createNewInjuredPersons(final List<InjuredPerson> injuredPersons);
+	public Set<InjuredPerson> createNewInjuredPersons(final Set<InjuredPerson> injuredPersons);
 	
 }

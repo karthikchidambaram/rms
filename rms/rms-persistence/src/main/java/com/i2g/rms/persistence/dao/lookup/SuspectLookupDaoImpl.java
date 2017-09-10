@@ -14,6 +14,7 @@ import com.i2g.rms.persistence.hibernate.AbstractHibernateDao;
 @Repository
 public class SuspectLookupDaoImpl extends AbstractHibernateDao<Long, SuspectLookup> implements SuspectLookupDao {
 
+	@SuppressWarnings("unused")
 	private final Logger _logger = LoggerFactory.getLogger(SuspectLookupDaoImpl.class);
 
 	@Autowired
@@ -31,6 +32,7 @@ public class SuspectLookupDaoImpl extends AbstractHibernateDao<Long, SuspectLook
 		_hibernateTemplate = hibernateTemplate;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<SuspectLookup> get() {
 		return (List<SuspectLookup>) applySearch(getSession().createCriteria(_modelType)).list();

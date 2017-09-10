@@ -7,6 +7,7 @@ import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.i2g.rms.rest.model.AbstractEntityRO;
 import com.i2g.rms.rest.model.AccidentRO;
+import com.i2g.rms.rest.model.AssetRO;
 import com.i2g.rms.rest.model.ReportedLossRO;
 import com.i2g.rms.rest.model.StatusFlagRO;
 import com.i2g.rms.rest.model.SuspectRO;
@@ -48,7 +49,8 @@ public class IncidentRO extends AbstractEntityRO {
 	private YesNoTypeRO _accidentDamage;
 	private YesNoTypeRO _vehicleOrAssetDamage;
 	private Set<ReportedLossRO> _reportedLosses = new HashSet<ReportedLossRO>(0);
-	private Set<AccidentRO> _accidents = new HashSet<AccidentRO>(0);
+	private AccidentRO _accident;
+	private AssetRO _asset;
 
 	/**
 	 * @return the id
@@ -316,21 +318,6 @@ public class IncidentRO extends AbstractEntityRO {
 	}
 
 	/**
-	 * @return the accidents
-	 */
-	public Set<AccidentRO> getAccidents() {
-		return _accidents;
-	}
-
-	/**
-	 * @param accidents
-	 *            the accidents to set
-	 */
-	public void setAccidents(final Set<AccidentRO> accidents) {
-		_accidents = accidents;
-	}
-
-	/**
 	 * @return the incidentLocation
 	 */
 	public IncidentLocationRO getIncidentLocation() {
@@ -338,9 +325,40 @@ public class IncidentRO extends AbstractEntityRO {
 	}
 
 	/**
-	 * @param incidentLocation the incidentLocation to set
+	 * @param incidentLocation
+	 *            the incidentLocation to set
 	 */
 	public void setIncidentLocation(final IncidentLocationRO incidentLocation) {
 		_incidentLocation = incidentLocation;
-	}	
+	}
+
+	/**
+	 * @return the accident
+	 */
+	public AccidentRO getAccident() {
+		return _accident;
+	}
+
+	/**
+	 * @param accident
+	 *            the accident to set
+	 */
+	public void setAccident(final AccidentRO accident) {
+		this._accident = accident;
+	}
+
+	/**
+	 * @return the asset
+	 */
+	public AssetRO getAsset() {
+		return _asset;
+	}
+
+	/**
+	 * @param asset
+	 *            the asset to set
+	 */
+	public void setAsset(final AssetRO asset) {
+		this._asset = asset;
+	}
 }

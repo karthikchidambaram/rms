@@ -65,11 +65,7 @@ public class ReportedLossDaoImpl extends AbstractHibernateDao<Long, ReportedLoss
 	}
 
 	@Override
-	/**
-	 * While creating new reported losses, there will be no unique id representing the records uniquely.
-	 * So a list will be used. But after saving the records the return collection can be a set.
-	 */	
-	public Set<ReportedLoss> createNewReportedLosses(final List<ReportedLoss> reportedLosses) {
+	public Set<ReportedLoss> createNewReportedLosses(final Set<ReportedLoss> reportedLosses) {
 		validateCollectionObject(reportedLosses);
 		final Set<ReportedLoss> newReportedLosses = new HashSet<ReportedLoss>(0);
 		for (ReportedLoss reportedLoss : reportedLosses) {

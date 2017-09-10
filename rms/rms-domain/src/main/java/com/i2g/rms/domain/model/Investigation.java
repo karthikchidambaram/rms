@@ -317,29 +317,6 @@ public class Investigation extends AbstractDataModel<Long> implements Serializab
 		return investigationLeadDetailsList;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(_id, _statusFlag);
-	}
-
-	@Override
-	public boolean equals(final Object obj) {
-		if (this == obj) {
-			return true;
-		} else if (obj instanceof Investigation) {
-			final Investigation other = (Investigation) obj;
-			return Objects.equals(_id, other._id) 
-					&& Objects.equals(_statusFlag, other._statusFlag);
-		}
-		return false;
-	}
-
-	@Override
-	public String toString() {
-		return "Id: " + _id + ", " 
-		+ "Status Flag: " + _statusFlag;
-	}
-	
 	/**
 	 * Builder pattern for constructing immutable instances of
 	 * {@link Investigation}.

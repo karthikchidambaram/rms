@@ -69,24 +69,7 @@ public class InjuredPersonBodyParts extends AbstractDataModel<InjuredPersonBodyP
 	@Transient
 	public InjuredPerson getInjuredPerson() {
 		return _id.getInjuredPerson();
-	}
-
-	@Override
-	public boolean equals(final Object obj) {
-		return this == obj
-				|| (obj instanceof InjuredPersonBodyParts && getId().equals(((InjuredPersonBodyParts) obj).getId()));
-	}
-
-	@Override
-	public int hashCode() {
-		return getId().hashCode();
-	}
-
-	@Override
-	public String toString() {
-		return "Injured Person -> Body Parts: " + _id.getInjuredPerson().getFirstName() + " "
-				+ _id.getInjuredPerson().getLastName() + " -> " + _id.getBodyParts().getDescription();
-	}
+	}	
 
 	/**
 	 * Primary key ID for the user/team relationship.

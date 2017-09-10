@@ -65,11 +65,7 @@ public class WitnessDaoImpl extends AbstractHibernateDao<Long, Witness> implemen
 	}
 
 	@Override
-	/**
-	 * While creating new Witnesses, there will be no unique id representing the records uniquely.
-	 * So a list will be used. But after saving the records the return collection can be a set.
-	 */	
-	public Set<Witness> createNewWitnesses(final List<Witness> witnesses) {
+	public Set<Witness> createNewWitnesses(final Set<Witness> witnesses) {
 		validateCollectionObject(witnesses);
 		final Set<Witness> newWitnesses = new HashSet<Witness>(0);
 		for (Witness witness : witnesses) {

@@ -46,7 +46,6 @@ public class InjuredPersonRO extends AbstractEntityRO {
 	private String _email;
 	private String _website;
 	private YesNoTypeRO _firstAidGiven;
-	private YesNoTypeRO _anyWitness;
 	private UserRO _user;
 	private Set<AccidentRO> _accidents = new HashSet<AccidentRO>(0);
 	private Set<BodyPartRO> _bodyParts = new HashSet<BodyPartRO>(0);
@@ -339,21 +338,6 @@ public class InjuredPersonRO extends AbstractEntityRO {
 	 */
 	public void setFirstAidGiven(final YesNoTypeRO firstAidGiven) {
 		_firstAidGiven = firstAidGiven;
-	}
-
-	/**
-	 * @return the anyWitness
-	 */
-	public YesNoTypeRO getAnyWitness() {
-		return _anyWitness;
-	}
-
-	/**
-	 * @param anyWitness
-	 *            the anyWitness to set
-	 */
-	public void setAnyWitness(final YesNoTypeRO anyWitness) {
-		_anyWitness = anyWitness;
 	}
 
 	/**

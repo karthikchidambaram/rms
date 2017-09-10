@@ -33,6 +33,7 @@ import org.hibernate.annotations.Type;
 
 import com.i2g.rms.domain.model.AbstractDataModel;
 import com.i2g.rms.domain.model.Accident;
+import com.i2g.rms.domain.model.Asset;
 import com.i2g.rms.domain.model.ReportedLoss;
 import com.i2g.rms.domain.model.StatusFlag;
 import com.i2g.rms.domain.model.Suspect;
@@ -81,6 +82,7 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 	private YesNoType _vehicleOrAssetDamage;
 	private Set<ReportedLoss> _reportedLosses = new HashSet<ReportedLoss>(0);
 	private Accident _accident;
+	private Asset asset;
 	
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -410,6 +412,21 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 	public void setIncidentLocation(final IncidentLocation incidentLocation) {
 		_incidentLocation = incidentLocation;
 	}
+	
+	/**
+	 * @return the asset
+	 */
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "incident")
+	public Asset getAsset() {
+		return asset;
+	}
+
+	/**
+	 * @param asset the asset to set
+	 */
+	public void setAsset(Asset asset) {
+		this.asset = asset;
+	}
 
 	@Override
 	public int hashCode() {
@@ -432,7 +449,10 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Incident Id: " + _id + ", Unique Incident Id: " + _uniqueIncidentId + ", Incident Description: " + _incidentDescription;
+		return "Incident Id: " + _id 
+				+ ", Unique Incident Id: " + _uniqueIncidentId 
+				+ ", Incident Description: " + _incidentDescription
+				+ ", Status Flag: " + _statusFlag;
 	}
 
 	/**

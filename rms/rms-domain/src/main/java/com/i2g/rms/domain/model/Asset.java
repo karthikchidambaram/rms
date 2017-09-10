@@ -15,12 +15,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -56,6 +57,8 @@ public class Asset extends AbstractDataModel<Long> implements Serializable {
 	private Set<Equipment> _equipments = new HashSet<Equipment>(0);
 	private Set<Building> _buildings = new HashSet<Building>(0);
 	private Set<Vehicle> _vehicles = new HashSet<Vehicle>(0);
+	private Set<Witness> _witnesses = new HashSet<Witness>(0);
+	private Set<User> _employeeWitnesses = new HashSet<User>(0);
 	
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -70,7 +73,8 @@ public class Asset extends AbstractDataModel<Long> implements Serializable {
 	 * @param builder
 	 */
 	private Asset(final Builder builder) {
-		_statusFlag = Objects.requireNonNull(builder._statusFlag, "Status flag cannot be null.");
+		_incident = Objects.requireNonNull(builder._incident, "Incident (object) cannot be null.");
+		_statusFlag = Objects.requireNonNull(builder._statusFlag, "Status flag cannot be null or empty.");
 	}
 	
 	/**
@@ -106,7 +110,6 @@ public class Asset extends AbstractDataModel<Long> implements Serializable {
 	 * @return the statusFlag
 	 */
 	@Column(name = "STS_FLG", nullable = false)
-	@Size(min = 1, max = 16, message = "Status flag code must be between {min} and {max} characters")
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	public StatusFlag getStatusFlag() {
@@ -141,7 +144,6 @@ public class Asset extends AbstractDataModel<Long> implements Serializable {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ASST_CTGRY_CDE")
-	@Size(min = 1, max = 16, message = "Asset category code must be between {min} and {max} characters")
 	public AssetCategory getAssetCategory() {
 		return _assetCategory;
 	}
@@ -156,8 +158,7 @@ public class Asset extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the statementDescription
 	 */
-	@Column(name = "STMT_DESC")
-	@Size(min = 1, max = 256, message = "Statement description must be between {min} and {max} characters")
+	@Column(name = "STMT_DESC", length = 256)
 	public String getStatementDescription() {
 		return _statementDescription;
 	}
@@ -173,7 +174,6 @@ public class Asset extends AbstractDataModel<Long> implements Serializable {
 	 * @return the anyWitness
 	 */
 	@Column(name = "ANY_WITNS")
-	@Size(max = 1, message = "Any witness is 'Yes' or 'No' data type. The max length for the corresponding code is 1.")
 	@Enumerated(EnumType.STRING)
 	public YesNoType getAnyWitness() {
 		return _anyWitness;
@@ -189,8 +189,7 @@ public class Asset extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the otherDescription
 	 */
-	@Column(name = "OTHR_DESC")
-	@Size(min = 1, max = 256, message = "Asset category 'Other' description must be between {min} and {max} characters")
+	@Column(name = "OTHR_DESC", length = 256)
 	public String getOtherDescription() {
 		return _otherDescription;
 	}
@@ -249,30 +248,48 @@ public class Asset extends AbstractDataModel<Long> implements Serializable {
 	public void setVehicles(final Set<Vehicle> vehicles) {
 		_vehicles = vehicles;
 	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(_id, _statusFlag);
+	
+	/**
+	 * @return the witnesses
+	 */
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(
+			name = "RMS_ASST_WITNS",
+			joinColumns = @JoinColumn(name = "ASST_ID"),
+			inverseJoinColumns = @JoinColumn(name = "WITNS_ID")
+	)
+	public Set<Witness> getWitnesses() {
+		return _witnesses;
 	}
 
-	@Override
-	public boolean equals(final Object obj) {
-		if (this == obj) {
-			return true;
-		} else if (obj instanceof Asset) {
-			final Asset other = (Asset) obj;
-			return Objects.equals(_id, other._id) 
-					&& Objects.equals(_statusFlag, other._statusFlag);
-		}
-		return false;
-	}
-
-	@Override
-	public String toString() {
-		return "Id: " + _id + ", " 
-		+ "Status Flag: " + _statusFlag;
+	/**
+	 * @param witnesses
+	 *            the witnesses to set
+	 */
+	public void setWitnesses(final Set<Witness> witnesses) {
+		this._witnesses = witnesses;
 	}
 	
+	/**
+	 * @return the employeeWitnesses
+	 */
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(
+			name = "RMS_ASST_USR_WITNS",
+			joinColumns = @JoinColumn(name = "ASST_ID"),
+			inverseJoinColumns = @JoinColumn(name = "USR_ID")
+	)
+	public Set<User> getEmployeeWitnesses() {
+		return _employeeWitnesses;
+	}
+
+	/**
+	 * @param employeeWitnesses the employeeWitnesses to set
+	 */
+	public void setEmployeeWitnesses(final Set<User> employeeWitnesses) {
+		_employeeWitnesses = employeeWitnesses;
+	}
+
 	/**
 	 * Builder pattern for constructing immutable instances of
 	 * {@link Asset}.
@@ -280,6 +297,7 @@ public class Asset extends AbstractDataModel<Long> implements Serializable {
 	public final static class Builder {
 
 		private StatusFlag _statusFlag;
+		private Incident _incident;
 
 		/**
 		 * Builds a new immutable instance of Asset.
@@ -288,6 +306,11 @@ public class Asset extends AbstractDataModel<Long> implements Serializable {
 		 */
 		public Asset build() {
 			return new Asset(this);
+		}
+		
+		public Builder setIncident(final Incident incident) {
+			_incident = incident;
+			return this;	
 		}
 
 		public Builder setStatusFlag(final StatusFlag statusFlag) {

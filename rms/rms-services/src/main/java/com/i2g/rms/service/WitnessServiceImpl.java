@@ -36,7 +36,7 @@ public class WitnessServiceImpl extends AbstractService implements WitnessServic
 	}
 
 	@Override
-	public Set<Witness> createNewWitnesses(final List<Witness> witnesses) {
+	public Set<Witness> createNewWitnesses(final Set<Witness> witnesses) {
 		return _witnessDao.createNewWitnesses(witnesses);
 	}
 }

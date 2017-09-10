@@ -147,6 +147,16 @@
 		<class-a>com.i2g.rms.domain.model.lookup.SuspectLookup</class-a>
 		<class-b>com.i2g.rms.rest.model.lookup.SuspectLookupRO</class-b>
 	</mapping>
+	
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.lookup.InjuredPersonLookup</class-a>
+		<class-b>com.i2g.rms.rest.model.lookup.InjuredPersonLookupRO</class-b>
+	</mapping>
+	
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.lookup.WitnessLookup</class-a>
+		<class-b>com.i2g.rms.rest.model.lookup.WitnessLookupRO</class-b>
+	</mapping>
 
 	<mapping>
 		<class-a>com.i2g.rms.domain.model.Address</class-a>

@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,9 +16,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.i2g.rms.domain.model.tablemaintenance.AssetCategory;
 
 /**
  * Entity representation of Building.
@@ -43,6 +44,7 @@ public class Building extends AbstractDataModel<Long> implements Serializable {
 	private String _buildingId;
 	private String _buildingDescription;
 	private String _incidentDescription;	
+	private AssetCategory _assetCategory;
 		
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -57,7 +59,8 @@ public class Building extends AbstractDataModel<Long> implements Serializable {
 	 * @param builder
 	 */
 	private Building(final Builder builder) {
-		_statusFlag = Objects.requireNonNull(builder._statusFlag, "Status flag cannot be null.");
+		_asset = Objects.requireNonNull(builder._asset, "Asset object cannot be null while creating a buiding.");
+		_statusFlag = Objects.requireNonNull(builder._statusFlag, "Status flag cannot be null.");		
 	}
 	
 	/**
@@ -93,7 +96,6 @@ public class Building extends AbstractDataModel<Long> implements Serializable {
 	 * @return the statusFlag
 	 */
 	@Column(name = "STS_FLG", nullable = false)
-	@Size(min = 1, max = 16, message = "Status flag code must be between {min} and {max} characters")
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	public StatusFlag getStatusFlag() {
@@ -126,8 +128,7 @@ public class Building extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the buildingId
 	 */
-	@Column(name = "BLDNG_ID")
-	@Size(min = 1, max = 64, message = "Building ID must be between {min} and {max} characters")
+	@Column(name = "BLDNG_ID", length = 64)
 	public String getBuildingId() {
 		return _buildingId;
 	}
@@ -142,8 +143,7 @@ public class Building extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the buildingDescription
 	 */
-	@Column(name = "BLDNG_DESC")
-	@Size(min = 1, max = 256, message = "Building description must be between {min} and {max} characters")
+	@Column(name = "BLDNG_DESC", length = 256)
 	public String getBuildingDescription() {
 		return _buildingDescription;
 	}
@@ -158,8 +158,7 @@ public class Building extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the incidentDescription
 	 */
-	@Column(name = "INC_DESC")
-	@Size(min = 1, max = 256, message = "Incident description must be between {min} and {max} characters")
+	@Column(name = "INC_DESC", length = 256)
 	public String getIncidentDescription() {
 		return _incidentDescription;
 	}
@@ -170,38 +169,32 @@ public class Building extends AbstractDataModel<Long> implements Serializable {
 	public void setIncidentDescription(String incidentDescription) {
 		_incidentDescription = incidentDescription;
 	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(_id, _statusFlag);
-	}
-
-	@Override
-	public boolean equals(final Object obj) {
-		if (this == obj) {
-			return true;
-		} else if (obj instanceof Building) {
-			final Building other = (Building) obj;
-			return Objects.equals(_id, other._id) 
-					&& Objects.equals(_statusFlag, other._statusFlag);
-		}
-		return false;
-	}
-
-	@Override
-	public String toString() {
-		return "Id: " + _id + ", "		
-		+ "Status Flag: " + _statusFlag;
-	}
 	
+	/**
+	 * @return the assetCategory
+	 */
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "ASST_CTGRY_CDE")
+	public AssetCategory getAssetCategory() {
+		return _assetCategory;
+	}
+
+	/**
+	 * @param assetCategory the assetCategory to set
+	 */
+	public void setAssetCategory(final AssetCategory assetCategory) {
+		_assetCategory = assetCategory;
+	}
+
 	/**
 	 * Builder pattern for constructing immutable instances of
 	 * {@link Building}.
 	 */
 	public final static class Builder {
-
+		
+		private Asset _asset;
 		private StatusFlag _statusFlag;
-
+		
 		/**
 		 * Builds a new immutable instance of Building.
 		 * 
@@ -210,7 +203,12 @@ public class Building extends AbstractDataModel<Long> implements Serializable {
 		public Building build() {
 			return new Building(this);
 		}
-
+		
+		public Builder setAsset(final Asset asset) {
+			_asset = asset;
+			return this;
+		}
+		
 		public Builder setStatusFlag(final StatusFlag statusFlag) {
 			_statusFlag = statusFlag;
 			return this;

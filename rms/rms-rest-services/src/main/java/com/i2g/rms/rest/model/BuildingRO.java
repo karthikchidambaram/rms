@@ -1,6 +1,7 @@
 package com.i2g.rms.rest.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.i2g.rms.rest.model.tablemaintenance.AssetCategoryRO;
 
 /**
  * REST Object for Building RO.
@@ -18,6 +19,7 @@ public class BuildingRO extends AbstractEntityRO {
 	private String _buildingId;
 	private String _buildingDescription;
 	private String _incidentDescription;
+	private AssetCategoryRO _assetCategory;
 
 	/**
 	 * @return the id
@@ -108,5 +110,19 @@ public class BuildingRO extends AbstractEntityRO {
 	public void setIncidentDescription(final String incidentDescription) {
 		_incidentDescription = incidentDescription;
 	}
+	
+	/**
+	 * @return the assetCategory
+	 */
+	public AssetCategoryRO getAssetCategory() {
+		return _assetCategory;
+	}
 
+	/**
+	 * @param assetCategory
+	 *            the assetCategory to set
+	 */
+	public void setAssetCategory(final AssetCategoryRO assetCategory) {
+		_assetCategory = assetCategory;
+	}
 }

@@ -62,6 +62,7 @@ public class Accident extends AbstractDataModel<Long> implements Serializable {
 	private Set<User> _employeeInjuredPersons = new HashSet<User>(0);
 	private Set<Witness> _witnesses = new HashSet<Witness>(0);
 	private Set<User> _employeeWitnesses = new HashSet<User>(0);
+	private YesNoType _anyWitness;
 
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -341,26 +342,22 @@ public class Accident extends AbstractDataModel<Long> implements Serializable {
 	public void setAccidentLocation(final AccidentLocation accidentLocation) {
 		_accidentLocation = accidentLocation;
 	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(_id, _statusFlag);
+	
+	/**
+	 * @return the anyWitness
+	 */
+	@Column(name = "ANY_WITNS")
+	@Enumerated(EnumType.STRING)
+	public YesNoType getAnyWitness() {
+		return _anyWitness;
 	}
 
-	@Override
-	public boolean equals(final Object obj) {
-		if (this == obj) {
-			return true;
-		} else if (obj instanceof Accident) {
-			final Accident other = (Accident) obj;
-			return Objects.equals(_id, other._id) && Objects.equals(_statusFlag, other._statusFlag);
-		}
-		return false;
-	}
-
-	@Override
-	public String toString() {
-		return "Accident Id: " + _id + ", Accident Description: " + _accidentDescription;
+	/**
+	 * @param anyWitness
+	 *            the anyWitness to set
+	 */
+	public void setAnyWitness(final YesNoType anyWitness) {
+		_anyWitness = anyWitness;
 	}
 
 	/**

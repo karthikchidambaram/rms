@@ -1,7 +1,6 @@
 package com.i2g.rms.rest.service.incident;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -16,48 +15,45 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.i2g.rms.domain.model.Accident;
 import com.i2g.rms.domain.model.Address;
+import com.i2g.rms.domain.model.Asset;
+import com.i2g.rms.domain.model.Building;
+import com.i2g.rms.domain.model.Equipment;
 import com.i2g.rms.domain.model.InjuredPerson;
 import com.i2g.rms.domain.model.ReportedLoss;
 import com.i2g.rms.domain.model.StatusFlag;
 import com.i2g.rms.domain.model.Suspect;
 import com.i2g.rms.domain.model.User;
+import com.i2g.rms.domain.model.Vehicle;
 import com.i2g.rms.domain.model.Witness;
 import com.i2g.rms.domain.model.YesNoType;
 import com.i2g.rms.domain.model.incident.Incident;
 import com.i2g.rms.domain.model.incident.IncidentStatus;
-import com.i2g.rms.domain.model.tablemaintenance.AccidentLocation;
-import com.i2g.rms.domain.model.tablemaintenance.AccidentLocationDetail;
-import com.i2g.rms.domain.model.tablemaintenance.AccidentType;
-import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeature;
-import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeatureDetail;
 import com.i2g.rms.domain.model.tablemaintenance.EntryPoint;
 import com.i2g.rms.domain.model.tablemaintenance.ExternalAgency;
-import com.i2g.rms.domain.model.tablemaintenance.GenderType;
 import com.i2g.rms.domain.model.tablemaintenance.IncidentLocation;
 import com.i2g.rms.domain.model.tablemaintenance.IncidentLocationDetail;
 import com.i2g.rms.domain.model.tablemaintenance.IncidentType;
-import com.i2g.rms.domain.model.tablemaintenance.InjuredPersonType;
-import com.i2g.rms.domain.model.tablemaintenance.InjuryCause;
-import com.i2g.rms.domain.model.tablemaintenance.InjuryType;
-import com.i2g.rms.domain.model.tablemaintenance.InjuryTypeDetail;
-import com.i2g.rms.domain.model.tablemaintenance.InjuryTypeDetailSpec;
-import com.i2g.rms.domain.model.tablemaintenance.LossType;
-import com.i2g.rms.domain.model.tablemaintenance.SuspectType;
 import com.i2g.rms.domain.model.tablemaintenance.WeaponType;
-import com.i2g.rms.domain.model.tablemaintenance.WitnessType;
+import com.i2g.rms.rest.model.AccidentRO;
 import com.i2g.rms.rest.model.AddressRO;
+import com.i2g.rms.rest.model.AssetRO;
+import com.i2g.rms.rest.model.BuildingRO;
+import com.i2g.rms.rest.model.EquipmentRO;
 import com.i2g.rms.rest.model.InjuredPersonRO;
 import com.i2g.rms.rest.model.ReportedLossRO;
 import com.i2g.rms.rest.model.SuspectRO;
 import com.i2g.rms.rest.model.UserRO;
+import com.i2g.rms.rest.model.VehicleRO;
 import com.i2g.rms.rest.model.WitnessRO;
 import com.i2g.rms.rest.model.incident.AccidentDetailRO;
+import com.i2g.rms.rest.model.incident.AssetDetailRO;
 import com.i2g.rms.rest.model.incident.IncidentDetailRO;
 import com.i2g.rms.rest.model.incident.IncidentRO;
 import com.i2g.rms.rest.model.incident.LogIncidentRO;
 import com.i2g.rms.rest.service.AbstractRestService;
 import com.i2g.rms.rest.service.RestMessage;
 import com.i2g.rms.service.AccidentService;
+import com.i2g.rms.service.AssetService;
 import com.i2g.rms.service.InjuredPersonService;
 import com.i2g.rms.service.ReportedLossService;
 import com.i2g.rms.service.SuspectService;
@@ -87,8 +83,6 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 	@Autowired
 	private UserService _userService;
 	@Autowired
-	private ApplicationUtilService _applicationUtilService;
-	@Autowired
 	private TableMaintenanceService _tableMaintenanceService;
 	@Autowired
 	private SuspectService _suspectService;	
@@ -100,6 +94,8 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 	private WitnessService _witnessService;
 	@Autowired
 	private AccidentService _accidentService;
+	@Autowired
+	private AssetService _assetService;
 
 	@Override
 	@Transactional(readOnly = true)
@@ -227,14 +223,252 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 		}
 		
 		//Construct suspects and reported losses, if any..
-		final List<Suspect> newSuspects = new ArrayList<Suspect>(0);
-		final List<Suspect> existingSuspects = new ArrayList<Suspect>(0);
-		final List<User> employeeSuspects = new ArrayList<User>(0);
-		final List<ReportedLoss> reportedLosses = new ArrayList<ReportedLoss>(0);
+		final Set<Suspect> newSuspects = constructNewSuspects(incidentDetailRO.getNewSuspects());
+		final Set<Suspect> existingSuspects = new HashSet<Suspect>(0);
+		final Set<User> employeeSuspects = new HashSet<User>(0);
+		final Set<ReportedLoss> reportedLosses = constructReportedLosses(incidentDetailRO.getReportedLosses(), incident);
 		
+		//Create and add new suspects to the main incident.
+		if (newSuspects != null && !newSuspects.isEmpty()) {
+			Set<Suspect> newlyCreatedSuspects = _suspectService.createNewSuspects(newSuspects);
+			if (newlyCreatedSuspects != null && !newlyCreatedSuspects.isEmpty()) {
+				//Add newly created suspects to main incident
+				incident.getSuspects().addAll(newlyCreatedSuspects);												
+			}
+		}		
+		//Construction of existing suspects
+		if (incidentDetailRO.getExistingSuspects() != null && !incidentDetailRO.getExistingSuspects().isEmpty()) {
+			for (SuspectRO suspectRO : incidentDetailRO.getExistingSuspects()) {
+				if (suspectRO.getId() > 0) {
+					existingSuspects.add(_suspectService.get(suspectRO.getId()));
+				}
+			}
+			//Add existing suspects to main incident
+			incident.getSuspects().addAll(existingSuspects);
+		}		
+		//Construction of employee suspects
+		if (incidentDetailRO.getEmployeeSuspects() != null && !incidentDetailRO.getEmployeeSuspects().isEmpty()) {
+			for (UserRO userRO : incidentDetailRO.getEmployeeSuspects()) {
+				if (userRO.getLoginId() != null && !userRO.getLoginId().trim().isEmpty()) {
+					employeeSuspects.add(_userService.getUserByUserLoginId(userRO.getLoginId().trim()));
+				}
+			}
+			incident.getEmployeeSuspects().addAll(employeeSuspects);
+		}		
+		//Create the reported losses in database and add it to the main incident. 
+		if (reportedLosses != null && !reportedLosses.isEmpty()) {
+			Set<ReportedLoss> newlyCreatedReportedLosses = _reportedLossService.createNewReportedLosses(reportedLosses);
+			if (newlyCreatedReportedLosses != null && !newlyCreatedReportedLosses.isEmpty()) {
+				//Add newly created reported losses to main incident
+				incident.getReportedLosses().addAll(newlyCreatedReportedLosses);										
+			}
+		}
+		
+		//Update the incident with new suspects, existing suspects, employee suspects and reported losses..
+		final Incident updatedIncident = _incidentService.updateIncident(incident);
+		
+		if (updatedIncident != null) {
+			return _mapperService.map(updatedIncident, IncidentRO.class);
+		} else {
+			throw new ResourceNotCreatedException(_messageBuilder.build(RestMessage.UNABLE_TO_UPDATE_RECORD));
+		}
+	}
+	
+	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
+	@Transactional
+	public IncidentRO addAccidentDetail(final AccidentDetailRO accidentDetailRO) {
+		//Validate input param (object)
+		validateObject(accidentDetailRO);
+		//Validate input main object accident.
+		validateObject(accidentDetailRO.getAccident());		
+		//Validate unique incident id
+		validateUniqueIncidentId(accidentDetailRO.getUniqueIncidentId());
+		//Construct the incident object for update
+		Incident incident = _incidentService.getIncidentByUniqueIncidentId(accidentDetailRO.getUniqueIncidentId().trim());
+		validateGenericObject(incident);
+		
+		//Instantiate the accident object
+		Accident accident = constructAccident(accidentDetailRO.getAccident(), incident);
+		validateGenericObject(accident);
+		
+		//Instantiate objects
+		if (accident.getInjuredPersons() == null) {
+			accident.setInjuredPersons(new HashSet<InjuredPerson>(0));
+		}
+		if (accident.getEmployeeInjuredPersons() == null) {
+			accident.setEmployeeInjuredPersons(new HashSet<User>(0));
+		}
+		if (accident.getWitnesses() == null) {
+			accident.setWitnesses(new HashSet<Witness>(0));
+		}		
+		if (accident.getEmployeeWitnesses() == null) {
+			accident.setEmployeeWitnesses(new HashSet<User>(0));
+		}
+		
+		//Holder variables for newly created objects
+		final Set<InjuredPerson> newInjuredPersons = constructNewInjuredPersons(accidentDetailRO.getNewInjuredPersons());
+		final Set<InjuredPerson> existingInjuredPersons = new HashSet<InjuredPerson>(0);
+		final Set<User> employeeInjuredPersons = new HashSet<User>(0);
+		final Set<Witness> newWitnesses = constructNewWitnesses(accidentDetailRO.getNewWitnesses());
+		final Set<Witness> existingWitnesses = new HashSet<Witness>(0);
+		final Set<User> employeeWitnesses = new HashSet<User>(0);
+		
+		//Save new injured persons to database and assign them to accident record.
+		if (newInjuredPersons != null && !newInjuredPersons.isEmpty()) {
+			Set<InjuredPerson> newlyCreatedInjuredPersons = _injuredPersonService.createNewInjuredPersons(newInjuredPersons);
+			if (newlyCreatedInjuredPersons != null && !newlyCreatedInjuredPersons.isEmpty()) {
+				accident.getInjuredPersons().addAll(newlyCreatedInjuredPersons);
+			}
+		}
+		//Construct and add existing injured persons if any..
+		if (accidentDetailRO.getExistingInjuredPersons() != null && !accidentDetailRO.getExistingInjuredPersons().isEmpty()) {
+			for (InjuredPersonRO injuredPersonRO : accidentDetailRO.getExistingInjuredPersons()) {
+				if (injuredPersonRO.getId() > 0) {
+					existingInjuredPersons.add(_injuredPersonService.get(injuredPersonRO.getId()));
+				}
+			}
+			//Add existing suspects to accident
+			accident.getInjuredPersons().addAll(existingInjuredPersons);
+		}
+		//Construct employee injured persons and add to accident.
+		if (accidentDetailRO.getEmployeeInjuredPersons() != null && !accidentDetailRO.getEmployeeInjuredPersons().isEmpty()) {
+			for (UserRO userRO : accidentDetailRO.getEmployeeInjuredPersons()) {
+				if (userRO.getLoginId() != null && !userRO.getLoginId().trim().isEmpty()) {
+					employeeInjuredPersons.add(_userService.getUserByUserLoginId(userRO.getLoginId().trim()));
+				}
+			}
+			accident.getEmployeeInjuredPersons().addAll(employeeInjuredPersons);				
+		}
+		//End of construction of injured persons
+		
+		//construction of existing witnesses
+		if (accidentDetailRO.getExistingWitnesses() != null && !accidentDetailRO.getExistingWitnesses().isEmpty()) {
+			for (WitnessRO witnessRO : accidentDetailRO.getExistingWitnesses()) {
+				if (witnessRO.getId() > 0) {
+					existingWitnesses.add(_witnessService.get(witnessRO.getId()));
+				}
+			}
+			//add existing witness to the accident.
+			accident.getWitnesses().addAll(existingWitnesses);
+		}
+		//construction of employee witness if any and add to accident.
+		if (accidentDetailRO.getEmployeeWitnesses() != null && !accidentDetailRO.getEmployeeWitnesses().isEmpty()) {
+			for (UserRO userRO : accidentDetailRO.getEmployeeWitnesses()) {
+				if (userRO.getLoginId() != null && !userRO.getLoginId().trim().isEmpty()) {
+					employeeWitnesses.add(_userService.getUserByUserLoginId(userRO.getLoginId().trim()));
+				}
+			}
+			accident.getEmployeeWitnesses().addAll(employeeWitnesses);
+		}
+		//validate witness flag at this point before saving to database
+		validateAnyWitness(accident.getAnyWitness(), newWitnesses, existingWitnesses, employeeWitnesses);
+		//create the new witness in the backend and add it to the accident.
+		if (newWitnesses != null && !newWitnesses.isEmpty()) {
+			Set<Witness> newlyCreatedWitnesses = _witnessService.createNewWitnesses(newWitnesses);
+			if (newlyCreatedWitnesses != null && !newlyCreatedWitnesses.isEmpty()) {
+				//Add newly created suspects to main accident
+				accident.getWitnesses().addAll(newlyCreatedWitnesses);										
+			}
+		}
+		//end of construction of witnesses
+		
+		//Create the accident record
+		final Accident newAccident = _accidentService.create(accident);
+		//Throw exception if unable to create
+		if (newAccident == null) {
+			throw new ResourceNotCreatedException(_messageBuilder.build(RestMessage.UNABLE_TO_CREATE_RECORD));
+		} else {
+			//Set the accident to incident.
+			incident.setAccident(accident);
+		}	
+		//Throw the incident back with the newly created accident details
+		return _mapperService.map(incident, IncidentRO.class);		
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
+	@Transactional
+	public IncidentRO addAssetDetail(final AssetDetailRO assetDetailRO) {
+		//Validate input param (object)
+		validateObject(assetDetailRO);
+		//Validate input main object accident.
+		validateObject(assetDetailRO.getAsset());		
+		//Validate unique incident id
+		validateUniqueIncidentId(assetDetailRO.getUniqueIncidentId());
+		
+		//Construct the incident object for update
+		Incident incident = _incidentService.getIncidentByUniqueIncidentId(assetDetailRO.getUniqueIncidentId().trim());
+		validateGenericObject(incident);
+		
+		//Instantiate the asset object
+		Asset asset = constructAsset(assetDetailRO.getAsset(), incident);
+		validateGenericObject(asset);
+		
+		//Instantiate objects
+		if (asset.getWitnesses() == null) {
+			asset.setWitnesses(new HashSet<Witness>(0));
+		}		
+		if (asset.getEmployeeWitnesses() == null) {
+			asset.setEmployeeWitnesses(new HashSet<User>(0));
+		}
+		
+		final Set<Witness> newWitnesses = constructNewWitnesses(assetDetailRO.getNewWitnesses());
+		final Set<Witness> existingWitnesses = new HashSet<Witness>(0);
+		final Set<User> employeeWitnesses = new HashSet<User>(0);
+		
+		//construction of existing witnesses
+		if (assetDetailRO.getExistingWitnesses() != null && !assetDetailRO.getExistingWitnesses().isEmpty()) {
+			for (WitnessRO witnessRO : assetDetailRO.getExistingWitnesses()) {
+				if (witnessRO.getId() > 0) {
+					existingWitnesses.add(_witnessService.get(witnessRO.getId()));
+				}
+			}
+			//add existing witness to the asset.
+			asset.getWitnesses().addAll(existingWitnesses);
+		}
+		//construction of employee witness if any and add to asset.
+		if (assetDetailRO.getEmployeeWitnesses() != null && !assetDetailRO.getEmployeeWitnesses().isEmpty()) {
+			for (UserRO userRO : assetDetailRO.getEmployeeWitnesses()) {
+				if (userRO.getLoginId() != null && !userRO.getLoginId().trim().isEmpty()) {
+					employeeWitnesses.add(_userService.getUserByUserLoginId(userRO.getLoginId().trim()));
+				}
+			}
+			asset.getEmployeeWitnesses().addAll(employeeWitnesses);
+		}
+		//validate witness flag at this point before saving to database
+		validateAnyWitness(asset.getAnyWitness(), newWitnesses, existingWitnesses, employeeWitnesses);
+		//create the new witness in the backend and add it to the accident.
+		if (newWitnesses != null && !newWitnesses.isEmpty()) {
+			Set<Witness> newlyCreatedWitnesses = _witnessService.createNewWitnesses(newWitnesses);
+			if (newlyCreatedWitnesses != null && !newlyCreatedWitnesses.isEmpty()) {
+				//Add newly created suspects to main accident
+				asset.getWitnesses().addAll(newlyCreatedWitnesses);										
+			}
+		}
+		//Construct buildings, equipments and vehicles if any..
+		asset.setBuildings(constructBuilding(assetDetailRO.getBuildings(), asset));
+		asset.setEquipments(constructEquipment(assetDetailRO.getEquipments(), asset));
+		asset.setVehicles(constructVehicle(assetDetailRO.getVehicles(), asset));
+		
+		//create the asset record
+		final Asset newAsset = _assetService.create(asset);
+		//Throw exception if unable to create
+		if (newAsset == null) {
+			throw new ResourceNotCreatedException(_messageBuilder.build(RestMessage.UNABLE_TO_CREATE_RECORD));
+		} else {
+			//Set the accident to incident.
+			incident.setAsset(asset);
+		}	
+		//Throw the incident back with the newly created accident details
+		return _mapperService.map(incident, IncidentRO.class);		
+	}
+	
+	private Set<Suspect> constructNewSuspects(final Set<SuspectRO> suspectROs) {
+		Set<Suspect> suspects = new HashSet<Suspect>(0);		
 		//Construction of new suspects
-		if (incidentDetailRO.getNewSuspects() != null && !incidentDetailRO.getNewSuspects().isEmpty()) {
-			for (SuspectRO suspectRO : incidentDetailRO.getNewSuspects()) {
+		if (suspectROs != null && !suspectROs.isEmpty()) {
+			for (SuspectRO suspectRO : suspectROs) {
 				Suspect suspect = new Suspect.Builder().setStatusFlag(StatusFlag.ACTIVE).build();
 				//Set other values
 				if (suspectRO.getTitle() != null && !suspectRO.getTitle().trim().isEmpty()) {
@@ -270,22 +504,19 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 				//Gender type
 				if (suspectRO.getGenderType() != null) {
 					if (suspectRO.getGenderType().getId() != null && !suspectRO.getGenderType().getId().trim().isEmpty()) {
-						final GenderType genderType = _tableMaintenanceService.getGenderTypeByCode(suspectRO.getGenderType().getId().trim());
-						suspect.setGenderType(genderType);
+						suspect.setGenderType(_tableMaintenanceService.getGenderTypeByCode(suspectRO.getGenderType().getId().trim()));
 					}
 				}
 				//Distinguishing feature
 				if (suspectRO.getDistinguishingFeature() != null) {
 					if (suspectRO.getDistinguishingFeature().getId() != null && !suspectRO.getDistinguishingFeature().getId().trim().isEmpty()) {
-						final DistinguishingFeature distinguishingFeature = _tableMaintenanceService.getDistinguishingFeatureByCode(suspectRO.getDistinguishingFeature().getId().trim());
-						suspect.setDistinguishingFeature(distinguishingFeature);
+						suspect.setDistinguishingFeature(_tableMaintenanceService.getDistinguishingFeatureByCode(suspectRO.getDistinguishingFeature().getId().trim()));
 					}
 				}
 				//Distinguishing feature detail
 				if (suspectRO.getDistinguishingFeatureDetail() != null) {
 					if (suspectRO.getDistinguishingFeatureDetail().getId() != null && !suspectRO.getDistinguishingFeatureDetail().getId().trim().isEmpty()) {
-						final DistinguishingFeatureDetail distinguishingFeatureDetail = _tableMaintenanceService.getDistinguishingFeatureDetailByCode(suspectRO.getDistinguishingFeatureDetail().getId().trim());
-						suspect.setDistinguishingFeatureDetail(distinguishingFeatureDetail);
+						suspect.setDistinguishingFeatureDetail(_tableMaintenanceService.getDistinguishingFeatureDetailByCode(suspectRO.getDistinguishingFeatureDetail().getId().trim()));
 					}
 				}
 				if (suspectRO.getAge() > 0) {
@@ -312,94 +543,82 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 				//Suspect Type
 				if (suspectRO.getSuspectType() != null) {
 					if (suspectRO.getSuspectType().getId() != null && !suspectRO.getSuspectType().getId().trim().isEmpty()) {
-						final SuspectType suspectType = _tableMaintenanceService.getSuspectTypeByCode(suspectRO.getSuspectType().getId().trim());
-						suspect.setSuspectType(suspectType);
+						suspect.setSuspectType(_tableMaintenanceService.getSuspectTypeByCode(suspectRO.getSuspectType().getId().trim()));
 					}
 				}
-				//Address
-				if (suspectRO.getAddresses() != null && !suspectRO.getAddresses().isEmpty()) {
-					
-					Set<Address> addresses = new HashSet<Address>(0);
-					
-					for (AddressRO addressRO : suspectRO.getAddresses()) {
-						final Address address = new Address.Builder().setStatusFlag(StatusFlag.ACTIVE).build();
-						//Create the link between this new address and suspect.
-						address.setSuspect(suspect);
-						if (addressRO.getOrganizationName() != null && !addressRO.getOrganizationName().trim().isEmpty()) {
-							address.setOrganizationName(addressRO.getOrganizationName().trim());							
-						}
-						if (addressRO.getBuildingName() != null && !addressRO.getBuildingName().trim().isEmpty()) {
-							address.setBuildingName(addressRO.getBuildingName().trim());			
-						}
-						if (addressRO.getStreetName() != null && !addressRO.getStreetName().trim().isEmpty()) {
-							address.setStreetName(addressRO.getStreetName().trim());							
-						}
-						if (addressRO.getLocalityName() != null && !addressRO.getLocalityName().trim().isEmpty()) {
-							address.setLocalityName(addressRO.getLocalityName().trim());							
-						}
-						if (addressRO.getPostTown() != null && !addressRO.getPostTown().trim().isEmpty()) {
-							address.setPostTown(addressRO.getPostTown().trim());						
-						}
-						if (addressRO.getCounty() != null && !addressRO.getCounty().trim().isEmpty()) {
-							address.setCounty(addressRO.getCounty().trim());				
-						}
-						if (addressRO.getCity() != null && !addressRO.getCity().trim().isEmpty()) {
-							address.setCity(addressRO.getCity().trim());				
-						}
-						if (addressRO.getPostcode() != null && !addressRO.getPostcode().trim().isEmpty()) {
-							address.setPostcode(addressRO.getPostcode().trim());							
-						}
-						if (addressRO.getCountry() != null && !addressRO.getCountry().trim().isEmpty()) {
-							address.setCountry(addressRO.getCountry().trim());				
-						}
-						addresses.add(address);
-					}					
-					suspect.setAddresses(addresses);
+				suspect.setAddresses(constructAddresses(suspectRO.getAddresses(), null, suspect, null, null));
+				suspects.add(suspect);
+			}			
+		}
+		return suspects;
+	}
+	
+	private Set<Address> constructAddresses(final Set<AddressRO> addressROs,
+											final User user,
+											final Suspect suspect, 
+											final InjuredPerson injuredPerson, 
+											final Witness witness) {
+		Set<Address> addresses = new HashSet<Address>(0);
+		//Address
+		if (addressROs != null && !addressROs.isEmpty()) {			
+			for (AddressRO addressRO : addressROs) {
+				final Address address = new Address.Builder().setStatusFlag(StatusFlag.ACTIVE).build();
+				//This step determines to which entity the addresses are constructed. It can be suspect, injured person, witness etc.
+				if (user != null) {
+					address.setUser(user);
+				} else if (suspect != null) {
+					address.setSuspect(suspect);
+				} else if (injuredPerson != null) {
+					address.setInjuredPerson(injuredPerson);
+				} else if (witness != null) {
+					address.setWitness(witness);
 				}
-				newSuspects.add(suspect);
-			}
-		}
-		//Create and add new suspects to the main incident.
-		if (newSuspects != null && !newSuspects.isEmpty()) {
-			Set<Suspect> newlyCreatedSuspects = _suspectService.createNewSuspects(newSuspects);
-			if (newlyCreatedSuspects != null && !newlyCreatedSuspects.isEmpty()) {
-				//Add newly created suspects to main incident
-				incident.getSuspects().addAll(newlyCreatedSuspects);												
-			}
-		}
-		
-		//Construction of existing suspects
-		if (incidentDetailRO.getExistingSuspects() != null && !incidentDetailRO.getExistingSuspects().isEmpty()) {
-			for (SuspectRO suspectRO : incidentDetailRO.getExistingSuspects()) {
-				if (suspectRO.getId() > 0) {
-					existingSuspects.add(_suspectService.get(suspectRO.getId()));
+				if (addressRO.getOrganizationName() != null && !addressRO.getOrganizationName().trim().isEmpty()) {
+					address.setOrganizationName(addressRO.getOrganizationName().trim());							
 				}
-			}
-			//Add existing suspects to main incident
-			incident.getSuspects().addAll(new HashSet<Suspect>(existingSuspects));
-		}
-		
-		//Construction of employee suspects
-		if (incidentDetailRO.getEmployeeSuspects() != null && !incidentDetailRO.getEmployeeSuspects().isEmpty()) {
-			for (UserRO userRO : incidentDetailRO.getEmployeeSuspects()) {
-				if (userRO.getLoginId() != null && !userRO.getLoginId().trim().isEmpty()) {
-					employeeSuspects.add(_userService.getUserByUserLoginId(userRO.getLoginId().trim()));
+				if (addressRO.getBuildingName() != null && !addressRO.getBuildingName().trim().isEmpty()) {
+					address.setBuildingName(addressRO.getBuildingName().trim());			
 				}
+				if (addressRO.getStreetName() != null && !addressRO.getStreetName().trim().isEmpty()) {
+					address.setStreetName(addressRO.getStreetName().trim());							
+				}
+				if (addressRO.getLocalityName() != null && !addressRO.getLocalityName().trim().isEmpty()) {
+					address.setLocalityName(addressRO.getLocalityName().trim());							
+				}
+				if (addressRO.getPostTown() != null && !addressRO.getPostTown().trim().isEmpty()) {
+					address.setPostTown(addressRO.getPostTown().trim());						
+				}
+				if (addressRO.getCounty() != null && !addressRO.getCounty().trim().isEmpty()) {
+					address.setCounty(addressRO.getCounty().trim());				
+				}
+				if (addressRO.getCity() != null && !addressRO.getCity().trim().isEmpty()) {
+					address.setCity(addressRO.getCity().trim());				
+				}
+				if (addressRO.getPostcode() != null && !addressRO.getPostcode().trim().isEmpty()) {
+					address.setPostcode(addressRO.getPostcode().trim());							
+				}
+				if (addressRO.getCountry() != null && !addressRO.getCountry().trim().isEmpty()) {
+					address.setCountry(addressRO.getCountry().trim());				
+				}
+				addresses.add(address);
 			}
-			incident.getEmployeeSuspects().addAll(new HashSet<User>(employeeSuspects));
 		}
-		
+		return addresses;
+	}
+	
+	private Set<ReportedLoss> constructReportedLosses(final Set<ReportedLossRO> reportedLossROs, final Incident incident) {
+		Set<ReportedLoss> reportedLosses = new HashSet<ReportedLoss>(0);
 		//Construction of reported loss
-		if (incidentDetailRO.getReportedLosses() != null && !incidentDetailRO.getReportedLosses().isEmpty()) {
-			for (ReportedLossRO reportedLossRO: incidentDetailRO.getReportedLosses()) {				
-				final ReportedLoss reportedLoss = new ReportedLoss.Builder().setStatusFlag(StatusFlag.ACTIVE).build();
-				//Assign the main incident id, because we are reporting loss to an incident.
-				reportedLoss.setIncident(incident);				
+		if (reportedLossROs != null && !reportedLossROs.isEmpty()) {
+			for (ReportedLossRO reportedLossRO: reportedLossROs) {				
+				final ReportedLoss reportedLoss = new ReportedLoss.Builder()
+												.setStatusFlag(StatusFlag.ACTIVE)
+												.setIncident(incident)
+												.build();
 				//Loss type
 				if (reportedLossRO.getLossType() != null) {
 					if (reportedLossRO.getLossType().getId() != null && !reportedLossRO.getLossType().getId().trim().isEmpty()) {
-						final LossType lossType = _tableMaintenanceService.getLossTypeByCode(reportedLossRO.getLossType().getId().trim());
-						reportedLoss.setLossType(lossType);
+						reportedLoss.setLossType(_tableMaintenanceService.getLossTypeByCode(reportedLossRO.getLossType().getId().trim()));
 					}
 				}
 				//Loss value
@@ -434,24 +653,390 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 				}
 				reportedLosses.add(reportedLoss);
 			}
+		}		
+		return reportedLosses;
+	}
+	
+	private Set<InjuredPerson> constructNewInjuredPersons(final Set<InjuredPersonRO> injuredPersonROs) {
+		Set<InjuredPerson> injuredPersons = new HashSet<InjuredPerson>(0);
+		if (injuredPersonROs != null && !injuredPersonROs.isEmpty()) {
+			for (InjuredPersonRO injuredPersonRO : injuredPersonROs) {
+				InjuredPerson injuredPerson = new InjuredPerson.Builder().setStatusFlag(StatusFlag.ACTIVE).build();
+				//Set other values for (new) injured person(s)
+				//Injured person type
+				if (injuredPersonRO.getInjuredPersonType() != null) {
+					if (injuredPersonRO.getInjuredPersonType().getId() != null && !injuredPersonRO.getInjuredPersonType().getId().trim().isEmpty()) {
+						injuredPerson.setInjuredPersonType(_tableMaintenanceService.getInjuredPersonTypeByCode(injuredPersonRO.getInjuredPersonType().getId().trim()));
+					}
+				}
+				if (injuredPersonRO.getTitle() != null && !injuredPersonRO.getTitle().trim().isEmpty()) {
+					injuredPerson.setTitle(injuredPersonRO.getTitle().trim());
+				}
+				if (injuredPersonRO.getFirstName() != null && !injuredPersonRO.getFirstName().trim().isEmpty()) {
+					injuredPerson.setFirstName(injuredPersonRO.getFirstName().trim());
+				}
+				if (injuredPersonRO.getMiddleName() != null && !injuredPersonRO.getMiddleName().trim().isEmpty()) {
+					injuredPerson.setMiddleName(injuredPersonRO.getMiddleName().trim());
+				}
+				if (injuredPersonRO.getLastName() != null && !injuredPersonRO.getLastName().trim().isEmpty()) {
+					injuredPerson.setLastName(injuredPersonRO.getLastName().trim());
+				}
+				if (injuredPersonRO.getNameSuffix() != null && !injuredPersonRO.getNameSuffix().trim().isEmpty()) {
+					injuredPerson.setNameSuffix(injuredPersonRO.getNameSuffix());
+				}
+				if (injuredPersonRO.getPhone() != null && !injuredPersonRO.getPhone().trim().isEmpty()) {
+					injuredPerson.setPhone(injuredPersonRO.getPhone().trim());
+				}
+				if (injuredPersonRO.getFax() != null && !injuredPersonRO.getFax().trim().isEmpty()) {
+					injuredPerson.setFax(injuredPersonRO.getFax().trim());
+				}
+				if (injuredPersonRO.getAlternatePhone() != null && !injuredPersonRO.getAlternatePhone().trim().isEmpty()) {
+					injuredPerson.setAlternatePhone(injuredPersonRO.getAlternatePhone().trim());
+				}
+				if (injuredPersonRO.getEmail() != null && !injuredPersonRO.getEmail().trim().isEmpty()) {
+					injuredPerson.setEmail(injuredPersonRO.getEmail().trim());
+				}
+				if (injuredPersonRO.getWebsite() != null && !injuredPersonRO.getWebsite().trim().isEmpty()) {
+					injuredPerson.setWebsite(injuredPersonRO.getWebsite().trim());
+				}
+				//Gender type
+				if (injuredPersonRO.getGenderType() != null) {
+					if (injuredPersonRO.getGenderType().getId() != null && !injuredPersonRO.getGenderType().getId().trim().isEmpty()) {
+						injuredPerson.setGenderType(_tableMaintenanceService.getGenderTypeByCode(injuredPersonRO.getGenderType().getId().trim()));
+					}
+				}
+				//Distinguishing feature
+				if (injuredPersonRO.getDistinguishingFeature() != null) {
+					if (injuredPersonRO.getDistinguishingFeature().getId() != null && !injuredPersonRO.getDistinguishingFeature().getId().trim().isEmpty()) {
+						injuredPerson.setDistinguishingFeature(_tableMaintenanceService.getDistinguishingFeatureByCode(injuredPersonRO.getDistinguishingFeature().getId().trim()));
+					}
+				}
+				//Distinguishing feature detail
+				if (injuredPersonRO.getDistinguishingFeatureDetail() != null) {
+					if (injuredPersonRO.getDistinguishingFeatureDetail().getId() != null && !injuredPersonRO.getDistinguishingFeatureDetail().getId().trim().isEmpty()) {
+						injuredPerson.setDistinguishingFeatureDetail(_tableMaintenanceService.getDistinguishingFeatureDetailByCode(injuredPersonRO.getDistinguishingFeatureDetail().getId().trim()));
+					}
+				}
+				//Injury Cause
+				if (injuredPersonRO.getInjuryCause() != null) {
+					if (injuredPersonRO.getInjuryCause().getId() != null && !injuredPersonRO.getInjuryCause().getId().trim().isEmpty()) {
+						injuredPerson.setInjuryCause(_tableMaintenanceService.getInjuryCauseByCode(injuredPersonRO.getInjuryCause().getId().trim()));
+					}
+				}
+				//Injury type
+				if (injuredPersonRO.getInjuryType() != null) {
+					if (injuredPersonRO.getInjuryType().getId() != null && !injuredPersonRO.getInjuryType().getId().trim().isEmpty()) {
+						injuredPerson.setInjuryType(_tableMaintenanceService.getInjuryTypeByCode(injuredPersonRO.getInjuryType().getId().trim()));
+					}
+				}
+				//Injury type detail
+				if (injuredPersonRO.getInjuryTypeDetail() != null) {
+					if (injuredPersonRO.getInjuryTypeDetail().getId() != null && !injuredPersonRO.getInjuryTypeDetail().getId().trim().isEmpty()) {
+						injuredPerson.setInjuryTypeDetail(_tableMaintenanceService.getInjuryTypeDetailByCode(injuredPersonRO.getInjuryTypeDetail().getId().trim()));
+					}
+				}					
+				//Injury type detail spec
+				if (injuredPersonRO.getInjuryTypeDetailSpec() != null) {
+					if (injuredPersonRO.getInjuryTypeDetailSpec().getId() != null && !injuredPersonRO.getInjuryTypeDetailSpec().getId().trim().isEmpty()) {
+						injuredPerson.setInjuryTypeDetailSpec(_tableMaintenanceService.getInjuryTypeDetailSpecByCode(injuredPersonRO.getInjuryTypeDetailSpec().getId().trim()));							
+					}
+				}
+				//Age
+				if (injuredPersonRO.getAge() > 0) {
+					injuredPerson.setAge(injuredPersonRO.getAge());
+				}
+				//Date of Birth
+				if (injuredPersonRO.getDateOfBirth() != null) {
+					injuredPerson.setDateOfBirth(injuredPersonRO.getDateOfBirth());
+				}
+				//Any first aid given?
+				YesNoType firstAidGiven = YesNoType.N;
+				if (injuredPersonRO.getFirstAidGiven() != null && injuredPersonRO.getFirstAidGiven().name().equals("Y")) {
+					firstAidGiven = YesNoType.Y;
+				}
+				injuredPerson.setFirstAidGiven(firstAidGiven);
+				//add addresses of the injured person
+				injuredPerson.setAddresses(constructAddresses(injuredPersonRO.getAddresses(), null, null, injuredPerson, null));
+				//add the injured person to the list
+				injuredPersons.add(injuredPerson);					
+			}
+		}		
+		return injuredPersons;
+	}
+	
+	private Accident constructAccident(final AccidentRO accidentRO, final Incident incident) {
+		Accident accident = new Accident.Builder()
+				.setStatusFlag(StatusFlag.ACTIVE)
+				.setIncident(incident)
+				.build();
+		//Construct the accident object from the RO
+		if (accidentRO != null) {
+			//Accident Description
+			if (accidentRO.getAccidentDescription() != null && !accidentRO.getAccidentDescription().trim().isEmpty()) {
+				accident.setAccidentDescription(accidentRO.getAccidentDescription().trim());
+			}
+			//Accident date and time
+			if (accidentRO.getAccidentDateTime() != null) {
+				accident.setAccidentDateTime(accidentRO.getAccidentDateTime());
+			}
+			//landmark
+			if (accidentRO.getLandmark() != null && !accidentRO.getLandmark().trim().isEmpty()) {
+				accident.setLandmark(accidentRO.getLandmark().trim());
+			}
+			//place of accident
+			if (accidentRO.getAccidentPlace() != null && !accidentRO.getAccidentPlace().trim().isEmpty()) {
+				accident.setAccidentPlace(accidentRO.getAccidentPlace().trim());
+			}
+			//Accident type
+			if (accidentRO.getAccidentType() != null) {
+				if (accidentRO.getAccidentType().getId() != null && !accidentRO.getAccidentType().getId().trim().isEmpty()) {
+					accident.setAccidentType(_tableMaintenanceService.getAccidentTypeByCode(accidentRO.getAccidentType().getId().trim()));					
+				}				
+			}
+			//Set accident location
+			if (accidentRO.getAccidentLocation() != null) {
+				if (accidentRO.getAccidentLocation().getId() != null && !accidentRO.getAccidentLocation().getId().trim().isEmpty()) {
+					accident.setAccidentLocation(_tableMaintenanceService.getAccidentLocationByCode(accidentRO.getAccidentLocation().getId().trim()));
+				}
+			}
+			//set accident location detail
+			if (accidentRO.getAccidentLocationDetails() != null) {
+				if (accidentRO.getAccidentLocationDetails().getId() != null && !accidentRO.getAccidentLocationDetails().getId().trim().isEmpty()) {
+					accident.setAccidentLocationDetails(_tableMaintenanceService.getAccidentLocationDetailByCode(accidentRO.getAccidentLocationDetails().getId().trim()));							
+				}
+			}
+			//Any witness to the accident?
+			YesNoType anyWitness = YesNoType.N;
+			if (accidentRO.getAnyWitness() != null && accidentRO.getAnyWitness().name().equals("Y")) {
+				anyWitness = YesNoType.Y;
+			}
+			accident.setAnyWitness(anyWitness);
 		}
-		//Create the reported losses in database and add it to the main incident. 
-		if (reportedLosses != null && !reportedLosses.isEmpty()) {
-			Set<ReportedLoss> newlyCreatedReportedLosses = _reportedLossService.createNewReportedLosses(reportedLosses);
-			if (newlyCreatedReportedLosses != null && !newlyCreatedReportedLosses.isEmpty()) {
-				//Add newly created reported losses to main incident
-				incident.getReportedLosses().addAll(newlyCreatedReportedLosses);										
+		return accident;
+	}
+	
+	private Set<Witness> constructNewWitnesses(final Set<WitnessRO> witnessROs) {
+		Set<Witness> witnesses = new HashSet<Witness>(0);
+		//Construct new witnesses and add to accident.			
+		if (witnessROs != null && !witnessROs.isEmpty()) {
+			for (WitnessRO witnessRO : witnessROs) {
+				final Witness witness = new Witness.Builder()
+										.setStatusFlag(StatusFlag.ACTIVE)
+										.build();
+				//Set other values for (new) witnesses
+				//Witness type
+				if (witnessRO.getWitnessType() != null) {
+					if (witnessRO.getWitnessType().getId() != null && !witnessRO.getWitnessType().getId().trim().isEmpty()) {
+						witness.setWitnessType(_tableMaintenanceService.getWitnessTypeByCode(witnessRO.getWitnessType().getId().trim()));
+					}
+				}
+				if (witnessRO.getTitle() != null && !witnessRO.getTitle().trim().isEmpty()) {
+					witness.setTitle(witnessRO.getTitle().trim());
+				}
+				if (witnessRO.getFirstName() != null && !witnessRO.getFirstName().trim().isEmpty()) {
+					witness.setFirstName(witnessRO.getFirstName().trim());
+				}
+				if (witnessRO.getMiddleName() != null && !witnessRO.getMiddleName().trim().isEmpty()) {
+					witness.setMiddleName(witnessRO.getMiddleName().trim());
+				}
+				if (witnessRO.getLastName() != null && !witnessRO.getLastName().trim().isEmpty()) {
+					witness.setLastName(witnessRO.getLastName().trim());
+				}
+				if (witnessRO.getNameSuffix() != null && !witnessRO.getNameSuffix().trim().isEmpty()) {
+					witness.setNameSuffix(witnessRO.getNameSuffix());
+				}
+				if (witnessRO.getPhone() != null && !witnessRO.getPhone().trim().isEmpty()) {
+					witness.setPhone(witnessRO.getPhone().trim());
+				}
+				if (witnessRO.getFax() != null && !witnessRO.getFax().trim().isEmpty()) {
+					witness.setFax(witnessRO.getFax().trim());
+				}
+				if (witnessRO.getAlternatePhone() != null && !witnessRO.getAlternatePhone().trim().isEmpty()) {
+					witness.setAlternatePhone(witnessRO.getAlternatePhone().trim());
+				}
+				if (witnessRO.getEmail() != null && !witnessRO.getEmail().trim().isEmpty()) {
+					witness.setEmail(witnessRO.getEmail().trim());
+				}
+				if (witnessRO.getWebsite() != null && !witnessRO.getWebsite().trim().isEmpty()) {
+					witness.setWebsite(witnessRO.getWebsite().trim());
+				}
+				//Gender type
+				if (witnessRO.getGenderType() != null) {
+					if (witnessRO.getGenderType().getId() != null && !witnessRO.getGenderType().getId().trim().isEmpty()) {
+						witness.setGenderType(_tableMaintenanceService.getGenderTypeByCode(witnessRO.getGenderType().getId().trim()));
+					}
+				}
+				//Distinguishing feature
+				if (witnessRO.getDistinguishingFeature() != null) {
+					if (witnessRO.getDistinguishingFeature().getId() != null && !witnessRO.getDistinguishingFeature().getId().trim().isEmpty()) {
+						witness.setDistinguishingFeature(_tableMaintenanceService.getDistinguishingFeatureByCode(witnessRO.getDistinguishingFeature().getId().trim()));
+					}
+				}
+				//Distinguishing feature detail
+				if (witnessRO.getDistinguishingFeatureDetail() != null) {
+					if (witnessRO.getDistinguishingFeatureDetail().getId() != null && !witnessRO.getDistinguishingFeatureDetail().getId().trim().isEmpty()) {
+						witness.setDistinguishingFeatureDetail(_tableMaintenanceService.getDistinguishingFeatureDetailByCode(witnessRO.getDistinguishingFeatureDetail().getId().trim()));
+					}
+				}
+				//Age
+				if (witnessRO.getAge() > 0) {
+					witness.setAge(witnessRO.getAge());
+				}
+				//Date of Birth
+				if (witnessRO.getDateOfBirth() != null) {
+					witness.setDateOfBirth(witnessRO.getDateOfBirth());
+				}
+				//Address of the witness person
+				if (witnessRO.getAddresses() != null && !witnessRO.getAddresses().isEmpty()) {
+					witness.setAddresses(constructAddresses(witnessRO.getAddresses(), null, null, null, witness));
+				}
+				witnesses.add(witness);	
+			}
+		}		
+		return witnesses;
+	}
+	
+	private Asset constructAsset(final AssetRO assetRO, final Incident incident) {
+		Asset asset = new Asset.Builder()
+						.setStatusFlag(StatusFlag.ACTIVE)
+						.setIncident(incident)
+						.build();
+		if (assetRO != null) {
+			//asset category
+			if (assetRO.getAssetCategory() != null) {
+				if (assetRO.getAssetCategory().getId() != null && !assetRO.getAssetCategory().getId().trim().isEmpty()) {
+					asset.setAssetCategory(_tableMaintenanceService.getAssetCategoryByCode(assetRO.getAssetCategory().getId().trim())); 
+				}
+			}
+			//asset statement desc
+			if (assetRO.getStatementDescription() != null && !assetRO.getStatementDescription().trim().isEmpty()) {
+				asset.setStatementDescription(assetRO.getStatementDescription().trim());
+			}
+			//Any witness?
+			YesNoType anyWitness = YesNoType.N;
+			if (assetRO.getAnyWitness() != null && assetRO.getAnyWitness().name().equals("Y")) {
+				anyWitness = YesNoType.Y;
+			}
+			asset.setAnyWitness(anyWitness);
+			//other desc
+			if (assetRO.getOtherDescription() != null && !assetRO.getOtherDescription().trim().isEmpty()) {
+				asset.setOtherDescription(assetRO.getOtherDescription().trim());
+			}
+		}		
+		return asset;
+	}
+	
+	private Set<Building> constructBuilding(final List<BuildingRO> buildingROs, final Asset asset) {
+		Set<Building> buildings = new HashSet<Building>(0);
+		if (buildingROs != null && !buildingROs.isEmpty()) {
+			for (BuildingRO buildingRO : buildingROs) {
+				final Building building = new Building.Builder()
+									.setStatusFlag(StatusFlag.ACTIVE)
+									.setAsset(asset)
+									.build();
+				//building id
+				if (buildingRO.getBuildingId() != null && !buildingRO.getBuildingId().trim().isEmpty()) {
+					building.setBuildingId(buildingRO.getBuildingId().trim());
+				}
+				//building description
+				if (buildingRO.getBuildingDescription() != null && !buildingRO.getBuildingDescription().trim().isEmpty()) {
+					building.setBuildingDescription(buildingRO.getBuildingDescription().trim());
+				}
+				//incident description
+				if (buildingRO.getIncidentDescription() != null && !buildingRO.getIncidentDescription().trim().isEmpty()) {
+					building.setIncidentDescription(buildingRO.getIncidentDescription().trim());
+				}
+				//asset category
+				if (buildingRO.getAssetCategory() != null) {
+					if (buildingRO.getAssetCategory().getId() != null && !buildingRO.getAssetCategory().getId().trim().isEmpty()) {
+						building.setAssetCategory(_tableMaintenanceService.getAssetCategoryByCode(buildingRO.getAssetCategory().getId().trim())); 
+					}
+				}
+				buildings.add(building);
 			}
 		}
-		
-		//Update the incident with new suspects, existing suspects, employee suspects and reported losses..
-		final Incident updatedIncident = _incidentService.updateIncident(incident);
-		
-		if (updatedIncident != null) {
-			return _mapperService.map(updatedIncident, IncidentRO.class);
-		} else {
-			throw new ResourceNotCreatedException(_messageBuilder.build(RestMessage.UNABLE_TO_UPDATE_RECORD));
+		return buildings;
+	}
+	
+	private Set<Equipment> constructEquipment(final List<EquipmentRO> equipmentROs, final Asset asset) {
+		Set<Equipment> equipments = new HashSet<Equipment>(0);
+		if (equipmentROs != null && !equipmentROs.isEmpty()) {
+			for (EquipmentRO equipmentRO : equipmentROs) {
+				final Equipment equipment = new Equipment.Builder()
+											.setStatusFlag(StatusFlag.ACTIVE)
+											.setAsset(asset).build();
+				//equipment id
+				if (equipmentRO.getEquipmentId() != null && !equipmentRO.getEquipmentId().trim().isEmpty()) {
+					equipment.setEquipmentId(equipmentRO.getEquipmentId().trim());
+				}
+				//equipment details
+				if (equipmentRO.getEquipmentDetails() != null && !equipmentRO.getEquipmentDetails().trim().isEmpty()) {
+					equipment.setEquipmentDetails(equipmentRO.getEquipmentDetails().trim());
+				}
+				//serial number
+				if (equipmentRO.getSerialNumber() != null && !equipmentRO.getSerialNumber().trim().isEmpty()) {
+					equipment.setSerialNumber(equipmentRO.getSerialNumber().trim());
+				}
+				//asset category
+				if (equipmentRO.getAssetCategory() != null) {
+					if (equipmentRO.getAssetCategory().getId() != null && !equipmentRO.getAssetCategory().getId().trim().isEmpty()) {
+						equipment.setAssetCategory(_tableMaintenanceService.getAssetCategoryByCode(equipmentRO.getAssetCategory().getId().trim())); 
+					}
+				}
+				equipments.add(equipment);
+			}
 		}
+		return equipments;
+	}
+	
+	private Set<Vehicle> constructVehicle(final List<VehicleRO> vehicleROs, final Asset asset) {
+		Set<Vehicle> vehicles = new HashSet<Vehicle>(0);
+		if (vehicleROs != null && !vehicleROs.isEmpty()) {
+			for (VehicleRO vehicleRO : vehicleROs) {
+				final Vehicle vehicle = new Vehicle.Builder()
+										.setStatusFlag(StatusFlag.ACTIVE)
+										.setAsset(asset)
+										.build();
+				//vehicle registration id
+				if (nullOrEmptySafeCheck(vehicleRO.getVehicleRegistrationId())) {
+					vehicle.setVehicleRegistrationId(stringTrimmer(vehicleRO.getVehicleRegistrationId()));
+				}
+				//engine number
+				if (nullOrEmptySafeCheck(vehicleRO.getEngineNumber())) {
+					vehicle.setEngineNumber(stringTrimmer(vehicleRO.getEngineNumber()));
+				}
+				//chasis number
+				if (nullOrEmptySafeCheck(vehicleRO.getChasisNumber())) {
+					vehicle.setChasisNumber(stringTrimmer(vehicleRO.getChasisNumber()));
+				}
+				//make
+				if (nullOrEmptySafeCheck(vehicleRO.getMake())) {
+					vehicle.setMake(stringTrimmer(vehicleRO.getMake()));
+				}
+				//model
+				if (nullOrEmptySafeCheck(vehicleRO.getModel())) {
+					vehicle.setModel(stringTrimmer(vehicleRO.getModel()));
+				}
+				//comment description
+				if (nullOrEmptySafeCheck(vehicleRO.getCommentDescription())) {
+					vehicle.setCommentDescription(stringTrimmer(vehicleRO.getCommentDescription()));
+				}
+				//Vehicle damage type
+				if (vehicleRO.getVehicleDamageType() != null) {
+					if (nullOrEmptySafeCheck(vehicleRO.getVehicleDamageType().getId())) {
+						vehicle.setVehicleDamageType(_tableMaintenanceService.getVehicleDamageTypeByCode(stringTrimmer(vehicleRO.getVehicleDamageType().getId())));
+					}
+				}
+				//asset category
+				if (vehicleRO.getAssetCategory() != null) {
+					if (nullOrEmptySafeCheck(vehicleRO.getAssetCategory().getId())) {
+						vehicle.setAssetCategory(_tableMaintenanceService.getAssetCategoryByCode(stringTrimmer(vehicleRO.getAssetCategory().getId().trim()))); 
+					}
+				}
+				vehicles.add(vehicle);
+			}
+		}
+		return vehicles;
 	}
 	
 	private void validateWeaponInvolvedAndType(final YesNoType weaponInvolved, final WeaponType weaponType) {
@@ -487,430 +1072,30 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 			}
 		}
 	}
-
-	@Override
-	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
-	@Transactional
-	public IncidentRO addAccidentDetail(final AccidentDetailRO accidentDetailRO) {
-		//Validate input param (object)
-		validateObject(accidentDetailRO);
-		//Validate input main object accident.
-		validateObject(accidentDetailRO.getAccident());		
-		//Validate unique incident id
-		validateUniqueIncidentId(accidentDetailRO.getUniqueIncidentId());
-		//Construct the incident object for update
-		Incident incident = _incidentService.getIncidentByUniqueIncidentId(accidentDetailRO.getUniqueIncidentId().trim());
-		validateGenericObject(incident);
+	
+	private void validateAnyWitness(final YesNoType anyWitness, final Set<Witness> newWitnesses, final Set<Witness> existingWitnesses, final Set<User> employeeWitnesses) {
+		boolean witnessesPresent = false;
 		
-		//Instantiate the accident object
-		Accident accident = new Accident.Builder()
-				.setStatusFlag(StatusFlag.ACTIVE)
-				.setIncident(incident)
-				.build();
-		validateGenericObject(accident);		
-		
-		//Instantiate objects
-		if (accident.getInjuredPersons() == null) {
-			accident.setInjuredPersons(new HashSet<InjuredPerson>(0));
+		if (newWitnesses != null  && !newWitnesses.isEmpty()) {
+			witnessesPresent = true;
 		}
-		if (accident.getEmployeeInjuredPersons() == null) {
-			accident.setEmployeeInjuredPersons(new HashSet<User>(0));
+		if (existingWitnesses != null && !existingWitnesses.isEmpty()) {
+			witnessesPresent = true;
 		}
-		if (accident.getWitnesses() == null) {
-			accident.setWitnesses(new HashSet<Witness>(0));
-		}		
-		if (accident.getEmployeeWitnesses() == null) {
-			accident.setEmployeeWitnesses(new HashSet<User>(0));
+		if (employeeWitnesses != null && !employeeWitnesses.isEmpty()) {
+			witnessesPresent = true;
 		}
 		
-		//Holder variables for newly created objects
-		final List<InjuredPerson> newInjuredPersons = new ArrayList<InjuredPerson>(0);
-		final List<InjuredPerson> existingInjuredPersons = new ArrayList<InjuredPerson>(0);
-		final List<User> employeeInjuredPersons = new ArrayList<User>(0);		
-		final List<Witness> newWitnesses = new ArrayList<Witness>(0);
-		final List<Witness> existingWitnesses = new ArrayList<Witness>(0);
-		final List<User> employeeWitnesses = new ArrayList<User>(0);
-		
-		//Construct the new accident object
-		if (accidentDetailRO.getAccident() != null) {
-			//Accident Description
-			if (accidentDetailRO.getAccident().getAccidentDescription() != null && !accidentDetailRO.getAccident().getAccidentDescription().trim().isEmpty()) {
-				accident.setAccidentDescription(accidentDetailRO.getAccident().getAccidentDescription().trim());
-			}
-			//Accident date and time
-			if (accidentDetailRO.getAccident().getAccidentDateTime() != null) {
-				accident.setAccidentDateTime(accidentDetailRO.getAccident().getAccidentDateTime());
-			}
-			//landmark
-			if (accidentDetailRO.getAccident().getLandmark() != null && !accidentDetailRO.getAccident().getLandmark().trim().isEmpty()) {
-				accident.setLandmark(accidentDetailRO.getAccident().getLandmark().trim());
-			}
-			//place of accident
-			if (accidentDetailRO.getAccident().getAccidentPlace() != null && !accidentDetailRO.getAccident().getAccidentPlace().trim().isEmpty()) {
-				accident.setAccidentPlace(accidentDetailRO.getAccident().getAccidentPlace().trim());
-			}
-			//Accident type
-			if (accidentDetailRO.getAccident().getAccidentType() != null) {
-				if (accidentDetailRO.getAccident().getAccidentType().getId() != null && !accidentDetailRO.getAccident().getAccidentType().getId().trim().isEmpty()) {
-					final AccidentType accidentType = _tableMaintenanceService.getAccidentTypeByCode(accidentDetailRO.getAccident().getAccidentType().getId().trim());
-					accident.setAccidentType(accidentType);					
-				}				
-			}
-			//Set accident location
-			if (accidentDetailRO.getAccident().getAccidentLocation() != null) {
-				if (accidentDetailRO.getAccident().getAccidentLocation().getId() != null && !accidentDetailRO.getAccident().getAccidentLocation().getId().trim().isEmpty()) {
-					final AccidentLocation accidentLocation = _tableMaintenanceService.getAccidentLocationByCode(accidentDetailRO.getAccident().getAccidentLocation().getId().trim());
-					accident.setAccidentLocation(accidentLocation);
-				}
-			}
-			//set accident location detail
-			if (accidentDetailRO.getAccident().getAccidentLocationDetails() != null) {
-				if (accidentDetailRO.getAccident().getAccidentLocationDetails().getId() != null && !accidentDetailRO.getAccident().getAccidentLocationDetails().getId().trim().isEmpty()) {
-					final AccidentLocationDetail accidentLocationDetail = _tableMaintenanceService.getAccidentLocationDetailByCode(accidentDetailRO.getAccident().getAccidentLocationDetails().getId().trim());
-					accident.setAccidentLocationDetails(accidentLocationDetail);							
-				}
-			}
-			//Start of construction of injured persons
-			//Construct (new) injured person(s) if any
-			if (accidentDetailRO.getNewInjuredPersons() != null && !accidentDetailRO.getNewInjuredPersons().isEmpty()) {
-				for (InjuredPersonRO injuredPersonRO : accidentDetailRO.getNewInjuredPersons()) {
-					InjuredPerson injuredPerson = new InjuredPerson.Builder().setStatusFlag(StatusFlag.ACTIVE).build();
-					//Set other values for (new) injured person(s)
-					//Injured person type
-					if (injuredPersonRO.getInjuredPersonType() != null) {
-						if (injuredPersonRO.getInjuredPersonType().getId() != null && !injuredPersonRO.getInjuredPersonType().getId().trim().isEmpty()) {
-							InjuredPersonType injuredPersonType = _tableMaintenanceService.getInjuredPersonTypeByCode(injuredPersonRO.getInjuredPersonType().getId().trim());
-							injuredPerson.setInjuredPersonType(injuredPersonType);
-						}
-					}
-					if (injuredPersonRO.getTitle() != null && !injuredPersonRO.getTitle().trim().isEmpty()) {
-						injuredPerson.setTitle(injuredPersonRO.getTitle().trim());
-					}
-					if (injuredPersonRO.getFirstName() != null && !injuredPersonRO.getFirstName().trim().isEmpty()) {
-						injuredPerson.setFirstName(injuredPersonRO.getFirstName().trim());
-					}
-					if (injuredPersonRO.getMiddleName() != null && !injuredPersonRO.getMiddleName().trim().isEmpty()) {
-						injuredPerson.setMiddleName(injuredPersonRO.getMiddleName().trim());
-					}
-					if (injuredPersonRO.getLastName() != null && !injuredPersonRO.getLastName().trim().isEmpty()) {
-						injuredPerson.setLastName(injuredPersonRO.getLastName().trim());
-					}
-					if (injuredPersonRO.getNameSuffix() != null && !injuredPersonRO.getNameSuffix().trim().isEmpty()) {
-						injuredPerson.setNameSuffix(injuredPersonRO.getNameSuffix());
-					}
-					if (injuredPersonRO.getPhone() != null && !injuredPersonRO.getPhone().trim().isEmpty()) {
-						injuredPerson.setPhone(injuredPersonRO.getPhone().trim());
-					}
-					if (injuredPersonRO.getFax() != null && !injuredPersonRO.getFax().trim().isEmpty()) {
-						injuredPerson.setFax(injuredPersonRO.getFax().trim());
-					}
-					if (injuredPersonRO.getAlternatePhone() != null && !injuredPersonRO.getAlternatePhone().trim().isEmpty()) {
-						injuredPerson.setAlternatePhone(injuredPersonRO.getAlternatePhone().trim());
-					}
-					if (injuredPersonRO.getEmail() != null && !injuredPersonRO.getEmail().trim().isEmpty()) {
-						injuredPerson.setEmail(injuredPersonRO.getEmail().trim());
-					}
-					if (injuredPersonRO.getWebsite() != null && !injuredPersonRO.getWebsite().trim().isEmpty()) {
-						injuredPerson.setWebsite(injuredPersonRO.getWebsite().trim());
-					}
-					//Gender type
-					if (injuredPersonRO.getGenderType() != null) {
-						if (injuredPersonRO.getGenderType().getId() != null && !injuredPersonRO.getGenderType().getId().trim().isEmpty()) {
-							final GenderType genderType = _tableMaintenanceService.getGenderTypeByCode(injuredPersonRO.getGenderType().getId().trim());
-							injuredPerson.setGenderType(genderType);
-						}
-					}
-					//Distinguishing feature
-					if (injuredPersonRO.getDistinguishingFeature() != null) {
-						if (injuredPersonRO.getDistinguishingFeature().getId() != null && !injuredPersonRO.getDistinguishingFeature().getId().trim().isEmpty()) {
-							final DistinguishingFeature distinguishingFeature = _tableMaintenanceService.getDistinguishingFeatureByCode(injuredPersonRO.getDistinguishingFeature().getId().trim());
-							injuredPerson.setDistinguishingFeature(distinguishingFeature);
-						}
-					}
-					//Distinguishing feature detail
-					if (injuredPersonRO.getDistinguishingFeatureDetail() != null) {
-						if (injuredPersonRO.getDistinguishingFeatureDetail().getId() != null && !injuredPersonRO.getDistinguishingFeatureDetail().getId().trim().isEmpty()) {
-							final DistinguishingFeatureDetail distinguishingFeatureDetail = _tableMaintenanceService.getDistinguishingFeatureDetailByCode(injuredPersonRO.getDistinguishingFeatureDetail().getId().trim());
-							injuredPerson.setDistinguishingFeatureDetail(distinguishingFeatureDetail);
-						}
-					}
-					//Injury Cause
-					if (injuredPersonRO.getInjuryCause() != null) {
-						if (injuredPersonRO.getInjuryCause().getId() != null && !injuredPersonRO.getInjuryCause().getId().trim().isEmpty()) {
-							final InjuryCause injuryCause = _tableMaintenanceService.getInjuryCauseByCode(injuredPersonRO.getInjuryCause().getId().trim());
-							injuredPerson.setInjuryCause(injuryCause);
-						}
-					}
-					//Injury type
-					if (injuredPersonRO.getInjuryType() != null) {
-						if (injuredPersonRO.getInjuryType().getId() != null && !injuredPersonRO.getInjuryType().getId().trim().isEmpty()) {
-							final InjuryType injuryType = _tableMaintenanceService.getInjuryTypeByCode(injuredPersonRO.getInjuryType().getId().trim());
-							injuredPerson.setInjuryType(injuryType);
-						}
-					}
-					//Injury type detail
-					if (injuredPersonRO.getInjuryTypeDetail() != null) {
-						if (injuredPersonRO.getInjuryTypeDetail().getId() != null && !injuredPersonRO.getInjuryTypeDetail().getId().trim().isEmpty()) {
-							final InjuryTypeDetail injuryTypeDetail = _tableMaintenanceService.getInjuryTypeDetailByCode(injuredPersonRO.getInjuryTypeDetail().getId().trim());
-							injuredPerson.setInjuryTypeDetail(injuryTypeDetail);
-						}
-					}					
-					//Injury type detail spec
-					if (injuredPersonRO.getInjuryTypeDetailSpec() != null) {
-						if (injuredPersonRO.getInjuryTypeDetailSpec().getId() != null && !injuredPersonRO.getInjuryTypeDetailSpec().getId().trim().isEmpty()) {
-							final InjuryTypeDetailSpec injuryTypeDetailSpec =  _tableMaintenanceService.getInjuryTypeDetailSpecByCode(injuredPersonRO.getInjuryTypeDetailSpec().getId().trim());
-							injuredPerson.setInjuryTypeDetailSpec(injuryTypeDetailSpec);							
-						}
-					}
-					//Age
-					if (injuredPersonRO.getAge() > 0) {
-						injuredPerson.setAge(injuredPersonRO.getAge());
-					}
-					//Date of Birth
-					if (injuredPersonRO.getDateOfBirth() != null) {
-						injuredPerson.setDateOfBirth(injuredPersonRO.getDateOfBirth());
-					}
-					//Any first aid given?
-					YesNoType firstAidGiven = YesNoType.N;
-					if (injuredPersonRO.getFirstAidGiven() != null && injuredPersonRO.getFirstAidGiven().name().equals("Y")) {
-						firstAidGiven = YesNoType.Y;
-					}
-					injuredPerson.setFirstAidGiven(firstAidGiven);
-					//Any witness?
-					YesNoType anyWitness = YesNoType.N;
-					if (injuredPersonRO.getAnyWitness() != null && injuredPersonRO.getAnyWitness().name().equals("Y")) {
-						anyWitness = YesNoType.Y;
-					}
-					injuredPerson.setAnyWitness(anyWitness);
-					//Address of the injured person
-					if (injuredPersonRO.getAddresses() != null && !injuredPersonRO.getAddresses().isEmpty()) {
-						
-						Set<Address> addresses = new HashSet<Address>(0);						
-						
-						for (AddressRO addressRO : injuredPersonRO.getAddresses()) {
-							final Address address = new Address.Builder().setStatusFlag(StatusFlag.ACTIVE).build();
-							//Create the link between this new address and injured person.
-							address.setInjuredPerson(injuredPerson);
-							
-							if (addressRO.getOrganizationName() != null && !addressRO.getOrganizationName().trim().isEmpty()) {
-								address.setOrganizationName(addressRO.getOrganizationName().trim());					
-							}
-							if (addressRO.getBuildingName() != null && !addressRO.getBuildingName().trim().isEmpty()) {
-								address.setBuildingName(addressRO.getBuildingName().trim());							
-							}
-							if (addressRO.getStreetName() != null && !addressRO.getStreetName().trim().isEmpty()) {
-								address.setStreetName(addressRO.getStreetName().trim());							
-							}
-							if (addressRO.getLocalityName() != null && !addressRO.getLocalityName().trim().isEmpty()) {
-								address.setLocalityName(addressRO.getLocalityName().trim());							
-							}
-							if (addressRO.getPostTown() != null && !addressRO.getPostTown().trim().isEmpty()) {
-								address.setPostTown(addressRO.getPostTown().trim());							
-							}
-							if (addressRO.getCounty() != null && !addressRO.getCounty().trim().isEmpty()) {
-								address.setCounty(addressRO.getCounty().trim());							
-							}
-							if (addressRO.getCity() != null && !addressRO.getCity().trim().isEmpty()) {
-								address.setCity(addressRO.getCity().trim());							
-							}
-							if (addressRO.getPostcode() != null && !addressRO.getPostcode().trim().isEmpty()) {
-								address.setPostcode(addressRO.getPostcode().trim());							
-							}
-							if (addressRO.getCountry() != null && !addressRO.getCountry().trim().isEmpty()) {
-								address.setCountry(addressRO.getCountry().trim());							
-							}
-							addresses.add(address);
-						}			
-						injuredPerson.setAddresses(addresses);
-					}
-					//add the injured person to the list
-					newInjuredPersons.add(injuredPerson);					
-				}
-			}
-			//Save new injured persons to database and assign them to accident record.
-			if (newInjuredPersons != null && !newInjuredPersons.isEmpty()) {
-				Set<InjuredPerson> newlyCreatedInjuredPersons = _injuredPersonService.createNewInjuredPersons(newInjuredPersons);
-				if (newlyCreatedInjuredPersons != null && !newlyCreatedInjuredPersons.isEmpty()) {
-					accident.getInjuredPersons().addAll(newlyCreatedInjuredPersons);
-				}
-			}
-			//Construct and add existing injured persons if any..
-			if (accidentDetailRO.getExistingInjuredPersons() != null && !accidentDetailRO.getExistingInjuredPersons().isEmpty()) {
-				for (InjuredPersonRO injuredPersonRO : accidentDetailRO.getExistingInjuredPersons()) {
-					if (injuredPersonRO.getId() > 0) {
-						existingInjuredPersons.add(_injuredPersonService.get(injuredPersonRO.getId()));
-					}
-				}
-				//Add existing suspects to accident
-				accident.getInjuredPersons().addAll(new HashSet<InjuredPerson>(existingInjuredPersons));
-			}
-			//Construct employee injured persons and add to accident.
-			if (accidentDetailRO.getEmployeeInjuredPersons() != null && !accidentDetailRO.getEmployeeInjuredPersons().isEmpty()) {
-				for (UserRO userRO : accidentDetailRO.getEmployeeInjuredPersons()) {
-					if (userRO.getLoginId() != null && !userRO.getLoginId().trim().isEmpty()) {
-						employeeInjuredPersons.add(_userService.getUserByUserLoginId(userRO.getLoginId().trim()));
-					}
-				}
-				accident.getEmployeeInjuredPersons().addAll(new HashSet<User>(employeeInjuredPersons));				
-			}
-			//End of construction of injured persons
-			
-			//Start of witness construction
-			//Construct new witnesses and add to accident.			
-			if (accidentDetailRO.getNewWitnesses() != null && !accidentDetailRO.getNewWitnesses().isEmpty()) {
-				for (WitnessRO witnessRO : accidentDetailRO.getNewWitnesses()) {
-					final Witness witness = new Witness.Builder().setStatusFlag(StatusFlag.ACTIVE).build();
-					//Set other values for (new) witnesses
-					//Witness type
-					if (witnessRO.getWitnessType() != null) {
-						if (witnessRO.getWitnessType().getId() != null && !witnessRO.getWitnessType().getId().trim().isEmpty()) {
-							WitnessType witnessType = _tableMaintenanceService.getWitnessTypeByCode(witnessRO.getWitnessType().getId().trim());
-							witness.setWitnessType(witnessType);
-						}
-					}
-					if (witnessRO.getTitle() != null && !witnessRO.getTitle().trim().isEmpty()) {
-						witness.setTitle(witnessRO.getTitle().trim());
-					}
-					if (witnessRO.getFirstName() != null && !witnessRO.getFirstName().trim().isEmpty()) {
-						witness.setFirstName(witnessRO.getFirstName().trim());
-					}
-					if (witnessRO.getMiddleName() != null && !witnessRO.getMiddleName().trim().isEmpty()) {
-						witness.setMiddleName(witnessRO.getMiddleName().trim());
-					}
-					if (witnessRO.getLastName() != null && !witnessRO.getLastName().trim().isEmpty()) {
-						witness.setLastName(witnessRO.getLastName().trim());
-					}
-					if (witnessRO.getNameSuffix() != null && !witnessRO.getNameSuffix().trim().isEmpty()) {
-						witness.setNameSuffix(witnessRO.getNameSuffix());
-					}
-					if (witnessRO.getPhone() != null && !witnessRO.getPhone().trim().isEmpty()) {
-						witness.setPhone(witnessRO.getPhone().trim());
-					}
-					if (witnessRO.getFax() != null && !witnessRO.getFax().trim().isEmpty()) {
-						witness.setFax(witnessRO.getFax().trim());
-					}
-					if (witnessRO.getAlternatePhone() != null && !witnessRO.getAlternatePhone().trim().isEmpty()) {
-						witness.setAlternatePhone(witnessRO.getAlternatePhone().trim());
-					}
-					if (witnessRO.getEmail() != null && !witnessRO.getEmail().trim().isEmpty()) {
-						witness.setEmail(witnessRO.getEmail().trim());
-					}
-					if (witnessRO.getWebsite() != null && !witnessRO.getWebsite().trim().isEmpty()) {
-						witness.setWebsite(witnessRO.getWebsite().trim());
-					}
-					//Gender type
-					if (witnessRO.getGenderType() != null) {
-						if (witnessRO.getGenderType().getId() != null && !witnessRO.getGenderType().getId().trim().isEmpty()) {
-							final GenderType genderType = _tableMaintenanceService.getGenderTypeByCode(witnessRO.getGenderType().getId().trim());
-							witness.setGenderType(genderType);
-						}
-					}
-					//Distinguishing feature
-					if (witnessRO.getDistinguishingFeature() != null) {
-						if (witnessRO.getDistinguishingFeature().getId() != null && !witnessRO.getDistinguishingFeature().getId().trim().isEmpty()) {
-							final DistinguishingFeature distinguishingFeature = _tableMaintenanceService.getDistinguishingFeatureByCode(witnessRO.getDistinguishingFeature().getId().trim());
-							witness.setDistinguishingFeature(distinguishingFeature);
-						}
-					}
-					//Distinguishing feature detail
-					if (witnessRO.getDistinguishingFeatureDetail() != null) {
-						if (witnessRO.getDistinguishingFeatureDetail().getId() != null && !witnessRO.getDistinguishingFeatureDetail().getId().trim().isEmpty()) {
-							final DistinguishingFeatureDetail distinguishingFeatureDetail = _tableMaintenanceService.getDistinguishingFeatureDetailByCode(witnessRO.getDistinguishingFeatureDetail().getId().trim());
-							witness.setDistinguishingFeatureDetail(distinguishingFeatureDetail);
-						}
-					}
-					//Age
-					if (witnessRO.getAge() > 0) {
-						witness.setAge(witnessRO.getAge());
-					}
-					//Date of Birth
-					if (witnessRO.getDateOfBirth() != null) {
-						witness.setDateOfBirth(witnessRO.getDateOfBirth());
-					}
-					//Address of the witness person
-					if (witnessRO.getAddresses() != null && !witnessRO.getAddresses().isEmpty()) {
-						
-						Set<Address> addresses = new HashSet<Address>(0);						
-						
-						for (AddressRO addressRO : witnessRO.getAddresses()) {
-							final Address address = new Address.Builder().setStatusFlag(StatusFlag.ACTIVE).build();
-							//Create the link between this new address and witness.
-							address.setWitness(witness);
-							
-							if (addressRO.getOrganizationName() != null && !addressRO.getOrganizationName().trim().isEmpty()) {
-								address.setOrganizationName(addressRO.getOrganizationName().trim());					
-							}
-							if (addressRO.getBuildingName() != null && !addressRO.getBuildingName().trim().isEmpty()) {
-								address.setBuildingName(addressRO.getBuildingName().trim());							
-							}
-							if (addressRO.getStreetName() != null && !addressRO.getStreetName().trim().isEmpty()) {
-								address.setStreetName(addressRO.getStreetName().trim());							
-							}
-							if (addressRO.getLocalityName() != null && !addressRO.getLocalityName().trim().isEmpty()) {
-								address.setLocalityName(addressRO.getLocalityName().trim());							
-							}
-							if (addressRO.getPostTown() != null && !addressRO.getPostTown().trim().isEmpty()) {
-								address.setPostTown(addressRO.getPostTown().trim());							
-							}
-							if (addressRO.getCounty() != null && !addressRO.getCounty().trim().isEmpty()) {
-								address.setCounty(addressRO.getCounty().trim());							
-							}
-							if (addressRO.getCity() != null && !addressRO.getCity().trim().isEmpty()) {
-								address.setCity(addressRO.getCity().trim());							
-							}
-							if (addressRO.getPostcode() != null && !addressRO.getPostcode().trim().isEmpty()) {
-								address.setPostcode(addressRO.getPostcode().trim());							
-							}
-							if (addressRO.getCountry() != null && !addressRO.getCountry().trim().isEmpty()) {
-								address.setCountry(addressRO.getCountry().trim());							
-							}
-							addresses.add(address);
-						}			
-						witness.setAddresses(addresses);
-					}
-					newWitnesses.add(witness);					
-				}
-			}
-			//create the new witness in the backend and add it to the accident.
-			if (newWitnesses != null && !newWitnesses.isEmpty()) {
-				Set<Witness> newlyCreatedWitnesses = _witnessService.createNewWitnesses(newWitnesses);
-				if (newlyCreatedWitnesses != null && !newlyCreatedWitnesses.isEmpty()) {
-					//Add newly created suspects to main accident
-					accident.getWitnesses().addAll(newlyCreatedWitnesses);										
-				}
-			}
-			//construction of existing witnesses
-			if (accidentDetailRO.getExistingWitnesses() != null && !accidentDetailRO.getExistingWitnesses().isEmpty()) {
-				for (WitnessRO witnessRO : accidentDetailRO.getExistingWitnesses()) {
-					if (witnessRO.getId() > 0) {
-						existingWitnesses.add(_witnessService.get(witnessRO.getId()));
-					}
-				}
-				//add existing witness to the accident.
-				accident.getWitnesses().addAll(new HashSet<Witness>(existingWitnesses));
-			}
-			//construction of employee witness if any and add to accident.
-			if (accidentDetailRO.getEmployeeWitnesses() != null && !accidentDetailRO.getEmployeeWitnesses().isEmpty()) {
-				for (UserRO userRO : accidentDetailRO.getEmployeeWitnesses()) {
-					if (userRO.getLoginId() != null && !userRO.getLoginId().trim().isEmpty()) {
-						employeeWitnesses.add(_userService.getUserByUserLoginId(userRO.getLoginId().trim()));
-					}
-				}
-				accident.getEmployeeWitnesses().addAll(new HashSet<User>(employeeWitnesses));
-			}
-			//end of construction of witnesses
-			
-			//Create the accident record
-			final Accident newAccident = _accidentService.create(accident);
-			//Throw exception if unable to create
-			if (newAccident == null) {
-				throw new ResourceNotCreatedException(_messageBuilder.build(RestMessage.UNABLE_TO_CREATE_RECORD));
-			} else {
-				//Set the accident to incident.
-				incident.setAccident(accident);
+		if (anyWitness.name().equals(YesNoType.Y)) {
+			//Please mark the witness flag to No when there are no witnesses.
+			if (!witnessesPresent) {
+				throw new ResourceNotValidException(_messageBuilder.build(RestMessage.WITNESS_FLAG_MUST_BE_NO));
+			}			
+		} else if (anyWitness.name().equals(YesNoType.N)) {
+			//Please mark the witness flag to Yes when witness details are added.
+			if (witnessesPresent) {			
+				throw new ResourceNotValidException(_messageBuilder.build(RestMessage.WITNESS_FLAG_MUST_BE_YES));
 			}
 		}
-		//Throw the incident back with the newly created accident details
-		return _mapperService.map(incident, IncidentRO.class);		
-	}
+	}	
 }

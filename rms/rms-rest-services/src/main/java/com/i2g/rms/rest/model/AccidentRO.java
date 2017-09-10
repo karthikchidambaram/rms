@@ -28,12 +28,13 @@ public class AccidentRO extends AbstractEntityRO {
 	private AccidentLocationRO _accidentLocation;
 	private AccidentLocationDetailRO _accidentLocationDetails;
 	private String _landmark;
-	private String _accidentPlace;	
+	private String _accidentPlace;
 	private AccidentTypeRO _accidentType;
 	private Set<InjuredPersonRO> _injuredPersons = new HashSet<InjuredPersonRO>(0);
 	private Set<UserRO> _employeeInjuredPersons = new HashSet<UserRO>(0);
 	private Set<WitnessRO> _witnesses = new HashSet<WitnessRO>(0);
 	private Set<UserRO> _employeeWitnesses = new HashSet<UserRO>(0);
+	private YesNoTypeRO anyWitness;
 
 	/**
 	 * @return the id
@@ -223,7 +224,8 @@ public class AccidentRO extends AbstractEntityRO {
 	}
 
 	/**
-	 * @param employeeWitnesses the employeeWitnesses to set
+	 * @param employeeWitnesses
+	 *            the employeeWitnesses to set
 	 */
 	public void setEmployeeWitnesses(final Set<UserRO> employeeWitnesses) {
 		_employeeWitnesses = employeeWitnesses;
@@ -237,9 +239,25 @@ public class AccidentRO extends AbstractEntityRO {
 	}
 
 	/**
-	 * @param accidentPlace the accidentPlace to set
+	 * @param accidentPlace
+	 *            the accidentPlace to set
 	 */
 	public void setAccidentPlace(final String accidentPlace) {
 		_accidentPlace = accidentPlace;
-	}	
+	}
+
+	/**
+	 * @return the anyWitness
+	 */
+	public YesNoTypeRO getAnyWitness() {
+		return anyWitness;
+	}
+
+	/**
+	 * @param anyWitness
+	 *            the anyWitness to set
+	 */
+	public void setAnyWitness(final YesNoTypeRO anyWitness) {
+		this.anyWitness = anyWitness;
+	}
 }

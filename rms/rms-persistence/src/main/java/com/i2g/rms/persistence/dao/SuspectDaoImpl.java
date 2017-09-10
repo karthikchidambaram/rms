@@ -69,7 +69,7 @@ public class SuspectDaoImpl extends AbstractHibernateDao<Long, Suspect> implemen
 	 * While creating new suspects, there will be no unique id representing the records uniquely.
 	 * So a list will be used. But after saving the records the return collection can be a set.
 	 */	
-	public Set<Suspect> createNewSuspects(final List<Suspect> suspects) {
+	public Set<Suspect> createNewSuspects(final Set<Suspect> suspects) {
 		validateCollectionObject(suspects);
 		final Set<Suspect> newSuspects = new HashSet<Suspect>(0);
 		for (Suspect suspect : suspects) {

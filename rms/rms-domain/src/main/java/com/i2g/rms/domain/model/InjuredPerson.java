@@ -75,7 +75,6 @@ public class InjuredPerson extends AbstractDataModel<Long> implements Serializab
 	private String _email;
 	private String _website;
 	private YesNoType _firstAidGiven;
-	private YesNoType _anyWitness;
 	private Set<Accident> _accidents = new HashSet<Accident>(0);
 	private Set<BodyPart> _bodyParts = new HashSet<BodyPart>(0);
 	private Set<Address> _addresses = new HashSet<Address>(0);
@@ -413,23 +412,6 @@ public class InjuredPerson extends AbstractDataModel<Long> implements Serializab
 	}
 
 	/**
-	 * @return the anyWitness
-	 */
-	@Column(name = "ANY_WITNS")
-	@Enumerated(EnumType.STRING)
-	public YesNoType getAnyWitness() {
-		return _anyWitness;
-	}
-
-	/**
-	 * @param anyWitness
-	 *            the anyWitness to set
-	 */
-	public void setAnyWitness(final YesNoType anyWitness) {
-		_anyWitness = anyWitness;
-	}
-
-	/**
 	 * @return the accidents
 	 */
 	@ManyToMany(mappedBy = "injuredPersons")
@@ -556,28 +538,6 @@ public class InjuredPerson extends AbstractDataModel<Long> implements Serializab
 	 */
 	public void setInjuryTypeDetailSpec(final InjuryTypeDetailSpec injuryTypeDetailSpec) {
 		_injuryTypeDetailSpec = injuryTypeDetailSpec;
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(_id, _statusFlag);
-	}
-
-	@Override
-	public boolean equals(final Object obj) {
-		if (this == obj) {
-			return true;
-		} else if (obj instanceof InjuredPerson) {
-			final InjuredPerson other = (InjuredPerson) obj;
-			return Objects.equals(_id, other._id) && Objects.equals(_statusFlag, other._statusFlag);
-		}
-		return false;
-	}
-
-	@Override
-	public String toString() {
-		return "Injured Person Id: " + _id + ", Name: " + _firstName + " " + _lastName + ", Status Flag: "
-				+ _statusFlag;
 	}
 
 	/**
