@@ -28,6 +28,7 @@ import com.i2g.rms.domain.model.Witness;
 import com.i2g.rms.domain.model.YesNoType;
 import com.i2g.rms.domain.model.incident.Incident;
 import com.i2g.rms.domain.model.incident.IncidentStatus;
+import com.i2g.rms.domain.model.tablemaintenance.BodyPart;
 import com.i2g.rms.domain.model.tablemaintenance.EntryPoint;
 import com.i2g.rms.domain.model.tablemaintenance.ExternalAgency;
 import com.i2g.rms.domain.model.tablemaintenance.IncidentLocation;
@@ -50,6 +51,7 @@ import com.i2g.rms.rest.model.incident.AssetDetailRO;
 import com.i2g.rms.rest.model.incident.IncidentDetailRO;
 import com.i2g.rms.rest.model.incident.IncidentRO;
 import com.i2g.rms.rest.model.incident.LogIncidentRO;
+import com.i2g.rms.rest.model.tablemaintenance.BodyPartRO;
 import com.i2g.rms.rest.service.AbstractRestService;
 import com.i2g.rms.rest.service.RestMessage;
 import com.i2g.rms.service.AccidentService;
@@ -756,7 +758,13 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 				}
 				injuredPerson.setFirstAidGiven(firstAidGiven);
 				//add addresses of the injured person
-				injuredPerson.setAddresses(constructAddresses(injuredPersonRO.getAddresses(), null, null, injuredPerson, null));
+				if (injuredPersonRO.getAddresses() != null && !injuredPersonRO.getAddresses().isEmpty()) {
+					injuredPerson.setAddresses(constructAddresses(injuredPersonRO.getAddresses(), null, null, injuredPerson, null));
+				}
+				//body parts
+				if (injuredPersonRO.getBodyParts() != null && !injuredPersonRO.getBodyParts().isEmpty()) {
+					injuredPerson.setBodyParts(constructBodyParts(injuredPersonRO.getBodyParts()));
+				}
 				//add the injured person to the list
 				injuredPersons.add(injuredPerson);					
 			}
@@ -1037,6 +1045,18 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 			}
 		}
 		return vehicles;
+	}
+	
+	private Set<BodyPart> constructBodyParts(final Set<BodyPartRO> bodyPartROs) {
+		Set<BodyPart> bodyParts = new HashSet<BodyPart>(0);
+		if (bodyPartROs != null && !bodyPartROs.isEmpty()) {
+			for (BodyPartRO bodyPartRO : bodyPartROs) {
+				if (bodyPartRO.getId() != null && !bodyPartRO.getId().trim().isEmpty()) {
+					bodyParts.add(_tableMaintenanceService.getBodyPartByCode(bodyPartRO.getId().trim()));
+				}
+			}
+		}
+		return bodyParts;
 	}
 	
 	private void validateWeaponInvolvedAndType(final YesNoType weaponInvolved, final WeaponType weaponType) {
