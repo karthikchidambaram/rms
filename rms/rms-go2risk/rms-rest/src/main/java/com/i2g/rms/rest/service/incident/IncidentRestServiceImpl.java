@@ -656,6 +656,10 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 				if (suspectRO.getAddresses() != null) {
 					suspect.setAddresses(constructAddresses(suspectRO.getAddresses(), null, suspect, null, null, null, null));
 				}
+				//other comments for suspect type
+				if (suspectRO.getSuspectTypeOther() != null && !suspectRO.getSuspectTypeOther().trim().isEmpty()) {
+					suspect.setSuspectTypeOther(suspectRO.getSuspectTypeOther().trim());
+				}
 				//other comments for distinguishing feature
 				if (suspectRO.getOtherComments() != null && !suspectRO.getOtherComments().trim().isEmpty()) {
 					suspect.setOtherComments(suspectRO.getOtherComments().trim());
@@ -877,6 +881,10 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 				if (injuredPersonRO.getBodyParts() != null && !injuredPersonRO.getBodyParts().isEmpty()) {
 					injuredPerson.setBodyParts(constructBodyParts(injuredPersonRO.getBodyParts()));
 				}
+				//other comments for injured person type
+				if (injuredPersonRO.getInjuredPersonTypeOther() != null && !injuredPersonRO.getInjuredPersonTypeOther().trim().isEmpty()) {
+					injuredPerson.setInjuredPersonTypeOther(injuredPersonRO.getInjuredPersonTypeOther().trim());
+				}
 				//construct and set distinguishing feature details
 				if (injuredPerson.getDistinguishingFeatureDetails() == null || injuredPerson.getDistinguishingFeatureDetails().isEmpty()) {
 					injuredPerson.setDistinguishingFeatureDetails(new HashSet<DistinguishingFeatureDetail>(0));
@@ -1002,6 +1010,10 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 				//Address of the witness person
 				if (witnessRO.getAddresses() != null && !witnessRO.getAddresses().isEmpty()) {
 					witness.setAddresses(constructAddresses(witnessRO.getAddresses(), null, null, null, witness, null, null));
+				}
+				//other comments for witness type
+				if (witnessRO.getWitnessTypeOther() != null && !witnessRO.getWitnessTypeOther().trim().isEmpty()) {
+					witness.setWitnessTypeOther(witnessRO.getWitnessTypeOther().trim());
 				}
 				//construct and set distinguishing feature details
 				if (witness.getDistinguishingFeatureDetails() == null || witness.getDistinguishingFeatureDetails().isEmpty()) {
@@ -1234,6 +1246,16 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 					if (nullOrEmptySafeCheck(crimeSuspectRO.getGenderType().getId())) {
 						crimeSuspect.setGenderType(_tableMaintenanceService.getGenderTypeByCode(stringTrimmer(crimeSuspectRO.getGenderType().getId())));
 					}
+				}
+				//Crime Suspect Type
+				if (crimeSuspectRO.getCrimeSuspectType() != null) {
+					if (crimeSuspectRO.getCrimeSuspectType().getId() != null && !crimeSuspectRO.getCrimeSuspectType().getId().trim().isEmpty()) {
+						crimeSuspect.setCrimeSuspectType(_tableMaintenanceService.getSuspectTypeByCode(crimeSuspectRO.getCrimeSuspectType().getId().trim()));
+					}
+				}
+				//other comments for crime suspect type
+				if (crimeSuspectRO.getCrimeSuspectTypeOther() != null && !crimeSuspectRO.getCrimeSuspectTypeOther().trim().isEmpty()) {
+					crimeSuspect.setCrimeSuspectTypeOther(crimeSuspectRO.getCrimeSuspectTypeOther().trim());
 				}
 				//date of birth
 				if (crimeSuspectRO.getDateOfBirth() != null) {

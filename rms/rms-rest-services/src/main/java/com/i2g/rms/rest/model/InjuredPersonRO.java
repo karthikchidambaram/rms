@@ -53,7 +53,8 @@ public class InjuredPersonRO extends AbstractEntityRO {
 	private InjuryTypeDetailSpecRO _injuryTypeDetailSpec;
 	private String _otherComments;
 	private Set<DistinguishingFeatureDetailRO> _distinguishingFeatureDetails = new HashSet<DistinguishingFeatureDetailRO>(0);
-
+	private String _injuredPersonTypeOther;
+	
 	/**
 	 * @return the id
 	 */
@@ -468,4 +469,18 @@ public class InjuredPersonRO extends AbstractEntityRO {
 	public void setDistinguishingFeatureDetails(final Set<DistinguishingFeatureDetailRO> distinguishingFeatureDetails) {
 		_distinguishingFeatureDetails = distinguishingFeatureDetails;
 	}
+
+	/**
+	 * @return the injuredPersonTypeOther
+	 */
+	public String getInjuredPersonTypeOther() {
+		return _injuredPersonTypeOther;
+	}
+
+	/**
+	 * @param injuredPersonTypeOther the injuredPersonTypeOther to set
+	 */
+	public void setInjuredPersonTypeOther(final String injuredPersonTypeOther) {
+		_injuredPersonTypeOther = injuredPersonTypeOther;
+	}	
 }

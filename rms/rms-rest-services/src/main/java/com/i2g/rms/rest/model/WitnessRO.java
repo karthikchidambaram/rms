@@ -41,7 +41,8 @@ public class WitnessRO extends AbstractEntityRO {
 	private WitnessTypeRO _witnessType;
 	private String _otherComments;
 	private Set<DistinguishingFeatureDetailRO> _distinguishingFeatureDetails = new HashSet<DistinguishingFeatureDetailRO>(0);
-
+	private String _witnessTypeOther;
+	
 	/**
 	 * @return the id
 	 */
@@ -370,4 +371,18 @@ public class WitnessRO extends AbstractEntityRO {
 	public void setDistinguishingFeatureDetails(final Set<DistinguishingFeatureDetailRO> distinguishingFeatureDetails) {
 		_distinguishingFeatureDetails = distinguishingFeatureDetails;
 	}
+
+	/**
+	 * @return the witnessTypeOther
+	 */
+	public String getWitnessTypeOther() {
+		return _witnessTypeOther;
+	}
+
+	/**
+	 * @param witnessTypeOther the witnessTypeOther to set
+	 */
+	public void setWitnessTypeOther(final String witnessTypeOther) {
+		_witnessTypeOther = witnessTypeOther;
+	}	
 }

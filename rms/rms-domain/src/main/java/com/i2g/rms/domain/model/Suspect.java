@@ -74,6 +74,7 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	private Set<Incident> _incidents = new HashSet<Incident>(0);
 	private String _otherComments;
 	private Set<DistinguishingFeatureDetail> _distinguishingFeatureDetails = new HashSet<DistinguishingFeatureDetail>(0); 
+	private String _suspectTypeOther;
 	
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -438,6 +439,21 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	 */
 	public void setDistinguishingFeatureDetails(final Set<DistinguishingFeatureDetail> distinguishingFeatureDetails) {
 		_distinguishingFeatureDetails = distinguishingFeatureDetails;
+	}	
+
+	/**
+	 * @return the suspectTypeOther
+	 */
+	@Column(name = "SUSPT_TYP_OTHR_CMNTS", length = 32)
+	public String getSuspectTypeOther() {
+		return _suspectTypeOther;
+	}
+
+	/**
+	 * @param suspectTypeOther the suspectTypeOther to set
+	 */
+	public void setSuspectTypeOther(final String suspectTypeOther) {
+		_suspectTypeOther = suspectTypeOther;
 	}
 
 	/**

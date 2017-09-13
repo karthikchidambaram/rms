@@ -71,7 +71,8 @@ public class Witness extends AbstractDataModel<Long> implements Serializable {
 	private Set<Address> _addresses = new HashSet<Address>(0);
 	private WitnessType _witnessType;
 	private String _otherComments;
-	private Set<DistinguishingFeatureDetail> _distinguishingFeatureDetails = new HashSet<DistinguishingFeatureDetail>(0);	
+	private Set<DistinguishingFeatureDetail> _distinguishingFeatureDetails = new HashSet<DistinguishingFeatureDetail>(0);
+	private String _witnessTypeOther;
 
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -461,6 +462,21 @@ public class Witness extends AbstractDataModel<Long> implements Serializable {
 	 */
 	public void setDistinguishingFeatureDetails(final Set<DistinguishingFeatureDetail> distinguishingFeatureDetails) {
 		_distinguishingFeatureDetails = distinguishingFeatureDetails;
+	}
+	
+	/**
+	 * @return the witnessTypeOther
+	 */
+	@Column(name = "WITNS_TYP_OTHR_CMNTS", length = 32)
+	public String getWitnessTypeOther() {
+		return _witnessTypeOther;
+	}
+
+	/**
+	 * @param witnessTypeOther the witnessTypeOther to set
+	 */
+	public void setWitnessTypeOther(final String witnessTypeOther) {
+		_witnessTypeOther = witnessTypeOther;
 	}
 
 	/**

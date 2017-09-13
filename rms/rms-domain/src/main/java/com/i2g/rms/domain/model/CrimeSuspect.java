@@ -31,6 +31,7 @@ import org.hibernate.annotations.Type;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeatureDetail;
 import com.i2g.rms.domain.model.tablemaintenance.GenderType;
+import com.i2g.rms.domain.model.tablemaintenance.SuspectType;
 
 /**
  * Entity representation of Crime Suspect.
@@ -67,7 +68,9 @@ public class CrimeSuspect extends AbstractDataModel<Long> implements Serializabl
 	private Set<Address> _addresses = new HashSet<Address>(0);
 	private Crime _crime;
 	private String _otherComments;
-	private Set<DistinguishingFeatureDetail> _distinguishingFeatureDetails = new HashSet<DistinguishingFeatureDetail>(0); 
+	private Set<DistinguishingFeatureDetail> _distinguishingFeatureDetails = new HashSet<DistinguishingFeatureDetail>(0);
+	private String _crimeSuspectTypeOther;
+	private SuspectType _crimeSuspectType;
 
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -414,6 +417,37 @@ public class CrimeSuspect extends AbstractDataModel<Long> implements Serializabl
 	 */
 	public void setDistinguishingFeatureDetails(final Set<DistinguishingFeatureDetail> distinguishingFeatureDetails) {
 		_distinguishingFeatureDetails = distinguishingFeatureDetails;
+	}
+	
+	/**
+	 * @return the crimeSuspectTypeOther
+	 */
+	@Column(name = "SUSPT_TYP_OTHR_CMNTS", length = 32)
+	public String getCrimeSuspectTypeOther() {
+		return _crimeSuspectTypeOther;
+	}
+
+	/**
+	 * @param crimeSuspectTypeOther the crimeSuspectTypeOther to set
+	 */
+	public void setCrimeSuspectTypeOther(final String crimeSuspectTypeOther) {
+		_crimeSuspectTypeOther = crimeSuspectTypeOther;
+	}
+
+	/**
+	 * @return the crimeSuspectType
+	 */
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "SUSPT_TYP_CDE")
+	public SuspectType getCrimeSuspectType() {
+		return _crimeSuspectType;
+	}
+
+	/**
+	 * @param crimeSuspectType the crimeSuspectType to set
+	 */
+	public void setCrimeSuspectType(final SuspectType crimeSuspectType) {
+		_crimeSuspectType = crimeSuspectType;
 	}
 
 	/**

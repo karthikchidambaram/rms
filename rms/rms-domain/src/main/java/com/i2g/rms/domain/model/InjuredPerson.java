@@ -81,7 +81,8 @@ public class InjuredPerson extends AbstractDataModel<Long> implements Serializab
 	private InjuryTypeDetailSpec _injuryTypeDetailSpec;
 	private String _otherComments;
 	private Set<DistinguishingFeatureDetail> _distinguishingFeatureDetails = new HashSet<DistinguishingFeatureDetail>(0); 
-
+	private String _injuredPersonTypeOther;
+	
 	/**
 	 * Default empty constructor required for Hibernate.
 	 */
@@ -539,6 +540,21 @@ public class InjuredPerson extends AbstractDataModel<Long> implements Serializab
 	 */
 	public void setDistinguishingFeatureDetails(final Set<DistinguishingFeatureDetail> distinguishingFeatureDetails) {
 		_distinguishingFeatureDetails = distinguishingFeatureDetails;
+	}
+	
+	/**
+	 * @return the injuredPersonTypeOther
+	 */
+	@Column(name = "INJRD_PRSN_TYP_OTHR_CMNTS", length = 32)
+	public String getInjuredPersonTypeOther() {
+		return _injuredPersonTypeOther;
+	}
+
+	/**
+	 * @param injuredPersonTypeOther the injuredPersonTypeOther to set
+	 */
+	public void setInjuredPersonTypeOther(final String injuredPersonTypeOther) {
+		_injuredPersonTypeOther = injuredPersonTypeOther;
 	}
 
 	/**

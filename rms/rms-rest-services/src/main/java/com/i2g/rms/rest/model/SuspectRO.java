@@ -43,6 +43,7 @@ public class SuspectRO extends AbstractEntityRO {
 	private Set<IncidentRO> _incidents = new HashSet<IncidentRO>(0);
 	private String _otherComments;
 	private Set<DistinguishingFeatureDetailRO> _distinguishingFeatureDetails = new HashSet<DistinguishingFeatureDetailRO>(0);
+	private String _suspectTypeOther;
 
 	/**
 	 * @return the id
@@ -361,5 +362,19 @@ public class SuspectRO extends AbstractEntityRO {
 	 */
 	public void setDistinguishingFeatureDetails(final Set<DistinguishingFeatureDetailRO> distinguishingFeatureDetails) {
 		_distinguishingFeatureDetails = distinguishingFeatureDetails;
+	}
+
+	/**
+	 * @return the suspectTypeOther
+	 */
+	public String getSuspectTypeOther() {
+		return _suspectTypeOther;
+	}
+
+	/**
+	 * @param suspectTypeOther the suspectTypeOther to set
+	 */
+	public void setSuspectTypeOther(final String suspectTypeOther) {
+		_suspectTypeOther = suspectTypeOther;
 	}	
 }

@@ -7,6 +7,7 @@ import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeatureDetailRO;
 import com.i2g.rms.rest.model.tablemaintenance.GenderTypeRO;
+import com.i2g.rms.rest.model.tablemaintenance.SuspectTypeRO;
 
 /**
  * REST Object for Crime Suspect RO.
@@ -37,7 +38,9 @@ public class CrimeSuspectRO extends AbstractEntityRO {
 	private CrimeRO _crime;
 	private String _otherComments;
 	private Set<DistinguishingFeatureDetailRO> _distinguishingFeatureDetails = new HashSet<DistinguishingFeatureDetailRO>(0);
-
+	private String _crimeSuspectTypeOther;
+	private SuspectTypeRO _crimeSuspectType;
+	
 	/**
 	 * @return the id
 	 */
@@ -321,4 +324,32 @@ public class CrimeSuspectRO extends AbstractEntityRO {
 	public void setDistinguishingFeatureDetails(final Set<DistinguishingFeatureDetailRO> distinguishingFeatureDetails) {
 		_distinguishingFeatureDetails = distinguishingFeatureDetails;
 	}
+
+	/**
+	 * @return the crimeSuspectTypeOther
+	 */
+	public String getCrimeSuspectTypeOther() {
+		return _crimeSuspectTypeOther;
+	}
+
+	/**
+	 * @param crimeSuspectTypeOther the crimeSuspectTypeOther to set
+	 */
+	public void setCrimeSuspectTypeOther(final String crimeSuspectTypeOther) {
+		_crimeSuspectTypeOther = crimeSuspectTypeOther;
+	}
+
+	/**
+	 * @return the crimeSuspectType
+	 */
+	public SuspectTypeRO getCrimeSuspectType() {
+		return _crimeSuspectType;
+	}
+
+	/**
+	 * @param crimeSuspectType the crimeSuspectType to set
+	 */
+	public void setCrimeSuspectType(final SuspectTypeRO crimeSuspectType) {
+		_crimeSuspectType = crimeSuspectType;
+	}	
 }
