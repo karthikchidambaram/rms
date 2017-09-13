@@ -345,6 +345,7 @@ public interface RequestMappingConstants {
 	String ADD_INCIDENT_DETAILS							= INCIDENT + "/add-incident-details";
 	String ADD_ACCIDENT_DETAILS							= INCIDENT + "/add-accident-details";
 	String ADD_ASSET_DETAILS							= INCIDENT + "/add-asset-details";
+	String ADD_CRIME_DETAILS							= INCIDENT + "/add-crime-details";
 	
 	/** Search Incidents */
 	String SEARCH_INCIDENT							= SECURED + "/search-incident";	
@@ -355,6 +356,7 @@ public interface RequestMappingConstants {
 	String MANAGER_LOOKUP 						= SECURED + "/manager-lookup";
 	String INJURED_PERSON_LOOKUP 				= SECURED + "/injured-person-lookup";
 	String WITNESS_LOOKUP 						= SECURED + "/witness-lookup";
+	String CRIME_SUSPECT_LOOKUP 				= SECURED + "/crime-suspect-lookup";
 	
 	/** Address */
 	String ADDRESS 								= SECURED + "/address";

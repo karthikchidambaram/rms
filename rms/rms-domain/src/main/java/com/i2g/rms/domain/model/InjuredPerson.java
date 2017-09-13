@@ -30,7 +30,6 @@ import org.hibernate.annotations.Type;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.i2g.rms.domain.model.tablemaintenance.BodyPart;
-import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeature;
 import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeatureDetail;
 import com.i2g.rms.domain.model.tablemaintenance.GenderType;
 import com.i2g.rms.domain.model.tablemaintenance.InjuredPersonType;
@@ -65,8 +64,6 @@ public class InjuredPerson extends AbstractDataModel<Long> implements Serializab
 	private String _lastName;
 	private String _nameSuffix;
 	private GenderType _genderType;
-	private DistinguishingFeature _distinguishingFeature;
-	private DistinguishingFeatureDetail _distinguishingFeatureDetail;
 	private LocalDate _dateOfBirth;
 	private Integer _age;
 	private String _phone;
@@ -81,7 +78,9 @@ public class InjuredPerson extends AbstractDataModel<Long> implements Serializab
 	private InjuryCause _injuryCause;
 	private InjuryType _injuryType;
 	private InjuryTypeDetail _injuryTypeDetail;
-	private InjuryTypeDetailSpec _injuryTypeDetailSpec; 
+	private InjuryTypeDetailSpec _injuryTypeDetailSpec;
+	private String _otherComments;
+	private Set<DistinguishingFeatureDetail> _distinguishingFeatureDetails = new HashSet<DistinguishingFeatureDetail>(0); 
 
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -258,23 +257,6 @@ public class InjuredPerson extends AbstractDataModel<Long> implements Serializab
 	 */
 	public void setGenderType(final GenderType genderType) {
 		_genderType = genderType;
-	}
-
-	/**
-	 * @return the distinguishingFeatureDetail
-	 */
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "DIST_FEA_CHLD_CDE")
-	public DistinguishingFeatureDetail getDistinguishingFeatureDetail() {
-		return _distinguishingFeatureDetail;
-	}
-
-	/**
-	 * @param distinguishingFeatureDetail
-	 *            the distinguishingFeatureDetail to set
-	 */
-	public void setDistinguishingFeatureDetail(final DistinguishingFeatureDetail distinguishingFeatureDetail) {
-		_distinguishingFeatureDetail = distinguishingFeatureDetail;
 	}
 
 	/**
@@ -461,22 +443,6 @@ public class InjuredPerson extends AbstractDataModel<Long> implements Serializab
 	}
 	
 	/**
-	 * @return the distinguishingFeature
-	 */
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "DIST_FEA_CDE")
-	public DistinguishingFeature getDistinguishingFeature() {
-		return _distinguishingFeature;
-	}
-
-	/**
-	 * @param distinguishingFeature the distinguishingFeature to set
-	 */
-	public void setDistinguishingFeature(DistinguishingFeature distinguishingFeature) {
-		_distinguishingFeature = distinguishingFeature;
-	}
-
-	/**
 	 * @return the injuryCause
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -538,6 +504,41 @@ public class InjuredPerson extends AbstractDataModel<Long> implements Serializab
 	 */
 	public void setInjuryTypeDetailSpec(final InjuryTypeDetailSpec injuryTypeDetailSpec) {
 		_injuryTypeDetailSpec = injuryTypeDetailSpec;
+	}
+	
+	/**
+	 * @return the otherComments
+	 */
+	@Column(name = "DIST_FEA_OTHR_CMNTS", length = 128)
+	public String getOtherComments() {
+		return _otherComments;
+	}
+
+	/**
+	 * @param otherComments the otherComments to set
+	 */
+	public void setOtherComments(final String otherComments) {
+		_otherComments = otherComments;
+	}
+	
+	/**
+	 * @return the distinguishingFeatureDetails
+	 */
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(
+			name = "RMS_INJRD_PRSN_DIST_FEA_CHLD",
+			joinColumns = @JoinColumn(name = "INJRD_PRSN_ID"),
+			inverseJoinColumns = @JoinColumn(name = "DIST_FEA_CHLD_CDE")
+	)
+	public Set<DistinguishingFeatureDetail> getDistinguishingFeatureDetails() {
+		return _distinguishingFeatureDetails;
+	}
+
+	/**
+	 * @param distinguishingFeatureDetails the distinguishingFeatureDetails to set
+	 */
+	public void setDistinguishingFeatureDetails(final Set<DistinguishingFeatureDetail> distinguishingFeatureDetails) {
+		_distinguishingFeatureDetails = distinguishingFeatureDetails;
 	}
 
 	/**

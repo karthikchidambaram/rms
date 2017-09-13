@@ -25,10 +25,10 @@ public class AddressRO extends AbstractEntityRO {
 	private StatusFlagRO statusFlag;
 	private UserRO user;
 	private BuildingRO building;
-	private AssetRO asset;
 	private SuspectRO suspect;
 	private InjuredPersonRO injuredPerson;
 	private WitnessRO witness;
+	private CrimeSuspectRO crimeSuspect;
 
 	public long getId() {
 		return id;
@@ -142,14 +142,6 @@ public class AddressRO extends AbstractEntityRO {
 		this.building = building;
 	}
 
-	public AssetRO getAsset() {
-		return asset;
-	}
-
-	public void setAsset(final AssetRO asset) {
-		this.asset = asset;
-	}
-
 	/**
 	 * @return the injuredPerson
 	 */
@@ -178,5 +170,20 @@ public class AddressRO extends AbstractEntityRO {
 	 */
 	public void setWitness(final WitnessRO witness) {
 		this.witness = witness;
+	}
+
+	/**
+	 * @return the crimeSuspect
+	 */
+	public CrimeSuspectRO getCrimeSuspect() {
+		return crimeSuspect;
+	}
+
+	/**
+	 * @param crimeSuspect
+	 *            the crimeSuspect to set
+	 */
+	public void setCrimeSuspect(final CrimeSuspectRO crimeSuspect) {
+		this.crimeSuspect = crimeSuspect;
 	}
 }

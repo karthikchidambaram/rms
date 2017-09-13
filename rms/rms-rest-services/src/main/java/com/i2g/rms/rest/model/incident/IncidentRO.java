@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.i2g.rms.rest.model.AbstractEntityRO;
 import com.i2g.rms.rest.model.AccidentRO;
 import com.i2g.rms.rest.model.AssetRO;
+import com.i2g.rms.rest.model.CrimeRO;
 import com.i2g.rms.rest.model.ReportedLossRO;
 import com.i2g.rms.rest.model.StatusFlagRO;
 import com.i2g.rms.rest.model.SuspectRO;
@@ -51,6 +52,7 @@ public class IncidentRO extends AbstractEntityRO {
 	private Set<ReportedLossRO> _reportedLosses = new HashSet<ReportedLossRO>(0);
 	private AccidentRO _accident;
 	private AssetRO _asset;
+	private CrimeRO _crime;
 
 	/**
 	 * @return the id
@@ -344,7 +346,7 @@ public class IncidentRO extends AbstractEntityRO {
 	 *            the accident to set
 	 */
 	public void setAccident(final AccidentRO accident) {
-		this._accident = accident;
+		_accident = accident;
 	}
 
 	/**
@@ -359,6 +361,21 @@ public class IncidentRO extends AbstractEntityRO {
 	 *            the asset to set
 	 */
 	public void setAsset(final AssetRO asset) {
-		this._asset = asset;
+		_asset = asset;
+	}
+
+	/**
+	 * @return the crime
+	 */
+	public CrimeRO getCrime() {
+		return _crime;
+	}
+
+	/**
+	 * @param crime
+	 *            the crime to set
+	 */
+	public void setCrime(final CrimeRO crime) {
+		_crime = crime;
 	}
 }

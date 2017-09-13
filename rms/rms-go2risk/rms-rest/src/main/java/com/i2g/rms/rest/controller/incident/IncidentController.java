@@ -17,6 +17,7 @@ import com.i2g.rms.rest.controller.AbstractRestController;
 import com.i2g.rms.rest.model.UserRO;
 import com.i2g.rms.rest.model.incident.AccidentDetailRO;
 import com.i2g.rms.rest.model.incident.AssetDetailRO;
+import com.i2g.rms.rest.model.incident.CrimeDetailRO;
 import com.i2g.rms.rest.model.incident.IncidentDetailRO;
 import com.i2g.rms.rest.model.incident.IncidentRO;
 import com.i2g.rms.rest.model.incident.LogIncidentRO;
@@ -70,5 +71,10 @@ public class IncidentController extends AbstractRestController {
 	@RequestMapping(value = RequestMappingConstants.ADD_ASSET_DETAILS, method = RequestMethod.POST)
 	public IncidentRO addAssetDetail(final @Valid @RequestBody AssetDetailRO assetDetailRO) {
 		return _incidentRestService.addAssetDetail(assetDetailRO);
+	}
+	
+	@RequestMapping(value = RequestMappingConstants.ADD_CRIME_DETAILS, method = RequestMethod.POST)
+	public IncidentRO addCrimeDetail(final @Valid @RequestBody CrimeDetailRO crimeDetailRO) {
+		return _incidentRestService.addCrimeDetail(crimeDetailRO);
 	}
 }

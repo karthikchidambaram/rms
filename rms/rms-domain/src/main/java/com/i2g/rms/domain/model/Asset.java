@@ -58,7 +58,7 @@ public class Asset extends AbstractDataModel<Long> implements Serializable {
 	private Set<Building> _buildings = new HashSet<Building>(0);
 	private Set<Vehicle> _vehicles = new HashSet<Vehicle>(0);
 	private Set<Witness> _witnesses = new HashSet<Witness>(0);
-	private Set<User> _employeeWitnesses = new HashSet<User>(0);
+	private Set<User> _employeeWitnesses = new HashSet<User>(0);	
 	
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -289,7 +289,7 @@ public class Asset extends AbstractDataModel<Long> implements Serializable {
 	public void setEmployeeWitnesses(final Set<User> employeeWitnesses) {
 		_employeeWitnesses = employeeWitnesses;
 	}
-
+	
 	/**
 	 * Builder pattern for constructing immutable instances of
 	 * {@link Asset}.

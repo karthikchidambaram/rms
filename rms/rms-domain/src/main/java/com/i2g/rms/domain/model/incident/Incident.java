@@ -34,6 +34,7 @@ import org.hibernate.annotations.Type;
 import com.i2g.rms.domain.model.AbstractDataModel;
 import com.i2g.rms.domain.model.Accident;
 import com.i2g.rms.domain.model.Asset;
+import com.i2g.rms.domain.model.Crime;
 import com.i2g.rms.domain.model.ReportedLoss;
 import com.i2g.rms.domain.model.StatusFlag;
 import com.i2g.rms.domain.model.Suspect;
@@ -82,7 +83,8 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 	private YesNoType _vehicleOrAssetDamage;
 	private Set<ReportedLoss> _reportedLosses = new HashSet<ReportedLoss>(0);
 	private Accident _accident;
-	private Asset asset;
+	private Asset _asset;
+	private Crime _crime;
 	
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -418,14 +420,29 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 	 */
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "incident")
 	public Asset getAsset() {
-		return asset;
+		return _asset;
 	}
 
 	/**
 	 * @param asset the asset to set
 	 */
-	public void setAsset(Asset asset) {
-		this.asset = asset;
+	public void setAsset(final Asset asset) {
+		_asset = asset;
+	}
+	
+	/**
+	 * @return the crime
+	 */
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "incident")
+	public Crime getCrime() {
+		return _crime;
+	}
+
+	/**
+	 * @param crime the crime to set
+	 */
+	public void setCrime(final Crime crime) {
+		_crime = crime;
 	}
 
 	@Override

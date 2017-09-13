@@ -1,34 +1,32 @@
 package com.i2g.rms.rest.model;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.i2g.rms.rest.model.incident.IncidentRO;
-import com.i2g.rms.rest.model.tablemaintenance.AssetCategoryRO;
 
 /**
- * REST Object for Asset RO.
+ * REST Object for Crime RO.
  * 
  * @since 1.0.0
  * @author Karthikeyan Chidambaram
  * @author RMS Development Team
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AssetRO extends AbstractEntityRO {
+public class CrimeRO extends AbstractEntityRO {
 
 	private long _id;
 	private IncidentRO _incident;
 	private StatusFlagRO _statusFlag;
-	private AssetCategoryRO _assetCategory;
-	private String _statementDescription;
+	private LocalDateTime _crimeDateTime;
+	private String _crimeDescription;
 	private YesNoTypeRO _anyWitness;
-	private String _otherDescription;
-	private Set<EquipmentRO> _equipments = new HashSet<EquipmentRO>(0);
-	private Set<BuildingRO> _buildings = new HashSet<BuildingRO>(0);
-	private Set<VehicleRO> _vehicles = new HashSet<VehicleRO>(0);
+	private Set<CrimeSuspectRO> _crimeSuspects = new HashSet<CrimeSuspectRO>(0);
+	private Set<UserRO> _employeeCrimeSuspects = new HashSet<UserRO>(0);
 	private Set<WitnessRO> _witnesses = new HashSet<WitnessRO>(0);
-	private Set<UserRO> _employeeWitnesses = new HashSet<UserRO>(0);	
+	private Set<UserRO> _employeeWitnesses = new HashSet<UserRO>(0);
 
 	/**
 	 * @return the id
@@ -76,33 +74,33 @@ public class AssetRO extends AbstractEntityRO {
 	}
 
 	/**
-	 * @return the assetCategory
+	 * @return the crimeDateTime
 	 */
-	public AssetCategoryRO getAssetCategory() {
-		return _assetCategory;
+	public LocalDateTime getCrimeDateTime() {
+		return _crimeDateTime;
 	}
 
 	/**
-	 * @param assetCategory
-	 *            the assetCategory to set
+	 * @param crimeDateTime
+	 *            the crimeDateTime to set
 	 */
-	public void setAssetCategory(final AssetCategoryRO assetCategory) {
-		_assetCategory = assetCategory;
+	public void setCrimeDateTime(final LocalDateTime crimeDateTime) {
+		_crimeDateTime = crimeDateTime;
 	}
 
 	/**
-	 * @return the statementDescription
+	 * @return the crimeDescription
 	 */
-	public String getStatementDescription() {
-		return _statementDescription;
+	public String getCrimeDescription() {
+		return _crimeDescription;
 	}
 
 	/**
-	 * @param statementDescription
-	 *            the statementDescription to set
+	 * @param crimeDescription
+	 *            the crimeDescription to set
 	 */
-	public void setStatementDescription(final String statementDescription) {
-		_statementDescription = statementDescription;
+	public void setCrimeDescription(final String crimeDescription) {
+		_crimeDescription = crimeDescription;
 	}
 
 	/**
@@ -121,63 +119,33 @@ public class AssetRO extends AbstractEntityRO {
 	}
 
 	/**
-	 * @return the otherDescription
+	 * @return the crimeSuspects
 	 */
-	public String getOtherDescription() {
-		return _otherDescription;
+	public Set<CrimeSuspectRO> getCrimeSuspects() {
+		return _crimeSuspects;
 	}
 
 	/**
-	 * @param otherDescription
-	 *            the otherDescription to set
+	 * @param crimeSuspects
+	 *            the crimeSuspects to set
 	 */
-	public void setOtherDescription(final String otherDescription) {
-		_otherDescription = otherDescription;
+	public void setCrimeSuspects(final Set<CrimeSuspectRO> crimeSuspects) {
+		_crimeSuspects = crimeSuspects;
 	}
 
 	/**
-	 * @return the equipments
+	 * @return the employeeCrimeSuspects
 	 */
-	public Set<EquipmentRO> getEquipments() {
-		return _equipments;
+	public Set<UserRO> getEmployeeCrimeSuspects() {
+		return _employeeCrimeSuspects;
 	}
 
 	/**
-	 * @param equipments
-	 *            the equipments to set
+	 * @param employeeCrimeSuspects
+	 *            the employeeCrimeSuspects to set
 	 */
-	public void setEquipments(final Set<EquipmentRO> equipments) {
-		_equipments = equipments;
-	}
-
-	/**
-	 * @return the buildings
-	 */
-	public Set<BuildingRO> getBuildings() {
-		return _buildings;
-	}
-
-	/**
-	 * @param buildings
-	 *            the buildings to set
-	 */
-	public void setBuildings(final Set<BuildingRO> buildings) {
-		_buildings = buildings;
-	}
-
-	/**
-	 * @return the vehicles
-	 */
-	public Set<VehicleRO> getVehicles() {
-		return _vehicles;
-	}
-
-	/**
-	 * @param vehicles
-	 *            the vehicles to set
-	 */
-	public void setVehicles(final Set<VehicleRO> vehicles) {
-		_vehicles = vehicles;
+	public void setEmployeeCrimeSuspects(final Set<UserRO> employeeCrimeSuspects) {
+		_employeeCrimeSuspects = employeeCrimeSuspects;
 	}
 
 	/**
@@ -208,5 +176,5 @@ public class AssetRO extends AbstractEntityRO {
 	 */
 	public void setEmployeeWitnesses(final Set<UserRO> employeeWitnesses) {
 		_employeeWitnesses = employeeWitnesses;
-	}	
+	}
 }

@@ -1,8 +1,11 @@
 package com.i2g.rms.domain.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -13,9 +16,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.i2g.rms.domain.model.tablemaintenance.AssetCategory;
@@ -45,6 +52,7 @@ public class Building extends AbstractDataModel<Long> implements Serializable {
 	private String _buildingDescription;
 	private String _incidentDescription;	
 	private AssetCategory _assetCategory;
+	private Set<Address> _addresses = new HashSet<Address>(0);
 		
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -184,6 +192,22 @@ public class Building extends AbstractDataModel<Long> implements Serializable {
 	 */
 	public void setAssetCategory(final AssetCategory assetCategory) {
 		_assetCategory = assetCategory;
+	}
+	
+	/**
+	 * @return the addresses
+	 */
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "building")
+	@Fetch(FetchMode.SUBSELECT)
+	public Set<Address> getAddresses() {
+		return _addresses;
+	}
+
+	/**
+	 * @param addresses the addresses to set
+	 */
+	public void setAddresses(final Set<Address> addresses) {
+		_addresses = addresses;
 	}
 
 	/**

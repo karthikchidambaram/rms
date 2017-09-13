@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeature;
 import com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeatureDetailRO;
 import com.i2g.rms.rest.model.tablemaintenance.GenderTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.WitnessTypeRO;
@@ -28,8 +27,6 @@ public class WitnessRO extends AbstractEntityRO {
 	private String _lastName;
 	private String _nameSuffix;
 	private GenderTypeRO _genderType;
-	private DistinguishingFeature _distinguishingFeature;
-	private DistinguishingFeatureDetailRO _distinguishingFeatureDetail;
 	private LocalDate _dateOfBirth;
 	private Integer _age;
 	private String _phone;
@@ -38,9 +35,13 @@ public class WitnessRO extends AbstractEntityRO {
 	private String _email;
 	private String _website;
 	private Set<AccidentRO> _accidents = new HashSet<AccidentRO>(0);
+	private Set<AssetRO> _assets = new HashSet<AssetRO>(0);
+	private Set<CrimeRO> _crimes = new HashSet<CrimeRO>(0);
 	private Set<AddressRO> _addresses = new HashSet<AddressRO>(0);
 	private WitnessTypeRO _witnessType;
-	
+	private String _otherComments;
+	private Set<DistinguishingFeatureDetailRO> _distinguishingFeatureDetails = new HashSet<DistinguishingFeatureDetailRO>(0);
+
 	/**
 	 * @return the id
 	 */
@@ -162,21 +163,6 @@ public class WitnessRO extends AbstractEntityRO {
 	}
 
 	/**
-	 * @return the distinguishingFeatureDetail
-	 */
-	public DistinguishingFeatureDetailRO getDistinguishingFeatureDetail() {
-		return _distinguishingFeatureDetail;
-	}
-
-	/**
-	 * @param distinguishingFeatureDetail
-	 *            the distinguishingFeatureDetail to set
-	 */
-	public void setDistinguishingFeatureDetail(final DistinguishingFeatureDetailRO distinguishingFeatureDetail) {
-		_distinguishingFeatureDetail = distinguishingFeatureDetail;
-	}
-
-	/**
 	 * @return the dateOfBirth
 	 */
 	public LocalDate getDateOfBirth() {
@@ -295,7 +281,7 @@ public class WitnessRO extends AbstractEntityRO {
 	public void setAccidents(final Set<AccidentRO> accidents) {
 		_accidents = accidents;
 	}
-	
+
 	/**
 	 * @return the addresses
 	 */
@@ -304,7 +290,8 @@ public class WitnessRO extends AbstractEntityRO {
 	}
 
 	/**
-	 * @param addresses the addresses to set
+	 * @param addresses
+	 *            the addresses to set
 	 */
 	public void setAddresses(final Set<AddressRO> addresses) {
 		_addresses = addresses;
@@ -318,23 +305,69 @@ public class WitnessRO extends AbstractEntityRO {
 	}
 
 	/**
-	 * @param witnessType the witnessType to set
+	 * @param witnessType
+	 *            the witnessType to set
 	 */
 	public void setWitnessType(final WitnessTypeRO witnessType) {
 		_witnessType = witnessType;
 	}
 
 	/**
-	 * @return the distinguishingFeature
+	 * @return the assets
 	 */
-	public DistinguishingFeature getDistinguishingFeature() {
-		return _distinguishingFeature;
+	public Set<AssetRO> getAssets() {
+		return _assets;
 	}
 
 	/**
-	 * @param distinguishingFeature the distinguishingFeature to set
+	 * @param assets
+	 *            the assets to set
 	 */
-	public void setDistinguishingFeature(final DistinguishingFeature distinguishingFeature) {
-		_distinguishingFeature = distinguishingFeature;
-	}	
+	public void setAssets(final Set<AssetRO> assets) {
+		_assets = assets;
+	}
+
+	/**
+	 * @return the crimes
+	 */
+	public Set<CrimeRO> getCrimes() {
+		return _crimes;
+	}
+
+	/**
+	 * @param crimes
+	 *            the crimes to set
+	 */
+	public void setCrimes(final Set<CrimeRO> crimes) {
+		_crimes = crimes;
+	}
+	
+	/**
+	 * @return the otherComments
+	 */
+	public String getOtherComments() {
+		return _otherComments;
+	}
+
+	/**
+	 * @param otherComments
+	 *            the otherComments to set
+	 */
+	public void setOtherComments(final String otherComments) {
+		_otherComments = otherComments;
+	}
+
+	/**
+	 * @return the distinguishingFeatureDetails
+	 */
+	public Set<DistinguishingFeatureDetailRO> getDistinguishingFeatureDetails() {
+		return _distinguishingFeatureDetails;
+	}
+
+	/**
+	 * @param distinguishingFeatureDetails the distinguishingFeatureDetails to set
+	 */
+	public void setDistinguishingFeatureDetails(final Set<DistinguishingFeatureDetailRO> distinguishingFeatureDetails) {
+		_distinguishingFeatureDetails = distinguishingFeatureDetails;
+	}
 }

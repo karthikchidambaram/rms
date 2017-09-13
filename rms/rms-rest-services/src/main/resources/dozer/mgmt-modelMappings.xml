@@ -110,6 +110,24 @@
 			<b>incident</b>
 		</field-exclude>
 	</mapping>
+	
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.Crime</class-a>
+		<class-b>com.i2g.rms.rest.model.CrimeRO</class-b>
+		<field-exclude>
+			<a>incident</a>
+			<b>incident</b>
+		</field-exclude>
+	</mapping>
+	
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.CrimeSuspect</class-a>
+		<class-b>com.i2g.rms.rest.model.CrimeSuspectRO</class-b>
+		<field-exclude>
+			<a>crime</a>
+			<b>crime</b>
+		</field-exclude>
+	</mapping>
 
 	<mapping>
 		<class-a>com.i2g.rms.domain.model.Building</class-a>
@@ -149,6 +167,11 @@
 	</mapping>
 	
 	<mapping>
+		<class-a>com.i2g.rms.domain.model.lookup.CrimeSuspectLookup</class-a>
+		<class-b>com.i2g.rms.rest.model.lookup.CrimeSuspectLookupRO</class-b>
+	</mapping>
+	
+	<mapping>
 		<class-a>com.i2g.rms.domain.model.lookup.InjuredPersonLookup</class-a>
 		<class-b>com.i2g.rms.rest.model.lookup.InjuredPersonLookupRO</class-b>
 	</mapping>
@@ -170,10 +193,6 @@
 			<b>building</b>
 		</field-exclude>
 		<field-exclude>
-			<a>asset</a>
-			<b>asset</b>
-		</field-exclude>
-		<field-exclude>
 			<a>witness</a>
 			<b>witness</b>
 		</field-exclude>
@@ -186,8 +205,8 @@
 			<b>suspect</b>
 		</field-exclude>
 		<field-exclude>
-			<a>crime</a>
-			<b>crime</b>
+			<a>crimeSuspect</a>
+			<b>crimeSuspect</b>
 		</field-exclude>		
 	</mapping>
 	
@@ -216,6 +235,14 @@
 			<a>accidents</a>
 			<b>accidents</b>
 		</field-exclude>		
+		<field-exclude>
+			<a>assets</a>
+			<b>assets</b>
+		</field-exclude>
+		<field-exclude>
+			<a>crimes</a>
+			<b>crimes</b>
+		</field-exclude>
 	</mapping>
 
 </mappings>

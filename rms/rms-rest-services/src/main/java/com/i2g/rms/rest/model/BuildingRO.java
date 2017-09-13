@@ -1,5 +1,8 @@
 package com.i2g.rms.rest.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.i2g.rms.rest.model.tablemaintenance.AssetCategoryRO;
 
@@ -20,6 +23,7 @@ public class BuildingRO extends AbstractEntityRO {
 	private String _buildingDescription;
 	private String _incidentDescription;
 	private AssetCategoryRO _assetCategory;
+	private Set<AddressRO> _addresses = new HashSet<AddressRO>(0);
 
 	/**
 	 * @return the id
@@ -124,5 +128,20 @@ public class BuildingRO extends AbstractEntityRO {
 	 */
 	public void setAssetCategory(final AssetCategoryRO assetCategory) {
 		_assetCategory = assetCategory;
+	}
+	
+	/**
+	 * @return the addresses
+	 */
+	public Set<AddressRO> getAddresses() {
+		return _addresses;
+	}
+
+	/**
+	 * @param addresses
+	 *            the addresses to set
+	 */
+	public void setAddresses(final Set<AddressRO> addresses) {
+		_addresses = addresses;
 	}
 }

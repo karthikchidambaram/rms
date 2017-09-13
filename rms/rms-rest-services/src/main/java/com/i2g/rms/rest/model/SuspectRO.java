@@ -7,7 +7,6 @@ import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.i2g.rms.rest.model.incident.IncidentRO;
 import com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeatureDetailRO;
-import com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeatureRO;
 import com.i2g.rms.rest.model.tablemaintenance.GenderTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.SuspectTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.WeaponTypeRO;
@@ -30,8 +29,6 @@ public class SuspectRO extends AbstractEntityRO {
 	private String _lastName;
 	private String _nameSuffix;
 	private GenderTypeRO _genderType;
-	private DistinguishingFeatureRO _distinguishingFeature; 
-	private DistinguishingFeatureDetailRO _distinguishingFeatureDetail;
 	private LocalDate _dateOfBirth;
 	private Integer _age;
 	private String _phone;
@@ -44,6 +41,8 @@ public class SuspectRO extends AbstractEntityRO {
 	private SuspectTypeRO _suspectType;
 	private Set<AddressRO> _addresses = new HashSet<AddressRO>(0);
 	private Set<IncidentRO> _incidents = new HashSet<IncidentRO>(0);
+	private String _otherComments;
+	private Set<DistinguishingFeatureDetailRO> _distinguishingFeatureDetails = new HashSet<DistinguishingFeatureDetailRO>(0);
 
 	/**
 	 * @return the id
@@ -57,7 +56,7 @@ public class SuspectRO extends AbstractEntityRO {
 	 *            the id to set
 	 */
 	public void setId(final long id) {
-		_id = id;		
+		_id = id;
 	}
 
 	/**
@@ -163,29 +162,6 @@ public class SuspectRO extends AbstractEntityRO {
 	 */
 	public void setGenderType(final GenderTypeRO genderType) {
 		_genderType = genderType;
-	}
-	
-	public DistinguishingFeatureRO getDistinguishingFeature() {
-		return _distinguishingFeature;
-	}
-
-	public void setDistinguishingFeature(final DistinguishingFeatureRO distinguishingFeature) {
-		_distinguishingFeature = distinguishingFeature;
-	}
-
-	/**
-	 * @return the distinguishingFeatureDetail
-	 */
-	public DistinguishingFeatureDetailRO getDistinguishingFeatureDetail() {
-		return _distinguishingFeatureDetail;
-	}
-
-	/**
-	 * @param distinguishingFeatureDetail
-	 *            the distinguishingFeatureDetail to set
-	 */
-	public void setDistinguishingFeatureDetail(final DistinguishingFeatureDetailRO distinguishingFeatureDetail) {
-		_distinguishingFeatureDetail = distinguishingFeatureDetail;
 	}
 
 	/**
@@ -356,5 +332,34 @@ public class SuspectRO extends AbstractEntityRO {
 
 	public void setIncidents(final Set<IncidentRO> incidents) {
 		_incidents = incidents;
+	}
+
+	/**
+	 * @return the otherComments
+	 */
+	public String getOtherComments() {
+		return _otherComments;
+	}
+
+	/**
+	 * @param otherComments
+	 *            the otherComments to set
+	 */
+	public void setOtherComments(final String otherComments) {
+		_otherComments = otherComments;
+	}
+
+	/**
+	 * @return the distinguishingFeatureDetails
+	 */
+	public Set<DistinguishingFeatureDetailRO> getDistinguishingFeatureDetails() {
+		return _distinguishingFeatureDetails;
+	}
+
+	/**
+	 * @param distinguishingFeatureDetails the distinguishingFeatureDetails to set
+	 */
+	public void setDistinguishingFeatureDetails(final Set<DistinguishingFeatureDetailRO> distinguishingFeatureDetails) {
+		_distinguishingFeatureDetails = distinguishingFeatureDetails;
 	}	
 }

@@ -27,7 +27,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 @Entity
 @Table(name = "RMS_ADDR")
-@JsonIgnoreProperties({ "user", "building", "asset", "witness", "injuredPerson", "suspect", "crime" })
+@JsonIgnoreProperties({ "user", "building", "witness", "injuredPerson", "suspect", "crimeSuspect" })
 public class Address extends AbstractDataModel<Long> implements Serializable {
 
 	/**
@@ -49,11 +49,10 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 	private StatusFlag _statusFlag;
 	private User _user;
 	private Building _building;
-	private Asset _asset;
 	private Witness _witness;
 	private InjuredPerson _injuredPerson;
 	private Suspect _suspect;
-	private Crime _crime;
+	private CrimeSuspect _crimeSuspect;
 
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -280,23 +279,6 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @return the asset
-	 */
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ASST_ID")
-	public Asset getAsset() {
-		return _asset;
-	}
-
-	/**
-	 * @param asset
-	 *            the asset to set
-	 */
-	public void setAsset(final Asset asset) {
-		_asset = asset;
-	}
-
-	/**
 	 * @return the witness
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -347,23 +329,6 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 		_suspect = suspect;
 	}
 
-	/**
-	 * @return the crime
-	 */
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "CRME_ID")
-	public Crime getCrime() {
-		return _crime;
-	}
-
-	/**
-	 * @param crime
-	 *            the crime to set
-	 */
-	public void setCrime(final Crime crime) {
-		_crime = crime;
-	}
-
 	@Column(name = "CITY", length = 64)
 	public String getCity() {
 		return _city;
@@ -371,6 +336,23 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 
 	public void setCity(final String city) {
 		_city = city;
+	}
+
+	/**
+	 * @return the crimeSuspect
+	 */
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "CRME_SUSPT_ID")
+	public CrimeSuspect getCrimeSuspect() {
+		return _crimeSuspect;
+	}
+
+	/**
+	 * @param crimeSuspect
+	 *            the crimeSuspect to set
+	 */
+	public void setCrimeSuspect(final CrimeSuspect crimeSuspect) {
+		_crimeSuspect = crimeSuspect;
 	}
 
 	/**

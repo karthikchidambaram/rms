@@ -5,36 +5,27 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.i2g.rms.rest.model.incident.IncidentRO;
-import com.i2g.rms.rest.model.tablemaintenance.BodyPartRO;
 import com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeatureDetailRO;
 import com.i2g.rms.rest.model.tablemaintenance.GenderTypeRO;
-import com.i2g.rms.rest.model.tablemaintenance.InjuredPersonTypeRO;
-import com.i2g.rms.rest.model.tablemaintenance.InjuryCauseRO;
-import com.i2g.rms.rest.model.tablemaintenance.InjuryTypeDetailRO;
-import com.i2g.rms.rest.model.tablemaintenance.InjuryTypeDetailSpecRO;
-import com.i2g.rms.rest.model.tablemaintenance.InjuryTypeRO;
 
 /**
- * REST Object for Injured Person.
+ * REST Object for Crime Suspect RO.
  * 
  * @since 1.0.0
  * @author Karthikeyan Chidambaram
  * @author RMS Development Team
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class InjuredPersonRO extends AbstractEntityRO {
+public class CrimeSuspectRO extends AbstractEntityRO {
 
 	private long _id;
-	private IncidentRO _incident;
 	private StatusFlagRO _statusFlag;
-	private InjuredPersonTypeRO _injuredPersonType;
 	private String _title;
 	private String _firstName;
 	private String _middleName;
 	private String _lastName;
 	private String _nameSuffix;
-	private GenderTypeRO _genderType;
+	private GenderTypeRO _genderType;	
 	private LocalDate _dateOfBirth;
 	private Integer _age;
 	private String _phone;
@@ -42,15 +33,8 @@ public class InjuredPersonRO extends AbstractEntityRO {
 	private String _alternatePhone;
 	private String _email;
 	private String _website;
-	private YesNoTypeRO _firstAidGiven;
-	private UserRO _user;
-	private Set<AccidentRO> _accidents = new HashSet<AccidentRO>(0);
-	private Set<BodyPartRO> _bodyParts = new HashSet<BodyPartRO>(0);
 	private Set<AddressRO> _addresses = new HashSet<AddressRO>(0);
-	private InjuryCauseRO _injuryCause;
-	private InjuryTypeRO _injuryType;
-	private InjuryTypeDetailRO _injuryTypeDetail;
-	private InjuryTypeDetailSpecRO _injuryTypeDetailSpec;
+	private CrimeRO _crime;
 	private String _otherComments;
 	private Set<DistinguishingFeatureDetailRO> _distinguishingFeatureDetails = new HashSet<DistinguishingFeatureDetailRO>(0);
 
@@ -70,21 +54,6 @@ public class InjuredPersonRO extends AbstractEntityRO {
 	}
 
 	/**
-	 * @return the incident
-	 */
-	public IncidentRO getIncident() {
-		return _incident;
-	}
-
-	/**
-	 * @param incident
-	 *            the incident to set
-	 */
-	public void setIncident(final IncidentRO incident) {
-		_incident = incident;
-	}
-
-	/**
 	 * @return the statusFlag
 	 */
 	public StatusFlagRO getStatusFlag() {
@@ -97,21 +66,6 @@ public class InjuredPersonRO extends AbstractEntityRO {
 	 */
 	public void setStatusFlag(final StatusFlagRO statusFlag) {
 		_statusFlag = statusFlag;
-	}
-
-	/**
-	 * @return the injuredPersonType
-	 */
-	public InjuredPersonTypeRO getInjuredPersonType() {
-		return _injuredPersonType;
-	}
-
-	/**
-	 * @param injuredPersonType
-	 *            the injuredPersonType to set
-	 */
-	public void setInjuredPersonType(final InjuredPersonTypeRO injuredPersonType) {
-		_injuredPersonType = injuredPersonType;
 	}
 
 	/**
@@ -310,66 +264,6 @@ public class InjuredPersonRO extends AbstractEntityRO {
 	}
 
 	/**
-	 * @return the firstAidGiven
-	 */
-	public YesNoTypeRO getFirstAidGiven() {
-		return _firstAidGiven;
-	}
-
-	/**
-	 * @param firstAidGiven
-	 *            the firstAidGiven to set
-	 */
-	public void setFirstAidGiven(final YesNoTypeRO firstAidGiven) {
-		_firstAidGiven = firstAidGiven;
-	}
-
-	/**
-	 * @return the accidents
-	 */
-	public Set<AccidentRO> getAccidents() {
-		return _accidents;
-	}
-
-	/**
-	 * @param accidents
-	 *            the accidents to set
-	 */
-	public void setAccidents(final Set<AccidentRO> accidents) {
-		_accidents = accidents;
-	}
-
-	/**
-	 * @return the user
-	 */
-	public UserRO getUser() {
-		return _user;
-	}
-
-	/**
-	 * @param user
-	 *            the user to set
-	 */
-	public void setUser(final UserRO user) {
-		_user = user;
-	}
-
-	/**
-	 * @return the bodyParts
-	 */
-	public Set<BodyPartRO> getBodyParts() {
-		return _bodyParts;
-	}
-
-	/**
-	 * @param bodyParts
-	 *            the bodyParts to set
-	 */
-	public void setBodyParts(final Set<BodyPartRO> bodyParts) {
-		_bodyParts = bodyParts;
-	}
-
-	/**
 	 * @return the addresses
 	 */
 	public Set<AddressRO> getAddresses() {
@@ -385,59 +279,18 @@ public class InjuredPersonRO extends AbstractEntityRO {
 	}
 
 	/**
-	 * @return the injuryCause
+	 * @return the crime
 	 */
-	public InjuryCauseRO getInjuryCause() {
-		return _injuryCause;
+	public CrimeRO getCrime() {
+		return _crime;
 	}
 
 	/**
-	 * @param injuryCause the injuryCause to set
+	 * @param crime
+	 *            the crime to set
 	 */
-	public void setInjuryCause(final InjuryCauseRO injuryCause) {
-		_injuryCause = injuryCause;
-	}
-
-	/**
-	 * @return the injuryType
-	 */
-	public InjuryTypeRO getInjuryType() {
-		return _injuryType;
-	}
-
-	/**
-	 * @param injuryType the injuryType to set
-	 */
-	public void setInjuryType(final InjuryTypeRO injuryType) {
-		_injuryType = injuryType;
-	}
-
-	/**
-	 * @return the injuryTypeDetail
-	 */
-	public InjuryTypeDetailRO getInjuryTypeDetail() {
-		return _injuryTypeDetail;
-	}
-
-	/**
-	 * @param injuryTypeDetail the injuryTypeDetail to set
-	 */
-	public void setInjuryTypeDetail(final InjuryTypeDetailRO injuryTypeDetail) {
-		_injuryTypeDetail = injuryTypeDetail;
-	}
-
-	/**
-	 * @return the injuryTypeDetailSpec
-	 */
-	public InjuryTypeDetailSpecRO getInjuryTypeDetailSpec() {
-		return _injuryTypeDetailSpec;
-	}
-
-	/**
-	 * @param injuryTypeDetailSpec the injuryTypeDetailSpec to set
-	 */
-	public void setInjuryTypeDetailSpec(final InjuryTypeDetailSpecRO injuryTypeDetailSpec) {
-		_injuryTypeDetailSpec = injuryTypeDetailSpec;
+	public void setCrime(final CrimeRO crime) {
+		_crime = crime;
 	}
 	
 	/**

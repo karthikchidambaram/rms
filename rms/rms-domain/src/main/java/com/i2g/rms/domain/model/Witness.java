@@ -16,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -28,7 +29,6 @@ import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeature;
 import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeatureDetail;
 import com.i2g.rms.domain.model.tablemaintenance.GenderType;
 import com.i2g.rms.domain.model.tablemaintenance.WitnessType;
@@ -42,7 +42,7 @@ import com.i2g.rms.domain.model.tablemaintenance.WitnessType;
  */
 @Entity
 @Table(name = "RMS_WITNS")
-@JsonIgnoreProperties({"accidents"})
+@JsonIgnoreProperties({"accidents", "assets", "crimes"})
 public class Witness extends AbstractDataModel<Long> implements Serializable {
 
 	/**
@@ -58,8 +58,6 @@ public class Witness extends AbstractDataModel<Long> implements Serializable {
 	private String _lastName;
 	private String _nameSuffix;
 	private GenderType _genderType;
-	private DistinguishingFeature _distinguishingFeature;
-	private DistinguishingFeatureDetail _distinguishingFeatureDetail;
 	private LocalDate _dateOfBirth;
 	private Integer _age;
 	private String _phone;
@@ -68,8 +66,12 @@ public class Witness extends AbstractDataModel<Long> implements Serializable {
 	private String _email;
 	private String _website;
 	private Set<Accident> _accidents = new HashSet<Accident>(0);
+	private Set<Asset> _assets = new HashSet<Asset>(0);
+	private Set<Crime> _crimes = new HashSet<Crime>(0);
 	private Set<Address> _addresses = new HashSet<Address>(0);
 	private WitnessType _witnessType;
+	private String _otherComments;
+	private Set<DistinguishingFeatureDetail> _distinguishingFeatureDetails = new HashSet<DistinguishingFeatureDetail>(0);	
 
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -211,23 +213,6 @@ public class Witness extends AbstractDataModel<Long> implements Serializable {
 	 */
 	public void setGenderType(final GenderType genderType) {
 		_genderType = genderType;
-	}
-
-	/**
-	 * @return the distinguishingFeatureDetail
-	 */
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "DIST_FEA_CHLD_CDE")
-	public DistinguishingFeatureDetail getDistinguishingFeatureDetail() {
-		return _distinguishingFeatureDetail;
-	}
-
-	/**
-	 * @param distinguishingFeatureDetail
-	 *            the distinguishingFeatureDetail to set
-	 */
-	public void setDistinguishingFeatureDetail(final DistinguishingFeatureDetail distinguishingFeatureDetail) {
-		_distinguishingFeatureDetail = distinguishingFeatureDetail;
 	}
 
 	/**
@@ -384,7 +369,7 @@ public class Witness extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the addresses
 	 */
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "injuredPerson")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "witness")
 	@Fetch(FetchMode.SUBSELECT)
 	public Set<Address> getAddresses() {
 		return _addresses;
@@ -414,19 +399,68 @@ public class Witness extends AbstractDataModel<Long> implements Serializable {
 	}
 	
 	/**
-	 * @return the distinguishingFeature
+	 * @return the assets
 	 */
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "DIST_FEA_CDE")
-	public DistinguishingFeature getDistinguishingFeature() {
-		return _distinguishingFeature;
+	@ManyToMany(mappedBy = "witnesses")
+	public Set<Asset> getAssets() {
+		return _assets;
 	}
 
 	/**
-	 * @param distinguishingFeature the distinguishingFeature to set
+	 * @param assets the assets to set
 	 */
-	public void setDistinguishingFeature(final DistinguishingFeature distinguishingFeature) {
-		_distinguishingFeature = distinguishingFeature;
+	public void setAssets(final Set<Asset> assets) {
+		_assets = assets;
+	}
+
+	/**
+	 * @return the crimes
+	 */
+	@ManyToMany(mappedBy = "witnesses")
+	public Set<Crime> getCrimes() {
+		return _crimes;
+	}
+
+	/**
+	 * @param crimes the crimes to set
+	 */
+	public void setCrimes(final Set<Crime> crimes) {
+		_crimes = crimes;
+	}
+	
+	/**
+	 * @return the otherComments
+	 */
+	@Column(name = "DIST_FEA_OTHR_CMNTS", length = 128)
+	public String getOtherComments() {
+		return _otherComments;
+	}
+
+	/**
+	 * @param otherComments the otherComments to set
+	 */
+	public void setOtherComments(final String otherComments) {
+		_otherComments = otherComments;
+	}
+	
+	/**
+	 * @return the distinguishingFeatureDetails
+	 */
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(
+			name = "RMS_WITNS_DIST_FEA_CHLD",
+			joinColumns = @JoinColumn(name = "WITNS_ID"),
+			inverseJoinColumns = @JoinColumn(name = "DIST_FEA_CHLD_CDE")
+	)
+	public Set<DistinguishingFeatureDetail> getDistinguishingFeatureDetails() {
+		return _distinguishingFeatureDetails;
+	}
+
+	/**
+	 * @param distinguishingFeatureDetails the distinguishingFeatureDetails to set
+	 */
+	public void setDistinguishingFeatureDetails(final Set<DistinguishingFeatureDetail> distinguishingFeatureDetails) {
+		_distinguishingFeatureDetails = distinguishingFeatureDetails;
 	}
 
 	/**
