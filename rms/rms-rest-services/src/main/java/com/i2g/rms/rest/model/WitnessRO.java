@@ -39,7 +39,7 @@ public class WitnessRO extends AbstractEntityRO {
 	private Set<CrimeRO> _crimes = new HashSet<CrimeRO>(0);
 	private Set<AddressRO> _addresses = new HashSet<AddressRO>(0);
 	private WitnessTypeRO _witnessType;
-	private String _otherComments;
+	private String _distinguishingFeatureOtherComments;
 	private Set<DistinguishingFeatureDetailRO> _distinguishingFeatureDetails = new HashSet<DistinguishingFeatureDetailRO>(0);
 	private String _witnessTypeOther;
 	
@@ -344,18 +344,18 @@ public class WitnessRO extends AbstractEntityRO {
 	}
 	
 	/**
-	 * @return the otherComments
+	 * @return the distinguishingFeatureOtherComments
 	 */
-	public String getOtherComments() {
-		return _otherComments;
+	public String getDistinguishingFeatureOtherComments() {
+		return _distinguishingFeatureOtherComments;
 	}
 
 	/**
-	 * @param otherComments
-	 *            the otherComments to set
+	 * @param distinguishingFeatureOtherComments
+	 *            the distinguishingFeatureOtherComments to set
 	 */
-	public void setOtherComments(final String otherComments) {
-		_otherComments = otherComments;
+	public void setDistinguishingFeatureOtherComments(final String distinguishingFeatureOtherComments) {
+		_distinguishingFeatureOtherComments = distinguishingFeatureOtherComments;
 	}
 
 	/**

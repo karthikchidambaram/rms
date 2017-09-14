@@ -67,7 +67,7 @@ public class CrimeSuspect extends AbstractDataModel<Long> implements Serializabl
 	private String _website;
 	private Set<Address> _addresses = new HashSet<Address>(0);
 	private Crime _crime;
-	private String _otherComments;
+	private String _distinguishingFeatureOtherComments;
 	private Set<DistinguishingFeatureDetail> _distinguishingFeatureDetails = new HashSet<DistinguishingFeatureDetail>(0);
 	private String _crimeSuspectTypeOther;
 	private SuspectType _crimeSuspectType;
@@ -385,18 +385,18 @@ public class CrimeSuspect extends AbstractDataModel<Long> implements Serializabl
 	}
 	
 	/**
-	 * @return the otherComments
+	 * @return the distinguishingFeatureOtherComments
 	 */
 	@Column(name = "DIST_FEA_OTHR_CMNTS", length = 128)
-	public String getOtherComments() {
-		return _otherComments;
+	public String getDistinguishingFeatureOtherComments() {
+		return _distinguishingFeatureOtherComments;
 	}
 
 	/**
-	 * @param otherComments the otherComments to set
+	 * @param distinguishingFeatureOtherComments the distinguishingFeatureOtherComments to set
 	 */
-	public void setOtherComments(final String otherComments) {
-		_otherComments = otherComments;
+	public void setDistinguishingFeatureOtherComments(final String distinguishingFeatureOtherComments) {
+		_distinguishingFeatureOtherComments = distinguishingFeatureOtherComments;
 	}
 	
 	/**

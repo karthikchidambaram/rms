@@ -79,7 +79,7 @@ public class InjuredPerson extends AbstractDataModel<Long> implements Serializab
 	private InjuryType _injuryType;
 	private InjuryTypeDetail _injuryTypeDetail;
 	private InjuryTypeDetailSpec _injuryTypeDetailSpec;
-	private String _otherComments;
+	private String _distinguishingFeatureOtherComments;
 	private Set<DistinguishingFeatureDetail> _distinguishingFeatureDetails = new HashSet<DistinguishingFeatureDetail>(0); 
 	private String _injuredPersonTypeOther;
 	
@@ -508,18 +508,18 @@ public class InjuredPerson extends AbstractDataModel<Long> implements Serializab
 	}
 	
 	/**
-	 * @return the otherComments
+	 * @return the distinguishingFeatureOtherComments
 	 */
 	@Column(name = "DIST_FEA_OTHR_CMNTS", length = 128)
-	public String getOtherComments() {
-		return _otherComments;
+	public String getDistinguishingFeatureOtherComments() {
+		return _distinguishingFeatureOtherComments;
 	}
 
 	/**
-	 * @param otherComments the otherComments to set
+	 * @param distinguishingFeatureOtherComments the distinguishingFeatureOtherComments to set
 	 */
-	public void setOtherComments(final String otherComments) {
-		_otherComments = otherComments;
+	public void setDistinguishingFeatureOtherComments(final String distinguishingFeatureOtherComments) {
+		_distinguishingFeatureOtherComments = distinguishingFeatureOtherComments;
 	}
 	
 	/**

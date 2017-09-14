@@ -660,15 +660,15 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 				if (suspectRO.getSuspectTypeOther() != null && !suspectRO.getSuspectTypeOther().trim().isEmpty()) {
 					suspect.setSuspectTypeOther(suspectRO.getSuspectTypeOther().trim());
 				}
-				//other comments for distinguishing feature
-				if (suspectRO.getOtherComments() != null && !suspectRO.getOtherComments().trim().isEmpty()) {
-					suspect.setOtherComments(suspectRO.getOtherComments().trim());
-				}
 				//construct and set distinguishing feature details
 				if (suspect.getDistinguishingFeatureDetails() == null || suspect.getDistinguishingFeatureDetails().isEmpty()) {
 					suspect.setDistinguishingFeatureDetails(new HashSet<DistinguishingFeatureDetail>(0));
 				}
 				suspect.getDistinguishingFeatureDetails().addAll(constructDistinguishingFeatureDetails(suspectRO.getDistinguishingFeatureDetails()));
+				//other comments for distinguishing feature
+				if (suspectRO.getDistinguishingFeatureOtherComments() != null && !suspectRO.getDistinguishingFeatureOtherComments().trim().isEmpty()) {
+					suspect.setDistinguishingFeatureOtherComments(suspectRO.getDistinguishingFeatureOtherComments().trim());
+				}
 				//add to the list
 				suspects.add(suspect);
 			}
@@ -890,8 +890,12 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 					injuredPerson.setDistinguishingFeatureDetails(new HashSet<DistinguishingFeatureDetail>(0));
 				}
 				injuredPerson.getDistinguishingFeatureDetails().addAll(constructDistinguishingFeatureDetails(injuredPersonRO.getDistinguishingFeatureDetails()));
+				//other comments for distinguishing feature
+				if (injuredPersonRO.getDistinguishingFeatureOtherComments() != null && !injuredPersonRO.getDistinguishingFeatureOtherComments().trim().isEmpty()) {
+					injuredPerson.setDistinguishingFeatureOtherComments(injuredPersonRO.getDistinguishingFeatureOtherComments().trim());
+				}
 				//add the injured person to the list
-				injuredPersons.add(injuredPerson);		
+				injuredPersons.add(injuredPerson);
 			}
 		}		
 		return injuredPersons;
@@ -1020,6 +1024,10 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 					witness.setDistinguishingFeatureDetails(new HashSet<DistinguishingFeatureDetail>(0));
 				}
 				witness.getDistinguishingFeatureDetails().addAll(constructDistinguishingFeatureDetails(witnessRO.getDistinguishingFeatureDetails()));
+				//other comments for distinguishing feature
+				if (witnessRO.getDistinguishingFeatureOtherComments() != null && !witnessRO.getDistinguishingFeatureOtherComments().trim().isEmpty()) {
+					witness.setDistinguishingFeatureOtherComments(witnessRO.getDistinguishingFeatureOtherComments().trim());
+				}
 				witnesses.add(witness);	
 			}
 		}		
@@ -1290,6 +1298,10 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 					crimeSuspect.setDistinguishingFeatureDetails(new HashSet<DistinguishingFeatureDetail>(0));
 				}
 				crimeSuspect.getDistinguishingFeatureDetails().addAll(constructDistinguishingFeatureDetails(crimeSuspectRO.getDistinguishingFeatureDetails()));
+				//other comments for distinguishing feature
+				if (crimeSuspectRO.getDistinguishingFeatureOtherComments() != null && !crimeSuspectRO.getDistinguishingFeatureOtherComments().trim().isEmpty()) {
+					crimeSuspect.setDistinguishingFeatureOtherComments(crimeSuspectRO.getDistinguishingFeatureOtherComments().trim());
+				}
 				crimeSuspects.add(crimeSuspect);
 			}
 		}

@@ -70,7 +70,7 @@ public class Witness extends AbstractDataModel<Long> implements Serializable {
 	private Set<Crime> _crimes = new HashSet<Crime>(0);
 	private Set<Address> _addresses = new HashSet<Address>(0);
 	private WitnessType _witnessType;
-	private String _otherComments;
+	private String _distinguishingFeatureOtherComments;
 	private Set<DistinguishingFeatureDetail> _distinguishingFeatureDetails = new HashSet<DistinguishingFeatureDetail>(0);
 	private String _witnessTypeOther;
 
@@ -430,18 +430,18 @@ public class Witness extends AbstractDataModel<Long> implements Serializable {
 	}
 	
 	/**
-	 * @return the otherComments
+	 * @return the distinguishingFeatureOtherComments
 	 */
 	@Column(name = "DIST_FEA_OTHR_CMNTS", length = 128)
-	public String getOtherComments() {
-		return _otherComments;
+	public String getDistinguishingFeatureOtherComments() {
+		return _distinguishingFeatureOtherComments;
 	}
 
 	/**
-	 * @param otherComments the otherComments to set
+	 * @param distinguishingFeatureOtherComments the distinguishingFeatureOtherComments to set
 	 */
-	public void setOtherComments(final String otherComments) {
-		_otherComments = otherComments;
+	public void setDistinguishingFeatureOtherComments(final String distinguishingFeatureOtherComments) {
+		_distinguishingFeatureOtherComments = distinguishingFeatureOtherComments;
 	}
 	
 	/**
