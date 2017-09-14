@@ -44,9 +44,9 @@ import com.i2g.rms.domain.model.tablemaintenance.WeaponType;
  */
 @Entity
 @Table(name = "RMS_SUSPT")
-@JsonIgnoreProperties({"incidents"})
+@JsonIgnoreProperties({ "incidents" })
 public class Suspect extends AbstractDataModel<Long> implements Serializable {
-	
+
 	/**
 	 * 
 	 */
@@ -72,26 +72,28 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	private SuspectType _suspectType;
 	private Set<Address> _addresses = new HashSet<Address>(0);
 	private Set<Incident> _incidents = new HashSet<Incident>(0);
-	private String _distinguishingFeatureOtherComments;
-	private Set<DistinguishingFeatureDetail> _distinguishingFeatureDetails = new HashSet<DistinguishingFeatureDetail>(0); 
+	private String _distinguishingFeatureOther;
+	private Set<DistinguishingFeatureDetail> _distinguishingFeatureDetails = new HashSet<DistinguishingFeatureDetail>(0);
 	private String _suspectTypeOther;
-	
+	private String _weaponTypeOther;
+	private String _genderTypeOther;
+
 	/**
 	 * Default empty constructor required for Hibernate.
 	 */
 	protected Suspect() {
 	}
-	
+
 	/**
-	 * Creates a new immutable instance of {@link Suspect} from the
-	 * specified {@code builder}.
+	 * Creates a new immutable instance of {@link Suspect} from the specified
+	 * {@code builder}.
 	 * 
 	 * @param builder
 	 */
 	private Suspect(final Builder builder) {
 		_statusFlag = Objects.requireNonNull(builder._statusFlag, "Suspect status flag cannot be null.");
 	}
-	
+
 	/**
 	 * Return the Suspect primary key ID.
 	 * 
@@ -120,7 +122,7 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	protected void setId(final long id) {
 		_id = id;
 	}
-	
+
 	/**
 	 * @return the statusFlag
 	 */
@@ -132,12 +134,13 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @param statusFlag the statusFlag to set
+	 * @param statusFlag
+	 *            the statusFlag to set
 	 */
 	public void setStatusFlag(final StatusFlag statusFlag) {
 		_statusFlag = statusFlag;
 	}
-	
+
 	/**
 	 * @return the title
 	 */
@@ -147,7 +150,8 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @param title the title to set
+	 * @param title
+	 *            the title to set
 	 */
 	public void setTitle(final String title) {
 		_title = title;
@@ -162,7 +166,8 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @param firstName the firstName to set
+	 * @param firstName
+	 *            the firstName to set
 	 */
 	public void setFirstName(final String firstName) {
 		_firstName = firstName;
@@ -177,7 +182,8 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @param middleName the middleName to set
+	 * @param middleName
+	 *            the middleName to set
 	 */
 	public void setMiddleName(final String middleName) {
 		_middleName = middleName;
@@ -192,7 +198,8 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @param lastName the lastName to set
+	 * @param lastName
+	 *            the lastName to set
 	 */
 	public void setLastName(final String lastName) {
 		_lastName = lastName;
@@ -207,7 +214,8 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @param nameSuffix the nameSuffix to set
+	 * @param nameSuffix
+	 *            the nameSuffix to set
 	 */
 	public void setNameSuffix(final String nameSuffix) {
 		_nameSuffix = nameSuffix;
@@ -223,7 +231,8 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @param genderType the genderType to set
+	 * @param genderType
+	 *            the genderType to set
 	 */
 	public void setGenderType(final GenderType genderType) {
 		_genderType = genderType;
@@ -239,7 +248,8 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @param dateOfBirth the dateOfBirth to set
+	 * @param dateOfBirth
+	 *            the dateOfBirth to set
 	 */
 	public void setDateOfBirth(final LocalDate dateOfBirth) {
 		_dateOfBirth = dateOfBirth;
@@ -254,7 +264,8 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @param age the age to set
+	 * @param age
+	 *            the age to set
 	 */
 	public void setAge(final Integer age) {
 		if (age != null) {
@@ -273,7 +284,8 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @param phone the phone to set
+	 * @param phone
+	 *            the phone to set
 	 */
 	public void setPhone(final String phone) {
 		_phone = phone;
@@ -288,12 +300,13 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @param alternatePhone the alternatePhone to set
+	 * @param alternatePhone
+	 *            the alternatePhone to set
 	 */
 	public void setAlternatePhone(final String alternatePhone) {
 		_alternatePhone = alternatePhone;
 	}
-	
+
 	/**
 	 * @return the fax
 	 */
@@ -303,7 +316,8 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @param fax the fax to set
+	 * @param fax
+	 *            the fax to set
 	 */
 	public void setFax(final String fax) {
 		_fax = fax;
@@ -318,7 +332,8 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @param email the email to set
+	 * @param email
+	 *            the email to set
 	 */
 	public void setEmail(final String email) {
 		_email = email;
@@ -333,12 +348,13 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @param website the website to set
+	 * @param website
+	 *            the website to set
 	 */
 	public void setWebsite(final String website) {
 		_website = website;
 	}
-	
+
 	/**
 	 * @return the weaponInvolved
 	 */
@@ -349,7 +365,8 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @param weaponInvolved the weaponInvolved to set
+	 * @param weaponInvolved
+	 *            the weaponInvolved to set
 	 */
 	public void setWeaponInvolved(final YesNoType weaponInvolved) {
 		_weaponInvolved = weaponInvolved;
@@ -365,7 +382,8 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @param weaponType the weaponType to set
+	 * @param weaponType
+	 *            the weaponType to set
 	 */
 	public void setWeaponType(final WeaponType weaponType) {
 		_weaponType = weaponType;
@@ -381,12 +399,13 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @param suspectType the suspectType to set
+	 * @param suspectType
+	 *            the suspectType to set
 	 */
 	public void setSuspectType(final SuspectType suspectType) {
 		_suspectType = suspectType;
 	}
-	
+
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "suspect")
 	@Fetch(FetchMode.SUBSELECT)
 	public Set<Address> getAddresses() {
@@ -396,7 +415,7 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	public void setAddresses(final Set<Address> address) {
 		_addresses = address;
 	}
-	
+
 	@ManyToMany(mappedBy = "suspects")
 	public Set<Incident> getIncidents() {
 		return _incidents;
@@ -405,60 +424,90 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	public void setIncidents(final Set<Incident> incidents) {
 		_incidents = incidents;
 	}
-	
+
 	/**
-	 * @return the distinguishingFeatureOtherComments
+	 * @return the distinguishingFeatureOther
 	 */
-	@Column(name = "DIST_FEA_OTHR_CMNTS", length = 128)
-	public String getDistinguishingFeatureOtherComments() {
-		return _distinguishingFeatureOtherComments;
+	@Column(name = "DIST_FEA_OTHR", length = 128)
+	public String getDistinguishingFeatureOther() {
+		return _distinguishingFeatureOther;
 	}
 
 	/**
-	 * @param distinguishingFeatureOtherComments the distinguishingFeatureOtherComments to set
+	 * @param distinguishingFeatureOther
+	 *            the distinguishingFeatureOther to set
 	 */
-	public void setDistinguishingFeatureOtherComments(final String distinguishingFeatureOtherComments) {
-		_distinguishingFeatureOtherComments = distinguishingFeatureOtherComments;
+	public void setDistinguishingFeatureOther(final String distinguishingFeatureOther) {
+		_distinguishingFeatureOther = distinguishingFeatureOther;
 	}
-	
+
 	/**
 	 * @return the distinguishingFeatureDetails
 	 */
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinTable(
-			name = "RMS_SUSPT_DIST_FEA_CHLD",
-			joinColumns = @JoinColumn(name = "SUSPT_ID"),
-			inverseJoinColumns = @JoinColumn(name = "DIST_FEA_CHLD_CDE")
-	)
+	@JoinTable(name = "RMS_SUSPT_DIST_FEA_CHLD", joinColumns = @JoinColumn(name = "SUSPT_ID"), inverseJoinColumns = @JoinColumn(name = "DIST_FEA_CHLD_CDE"))
 	public Set<DistinguishingFeatureDetail> getDistinguishingFeatureDetails() {
 		return _distinguishingFeatureDetails;
 	}
 
 	/**
-	 * @param distinguishingFeatureDetails the distinguishingFeatureDetails to set
+	 * @param distinguishingFeatureDetails
+	 *            the distinguishingFeatureDetails to set
 	 */
 	public void setDistinguishingFeatureDetails(final Set<DistinguishingFeatureDetail> distinguishingFeatureDetails) {
 		_distinguishingFeatureDetails = distinguishingFeatureDetails;
-	}	
+	}
 
 	/**
 	 * @return the suspectTypeOther
 	 */
-	@Column(name = "SUSPT_TYP_OTHR_CMNTS", length = 32)
+	@Column(name = "SUSPT_TYP_OTHR", length = 32)
 	public String getSuspectTypeOther() {
 		return _suspectTypeOther;
 	}
 
 	/**
-	 * @param suspectTypeOther the suspectTypeOther to set
+	 * @param suspectTypeOther
+	 *            the suspectTypeOther to set
 	 */
 	public void setSuspectTypeOther(final String suspectTypeOther) {
 		_suspectTypeOther = suspectTypeOther;
 	}
 
 	/**
-	 * Builder pattern for constructing immutable instances of
-	 * {@link Suspect}.
+	 * @return the weaponTypeOther
+	 */
+	@Column(name = "WPN_TYP_OTHR", length = 32)
+	public String getWeaponTypeOther() {
+		return _weaponTypeOther;
+	}
+
+	/**
+	 * @param weaponTypeOther
+	 *            the weaponTypeOther to set
+	 */
+	public void setWeaponTypeOther(final String weaponTypeOther) {
+		_weaponTypeOther = weaponTypeOther;
+	}
+
+	/**
+	 * @return the genderTypeOther
+	 */
+	@Column(name = "GNDR_TYP_OTHR", length = 32)
+	public String getGenderTypeOther() {
+		return _genderTypeOther;
+	}
+
+	/**
+	 * @param genderTypeOther
+	 *            the genderTypeOther to set
+	 */
+	public void setGenderTypeOther(final String genderTypeOther) {
+		_genderTypeOther = genderTypeOther;
+	}
+
+	/**
+	 * Builder pattern for constructing immutable instances of {@link Suspect}.
 	 */
 	public final static class Builder {
 

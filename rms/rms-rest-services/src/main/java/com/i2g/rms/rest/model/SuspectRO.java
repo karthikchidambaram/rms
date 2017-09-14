@@ -41,9 +41,11 @@ public class SuspectRO extends AbstractEntityRO {
 	private SuspectTypeRO _suspectType;
 	private Set<AddressRO> _addresses = new HashSet<AddressRO>(0);
 	private Set<IncidentRO> _incidents = new HashSet<IncidentRO>(0);
-	private String _distinguishingFeatureOtherComments;
+	private String _distinguishingFeatureOther;
 	private Set<DistinguishingFeatureDetailRO> _distinguishingFeatureDetails = new HashSet<DistinguishingFeatureDetailRO>(0);
 	private String _suspectTypeOther;
+	private String _weaponTypeOther;
+	private String _genderTypeOther;
 
 	/**
 	 * @return the id
@@ -336,18 +338,18 @@ public class SuspectRO extends AbstractEntityRO {
 	}
 
 	/**
-	 * @return the distinguishingFeatureOtherComments
+	 * @return the distinguishingFeatureOther
 	 */
-	public String getDistinguishingFeatureOtherComments() {
-		return _distinguishingFeatureOtherComments;
+	public String getDistinguishingFeatureOther() {
+		return _distinguishingFeatureOther;
 	}
 
 	/**
-	 * @param distinguishingFeatureOtherComments
-	 *            the distinguishingFeatureOtherComments to set
+	 * @param distinguishingFeatureOther
+	 *            the distinguishingFeatureOther to set
 	 */
-	public void setDistinguishingFeatureOtherComments(final String distinguishingFeatureOtherComments) {
-		_distinguishingFeatureOtherComments = distinguishingFeatureOtherComments;
+	public void setDistinguishingFeatureOther(final String distinguishingFeatureOther) {
+		_distinguishingFeatureOther = distinguishingFeatureOther;
 	}
 
 	/**
@@ -358,7 +360,8 @@ public class SuspectRO extends AbstractEntityRO {
 	}
 
 	/**
-	 * @param distinguishingFeatureDetails the distinguishingFeatureDetails to set
+	 * @param distinguishingFeatureDetails
+	 *            the distinguishingFeatureDetails to set
 	 */
 	public void setDistinguishingFeatureDetails(final Set<DistinguishingFeatureDetailRO> distinguishingFeatureDetails) {
 		_distinguishingFeatureDetails = distinguishingFeatureDetails;
@@ -372,9 +375,40 @@ public class SuspectRO extends AbstractEntityRO {
 	}
 
 	/**
-	 * @param suspectTypeOther the suspectTypeOther to set
+	 * @param suspectTypeOther
+	 *            the suspectTypeOther to set
 	 */
 	public void setSuspectTypeOther(final String suspectTypeOther) {
 		_suspectTypeOther = suspectTypeOther;
-	}	
+	}
+
+	/**
+	 * @return the weaponTypeOther
+	 */
+	public String getWeaponTypeOther() {
+		return _weaponTypeOther;
+	}
+
+	/**
+	 * @param weaponTypeOther
+	 *            the weaponTypeOther to set
+	 */
+	public void setWeaponTypeOther(String weaponTypeOther) {
+		_weaponTypeOther = weaponTypeOther;
+	}
+
+	/**
+	 * @return the genderTypeOther
+	 */
+	public String getGenderTypeOther() {
+		return _genderTypeOther;
+	}
+
+	/**
+	 * @param genderTypeOther
+	 *            the genderTypeOther to set
+	 */
+	public void setGenderTypeOther(String genderTypeOther) {
+		_genderTypeOther = genderTypeOther;
+	}
 }

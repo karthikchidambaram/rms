@@ -36,10 +36,11 @@ public class CrimeSuspectRO extends AbstractEntityRO {
 	private String _website;
 	private Set<AddressRO> _addresses = new HashSet<AddressRO>(0);
 	private CrimeRO _crime;
-	private String _distinguishingFeatureOtherComments;
+	private String _distinguishingFeatureOther;
 	private Set<DistinguishingFeatureDetailRO> _distinguishingFeatureDetails = new HashSet<DistinguishingFeatureDetailRO>(0);
 	private String _crimeSuspectTypeOther;
 	private SuspectTypeRO _crimeSuspectType;
+	private String _genderTypeOther;
 	
 	/**
 	 * @return the id
@@ -297,18 +298,18 @@ public class CrimeSuspectRO extends AbstractEntityRO {
 	}
 	
 	/**
-	 * @return the distinguishingFeatureOtherComments
+	 * @return the distinguishingFeatureOther
 	 */
-	public String getDistinguishingFeatureOtherComments() {
-		return _distinguishingFeatureOtherComments;
+	public String getDistinguishingFeatureOther() {
+		return _distinguishingFeatureOther;
 	}
 
 	/**
-	 * @param distinguishingFeatureOtherComments
-	 *            the distinguishingFeatureOtherComments to set
+	 * @param distinguishingFeatureOther
+	 *            the distinguishingFeatureOther to set
 	 */
-	public void setDistinguishingFeatureOtherComments(final String distinguishingFeatureOtherComments) {
-		_distinguishingFeatureOtherComments = distinguishingFeatureOtherComments;
+	public void setDistinguishingFeatureOther(final String distinguishingFeatureOther) {
+		_distinguishingFeatureOther = distinguishingFeatureOther;
 	}
 
 	/**
@@ -351,5 +352,19 @@ public class CrimeSuspectRO extends AbstractEntityRO {
 	 */
 	public void setCrimeSuspectType(final SuspectTypeRO crimeSuspectType) {
 		_crimeSuspectType = crimeSuspectType;
+	}
+
+	/**
+	 * @return the genderTypeOther
+	 */
+	public String getGenderTypeOther() {
+		return _genderTypeOther;
+	}
+
+	/**
+	 * @param genderTypeOther the genderTypeOther to set
+	 */
+	public void setGenderTypeOther(final String genderTypeOther) {
+		_genderTypeOther = genderTypeOther;
 	}	
 }

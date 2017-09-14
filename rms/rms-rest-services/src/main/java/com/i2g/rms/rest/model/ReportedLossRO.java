@@ -27,6 +27,8 @@ public class ReportedLossRO extends AbstractEntityRO {
 	private ExternalAgencyRO externalAgency;
 	private LocalDateTime dateTimeContacted;
 	private BigDecimal costEstimation;
+	private String lossTypeOther;
+	private String externalAgencyTypeOther;
 
 	public long getId() {
 		return id;
@@ -98,5 +100,35 @@ public class ReportedLossRO extends AbstractEntityRO {
 
 	public void setCostEstimation(final BigDecimal costEstimation) {
 		this.costEstimation = costEstimation;
+	}
+
+	/**
+	 * @return the lossTypeOther
+	 */
+	public String getLossTypeOther() {
+		return lossTypeOther;
+	}
+
+	/**
+	 * @param lossTypeOther
+	 *            the lossTypeOther to set
+	 */
+	public void setLossTypeOther(final String lossTypeOther) {
+		this.lossTypeOther = lossTypeOther;
+	}
+
+	/**
+	 * @return the externalAgencyTypeOther
+	 */
+	public String getExternalAgencyTypeOther() {
+		return externalAgencyTypeOther;
+	}
+
+	/**
+	 * @param externalAgencyTypeOther
+	 *            the externalAgencyTypeOther to set
+	 */
+	public void setExternalAgencyTypeOther(final String externalAgencyTypeOther) {
+		this.externalAgencyTypeOther = externalAgencyTypeOther;
 	}
 }

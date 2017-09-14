@@ -39,10 +39,11 @@ public class WitnessRO extends AbstractEntityRO {
 	private Set<CrimeRO> _crimes = new HashSet<CrimeRO>(0);
 	private Set<AddressRO> _addresses = new HashSet<AddressRO>(0);
 	private WitnessTypeRO _witnessType;
-	private String _distinguishingFeatureOtherComments;
+	private String _distinguishingFeatureOther;
 	private Set<DistinguishingFeatureDetailRO> _distinguishingFeatureDetails = new HashSet<DistinguishingFeatureDetailRO>(0);
 	private String _witnessTypeOther;
-	
+	private String _genderTypeOther;
+
 	/**
 	 * @return the id
 	 */
@@ -342,20 +343,20 @@ public class WitnessRO extends AbstractEntityRO {
 	public void setCrimes(final Set<CrimeRO> crimes) {
 		_crimes = crimes;
 	}
-	
+
 	/**
-	 * @return the distinguishingFeatureOtherComments
+	 * @return the distinguishingFeatureOther
 	 */
-	public String getDistinguishingFeatureOtherComments() {
-		return _distinguishingFeatureOtherComments;
+	public String getDistinguishingFeatureOther() {
+		return _distinguishingFeatureOther;
 	}
 
 	/**
-	 * @param distinguishingFeatureOtherComments
-	 *            the distinguishingFeatureOtherComments to set
+	 * @param distinguishingFeatureOther
+	 *            the distinguishingFeatureOther to set
 	 */
-	public void setDistinguishingFeatureOtherComments(final String distinguishingFeatureOtherComments) {
-		_distinguishingFeatureOtherComments = distinguishingFeatureOtherComments;
+	public void setDistinguishingFeatureOther(final String distinguishingFeatureOther) {
+		_distinguishingFeatureOther = distinguishingFeatureOther;
 	}
 
 	/**
@@ -366,7 +367,8 @@ public class WitnessRO extends AbstractEntityRO {
 	}
 
 	/**
-	 * @param distinguishingFeatureDetails the distinguishingFeatureDetails to set
+	 * @param distinguishingFeatureDetails
+	 *            the distinguishingFeatureDetails to set
 	 */
 	public void setDistinguishingFeatureDetails(final Set<DistinguishingFeatureDetailRO> distinguishingFeatureDetails) {
 		_distinguishingFeatureDetails = distinguishingFeatureDetails;
@@ -380,9 +382,24 @@ public class WitnessRO extends AbstractEntityRO {
 	}
 
 	/**
-	 * @param witnessTypeOther the witnessTypeOther to set
+	 * @param witnessTypeOther
+	 *            the witnessTypeOther to set
 	 */
 	public void setWitnessTypeOther(final String witnessTypeOther) {
 		_witnessTypeOther = witnessTypeOther;
+	}
+
+	/**
+	 * @return the genderTypeOther
+	 */
+	public String getGenderTypeOther() {
+		return _genderTypeOther;
+	}
+
+	/**
+	 * @param genderTypeOther the genderTypeOther to set
+	 */
+	public void setGenderTypeOther(final String genderTypeOther) {
+		_genderTypeOther = genderTypeOther;
 	}	
 }

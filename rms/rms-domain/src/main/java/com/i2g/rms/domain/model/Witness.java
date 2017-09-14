@@ -70,9 +70,10 @@ public class Witness extends AbstractDataModel<Long> implements Serializable {
 	private Set<Crime> _crimes = new HashSet<Crime>(0);
 	private Set<Address> _addresses = new HashSet<Address>(0);
 	private WitnessType _witnessType;
-	private String _distinguishingFeatureOtherComments;
+	private String _distinguishingFeatureOther;
 	private Set<DistinguishingFeatureDetail> _distinguishingFeatureDetails = new HashSet<DistinguishingFeatureDetail>(0);
 	private String _witnessTypeOther;
+	private String _genderTypeOther;
 
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -430,18 +431,18 @@ public class Witness extends AbstractDataModel<Long> implements Serializable {
 	}
 	
 	/**
-	 * @return the distinguishingFeatureOtherComments
+	 * @return the distinguishingFeatureOther
 	 */
-	@Column(name = "DIST_FEA_OTHR_CMNTS", length = 128)
-	public String getDistinguishingFeatureOtherComments() {
-		return _distinguishingFeatureOtherComments;
+	@Column(name = "DIST_FEA_OTHR", length = 128)
+	public String getDistinguishingFeatureOther() {
+		return _distinguishingFeatureOther;
 	}
 
 	/**
-	 * @param distinguishingFeatureOtherComments the distinguishingFeatureOtherComments to set
+	 * @param distinguishingFeatureOther the distinguishingFeatureOther to set
 	 */
-	public void setDistinguishingFeatureOtherComments(final String distinguishingFeatureOtherComments) {
-		_distinguishingFeatureOtherComments = distinguishingFeatureOtherComments;
+	public void setDistinguishingFeatureOther(final String distinguishingFeatureOther) {
+		_distinguishingFeatureOther = distinguishingFeatureOther;
 	}
 	
 	/**
@@ -467,7 +468,7 @@ public class Witness extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the witnessTypeOther
 	 */
-	@Column(name = "WITNS_TYP_OTHR_CMNTS", length = 32)
+	@Column(name = "WITNS_TYP_OTHR", length = 32)
 	public String getWitnessTypeOther() {
 		return _witnessTypeOther;
 	}
@@ -477,6 +478,21 @@ public class Witness extends AbstractDataModel<Long> implements Serializable {
 	 */
 	public void setWitnessTypeOther(final String witnessTypeOther) {
 		_witnessTypeOther = witnessTypeOther;
+	}
+	
+	/**
+	 * @return the genderTypeOther
+	 */
+	@Column(name = "GNDR_TYP_OTHR", length = 32)
+	public String getGenderTypeOther() {
+		return _genderTypeOther;
+	}
+
+	/**
+	 * @param genderTypeOther the genderTypeOther to set
+	 */
+	public void setGenderTypeOther(final String genderTypeOther) {
+		_genderTypeOther = genderTypeOther;
 	}
 
 	/**

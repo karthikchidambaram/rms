@@ -51,10 +51,13 @@ public class InjuredPersonRO extends AbstractEntityRO {
 	private InjuryTypeRO _injuryType;
 	private InjuryTypeDetailRO _injuryTypeDetail;
 	private InjuryTypeDetailSpecRO _injuryTypeDetailSpec;
-	private String _distinguishingFeatureOtherComments;
 	private Set<DistinguishingFeatureDetailRO> _distinguishingFeatureDetails = new HashSet<DistinguishingFeatureDetailRO>(0);
+	private String _distinguishingFeatureOther;
 	private String _injuredPersonTypeOther;
-	
+	private String _injuryTypeOther;
+	private String _genderTypeOther;
+	private String _injuryCauseOther;
+
 	/**
 	 * @return the id
 	 */
@@ -393,7 +396,8 @@ public class InjuredPersonRO extends AbstractEntityRO {
 	}
 
 	/**
-	 * @param injuryCause the injuryCause to set
+	 * @param injuryCause
+	 *            the injuryCause to set
 	 */
 	public void setInjuryCause(final InjuryCauseRO injuryCause) {
 		_injuryCause = injuryCause;
@@ -407,7 +411,8 @@ public class InjuredPersonRO extends AbstractEntityRO {
 	}
 
 	/**
-	 * @param injuryType the injuryType to set
+	 * @param injuryType
+	 *            the injuryType to set
 	 */
 	public void setInjuryType(final InjuryTypeRO injuryType) {
 		_injuryType = injuryType;
@@ -421,7 +426,8 @@ public class InjuredPersonRO extends AbstractEntityRO {
 	}
 
 	/**
-	 * @param injuryTypeDetail the injuryTypeDetail to set
+	 * @param injuryTypeDetail
+	 *            the injuryTypeDetail to set
 	 */
 	public void setInjuryTypeDetail(final InjuryTypeDetailRO injuryTypeDetail) {
 		_injuryTypeDetail = injuryTypeDetail;
@@ -435,25 +441,26 @@ public class InjuredPersonRO extends AbstractEntityRO {
 	}
 
 	/**
-	 * @param injuryTypeDetailSpec the injuryTypeDetailSpec to set
+	 * @param injuryTypeDetailSpec
+	 *            the injuryTypeDetailSpec to set
 	 */
 	public void setInjuryTypeDetailSpec(final InjuryTypeDetailSpecRO injuryTypeDetailSpec) {
 		_injuryTypeDetailSpec = injuryTypeDetailSpec;
 	}
-	
+
 	/**
-	 * @return the distinguishingFeatureOtherComments
+	 * @return the distinguishingFeatureOther
 	 */
-	public String getDistinguishingFeatureOtherComments() {
-		return _distinguishingFeatureOtherComments;
+	public String getDistinguishingFeatureOther() {
+		return _distinguishingFeatureOther;
 	}
 
 	/**
-	 * @param distinguishingFeatureOtherComments
-	 *            the distinguishingFeatureOtherComments to set
+	 * @param distinguishingFeatureOther
+	 *            the distinguishingFeatureOther to set
 	 */
-	public void setDistinguishingFeatureOtherComments(final String distinguishingFeatureOtherComments) {
-		_distinguishingFeatureOtherComments = distinguishingFeatureOtherComments;
+	public void setDistinguishingFeatureOther(final String distinguishingFeatureOther) {
+		_distinguishingFeatureOther = distinguishingFeatureOther;
 	}
 
 	/**
@@ -464,7 +471,8 @@ public class InjuredPersonRO extends AbstractEntityRO {
 	}
 
 	/**
-	 * @param distinguishingFeatureDetails the distinguishingFeatureDetails to set
+	 * @param distinguishingFeatureDetails
+	 *            the distinguishingFeatureDetails to set
 	 */
 	public void setDistinguishingFeatureDetails(final Set<DistinguishingFeatureDetailRO> distinguishingFeatureDetails) {
 		_distinguishingFeatureDetails = distinguishingFeatureDetails;
@@ -478,9 +486,55 @@ public class InjuredPersonRO extends AbstractEntityRO {
 	}
 
 	/**
-	 * @param injuredPersonTypeOther the injuredPersonTypeOther to set
+	 * @param injuredPersonTypeOther
+	 *            the injuredPersonTypeOther to set
 	 */
 	public void setInjuredPersonTypeOther(final String injuredPersonTypeOther) {
 		_injuredPersonTypeOther = injuredPersonTypeOther;
-	}	
+	}
+
+	/**
+	 * @return the injuryTypeOther
+	 */
+	public String getInjuryTypeOther() {
+		return _injuryTypeOther;
+	}
+
+	/**
+	 * @param injuryTypeOther
+	 *            the injuryTypeOther to set
+	 */
+	public void setInjuryTypeOther(final String injuryTypeOther) {
+		_injuryTypeOther = injuryTypeOther;
+	}
+
+	/**
+	 * @return the genderTypeOther
+	 */
+	public String getGenderTypeOther() {
+		return _genderTypeOther;
+	}
+
+	/**
+	 * @param genderTypeOther
+	 *            the genderTypeOther to set
+	 */
+	public void setGenderTypeOther(final String genderTypeOther) {
+		_genderTypeOther = genderTypeOther;
+	}
+
+	/**
+	 * @return the injuryCauseOther
+	 */
+	public String getInjuryCauseOther() {
+		return _injuryCauseOther;
+	}
+
+	/**
+	 * @param injuryCauseOther
+	 *            the injuryCauseOther to set
+	 */
+	public void setInjuryCauseOther(final String injuryCauseOther) {
+		_injuryCauseOther = injuryCauseOther;
+	}
 }

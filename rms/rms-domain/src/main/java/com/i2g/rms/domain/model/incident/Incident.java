@@ -85,6 +85,9 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 	private Accident _accident;
 	private Asset _asset;
 	private Crime _crime;
+	private String _incidentTypeOther;
+	private String _entryPointOther;
+	private String _incidentLocationOther;
 	
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -443,6 +446,51 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 	 */
 	public void setCrime(final Crime crime) {
 		_crime = crime;
+	}
+	
+	/**
+	 * @return the incidentTypeOther
+	 */
+	@Column(name = "INC_TYP_OTHR", length = 32)
+	public String getIncidentTypeOther() {
+		return _incidentTypeOther;
+	}
+
+	/**
+	 * @param incidentTypeOther the incidentTypeOther to set
+	 */
+	public void setIncidentTypeOther(final String incidentTypeOther) {
+		_incidentTypeOther = incidentTypeOther;
+	}
+
+	/**
+	 * @return the entryPointOther
+	 */
+	@Column(name = "ENT_PNT_OTHR", length = 32)
+	public String getEntryPointOther() {
+		return _entryPointOther;
+	}
+
+	/**
+	 * @param entryPointOther the entryPointOther to set
+	 */
+	public void setEntryPointOther(final String entryPointOther) {
+		_entryPointOther = entryPointOther;
+	}
+
+	/**
+	 * @return the incidentLocationOther
+	 */
+	@Column(name = "INC_LOC_OTHR", length = 32)
+	public String getIncidentLocationOther() {
+		return _incidentLocationOther;
+	}
+
+	/**
+	 * @param incidentLocationOther the incidentLocationOther to set
+	 */
+	public void setIncidentLocationOther(final String incidentLocationOther) {
+		_incidentLocationOther = incidentLocationOther;
 	}
 
 	@Override

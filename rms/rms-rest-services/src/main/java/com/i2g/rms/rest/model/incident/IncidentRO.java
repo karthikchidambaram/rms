@@ -53,6 +53,9 @@ public class IncidentRO extends AbstractEntityRO {
 	private AccidentRO _accident;
 	private AssetRO _asset;
 	private CrimeRO _crime;
+	private String _incidentTypeOther;
+	private String _entryPointOther;
+	private String _incidentLocationOther;
 
 	/**
 	 * @return the id
@@ -377,5 +380,50 @@ public class IncidentRO extends AbstractEntityRO {
 	 */
 	public void setCrime(final CrimeRO crime) {
 		_crime = crime;
+	}
+
+	/**
+	 * @return the incidentTypeOther
+	 */
+	public String getIncidentTypeOther() {
+		return _incidentTypeOther;
+	}
+
+	/**
+	 * @param incidentTypeOther
+	 *            the incidentTypeOther to set
+	 */
+	public void setIncidentTypeOther(final String incidentTypeOther) {
+		_incidentTypeOther = incidentTypeOther;
+	}
+
+	/**
+	 * @return the entryPointOther
+	 */
+	public String getEntryPointOther() {
+		return _entryPointOther;
+	}
+
+	/**
+	 * @param entryPointOther
+	 *            the entryPointOther to set
+	 */
+	public void setEntryPointOther(final String entryPointOther) {
+		_entryPointOther = entryPointOther;
+	}
+
+	/**
+	 * @return the incidentLocationOther
+	 */
+	public String getIncidentLocationOther() {
+		return _incidentLocationOther;
+	}
+
+	/**
+	 * @param incidentLocationOther
+	 *            the incidentLocationOther to set
+	 */
+	public void setIncidentLocationOther(final String incidentLocationOther) {
+		_incidentLocationOther = incidentLocationOther;
 	}
 }

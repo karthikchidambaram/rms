@@ -53,6 +53,8 @@ public class ReportedLoss extends AbstractDataModel<Long> implements Serializabl
 	private ExternalAgency _externalAgency;
 	private LocalDateTime _dateTimeContacted;
 	private BigDecimal _costEstimation;
+	private String _lossTypeOther;
+	private String _externalAgencyTypeOther;
 		
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -225,6 +227,36 @@ public class ReportedLoss extends AbstractDataModel<Long> implements Serializabl
 	 */
 	public void setCostEstimation(final BigDecimal costEstimation) {
 		_costEstimation = costEstimation;
+	}
+	
+	/**
+	 * @return the lossTypeOther
+	 */
+	@Column(name = "RPT_LOS_TYP_OTHR", length = 32)
+	public String getLossTypeOther() {
+		return _lossTypeOther;
+	}
+
+	/**
+	 * @param lossTypeOther the lossTypeOther to set
+	 */
+	public void setLossTypeOther(final String lossTypeOther) {
+		_lossTypeOther = lossTypeOther;
+	}
+
+	/**
+	 * @return the externalAgencyTypeOtherComments
+	 */
+	@Column(name = "EXTNL_AGNCY_TYP_OTHR", length = 32)
+	public String getExternalAgencyTypeOther() {
+		return _externalAgencyTypeOther;
+	}
+
+	/**
+	 * @param externalAgencyTypeOther the externalAgencyTypeOther to set
+	 */
+	public void setExternalAgencyTypeOther(final String externalAgencyTypeOther) {
+		_externalAgencyTypeOther = externalAgencyTypeOther;
 	}
 
 	/**

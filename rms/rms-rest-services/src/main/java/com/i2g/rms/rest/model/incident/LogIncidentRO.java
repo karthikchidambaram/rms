@@ -21,9 +21,9 @@ import com.i2g.rms.rest.model.tablemaintenance.IncidentTypeRO;
 public class LogIncidentRO extends AbstractEntityRO {
 
 	private long incidentId;
-	
+
 	private LocalDateTime incidentOpenedDateTime;
-	
+
 	private String uniqueIncidentId;
 	private String placeOfIncident;
 	private String landmark;
@@ -33,12 +33,16 @@ public class LogIncidentRO extends AbstractEntityRO {
 	private IncidentStatusRO incidentStatus;
 	private IncidentLocationRO incidentLocation;
 	private IncidentLocationDetailRO incidentLocationDetail;
-	private IncidentTypeRO incidentType;	
+	private IncidentTypeRO incidentType;
 
 	private YesNoTypeRO propertyDamage;
 	private YesNoTypeRO criminalAttack;
 	private YesNoTypeRO accidentDamage;
 	private YesNoTypeRO vehicleOrAssetDamage;
+
+	private String incidentTypeOther;
+	private String entryPointOther;
+	private String incidentLocationOther;
 
 	public long getIncidentId() {
 		return incidentId;
@@ -158,5 +162,29 @@ public class LogIncidentRO extends AbstractEntityRO {
 
 	public void setIncidentLocationDetail(final IncidentLocationDetailRO incidentLocationDetail) {
 		this.incidentLocationDetail = incidentLocationDetail;
+	}
+
+	public String getIncidentTypeOther() {
+		return incidentTypeOther;
+	}
+
+	public void setIncidentTypeOther(final String incidentTypeOther) {
+		this.incidentTypeOther = incidentTypeOther;
+	}
+
+	public String getEntryPointOther() {
+		return entryPointOther;
+	}
+
+	public void setEntryPointOther(final String entryPointOther) {
+		this.entryPointOther = entryPointOther;
+	}
+
+	public String getIncidentLocationOther() {
+		return incidentLocationOther;
+	}
+
+	public void setIncidentLocationOther(final String incidentLocationOther) {
+		this.incidentLocationOther = incidentLocationOther;
 	}
 }

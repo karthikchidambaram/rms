@@ -102,6 +102,8 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	private User _manager;
 	private Set<User> _subordinates = new HashSet<User>(0);
 	private Set<Address> _addresses = new HashSet<Address>(0);
+	private String _genderTypeOther;
+	private String _employeeTypeOther;
 		
 	@NotNull
 	@Transient
@@ -727,5 +729,35 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 
 	public void setAddresses(final Set<Address> address) {
 		_addresses = address;
+	}
+
+	/**
+	 * @return the genderTypeOther
+	 */
+	@Column(name = "GNDR_TYP_OTHR", length = 32)
+	public String getGenderTypeOther() {
+		return _genderTypeOther;
+	}
+
+	/**
+	 * @param genderTypeOther the genderTypeOther to set
+	 */
+	public void setGenderTypeOther(final String genderTypeOther) {
+		_genderTypeOther = genderTypeOther;
+	}
+
+	/**
+	 * @return the employeeTypeOther
+	 */
+	@Column(name = "EMP_TYP_OTHR", length = 32)
+	public String getEmployeeTypeOther() {
+		return _employeeTypeOther;
+	}
+
+	/**
+	 * @param employeeTypeOther the employeeTypeOther to set
+	 */
+	public void setEmployeeTypeOther(final String employeeTypeOther) {
+		_employeeTypeOther = employeeTypeOther;
 	}	
 }

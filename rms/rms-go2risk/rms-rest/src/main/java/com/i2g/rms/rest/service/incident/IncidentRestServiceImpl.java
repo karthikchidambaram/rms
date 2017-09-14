@@ -173,17 +173,27 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 		}
 		
 		//Construct other objects
+		//incident type
 		if (logIncidentRO.getIncidentType() != null) {
 			if (logIncidentRO.getIncidentType().getId() != null && !logIncidentRO.getIncidentType().getId().trim().isEmpty()) {
 				final IncidentType incidentType = _tableMaintenanceService.getIncidentTypeByCode(logIncidentRO.getIncidentType().getId().trim());
 				incident.setIncidentType(incidentType);
 			}
 		}
+		//incident type other
+		if (logIncidentRO.getIncidentTypeOther() != null && !logIncidentRO.getIncidentTypeOther().trim().isEmpty()) {
+			incident.setIncidentTypeOther(logIncidentRO.getIncidentTypeOther().trim());
+		}
+		//entry point
 		if (logIncidentRO.getEntryPoint() != null) {
 			if (logIncidentRO.getEntryPoint().getId() != null && !logIncidentRO.getEntryPoint().getId().trim().isEmpty()) {
 				final EntryPoint entryPoint = _tableMaintenanceService.getEntryPointByCode(logIncidentRO.getEntryPoint().getId().trim());
 				incident.setEntryPoint(entryPoint);
 			}
+		}
+		//entry point other
+		if (logIncidentRO.getEntryPointOther() != null && !logIncidentRO.getEntryPointOther().trim().isEmpty()) {
+			incident.setEntryPointOther(logIncidentRO.getEntryPointOther().trim());
 		}
 		//Incident location
 		if (logIncidentRO.getIncidentLocation() != null) {
@@ -198,6 +208,10 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 				final IncidentLocationDetail incidentLocationDetail = _tableMaintenanceService.getIncidentLocationDetailByCode(logIncidentRO.getIncidentLocationDetail().getId().trim());
 				incident.setIncidentLocationDetail(incidentLocationDetail);
 			}
+		}
+		//incident location other
+		if (logIncidentRO.getIncidentLocationOther() != null && !logIncidentRO.getIncidentLocationOther().trim().isEmpty()) {
+			incident.setIncidentLocationOther(logIncidentRO.getIncidentLocationOther().trim());
 		}
 		
 		//Save the newly constructed incident
@@ -624,7 +638,11 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 					if (suspectRO.getGenderType().getId() != null && !suspectRO.getGenderType().getId().trim().isEmpty()) {
 						suspect.setGenderType(_tableMaintenanceService.getGenderTypeByCode(suspectRO.getGenderType().getId().trim()));
 					}
-				}				
+				}
+				//gender type other
+				if (suspectRO.getGenderTypeOther() != null && !suspectRO.getGenderTypeOther().trim().isEmpty()) {
+					suspect.setGenderTypeOther(suspectRO.getGenderTypeOther().trim());
+				}
 				if (suspectRO.getAge() != null && suspectRO.getAge() > 0) {
 					suspect.setAge(suspectRO.getAge());
 				}
@@ -645,7 +663,11 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 				}
 				validateWeaponInvolvedAndType(weaponInvolved, weaponType);
 				suspect.setWeaponInvolved(weaponInvolved);
-				suspect.setWeaponType(weaponType);				
+				suspect.setWeaponType(weaponType);
+				//weapon type other
+				if (suspectRO.getWeaponTypeOther() != null && !suspectRO.getWeaponTypeOther().trim().isEmpty()) {
+					suspect.setWeaponTypeOther(suspectRO.getWeaponTypeOther().trim());
+				}
 				//Suspect Type
 				if (suspectRO.getSuspectType() != null) {
 					if (suspectRO.getSuspectType().getId() != null && !suspectRO.getSuspectType().getId().trim().isEmpty()) {
@@ -666,8 +688,8 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 				}
 				suspect.getDistinguishingFeatureDetails().addAll(constructDistinguishingFeatureDetails(suspectRO.getDistinguishingFeatureDetails()));
 				//other comments for distinguishing feature
-				if (suspectRO.getDistinguishingFeatureOtherComments() != null && !suspectRO.getDistinguishingFeatureOtherComments().trim().isEmpty()) {
-					suspect.setDistinguishingFeatureOtherComments(suspectRO.getDistinguishingFeatureOtherComments().trim());
+				if (suspectRO.getDistinguishingFeatureOther() != null && !suspectRO.getDistinguishingFeatureOther().trim().isEmpty()) {
+					suspect.setDistinguishingFeatureOther(suspectRO.getDistinguishingFeatureOther().trim());
 				}
 				//add to the list
 				suspects.add(suspect);
@@ -751,6 +773,10 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 						reportedLoss.setLossType(_tableMaintenanceService.getLossTypeByCode(reportedLossRO.getLossType().getId().trim()));
 					}
 				}
+				//loss type other
+				if (reportedLossRO.getLossTypeOther() != null && !reportedLossRO.getLossTypeOther().trim().isEmpty()) {
+					reportedLoss.setLossTypeOther(reportedLossRO.getLossTypeOther().trim());
+				}
 				//Loss value
 				if (reportedLossRO.getLossValue() != null) {
 					reportedLoss.setLossValue(reportedLossRO.getLossValue());
@@ -766,6 +792,10 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 					if (reportedLossRO.getExternalAgency().getId() != null && !reportedLossRO.getExternalAgency().getId().trim().isEmpty()) {
 						externalAgency = _tableMaintenanceService.getExternalAgencyByCode(reportedLossRO.getExternalAgency().getId().trim());
 					}					
+				}
+				//external agency other
+				if (reportedLossRO.getExternalAgencyTypeOther() != null && !reportedLossRO.getExternalAgencyTypeOther().trim().isEmpty()) {
+					reportedLoss.setExternalAgencyTypeOther(reportedLossRO.getExternalAgencyTypeOther().trim());
 				}
 				//Date-time contacted
 				LocalDateTime dateTimeContacted = null;
@@ -835,11 +865,19 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 						injuredPerson.setGenderType(_tableMaintenanceService.getGenderTypeByCode(injuredPersonRO.getGenderType().getId().trim()));
 					}
 				}
+				//gender type other
+				if (injuredPersonRO.getGenderTypeOther() != null && !injuredPersonRO.getGenderTypeOther().trim().isEmpty()) {
+					injuredPerson.setGenderTypeOther(injuredPersonRO.getGenderTypeOther().trim());
+				}
 				//Injury Cause
 				if (injuredPersonRO.getInjuryCause() != null) {
 					if (injuredPersonRO.getInjuryCause().getId() != null && !injuredPersonRO.getInjuryCause().getId().trim().isEmpty()) {
 						injuredPerson.setInjuryCause(_tableMaintenanceService.getInjuryCauseByCode(injuredPersonRO.getInjuryCause().getId().trim()));
 					}
+				}
+				//injury cause other
+				if (injuredPersonRO.getInjuryCauseOther() != null && injuredPersonRO.getInjuryCauseOther().trim().isEmpty()) {
+					injuredPerson.setInjuryCauseOther(injuredPersonRO.getInjuryCauseOther());
 				}
 				//Injury type
 				if (injuredPersonRO.getInjuryType() != null) {
@@ -858,6 +896,10 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 					if (injuredPersonRO.getInjuryTypeDetailSpec().getId() != null && !injuredPersonRO.getInjuryTypeDetailSpec().getId().trim().isEmpty()) {
 						injuredPerson.setInjuryTypeDetailSpec(_tableMaintenanceService.getInjuryTypeDetailSpecByCode(injuredPersonRO.getInjuryTypeDetailSpec().getId().trim()));							
 					}
+				}
+				//injury type other
+				if (injuredPersonRO.getInjuryTypeOther() != null && !injuredPersonRO.getInjuryTypeOther().trim().isEmpty()) {
+					injuredPerson.setInjuryTypeOther(injuredPersonRO.getInjuryTypeOther().trim());
 				}
 				//Age
 				if (injuredPersonRO.getAge() != null && injuredPersonRO.getAge() > 0) {
@@ -891,8 +933,8 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 				}
 				injuredPerson.getDistinguishingFeatureDetails().addAll(constructDistinguishingFeatureDetails(injuredPersonRO.getDistinguishingFeatureDetails()));
 				//other comments for distinguishing feature
-				if (injuredPersonRO.getDistinguishingFeatureOtherComments() != null && !injuredPersonRO.getDistinguishingFeatureOtherComments().trim().isEmpty()) {
-					injuredPerson.setDistinguishingFeatureOtherComments(injuredPersonRO.getDistinguishingFeatureOtherComments().trim());
+				if (injuredPersonRO.getDistinguishingFeatureOther() != null && !injuredPersonRO.getDistinguishingFeatureOther().trim().isEmpty()) {
+					injuredPerson.setDistinguishingFeatureOther(injuredPersonRO.getDistinguishingFeatureOther().trim());
 				}
 				//add the injured person to the list
 				injuredPersons.add(injuredPerson);
@@ -941,6 +983,10 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 				if (accidentRO.getAccidentLocationDetails().getId() != null && !accidentRO.getAccidentLocationDetails().getId().trim().isEmpty()) {
 					accident.setAccidentLocationDetails(_tableMaintenanceService.getAccidentLocationDetailByCode(accidentRO.getAccidentLocationDetails().getId().trim()));							
 				}
+			}
+			//Set accident location other if any
+			if (accidentRO.getAccidentLocationOther() != null && !accidentRO.getAccidentLocationOther().trim().isEmpty()) {
+				accident.setAccidentLocationOther(accidentRO.getAccidentLocationOther().trim());
 			}
 			//Any witness to the accident?
 			YesNoType anyWitness = YesNoType.N;
@@ -1003,6 +1049,10 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 						witness.setGenderType(_tableMaintenanceService.getGenderTypeByCode(witnessRO.getGenderType().getId().trim()));
 					}
 				}
+				//gender type other
+				if (witnessRO.getGenderTypeOther() != null && !witnessRO.getGenderTypeOther().trim().isEmpty()) {
+					witness.setGenderTypeOther(witnessRO.getGenderTypeOther().trim());
+				}
 				//Age
 				if (witnessRO.getAge() != null && witnessRO.getAge() > 0) {
 					witness.setAge(witnessRO.getAge());
@@ -1025,8 +1075,8 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 				}
 				witness.getDistinguishingFeatureDetails().addAll(constructDistinguishingFeatureDetails(witnessRO.getDistinguishingFeatureDetails()));
 				//other comments for distinguishing feature
-				if (witnessRO.getDistinguishingFeatureOtherComments() != null && !witnessRO.getDistinguishingFeatureOtherComments().trim().isEmpty()) {
-					witness.setDistinguishingFeatureOtherComments(witnessRO.getDistinguishingFeatureOtherComments().trim());
+				if (witnessRO.getDistinguishingFeatureOther() != null && !witnessRO.getDistinguishingFeatureOther().trim().isEmpty()) {
+					witness.setDistinguishingFeatureOther(witnessRO.getDistinguishingFeatureOther().trim());
 				}
 				witnesses.add(witness);	
 			}
@@ -1255,6 +1305,10 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 						crimeSuspect.setGenderType(_tableMaintenanceService.getGenderTypeByCode(stringTrimmer(crimeSuspectRO.getGenderType().getId())));
 					}
 				}
+				//gender type other
+				if (crimeSuspectRO.getGenderTypeOther() != null && !crimeSuspectRO.getGenderTypeOther().trim().isEmpty()) {
+					crimeSuspect.setGenderTypeOther(crimeSuspectRO.getGenderTypeOther().trim());
+				}
 				//Crime Suspect Type
 				if (crimeSuspectRO.getCrimeSuspectType() != null) {
 					if (crimeSuspectRO.getCrimeSuspectType().getId() != null && !crimeSuspectRO.getCrimeSuspectType().getId().trim().isEmpty()) {
@@ -1299,8 +1353,8 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 				}
 				crimeSuspect.getDistinguishingFeatureDetails().addAll(constructDistinguishingFeatureDetails(crimeSuspectRO.getDistinguishingFeatureDetails()));
 				//other comments for distinguishing feature
-				if (crimeSuspectRO.getDistinguishingFeatureOtherComments() != null && !crimeSuspectRO.getDistinguishingFeatureOtherComments().trim().isEmpty()) {
-					crimeSuspect.setDistinguishingFeatureOtherComments(crimeSuspectRO.getDistinguishingFeatureOtherComments().trim());
+				if (crimeSuspectRO.getDistinguishingFeatureOther() != null && !crimeSuspectRO.getDistinguishingFeatureOther().trim().isEmpty()) {
+					crimeSuspect.setDistinguishingFeatureOther(crimeSuspectRO.getDistinguishingFeatureOther().trim());
 				}
 				crimeSuspects.add(crimeSuspect);
 			}
