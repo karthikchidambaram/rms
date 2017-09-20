@@ -35,6 +35,7 @@ import com.i2g.rms.domain.model.AbstractDataModel;
 import com.i2g.rms.domain.model.Accident;
 import com.i2g.rms.domain.model.Asset;
 import com.i2g.rms.domain.model.Crime;
+import com.i2g.rms.domain.model.OfficeAddress;
 import com.i2g.rms.domain.model.ReportedLoss;
 import com.i2g.rms.domain.model.StatusFlag;
 import com.i2g.rms.domain.model.Suspect;
@@ -66,7 +67,6 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 	private LocalDateTime _incidentOpenedDateTime;
 	private IncidentType _incidentType;
 	private String _placeOfIncident;
-	private String _landmark;
 	private EntryPoint _entryPoint;
 	private IncidentStatus _incidentStatus;
 	private IncidentLocation _incidentLocation;
@@ -77,10 +77,9 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 	private LocalDateTime _incidentClosedDateTime;
 	private Set<Suspect> _suspects = new HashSet<Suspect>(0);
 	private Set<User> _employeeSuspects = new HashSet<User>(0);
-	private YesNoType _propertyDamage;
+	private YesNoType _assetDamage;
 	private YesNoType _criminalAttack;
 	private YesNoType _accidentDamage;
-	private YesNoType _vehicleOrAssetDamage;
 	private Set<ReportedLoss> _reportedLosses = new HashSet<ReportedLoss>(0);
 	private Accident _accident;
 	private Asset _asset;
@@ -88,6 +87,7 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 	private String _incidentTypeOther;
 	private String _entryPointOther;
 	private String _incidentLocationOther;
+	private OfficeAddress _officeAddress;
 	
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -107,10 +107,9 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 		_statusFlag = Objects.requireNonNull(builder._statusFlag, "Status flag cannot be null or empty.");
 		_incidentStatus = Objects.requireNonNull(builder._incidentStatus, "Incident status cannot be null or empty.");
 		_incidentOpenedDateTime = Objects.requireNonNull(builder._incidentOpenedDateTime, "Incident open date and time cannot be null or empty.");
-		_propertyDamage = Objects.requireNonNull(builder._propertyDamage, "Property damage cannot be null or empty.");
+		_assetDamage = Objects.requireNonNull(builder._assetDamage, "Asset damage cannot be null or empty.");
 		_criminalAttack = Objects.requireNonNull(builder._criminalAttack, "Criminal attack cannot be null or empty.");
-		_accidentDamage = Objects.requireNonNull(builder._accidentDamage, "Accident damage cannot be null or empty.");
-		_vehicleOrAssetDamage = Objects.requireNonNull(builder._vehicleOrAssetDamage, "Vehicle or asset damage cannot be null or empty.");
+		_accidentDamage = Objects.requireNonNull(builder._accidentDamage, "Accident damage cannot be null or empty.");		
 	}
 
 	/**
@@ -188,15 +187,6 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 		_placeOfIncident = placeOfIncident;
 	}
 	
-	@Column(name = "LNDMRK", length = 64)
-	public String getLandmark() {
-		return _landmark;
-	}
-	
-	public void setLandmark(final String landmark) {
-		_landmark = landmark;
-	}
-
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ENTY_PNT_CDE")
 	public EntryPoint getEntryPoint() {
@@ -310,20 +300,20 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 	}
 	
 	/**
-	 * @return the propertyDamage
+	 * @return the assetDamage
 	 */
-	@Column(name = "PROP_DMGE", nullable = false)
+	@Column(name = "ASST_DMGE", nullable = false)
 	@Enumerated(EnumType.STRING)
 	@NotNull
-	public YesNoType getPropertyDamage() {
-		return _propertyDamage;
+	public YesNoType getAssetDamage() {
+		return _assetDamage;
 	}
 
 	/**
-	 * @param propertyDamage the propertyDamage to set
+	 * @param assetDamage the assetDamage to set
 	 */
-	public void setPropertyDamage(final YesNoType propertyDamage) {
-		_propertyDamage = propertyDamage;
+	public void setAssetDamage(final YesNoType assetDamage) {
+		_assetDamage = assetDamage;
 	}
 
 	/**
@@ -360,23 +350,6 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 		_accidentDamage = accidentDamage;
 	}
 
-	/**
-	 * @return the vehicleOrAssetDamage
-	 */
-	@Column(name = "VEH_ASST_DMGE", nullable = false)
-	@Enumerated(EnumType.STRING)
-	@NotNull
-	public YesNoType getVehicleOrAssetDamage() {
-		return _vehicleOrAssetDamage;
-	}
-
-	/**
-	 * @param vehicleOrAssetDamage the vehicleOrAssetDamage to set
-	 */
-	public void setVehicleOrAssetDamage(final YesNoType vehicleOrAssetDamage) {
-		_vehicleOrAssetDamage = vehicleOrAssetDamage;
-	}
-	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "incident")
 	@Fetch(FetchMode.SUBSELECT)
 	public Set<ReportedLoss> getReportedLosses() {
@@ -492,6 +465,16 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 	public void setIncidentLocationOther(final String incidentLocationOther) {
 		_incidentLocationOther = incidentLocationOther;
 	}
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "OFF_ADDR_ID")
+	public OfficeAddress getOfficeAddress() {
+		return _officeAddress;
+	}
+
+	public void setOfficeAddress(final OfficeAddress officeAddress) {
+		_officeAddress = officeAddress;
+	}
 
 	@Override
 	public int hashCode() {
@@ -531,10 +514,9 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 		private IncidentStatus _incidentStatus;
 		private StatusFlag _statusFlag;		
 		private LocalDateTime _incidentOpenedDateTime;
-		private YesNoType _propertyDamage;
+		private YesNoType _assetDamage;
 		private YesNoType _criminalAttack;
 		private YesNoType _accidentDamage;
-		private YesNoType _vehicleOrAssetDamage;
 		
 		/**
 		 * Builds a new immutable instance of Incident.
@@ -570,8 +552,8 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 			return this;
 		}
 
-		public Builder setPropertyDamage(final YesNoType propertyDamage) {
-			_propertyDamage = propertyDamage;
+		public Builder setAssetDamage(final YesNoType assetDamage) {
+			_assetDamage = assetDamage;
 			return this;
 		}
 
@@ -583,11 +565,6 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 		public Builder setAccidentDamage(final YesNoType accidentDamage) {
 			_accidentDamage = accidentDamage;
 			return this;
-		}
-
-		public Builder setVehicleOrAssetDamage(final YesNoType vehicleOrAssetDamage) {
-			_vehicleOrAssetDamage = vehicleOrAssetDamage;
-			return this;
-		}		
+		}				
 	}	
 }

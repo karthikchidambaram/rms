@@ -1,8 +1,11 @@
 package com.i2g.rms.domain.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -13,22 +16,28 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.i2g.rms.domain.model.incident.Incident;
+import com.i2g.rms.domain.model.tablemaintenance.Organization;
 
 /**
- * Entity representation of Address.
+ * Entity representation of Office Address.
  * 
  * @since 1.0.0
  * @author Karthikeyan Chidambaram
  * @author RMS Development Team
  */
 @Entity
-@Table(name = "RMS_ADDR")
-@JsonIgnoreProperties({ "user", "building", "witness", "injuredPerson", "suspect", "crimeSuspect" })
-public class Address extends AbstractDataModel<Long> implements Serializable {
+@Table(name = "RMS_OFF_ADDR")
+@JsonIgnoreProperties({ "incidents" })
+public class OfficeAddress extends AbstractDataModel<Long> implements Serializable {
 
 	/**
 	 * 
@@ -47,28 +56,24 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 	private String _postcode;
 	private String _country;
 	private StatusFlag _statusFlag;
-	private User _user;
-	private Building _building;
-	private Witness _witness;
-	private InjuredPerson _injuredPerson;
-	private Suspect _suspect;
-	private CrimeSuspect _crimeSuspect;
+	private Organization _organization;
+	private Set<Incident> _incidents = new HashSet<Incident>(0);
 	private String _doorNumber;
 	private String _blockNumber;
 
 	/**
 	 * Default empty constructor required for Hibernate.
 	 */
-	protected Address() {
+	protected OfficeAddress() {
 	}
 
 	/**
-	 * Creates a new immutable instance of {@link Address} from the specified
-	 * {@code builder}.
+	 * Creates a new immutable instance of {@link OfficeAddress} from the
+	 * specified {@code builder}.
 	 * 
 	 * @param builder
 	 */
-	private Address(final Builder builder) {
+	private OfficeAddress(final Builder builder) {
 		_statusFlag = Objects.requireNonNull(builder._statusFlag, "Status flag cannot be null.");
 	}
 
@@ -79,8 +84,8 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 	 */
 	@Id
 	@Column(name = "ID", updatable = false, nullable = false)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rms_addr_id_seq")
-	@SequenceGenerator(name = "rms_addr_id_seq", sequenceName = "RMS_ADDR_ID_SEQ", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rms_off_addr_id_seq")
+	@SequenceGenerator(name = "rms_off_addr_id_seq", sequenceName = "RMS_OFF_ADDR_ID_SEQ", allocationSize = 1)
 	@Override
 	public Long getId() {
 		return _id;
@@ -246,91 +251,6 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 		_statusFlag = statusFlag;
 	}
 
-	/**
-	 * @return the user
-	 */
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "USR_ID")
-	public User getUser() {
-		return _user;
-	}
-
-	/**
-	 * @param user
-	 *            the user to set
-	 */
-	public void setUser(final User user) {
-		_user = user;
-	}
-
-	/**
-	 * @return the building
-	 */
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "BLDNG_ID")
-	public Building getBuilding() {
-		return _building;
-	}
-
-	/**
-	 * @param building
-	 *            the building to set
-	 */
-	public void setBuilding(final Building building) {
-		_building = building;
-	}
-
-	/**
-	 * @return the witness
-	 */
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "WITNS_ID")
-	public Witness getWitness() {
-		return _witness;
-	}
-
-	/**
-	 * @param witness
-	 *            the witness to set
-	 */
-	public void setWitness(final Witness witness) {
-		_witness = witness;
-	}
-
-	/**
-	 * @return the injuredPerson
-	 */
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "INJRD_PRSN_ID")
-	public InjuredPerson getInjuredPerson() {
-		return _injuredPerson;
-	}
-
-	/**
-	 * @param injuredPerson
-	 *            the injuredPerson to set
-	 */
-	public void setInjuredPerson(final InjuredPerson injuredPerson) {
-		_injuredPerson = injuredPerson;
-	}
-
-	/**
-	 * @return the suspect
-	 */
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "SUSPT_ID")
-	public Suspect getSuspect() {
-		return _suspect;
-	}
-
-	/**
-	 * @param suspect
-	 *            the suspect to set
-	 */
-	public void setSuspect(final Suspect suspect) {
-		_suspect = suspect;
-	}
-
 	@Column(name = "CITY", length = 64)
 	public String getCity() {
 		return _city;
@@ -340,21 +260,24 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 		_city = city;
 	}
 
-	/**
-	 * @return the crimeSuspect
-	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "CRME_SUSPT_ID")
-	public CrimeSuspect getCrimeSuspect() {
-		return _crimeSuspect;
+	@JoinColumn(name = "ORG_CDE")
+	public Organization getOrganization() {
+		return _organization;
 	}
 
-	/**
-	 * @param crimeSuspect
-	 *            the crimeSuspect to set
-	 */
-	public void setCrimeSuspect(final CrimeSuspect crimeSuspect) {
-		_crimeSuspect = crimeSuspect;
+	public void setOrganization(final Organization organization) {
+		_organization = organization;
+	}
+	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "officeAddress")
+	@Fetch(FetchMode.SUBSELECT)
+	public Set<Incident> getIncidents() {
+		return _incidents;
+	}
+
+	public void setIncidents(final Set<Incident> incidents) {
+		_incidents = incidents;
 	}
 	
 	@Column(name = "DOOR_NO", length = 16)	
@@ -376,19 +299,20 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * Builder pattern for constructing immutable instances of {@link Address}.
+	 * Builder pattern for constructing immutable instances of
+	 * {@link OfficeAddress}.
 	 */
 	public final static class Builder {
 
 		private StatusFlag _statusFlag;
 
 		/**
-		 * Builds a new immutable instance of Address.
+		 * Builds a new immutable instance of Office Address.
 		 * 
-		 * @return new instance of Address
+		 * @return new instance of Office Address
 		 */
-		public Address build() {
-			return new Address(this);
+		public OfficeAddress build() {
+			return new OfficeAddress(this);
 		}
 
 		public Builder setStatusFlag(final StatusFlag statusFlag) {

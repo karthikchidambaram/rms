@@ -27,7 +27,6 @@ public class AccidentRO extends AbstractEntityRO {
 	private LocalDateTime _accidentDateTime;
 	private AccidentLocationRO _accidentLocation;
 	private AccidentLocationDetailRO _accidentLocationDetails;
-	private String _landmark;
 	private String _accidentPlace;
 	private AccidentTypeRO _accidentType;
 	private Set<InjuredPersonRO> _injuredPersons = new HashSet<InjuredPersonRO>(0);
@@ -125,21 +124,6 @@ public class AccidentRO extends AbstractEntityRO {
 	 */
 	public void setAccidentLocationDetails(final AccidentLocationDetailRO accidentLocationDetails) {
 		_accidentLocationDetails = accidentLocationDetails;
-	}
-
-	/**
-	 * @return the landmark
-	 */
-	public String getLandmark() {
-		return _landmark;
-	}
-
-	/**
-	 * @param landmark
-	 *            the landmark to set
-	 */
-	public void setLandmark(final String landmark) {
-		_landmark = landmark;
 	}
 
 	/**

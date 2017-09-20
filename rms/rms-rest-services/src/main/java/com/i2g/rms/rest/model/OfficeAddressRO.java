@@ -1,6 +1,11 @@
 package com.i2g.rms.rest.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.i2g.rms.rest.model.incident.IncidentRO;
+import com.i2g.rms.rest.model.tablemaintenance.OrganizationRO;
 
 /**
  * REST Object for Address RO.
@@ -10,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  * @author RMS Development Team
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AddressRO extends AbstractEntityRO {
+public class OfficeAddressRO extends AbstractEntityRO {
 
 	private long id;
 	private String organizationName;
@@ -23,12 +28,8 @@ public class AddressRO extends AbstractEntityRO {
 	private String postcode;
 	private String country;
 	private StatusFlagRO statusFlag;
-	private UserRO user;
-	private BuildingRO building;
-	private SuspectRO suspect;
-	private InjuredPersonRO injuredPerson;
-	private WitnessRO witness;
-	private CrimeSuspectRO crimeSuspect;
+	private OrganizationRO organization;
+	private Set<IncidentRO> incidents = new HashSet<IncidentRO>(0);
 	private String doorNumber;
 	private String blockNumber;
 
@@ -120,73 +121,20 @@ public class AddressRO extends AbstractEntityRO {
 		this.statusFlag = statusFlag;
 	}
 
-	public UserRO getUser() {
-		return user;
+	public OrganizationRO getOrganization() {
+		return organization;
 	}
 
-	public void setUser(final UserRO user) {
-		this.user = user;
+	public void setOrganization(final OrganizationRO organization) {
+		this.organization = organization;
 	}
 
-	public SuspectRO getSuspect() {
-		return suspect;
+	public Set<IncidentRO> getIncidents() {
+		return incidents;
 	}
 
-	public void setSuspect(final SuspectRO suspect) {
-		this.suspect = suspect;
-	}
-
-	public BuildingRO getBuilding() {
-		return building;
-	}
-
-	public void setBuilding(final BuildingRO building) {
-		this.building = building;
-	}
-
-	/**
-	 * @return the injuredPerson
-	 */
-	public InjuredPersonRO getInjuredPerson() {
-		return injuredPerson;
-	}
-
-	/**
-	 * @param injuredPerson
-	 *            the injuredPerson to set
-	 */
-	public void setInjuredPerson(final InjuredPersonRO injuredPerson) {
-		this.injuredPerson = injuredPerson;
-	}
-
-	/**
-	 * @return the witness
-	 */
-	public WitnessRO getWitness() {
-		return witness;
-	}
-
-	/**
-	 * @param witness
-	 *            the witness to set
-	 */
-	public void setWitness(final WitnessRO witness) {
-		this.witness = witness;
-	}
-
-	/**
-	 * @return the crimeSuspect
-	 */
-	public CrimeSuspectRO getCrimeSuspect() {
-		return crimeSuspect;
-	}
-
-	/**
-	 * @param crimeSuspect
-	 *            the crimeSuspect to set
-	 */
-	public void setCrimeSuspect(final CrimeSuspectRO crimeSuspect) {
-		this.crimeSuspect = crimeSuspect;
+	public void setIncidents(Set<IncidentRO> incidents) {
+		this.incidents = incidents;
 	}
 
 	public String getDoorNumber() {

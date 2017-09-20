@@ -35,10 +35,9 @@ public class LogIncidentRO extends AbstractEntityRO {
 	private IncidentLocationDetailRO incidentLocationDetail;
 	private IncidentTypeRO incidentType;
 
-	private YesNoTypeRO propertyDamage;
+	private YesNoTypeRO assetDamage;
 	private YesNoTypeRO criminalAttack;
 	private YesNoTypeRO accidentDamage;
-	private YesNoTypeRO vehicleOrAssetDamage;
 
 	private String incidentTypeOther;
 	private String entryPointOther;
@@ -124,12 +123,12 @@ public class LogIncidentRO extends AbstractEntityRO {
 		this.incidentType = incidentType;
 	}
 
-	public YesNoTypeRO getPropertyDamage() {
-		return propertyDamage;
+	public YesNoTypeRO getAssetDamage() {
+		return assetDamage;
 	}
 
-	public void setPropertyDamage(final YesNoTypeRO propertyDamage) {
-		this.propertyDamage = propertyDamage;
+	public void setAssetDamage(final YesNoTypeRO assetDamage) {
+		this.assetDamage = assetDamage;
 	}
 
 	public YesNoTypeRO getCriminalAttack() {
@@ -146,14 +145,6 @@ public class LogIncidentRO extends AbstractEntityRO {
 
 	public void setAccidentDamage(final YesNoTypeRO accidentDamage) {
 		this.accidentDamage = accidentDamage;
-	}
-
-	public YesNoTypeRO getVehicleOrAssetDamage() {
-		return vehicleOrAssetDamage;
-	}
-
-	public void setVehicleOrAssetDamage(final YesNoTypeRO vehicleOrAssetDamage) {
-		this.vehicleOrAssetDamage = vehicleOrAssetDamage;
 	}
 
 	public IncidentLocationDetailRO getIncidentLocationDetail() {

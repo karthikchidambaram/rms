@@ -50,7 +50,7 @@ public class Building extends AbstractDataModel<Long> implements Serializable {
 	private StatusFlag _statusFlag;
 	private String _buildingId;
 	private String _buildingDescription;
-	private String _incidentDescription;	
+	private String _buildingName;	
 	private AssetCategory _assetCategory;
 	private Set<Address> _addresses = new HashSet<Address>(0);
 		
@@ -144,7 +144,7 @@ public class Building extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @param buildingId the buildingId to set
 	 */
-	public void setBuildingId(String buildingId) {
+	public void setBuildingId(final String buildingId) {
 		_buildingId = buildingId;
 	}
 
@@ -159,23 +159,23 @@ public class Building extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @param buildingDescription the buildingDescription to set
 	 */
-	public void setBuildingDescription(String buildingDescription) {
+	public void setBuildingDescription(final String buildingDescription) {
 		_buildingDescription = buildingDescription;
 	}
 
 	/**
-	 * @return the incidentDescription
+	 * @return the buildingName
 	 */
-	@Column(name = "INC_DESC", length = 256)
-	public String getIncidentDescription() {
-		return _incidentDescription;
+	@Column(name = "BLDNG_NAM", length = 64)
+	public String getBuildingName() {
+		return _buildingName;
 	}
 
 	/**
-	 * @param incidentDescription the incidentDescription to set
+	 * @param buildingName the buildingName to set
 	 */
-	public void setIncidentDescription(String incidentDescription) {
-		_incidentDescription = incidentDescription;
+	public void setBuildingName(final String buildingName) {
+		_buildingName = buildingName;
 	}
 	
 	/**

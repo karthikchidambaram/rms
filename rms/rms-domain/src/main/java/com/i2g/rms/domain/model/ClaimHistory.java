@@ -17,7 +17,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Type;
 
@@ -32,37 +31,38 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 @Entity
 @Table(name = "RMS_CLIM_HSTRY")
+@JsonIgnoreProperties({ "claim" })
 public class ClaimHistory extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	/** Primary surrogate key ID */
 	private long _id;
 	private Claim _claim;
-	private StatusFlag _statusFlag;	
+	private StatusFlag _statusFlag;
 	private BigDecimal _claimRequestedAmount;
 	private LocalDate _claimRequestedDate;
-	private String _claimRequestedBy;	
+	private String _claimRequestedBy;
 	private BigDecimal _claimApprovedAmount;
 	private LocalDate _claimApprovedDate;
-	private String _claimApprovedBy;	
+	private String _claimApprovedBy;
 	private BigDecimal _claimSettlementAmount;
 	private LocalDate _claimSettlementDate;
-	private String _claimSettlementBy;	
+	private String _claimSettlementBy;
 	private LocalDate _claimDeclinedDate;
-	private String _claimDeclinedBy;	
+	private String _claimDeclinedBy;
 	private LocalDate _claimReopenedDate;
 	private String _claimReopenedBy;
 	private String _comments;
-	
+
 	/**
 	 * Default empty constructor required for Hibernate.
 	 */
 	protected ClaimHistory() {
 	}
-	
+
 	/**
 	 * Creates a new immutable instance of {@link ClaimHistory} from the
 	 * specified {@code builder}.
@@ -70,9 +70,10 @@ public class ClaimHistory extends AbstractDataModel<Long> implements Serializabl
 	 * @param builder
 	 */
 	private ClaimHistory(final Builder builder) {
+		_claim = Objects.requireNonNull(builder._claim, "Claim object cannot be null when creating a claim history record.");
 		_statusFlag = Objects.requireNonNull(builder._statusFlag, "Status flag cannot be null.");
 	}
-	
+
 	/**
 	 * Return the Claim primary key ID.
 	 * 
@@ -101,24 +102,24 @@ public class ClaimHistory extends AbstractDataModel<Long> implements Serializabl
 	protected void setId(final long id) {
 		_id = id;
 	}
-	
+
 	/**
 	 * @return the claim
 	 */
 	@ManyToOne
 	@JoinColumn(name = "CLIM_ID")
-	@JsonIgnoreProperties("claimHistory")
 	public Claim getClaim() {
 		return _claim;
 	}
 
 	/**
-	 * @param claim the claim to set
+	 * @param claim
+	 *            the claim to set
 	 */
 	public void setClaim(final Claim claim) {
 		_claim = claim;
 	}
-	
+
 	/**
 	 * @return the claimRequestedAmount
 	 */
@@ -128,7 +129,8 @@ public class ClaimHistory extends AbstractDataModel<Long> implements Serializabl
 	}
 
 	/**
-	 * @param claimRequestedAmount the claimRequestedAmount to set
+	 * @param claimRequestedAmount
+	 *            the claimRequestedAmount to set
 	 */
 	public void setClaimRequestedAmount(final BigDecimal claimRequestedAmount) {
 		_claimRequestedAmount = claimRequestedAmount;
@@ -144,7 +146,8 @@ public class ClaimHistory extends AbstractDataModel<Long> implements Serializabl
 	}
 
 	/**
-	 * @param claimRequestedDate the claimRequestedDate to set
+	 * @param claimRequestedDate
+	 *            the claimRequestedDate to set
 	 */
 	public void setClaimRequestedDate(final LocalDate claimRequestedDate) {
 		_claimRequestedDate = claimRequestedDate;
@@ -153,14 +156,14 @@ public class ClaimHistory extends AbstractDataModel<Long> implements Serializabl
 	/**
 	 * @return the claimRequestedBy
 	 */
-	@Column(name = "CLIM_REQ_BY")
-	@Size(min = 1, max = 128, message = "Claim requested by (name) must be between {min} and {max} characters")
+	@Column(name = "CLIM_REQ_BY", length = 128)
 	public String getClaimRequestedBy() {
 		return _claimRequestedBy;
 	}
 
 	/**
-	 * @param claimRequestedBy the claimRequestedBy to set
+	 * @param claimRequestedBy
+	 *            the claimRequestedBy to set
 	 */
 	public void setClaimRequestedBy(final String claimRequestedBy) {
 		_claimRequestedBy = claimRequestedBy;
@@ -175,7 +178,8 @@ public class ClaimHistory extends AbstractDataModel<Long> implements Serializabl
 	}
 
 	/**
-	 * @param claimApprovedAmount the claimApprovedAmount to set
+	 * @param claimApprovedAmount
+	 *            the claimApprovedAmount to set
 	 */
 	public void setClaimApprovedAmount(final BigDecimal claimApprovedAmount) {
 		_claimApprovedAmount = claimApprovedAmount;
@@ -191,7 +195,8 @@ public class ClaimHistory extends AbstractDataModel<Long> implements Serializabl
 	}
 
 	/**
-	 * @param claimApprovedDate the claimApprovedDate to set
+	 * @param claimApprovedDate
+	 *            the claimApprovedDate to set
 	 */
 	public void setClaimApprovedDate(final LocalDate claimApprovedDate) {
 		_claimApprovedDate = claimApprovedDate;
@@ -200,14 +205,14 @@ public class ClaimHistory extends AbstractDataModel<Long> implements Serializabl
 	/**
 	 * @return the claimApprovedBy
 	 */
-	@Column(name = "CLIM_APR_BY")
-	@Size(min = 1, max = 128, message = "Claim approved by (name) must be between {min} and {max} characters")
+	@Column(name = "CLIM_APR_BY", length = 128)
 	public String getClaimApprovedBy() {
 		return _claimApprovedBy;
 	}
 
 	/**
-	 * @param claimApprovedBy the claimApprovedBy to set
+	 * @param claimApprovedBy
+	 *            the claimApprovedBy to set
 	 */
 	public void setClaimApprovedBy(final String claimApprovedBy) {
 		_claimApprovedBy = claimApprovedBy;
@@ -222,7 +227,8 @@ public class ClaimHistory extends AbstractDataModel<Long> implements Serializabl
 	}
 
 	/**
-	 * @param claimSettlementAmount the claimSettlementAmount to set
+	 * @param claimSettlementAmount
+	 *            the claimSettlementAmount to set
 	 */
 	public void setClaimSettlementAmount(final BigDecimal claimSettlementAmount) {
 		_claimSettlementAmount = claimSettlementAmount;
@@ -238,7 +244,8 @@ public class ClaimHistory extends AbstractDataModel<Long> implements Serializabl
 	}
 
 	/**
-	 * @param claimSettlementDate the claimSettlementDate to set
+	 * @param claimSettlementDate
+	 *            the claimSettlementDate to set
 	 */
 	public void setClaimSettlementDate(final LocalDate claimSettlementDate) {
 		_claimSettlementDate = claimSettlementDate;
@@ -247,14 +254,14 @@ public class ClaimHistory extends AbstractDataModel<Long> implements Serializabl
 	/**
 	 * @return the claimSettlementBy
 	 */
-	@Column(name = "CLIM_STLMT_BY")
-	@Size(min = 1, max = 128, message = "Claim settlement by (name) must be between {min} and {max} characters")
+	@Column(name = "CLIM_STLMT_BY", length = 128)
 	public String getClaimSettlementBy() {
 		return _claimSettlementBy;
 	}
 
 	/**
-	 * @param claimSettlementBy the claimSettlementBy to set
+	 * @param claimSettlementBy
+	 *            the claimSettlementBy to set
 	 */
 	public void setClaimSettlementBy(final String claimSettlementBy) {
 		_claimSettlementBy = claimSettlementBy;
@@ -270,7 +277,8 @@ public class ClaimHistory extends AbstractDataModel<Long> implements Serializabl
 	}
 
 	/**
-	 * @param claimDeclinedDate the claimDeclinedDate to set
+	 * @param claimDeclinedDate
+	 *            the claimDeclinedDate to set
 	 */
 	public void setClaimDeclinedDate(final LocalDate claimDeclinedDate) {
 		_claimDeclinedDate = claimDeclinedDate;
@@ -279,14 +287,14 @@ public class ClaimHistory extends AbstractDataModel<Long> implements Serializabl
 	/**
 	 * @return the claimDeclinedBy
 	 */
-	@Column(name = "CLIM_DEC_BY")
-	@Size(min = 1, max = 128, message = "Claim declined by (name) must be between {min} and {max} characters")
+	@Column(name = "CLIM_DEC_BY", length = 128)
 	public String getClaimDeclinedBy() {
 		return _claimDeclinedBy;
 	}
 
 	/**
-	 * @param claimDeclinedBy the claimDeclinedBy to set
+	 * @param claimDeclinedBy
+	 *            the claimDeclinedBy to set
 	 */
 	public void setClaimDeclinedBy(final String claimDeclinedBy) {
 		_claimDeclinedBy = claimDeclinedBy;
@@ -302,7 +310,8 @@ public class ClaimHistory extends AbstractDataModel<Long> implements Serializabl
 	}
 
 	/**
-	 * @param claimReopenedDate the claimReopenedDate to set
+	 * @param claimReopenedDate
+	 *            the claimReopenedDate to set
 	 */
 	public void setClaimReopenedDate(final LocalDate claimReopenedDate) {
 		_claimReopenedDate = claimReopenedDate;
@@ -311,40 +320,39 @@ public class ClaimHistory extends AbstractDataModel<Long> implements Serializabl
 	/**
 	 * @return the claimReopenedBy
 	 */
-	@Column(name = "CLIM_REOPN_BY")
-	@Size(min = 1, max = 128, message = "Claim re-opened by (name) must be between {min} and {max} characters")
+	@Column(name = "CLIM_REOPN_BY", length = 128)
 	public String getClaimReopenedBy() {
 		return _claimReopenedBy;
 	}
 
 	/**
-	 * @param claimReopenedBy the claimReopenedBy to set
+	 * @param claimReopenedBy
+	 *            the claimReopenedBy to set
 	 */
 	public void setClaimReopenedBy(final String claimReopenedBy) {
 		_claimReopenedBy = claimReopenedBy;
 	}
-	
+
 	/**
 	 * @return the comments
 	 */
-	@Column(name = "COMNTS")
-	@Size(min = 1, max = 256, message = "Comments must be between {min} and {max} characters")
+	@Column(name = "COMNTS", length = 128)
 	public String getComments() {
 		return _comments;
 	}
 
 	/**
-	 * @param comments the comments to set
+	 * @param comments
+	 *            the comments to set
 	 */
 	public void setComments(final String comments) {
 		_comments = comments;
 	}
-	
+
 	/**
 	 * @return the statusFlag
 	 */
 	@Column(name = "STS_FLG", nullable = false)
-	@Size(min = 1, max = 16, message = "Status flag code must be between {min} and {max} characters")
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	public StatusFlag getStatusFlag() {
@@ -352,7 +360,8 @@ public class ClaimHistory extends AbstractDataModel<Long> implements Serializabl
 	}
 
 	/**
-	 * @param statusFlag the statusFlag to set
+	 * @param statusFlag
+	 *            the statusFlag to set
 	 */
 	public void setStatusFlag(final StatusFlag statusFlag) {
 		_statusFlag = statusFlag;
@@ -364,6 +373,7 @@ public class ClaimHistory extends AbstractDataModel<Long> implements Serializabl
 	 */
 	public final static class Builder {
 
+		private Claim _claim;
 		private StatusFlag _statusFlag;
 
 		/**
@@ -373,6 +383,11 @@ public class ClaimHistory extends AbstractDataModel<Long> implements Serializabl
 		 */
 		public ClaimHistory build() {
 			return new ClaimHistory(this);
+		}
+
+		public Builder setClaim(final Claim claim) {
+			_claim = claim;
+			return this;
 		}
 
 		public Builder setStatusFlag(final StatusFlag statusFlag) {

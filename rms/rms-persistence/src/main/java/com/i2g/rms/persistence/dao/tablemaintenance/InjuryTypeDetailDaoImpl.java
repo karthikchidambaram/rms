@@ -3,6 +3,7 @@ package com.i2g.rms.persistence.dao.tablemaintenance;
 import java.util.List;
 import java.util.Objects;
 
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,7 +56,8 @@ public class InjuryTypeDetailDaoImpl extends AbstractHibernateDao<String, Injury
 	@SuppressWarnings({ "deprecation", "unchecked" })
 	@Override
 	public List<InjuryTypeDetail> get() {
-		return (List<InjuryTypeDetail>) applySearch(getSession().createCriteria(_modelType)).list();
+		return (List<InjuryTypeDetail>) applySearch(
+				getSession().createCriteria(_modelType).addOrder(Order.asc("description").ignoreCase())).list();
 	}
 
 	/**
@@ -144,7 +146,9 @@ public class InjuryTypeDetailDaoImpl extends AbstractHibernateDao<String, Injury
 	public List<InjuryTypeDetail> get(final InjuryType injuryType) {
 		// Check if the object is valid and not null or empty
 		validateObject(injuryType);
-		return (List<InjuryTypeDetail>) applySearch(getSession().createCriteria(_modelType).add(Restrictions
+		return (List<InjuryTypeDetail>) applySearch(getSession().createCriteria(_modelType)
+				.addOrder(Order.asc("description").ignoreCase())
+				.add(Restrictions
 				.eq("injuryType", Objects.requireNonNull(injuryType, "Injury type object cannot be null.")))).list();
 	}
 }

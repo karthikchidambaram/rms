@@ -140,21 +140,19 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 		validateUserObject(user);
 		
 		//Set yes or no type fields
-		final YesNoType propertyDamage = (logIncidentRO.getPropertyDamage().name().equals("Y")) ? YesNoType.Y : YesNoType.N; 
+		final YesNoType assetDamage = (logIncidentRO.getAssetDamage().name().equals("Y")) ? YesNoType.Y : YesNoType.N; 
 		final YesNoType criminalAttack = (logIncidentRO.getCriminalAttack().name().equals("Y")) ? YesNoType.Y : YesNoType.N;
 		final YesNoType accidentDamage = (logIncidentRO.getAccidentDamage().name().equals("Y")) ? YesNoType.Y : YesNoType.N;
-		final YesNoType vehicleOrAssetDamage = (logIncidentRO.getVehicleOrAssetDamage().name().equals("Y")) ? YesNoType.Y : YesNoType.N;
-		
+				
 		//Construct incident record first with not null columns
 		final Incident incident = new Incident.Builder()
 									.setUniqueIncidentId(ApplicationUtilService.getUniqueIncidentId())
 									.setIncidentReportedBy(user)
 									.setIncidentStatus(IncidentStatus.DRAFT)
 									.setStatusFlag(StatusFlag.ACTIVE)
-									.setPropertyDamage(propertyDamage)
+									.setAssetDamage(assetDamage)
 									.setCriminalAttack(criminalAttack)
 									.setAccidentDamage(accidentDamage)
-									.setVehicleOrAssetDamage(vehicleOrAssetDamage)
 									.setIncidentOpenedDateTime(ApplicationUtilService.getCurrentTimestamp())
 									.build();
 		
@@ -164,9 +162,6 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 		//Set other values
 		if (logIncidentRO.getPlaceOfIncident() != null && !logIncidentRO.getPlaceOfIncident().trim().isEmpty()) {
 			incident.setPlaceOfIncident(logIncidentRO.getPlaceOfIncident());
-		}
-		if (logIncidentRO.getLandmark() != null && !logIncidentRO.getLandmark().trim().isEmpty()) {
-			incident.setLandmark(logIncidentRO.getLandmark());
 		}
 		if (logIncidentRO.getIncidentDescription() != null && !logIncidentRO.getIncidentDescription().trim().isEmpty()) {
 			incident.setIncidentDescription(logIncidentRO.getIncidentDescription());
@@ -426,47 +421,6 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 		Asset asset = constructAsset(assetDetailRO.getAsset(), incident);
 		validateGenericObject(asset);
 		
-		//Instantiate objects
-		if (asset.getWitnesses() == null || asset.getWitnesses().isEmpty()) {
-			asset.setWitnesses(new HashSet<Witness>(0));
-		}		
-		if (asset.getEmployeeWitnesses() == null || asset.getEmployeeWitnesses().isEmpty()) {
-			asset.setEmployeeWitnesses(new HashSet<User>(0));
-		}
-		
-		final Set<Witness> newWitnesses = constructNewWitnesses(assetDetailRO.getNewWitnesses());
-		final Set<Witness> existingWitnesses = new HashSet<Witness>(0);
-		final Set<User> employeeWitnesses = new HashSet<User>(0);
-		
-		//construction of existing witnesses
-		if (assetDetailRO.getExistingWitnesses() != null && !assetDetailRO.getExistingWitnesses().isEmpty()) {
-			for (WitnessRO witnessRO : assetDetailRO.getExistingWitnesses()) {
-				if (witnessRO.getId() > 0) {
-					existingWitnesses.add(_witnessService.get(witnessRO.getId()));
-				}
-			}
-			//add existing witness to the asset.
-			asset.getWitnesses().addAll(existingWitnesses);
-		}
-		//construction of employee witness if any and add to asset.
-		if (assetDetailRO.getEmployeeWitnesses() != null && !assetDetailRO.getEmployeeWitnesses().isEmpty()) {
-			for (UserRO userRO : assetDetailRO.getEmployeeWitnesses()) {
-				if (userRO.getLoginId() != null && !userRO.getLoginId().trim().isEmpty()) {
-					employeeWitnesses.add(_userService.getUserByUserLoginId(userRO.getLoginId().trim()));
-				}
-			}
-			asset.getEmployeeWitnesses().addAll(employeeWitnesses);
-		}
-		//validate witness flag at this point before saving to database
-		validateAnyWitness(asset.getAnyWitness(), newWitnesses, existingWitnesses, employeeWitnesses);
-		//create the new witness in the backend and add it to the accident.
-		if (newWitnesses != null && !newWitnesses.isEmpty()) {
-			Set<Witness> newlyCreatedWitnesses = _witnessService.createNewWitnesses(newWitnesses);
-			if (newlyCreatedWitnesses != null && !newlyCreatedWitnesses.isEmpty()) {
-				//Add newly created suspects to main accident
-				asset.getWitnesses().addAll(newlyCreatedWitnesses);										
-			}
-		}
 		//Construct buildings, equipments and vehicles if any..
 		asset.setBuildings(constructBuilding(assetDetailRO.getBuildings(), asset));
 		asset.setEquipments(constructEquipment(assetDetailRO.getEquipments(), asset));
@@ -958,10 +912,6 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 			if (accidentRO.getAccidentDateTime() != null) {
 				accident.setAccidentDateTime(accidentRO.getAccidentDateTime());
 			}
-			//landmark
-			if (accidentRO.getLandmark() != null && !accidentRO.getLandmark().trim().isEmpty()) {
-				accident.setLandmark(accidentRO.getLandmark().trim());
-			}
 			//place of accident
 			if (accidentRO.getAccidentPlace() != null && !accidentRO.getAccidentPlace().trim().isEmpty()) {
 				accident.setAccidentPlace(accidentRO.getAccidentPlace().trim());
@@ -1096,16 +1046,6 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 					asset.setAssetCategory(_tableMaintenanceService.getAssetCategoryByCode(assetRO.getAssetCategory().getId().trim())); 
 				}
 			}
-			//asset statement desc
-			if (assetRO.getStatementDescription() != null && !assetRO.getStatementDescription().trim().isEmpty()) {
-				asset.setStatementDescription(assetRO.getStatementDescription().trim());
-			}
-			//Any witness?
-			YesNoType anyWitness = YesNoType.N;
-			if (assetRO.getAnyWitness() != null && assetRO.getAnyWitness().name().equals("Y")) {
-				anyWitness = YesNoType.Y;
-			}
-			asset.setAnyWitness(anyWitness);
 			//other desc
 			if (assetRO.getOtherDescription() != null && !assetRO.getOtherDescription().trim().isEmpty()) {
 				asset.setOtherDescription(assetRO.getOtherDescription().trim());
@@ -1130,9 +1070,9 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 				if (buildingRO.getBuildingDescription() != null && !buildingRO.getBuildingDescription().trim().isEmpty()) {
 					building.setBuildingDescription(buildingRO.getBuildingDescription().trim());
 				}
-				//incident description
-				if (buildingRO.getIncidentDescription() != null && !buildingRO.getIncidentDescription().trim().isEmpty()) {
-					building.setIncidentDescription(buildingRO.getIncidentDescription().trim());
+				//building name
+				if (buildingRO.getBuildingName() != null && !buildingRO.getBuildingName().trim().isEmpty()) {
+					building.setBuildingName(buildingRO.getBuildingName().trim());
 				}
 				//asset category
 				if (buildingRO.getAssetCategory() != null) {

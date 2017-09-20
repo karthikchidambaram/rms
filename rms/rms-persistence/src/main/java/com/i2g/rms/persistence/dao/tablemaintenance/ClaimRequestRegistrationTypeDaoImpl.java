@@ -3,6 +3,7 @@ package com.i2g.rms.persistence.dao.tablemaintenance;
 import java.util.List;
 import java.util.Objects;
 
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +23,8 @@ import com.i2g.rms.persistence.hibernate.AbstractHibernateDao;
  *
  */
 @Repository
-public class ClaimRequestRegistrationTypeDaoImpl extends AbstractHibernateDao<String, ClaimRequestRegistrationType> implements ClaimRequestRegistrationTypeDao {
+public class ClaimRequestRegistrationTypeDaoImpl extends AbstractHibernateDao<String, ClaimRequestRegistrationType>
+		implements ClaimRequestRegistrationTypeDao {
 
 	private final Logger _logger = LoggerFactory.getLogger(ClaimRequestRegistrationTypeDaoImpl.class);
 
@@ -53,7 +55,8 @@ public class ClaimRequestRegistrationTypeDaoImpl extends AbstractHibernateDao<St
 	@SuppressWarnings({ "deprecation", "unchecked" })
 	@Override
 	public List<ClaimRequestRegistrationType> get() {
-		return (List<ClaimRequestRegistrationType>) applySearch(getSession().createCriteria(_modelType)).list();
+		return (List<ClaimRequestRegistrationType>) applySearch(
+				getSession().createCriteria(_modelType).addOrder(Order.asc("description").ignoreCase())).list();
 	}
 
 	/**
@@ -114,7 +117,7 @@ public class ClaimRequestRegistrationTypeDaoImpl extends AbstractHibernateDao<St
 		ClaimRequestRegistrationType object = getByCode(code);
 		validateObject(object);
 		// Set the new value(s).
-		object.setDescription(description);		
+		object.setDescription(description);
 		// Issue update
 		update(object);
 		return object;

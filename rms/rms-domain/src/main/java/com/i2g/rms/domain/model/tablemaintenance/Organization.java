@@ -1,16 +1,26 @@
 package com.i2g.rms.domain.model.tablemaintenance;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.i2g.rms.domain.model.AbstractDataModel;
+import com.i2g.rms.domain.model.OfficeAddress;
 
 /**
  * Entity representation of Organization.
@@ -21,6 +31,7 @@ import com.i2g.rms.domain.model.AbstractDataModel;
  */
 @Entity
 @Table(name = "RMS_ORG")
+@JsonIgnoreProperties({ "officeAddresses" })
 public class Organization extends AbstractDataModel<String> implements Serializable {
 
 	/**
@@ -30,7 +41,8 @@ public class Organization extends AbstractDataModel<String> implements Serializa
 	/** Primary surrogate key ID */
 	private String _id;
 	private String _description;
-	
+	private Set<OfficeAddress> _officeAddresses = new HashSet<OfficeAddress>(0);
+
 	/**
 	 * Default empty constructor required for Hibernate.
 	 */
@@ -38,18 +50,17 @@ public class Organization extends AbstractDataModel<String> implements Serializa
 	}
 
 	/**
-	 * Creates a new instance of {@code Organization} with the specified
-	 * code.
+	 * Creates a new instance of {@code Organization} with the specified code.
 	 * 
 	 * @param code
 	 */
 	public Organization(final String code) {
 		_id = Objects.requireNonNull(code, "Organization code cannot be null.");
 	}
-	
+
 	/**
-	 * Creates a new instance of {@code Organization} with the specified
-	 * code and description.
+	 * Creates a new instance of {@code Organization} with the specified code
+	 * and description.
 	 * 
 	 * @param code
 	 * @param description
@@ -58,7 +69,7 @@ public class Organization extends AbstractDataModel<String> implements Serializa
 		_id = Objects.requireNonNull(code, "Organization code cannot be null.");
 		_description = Objects.requireNonNull(description, "Organization description cannot be null.");
 	}
-	
+
 	@Id
 	@Column(name = "CDE", unique = true, updatable = false, nullable = false, length = 16)
 	@NotNull
@@ -83,7 +94,7 @@ public class Organization extends AbstractDataModel<String> implements Serializa
 	protected void setId(final String id) {
 		_id = id;
 	}
-	
+
 	/**
 	 * Returns the description.
 	 * 
@@ -104,7 +115,17 @@ public class Organization extends AbstractDataModel<String> implements Serializa
 	public void setDescription(final String description) {
 		_description = description;
 	}
-	
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "organization")
+	@Fetch(FetchMode.SUBSELECT)
+	public Set<OfficeAddress> getOfficeAddresses() {
+		return _officeAddresses;
+	}
+
+	public void setOfficeAddresses(final Set<OfficeAddress> officeAddresses) {
+		_officeAddresses = officeAddresses;
+	}
+
 	@Override
 	public boolean equals(final Object obj) {
 		return obj == this || (obj instanceof Organization && Objects.equals(_id, ((Organization) obj)._id));

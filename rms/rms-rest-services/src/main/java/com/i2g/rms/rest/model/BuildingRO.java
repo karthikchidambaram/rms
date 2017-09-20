@@ -21,7 +21,7 @@ public class BuildingRO extends AbstractEntityRO {
 	private StatusFlagRO _statusFlag;
 	private String _buildingId;
 	private String _buildingDescription;
-	private String _incidentDescription;
+	private String _buildingName;
 	private AssetCategoryRO _assetCategory;
 	private Set<AddressRO> _addresses = new HashSet<AddressRO>(0);
 
@@ -101,18 +101,18 @@ public class BuildingRO extends AbstractEntityRO {
 	}
 
 	/**
-	 * @return the incidentDescription
+	 * @return the buildingName
 	 */
-	public String getIncidentDescription() {
-		return _incidentDescription;
+	public String getBuildingName() {
+		return _buildingName;
 	}
 
 	/**
-	 * @param incidentDescription
-	 *            the incidentDescription to set
+	 * @param buildingName
+	 *            the buildingName to set
 	 */
-	public void setIncidentDescription(final String incidentDescription) {
-		_incidentDescription = incidentDescription;
+	public void setBuildingName(final String buildingName) {
+		_buildingName = buildingName;
 	}
 	
 	/**

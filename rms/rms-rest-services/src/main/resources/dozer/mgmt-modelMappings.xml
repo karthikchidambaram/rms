@@ -58,6 +58,15 @@
 		<class-a>com.i2g.rms.domain.model.Manager</class-a>
 		<class-b>com.i2g.rms.rest.model.ManagerRO</class-b>
 	</mapping>
+	
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.OfficeAddress</class-a>
+		<class-b>com.i2g.rms.rest.model.OfficeAddressRO</class-b>
+		<field-exclude>
+			<a>incidents</a>
+			<b>incidents</b>
+		</field-exclude>
+	</mapping>
 
 	<mapping>
 		<class-a>com.i2g.rms.domain.model.InvestigationTeam</class-a>
@@ -235,10 +244,6 @@
 			<a>accidents</a>
 			<b>accidents</b>
 		</field-exclude>		
-		<field-exclude>
-			<a>assets</a>
-			<b>assets</b>
-		</field-exclude>
 		<field-exclude>
 			<a>crimes</a>
 			<b>crimes</b>

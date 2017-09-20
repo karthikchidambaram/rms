@@ -3,6 +3,7 @@ package com.i2g.rms.persistence.dao.tablemaintenance;
 import java.util.List;
 import java.util.Objects;
 
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,7 +56,8 @@ public class AccidentLocationDetailDaoImpl extends AbstractHibernateDao<String, 
 	@SuppressWarnings({ "deprecation", "unchecked" })
 	@Override
 	public List<AccidentLocationDetail> get() {
-		return (List<AccidentLocationDetail>) applySearch(getSession().createCriteria(_modelType)).list();
+		return (List<AccidentLocationDetail>) applySearch(
+				getSession().createCriteria(_modelType).addOrder(Order.asc("description").ignoreCase())).list();
 	}
 
 	/**
@@ -84,7 +86,8 @@ public class AccidentLocationDetailDaoImpl extends AbstractHibernateDao<String, 
 	 * @return a table maintenance object.
 	 */
 	@Override
-	public AccidentLocationDetail create(final String code, final String description, final AccidentLocation accidentLocation) {
+	public AccidentLocationDetail create(final String code, final String description,
+			final AccidentLocation accidentLocation) {
 		// Validate input parameter(s) if any..
 		validateCode(code);
 		validateDescription(description);
@@ -147,8 +150,8 @@ public class AccidentLocationDetailDaoImpl extends AbstractHibernateDao<String, 
 		validateObject(accidentLocation);
 		return (List<AccidentLocationDetail>) applySearch(
 				getSession().createCriteria(_modelType)
-						.add(Restrictions.eq("accidentLocation",
-								Objects.requireNonNull(accidentLocation, "Accident location object cannot be null."))))
-										.list();
+						.addOrder(Order.asc("description").ignoreCase())
+						.add(Restrictions.eq("accidentLocation", Objects.requireNonNull(accidentLocation, "Accident location object cannot be null."))))
+						.list();
 	}
 }

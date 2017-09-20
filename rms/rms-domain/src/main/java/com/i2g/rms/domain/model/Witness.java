@@ -42,7 +42,7 @@ import com.i2g.rms.domain.model.tablemaintenance.WitnessType;
  */
 @Entity
 @Table(name = "RMS_WITNS")
-@JsonIgnoreProperties({"accidents", "assets", "crimes"})
+@JsonIgnoreProperties({ "accidents", "crimes" })
 public class Witness extends AbstractDataModel<Long> implements Serializable {
 
 	/**
@@ -66,12 +66,12 @@ public class Witness extends AbstractDataModel<Long> implements Serializable {
 	private String _email;
 	private String _website;
 	private Set<Accident> _accidents = new HashSet<Accident>(0);
-	private Set<Asset> _assets = new HashSet<Asset>(0);
 	private Set<Crime> _crimes = new HashSet<Crime>(0);
 	private Set<Address> _addresses = new HashSet<Address>(0);
 	private WitnessType _witnessType;
 	private String _distinguishingFeatureOther;
-	private Set<DistinguishingFeatureDetail> _distinguishingFeatureDetails = new HashSet<DistinguishingFeatureDetail>(0);
+	private Set<DistinguishingFeatureDetail> _distinguishingFeatureDetails = new HashSet<DistinguishingFeatureDetail>(
+			0);
 	private String _witnessTypeOther;
 	private String _genderTypeOther;
 
@@ -88,7 +88,7 @@ public class Witness extends AbstractDataModel<Long> implements Serializable {
 	 * @param builder
 	 */
 	private Witness(final Builder builder) {
-		_statusFlag = Objects.requireNonNull(builder._statusFlag, "Status flag cannot be null.");				
+		_statusFlag = Objects.requireNonNull(builder._statusFlag, "Status flag cannot be null.");
 	}
 
 	/**
@@ -367,7 +367,7 @@ public class Witness extends AbstractDataModel<Long> implements Serializable {
 	public void setAccidents(final Set<Accident> accidents) {
 		_accidents = accidents;
 	}
-	
+
 	/**
 	 * @return the addresses
 	 */
@@ -378,12 +378,13 @@ public class Witness extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @param addresses the addresses to set
+	 * @param addresses
+	 *            the addresses to set
 	 */
 	public void setAddresses(final Set<Address> addresses) {
 		_addresses = addresses;
 	}
-	
+
 	/**
 	 * @return the witnessType
 	 */
@@ -392,27 +393,13 @@ public class Witness extends AbstractDataModel<Long> implements Serializable {
 	public WitnessType getWitnessType() {
 		return _witnessType;
 	}
-	
+
 	/**
-	 * @param witnessType the witnessType to set
+	 * @param witnessType
+	 *            the witnessType to set
 	 */
 	public void setWitnessType(final WitnessType witnessType) {
 		_witnessType = witnessType;
-	}
-	
-	/**
-	 * @return the assets
-	 */
-	@ManyToMany(mappedBy = "witnesses")
-	public Set<Asset> getAssets() {
-		return _assets;
-	}
-
-	/**
-	 * @param assets the assets to set
-	 */
-	public void setAssets(final Set<Asset> assets) {
-		_assets = assets;
 	}
 
 	/**
@@ -424,12 +411,13 @@ public class Witness extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @param crimes the crimes to set
+	 * @param crimes
+	 *            the crimes to set
 	 */
 	public void setCrimes(final Set<Crime> crimes) {
 		_crimes = crimes;
 	}
-	
+
 	/**
 	 * @return the distinguishingFeatureOther
 	 */
@@ -439,32 +427,30 @@ public class Witness extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @param distinguishingFeatureOther the distinguishingFeatureOther to set
+	 * @param distinguishingFeatureOther
+	 *            the distinguishingFeatureOther to set
 	 */
 	public void setDistinguishingFeatureOther(final String distinguishingFeatureOther) {
 		_distinguishingFeatureOther = distinguishingFeatureOther;
 	}
-	
+
 	/**
 	 * @return the distinguishingFeatureDetails
 	 */
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinTable(
-			name = "RMS_WITNS_DIST_FEA_CHLD",
-			joinColumns = @JoinColumn(name = "WITNS_ID"),
-			inverseJoinColumns = @JoinColumn(name = "DIST_FEA_CHLD_CDE")
-	)
+	@JoinTable(name = "RMS_WITNS_DIST_FEA_CHLD", joinColumns = @JoinColumn(name = "WITNS_ID"), inverseJoinColumns = @JoinColumn(name = "DIST_FEA_CHLD_CDE"))
 	public Set<DistinguishingFeatureDetail> getDistinguishingFeatureDetails() {
 		return _distinguishingFeatureDetails;
 	}
 
 	/**
-	 * @param distinguishingFeatureDetails the distinguishingFeatureDetails to set
+	 * @param distinguishingFeatureDetails
+	 *            the distinguishingFeatureDetails to set
 	 */
 	public void setDistinguishingFeatureDetails(final Set<DistinguishingFeatureDetail> distinguishingFeatureDetails) {
 		_distinguishingFeatureDetails = distinguishingFeatureDetails;
 	}
-	
+
 	/**
 	 * @return the witnessTypeOther
 	 */
@@ -474,12 +460,13 @@ public class Witness extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @param witnessTypeOther the witnessTypeOther to set
+	 * @param witnessTypeOther
+	 *            the witnessTypeOther to set
 	 */
 	public void setWitnessTypeOther(final String witnessTypeOther) {
 		_witnessTypeOther = witnessTypeOther;
 	}
-	
+
 	/**
 	 * @return the genderTypeOther
 	 */
@@ -489,7 +476,8 @@ public class Witness extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @param genderTypeOther the genderTypeOther to set
+	 * @param genderTypeOther
+	 *            the genderTypeOther to set
 	 */
 	public void setGenderTypeOther(final String genderTypeOther) {
 		_genderTypeOther = genderTypeOther;
@@ -499,7 +487,7 @@ public class Witness extends AbstractDataModel<Long> implements Serializable {
 	 * Builder pattern for constructing immutable instances of {@link Witness}.
 	 */
 	public final static class Builder {
-		
+
 		private StatusFlag _statusFlag;
 
 		/**
@@ -510,7 +498,7 @@ public class Witness extends AbstractDataModel<Long> implements Serializable {
 		public Witness build() {
 			return new Witness(this);
 		}
-		
+
 		public Builder setStatusFlag(final StatusFlag statusFlag) {
 			_statusFlag = statusFlag;
 			return this;

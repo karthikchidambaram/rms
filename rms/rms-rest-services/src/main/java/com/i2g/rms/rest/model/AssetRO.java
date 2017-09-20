@@ -21,14 +21,10 @@ public class AssetRO extends AbstractEntityRO {
 	private IncidentRO _incident;
 	private StatusFlagRO _statusFlag;
 	private AssetCategoryRO _assetCategory;
-	private String _statementDescription;
-	private YesNoTypeRO _anyWitness;
 	private String _otherDescription;
 	private Set<EquipmentRO> _equipments = new HashSet<EquipmentRO>(0);
 	private Set<BuildingRO> _buildings = new HashSet<BuildingRO>(0);
 	private Set<VehicleRO> _vehicles = new HashSet<VehicleRO>(0);
-	private Set<WitnessRO> _witnesses = new HashSet<WitnessRO>(0);
-	private Set<UserRO> _employeeWitnesses = new HashSet<UserRO>(0);	
 
 	/**
 	 * @return the id
@@ -91,36 +87,6 @@ public class AssetRO extends AbstractEntityRO {
 	}
 
 	/**
-	 * @return the statementDescription
-	 */
-	public String getStatementDescription() {
-		return _statementDescription;
-	}
-
-	/**
-	 * @param statementDescription
-	 *            the statementDescription to set
-	 */
-	public void setStatementDescription(final String statementDescription) {
-		_statementDescription = statementDescription;
-	}
-
-	/**
-	 * @return the anyWitness
-	 */
-	public YesNoTypeRO getAnyWitness() {
-		return _anyWitness;
-	}
-
-	/**
-	 * @param anyWitness
-	 *            the anyWitness to set
-	 */
-	public void setAnyWitness(final YesNoTypeRO anyWitness) {
-		_anyWitness = anyWitness;
-	}
-
-	/**
 	 * @return the otherDescription
 	 */
 	public String getOtherDescription() {
@@ -179,34 +145,4 @@ public class AssetRO extends AbstractEntityRO {
 	public void setVehicles(final Set<VehicleRO> vehicles) {
 		_vehicles = vehicles;
 	}
-
-	/**
-	 * @return the witnesses
-	 */
-	public Set<WitnessRO> getWitnesses() {
-		return _witnesses;
-	}
-
-	/**
-	 * @param witnesses
-	 *            the witnesses to set
-	 */
-	public void setWitnesses(final Set<WitnessRO> witnesses) {
-		_witnesses = witnesses;
-	}
-
-	/**
-	 * @return the employeeWitnesses
-	 */
-	public Set<UserRO> getEmployeeWitnesses() {
-		return _employeeWitnesses;
-	}
-
-	/**
-	 * @param employeeWitnesses
-	 *            the employeeWitnesses to set
-	 */
-	public void setEmployeeWitnesses(final Set<UserRO> employeeWitnesses) {
-		_employeeWitnesses = employeeWitnesses;
-	}	
 }

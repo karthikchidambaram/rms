@@ -15,8 +15,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
@@ -51,14 +49,10 @@ public class Asset extends AbstractDataModel<Long> implements Serializable {
 	private Incident _incident;
 	private StatusFlag _statusFlag;
 	private AssetCategory _assetCategory;
-	private String _statementDescription;
-	private YesNoType _anyWitness;
 	private String _otherDescription;
 	private Set<Equipment> _equipments = new HashSet<Equipment>(0);
 	private Set<Building> _buildings = new HashSet<Building>(0);
-	private Set<Vehicle> _vehicles = new HashSet<Vehicle>(0);
-	private Set<Witness> _witnesses = new HashSet<Witness>(0);
-	private Set<User> _employeeWitnesses = new HashSet<User>(0);	
+	private Set<Vehicle> _vehicles = new HashSet<Vehicle>(0);		
 	
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -156,37 +150,6 @@ public class Asset extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @return the statementDescription
-	 */
-	@Column(name = "STMT_DESC", length = 256)
-	public String getStatementDescription() {
-		return _statementDescription;
-	}
-
-	/**
-	 * @param statementDescription the statementDescription to set
-	 */
-	public void setStatementDescription(final String statementDescription) {
-		_statementDescription = statementDescription;
-	}
-
-	/**
-	 * @return the anyWitness
-	 */
-	@Column(name = "ANY_WITNS")
-	@Enumerated(EnumType.STRING)
-	public YesNoType getAnyWitness() {
-		return _anyWitness;
-	}
-
-	/**
-	 * @param anyWitness the anyWitness to set
-	 */
-	public void setAnyWitness(final YesNoType anyWitness) {
-		_anyWitness = anyWitness;
-	}
-	
-	/**
 	 * @return the otherDescription
 	 */
 	@Column(name = "OTHR_DESC", length = 256)
@@ -247,47 +210,6 @@ public class Asset extends AbstractDataModel<Long> implements Serializable {
 	 */
 	public void setVehicles(final Set<Vehicle> vehicles) {
 		_vehicles = vehicles;
-	}
-	
-	/**
-	 * @return the witnesses
-	 */
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinTable(
-			name = "RMS_ASST_WITNS",
-			joinColumns = @JoinColumn(name = "ASST_ID"),
-			inverseJoinColumns = @JoinColumn(name = "WITNS_ID")
-	)
-	public Set<Witness> getWitnesses() {
-		return _witnesses;
-	}
-
-	/**
-	 * @param witnesses
-	 *            the witnesses to set
-	 */
-	public void setWitnesses(final Set<Witness> witnesses) {
-		this._witnesses = witnesses;
-	}
-	
-	/**
-	 * @return the employeeWitnesses
-	 */
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinTable(
-			name = "RMS_ASST_USR_WITNS",
-			joinColumns = @JoinColumn(name = "ASST_ID"),
-			inverseJoinColumns = @JoinColumn(name = "USR_ID")
-	)
-	public Set<User> getEmployeeWitnesses() {
-		return _employeeWitnesses;
-	}
-
-	/**
-	 * @param employeeWitnesses the employeeWitnesses to set
-	 */
-	public void setEmployeeWitnesses(final Set<User> employeeWitnesses) {
-		_employeeWitnesses = employeeWitnesses;
 	}
 	
 	/**

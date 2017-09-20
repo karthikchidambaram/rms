@@ -55,11 +55,10 @@ public class SearchIncident extends AbstractDataModel<Long> implements Serializa
 	private String departmentDescription;
 	private String positionCode;
 	private String positionDescription;
-	private YesNoType propertyDamage;
+	private YesNoType assetDamage;
 	private YesNoType criminalAttack;
 	private YesNoType accidentDamage;
-	private YesNoType vehicleOrAssetDamage;
-	
+		
 	/**
 	 * Default empty constructor required for Hibernate.
 	 */
@@ -442,19 +441,19 @@ public class SearchIncident extends AbstractDataModel<Long> implements Serializa
 	}
 
 	/**
-	 * @return the propertyDamage
+	 * @return the assetDamage
 	 */
-	@Column(name = "PROP_DMGE")
+	@Column(name = "ASST_DMGE")
 	@Enumerated(EnumType.STRING)
-	public YesNoType getPropertyDamage() {
-		return propertyDamage;
+	public YesNoType getAssetDamage() {
+		return assetDamage;
 	}
 
 	/**
-	 * @param propertyDamage the propertyDamage to set
+	 * @param assetDamage the assetDamage to set
 	 */
-	public void setPropertyDamage(final YesNoType propertyDamage) {
-		this.propertyDamage = propertyDamage;
+	public void setAssetDamage(final YesNoType assetDamage) {
+		this.assetDamage = assetDamage;
 	}
 
 	/**
@@ -487,21 +486,5 @@ public class SearchIncident extends AbstractDataModel<Long> implements Serializa
 	 */
 	public void setAccidentDamage(final YesNoType accidentDamage) {
 		this.accidentDamage = accidentDamage;
-	}
-
-	/**
-	 * @return the vehicleOrAssetDamage
-	 */
-	@Column(name = "VEH_ASST_DMGE")
-	@Enumerated(EnumType.STRING)
-	public YesNoType getVehicleOrAssetDamage() {
-		return vehicleOrAssetDamage;
-	}
-
-	/**
-	 * @param vehicleOrAssetDamage the vehicleOrAssetDamage to set
-	 */
-	public void setVehicleOrAssetDamage(final YesNoType vehicleOrAssetDamage) {
-		this.vehicleOrAssetDamage = vehicleOrAssetDamage;
 	}	
 }

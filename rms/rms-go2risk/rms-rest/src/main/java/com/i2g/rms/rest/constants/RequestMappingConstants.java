@@ -363,4 +363,10 @@ public interface RequestMappingConstants {
 	String GET_ADDRESSES						= ADDRESS + "/addresses";
 	String GET_ADDRESS							= ADDRESS + "/{id}";
 	String CREATE_ADDRESS						= ADDRESS + "/create-address";
+	
+	/** Office Address */
+	String OFFICE_ADDRESS 								= SECURED + "/office-address";
+	String GET_OFFICE_ADDRESSES							= OFFICE_ADDRESS + "/office-addresses";
+	String GET_OFFICE_ADDRESS							= OFFICE_ADDRESS + "/{id}";
+	String CREATE_OFFICE_ADDRESS						= OFFICE_ADDRESS + "/create-office-address";
 }

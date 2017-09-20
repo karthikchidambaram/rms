@@ -50,7 +50,9 @@ public class AddressRestServiceImpl extends AbstractRestService implements Addre
 	@Transactional(readOnly = true)
 	public AddressRO get(final long id) {
 		if (id > 0) {
-			return _mapperService.map(_addressService.get(id), AddressRO.class);
+			final Address address = _addressService.get(id);
+			validateGenericObject(address);
+			return _mapperService.map(address, AddressRO.class);
 		} else {
 			return null;
 		}

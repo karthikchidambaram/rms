@@ -3,6 +3,7 @@ package com.i2g.rms.persistence.dao.tablemaintenance;
 import java.util.List;
 import java.util.Objects;
 
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,7 +57,8 @@ public class PositionDaoImpl extends AbstractHibernateDao<String, Position> impl
 	@SuppressWarnings({ "deprecation", "unchecked" })
 	@Override
 	public List<Position> get() {
-		return (List<Position>) applySearch(getSession().createCriteria(_modelType)).list();
+		return (List<Position>) applySearch(
+				getSession().createCriteria(_modelType).addOrder(Order.asc("description").ignoreCase())).list();
 	}
 
 	/**
@@ -227,8 +229,9 @@ public class PositionDaoImpl extends AbstractHibernateDao<String, Position> impl
 	public List<Position> get(Department department) {
 		// Check if the object is valid and not null or empty
 		validateObject(department);
-		return (List<Position>) applySearch(getSession().createCriteria(_modelType).add(Restrictions.eq("department",
-				Objects.requireNonNull(department, "Department object cannot be null.")))).list();
+		return (List<Position>) applySearch(getSession().createCriteria(_modelType).add(
+				Restrictions.eq("department", Objects.requireNonNull(department, "Department object cannot be null."))))
+						.list();
 	}
 
 	@SuppressWarnings("unchecked")

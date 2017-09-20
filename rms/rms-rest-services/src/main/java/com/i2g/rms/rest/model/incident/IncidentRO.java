@@ -9,6 +9,7 @@ import com.i2g.rms.rest.model.AbstractEntityRO;
 import com.i2g.rms.rest.model.AccidentRO;
 import com.i2g.rms.rest.model.AssetRO;
 import com.i2g.rms.rest.model.CrimeRO;
+import com.i2g.rms.rest.model.OfficeAddressRO;
 import com.i2g.rms.rest.model.ReportedLossRO;
 import com.i2g.rms.rest.model.StatusFlagRO;
 import com.i2g.rms.rest.model.SuspectRO;
@@ -34,7 +35,6 @@ public class IncidentRO extends AbstractEntityRO {
 	private LocalDateTime _incidentOpenedDateTime;
 	private IncidentTypeRO _incidentType;
 	private String _placeOfIncident;
-	private String _landmark;
 	private EntryPointRO _entryPoint;
 	private IncidentStatusRO _incidentStatus;
 	private IncidentLocationRO _incidentLocation;
@@ -45,10 +45,9 @@ public class IncidentRO extends AbstractEntityRO {
 	private LocalDateTime _incidentClosedDateTime;
 	private Set<SuspectRO> _suspects = new HashSet<SuspectRO>(0);
 	private Set<UserRO> _employeeSuspects = new HashSet<UserRO>(0);
-	private YesNoTypeRO _propertyDamage;
+	private YesNoTypeRO _assetDamage;
 	private YesNoTypeRO _criminalAttack;
 	private YesNoTypeRO _accidentDamage;
-	private YesNoTypeRO _vehicleOrAssetDamage;
 	private Set<ReportedLossRO> _reportedLosses = new HashSet<ReportedLossRO>(0);
 	private AccidentRO _accident;
 	private AssetRO _asset;
@@ -56,6 +55,7 @@ public class IncidentRO extends AbstractEntityRO {
 	private String _incidentTypeOther;
 	private String _entryPointOther;
 	private String _incidentLocationOther;
+	private OfficeAddressRO _officeAddress;
 
 	/**
 	 * @return the id
@@ -130,21 +130,6 @@ public class IncidentRO extends AbstractEntityRO {
 	 */
 	public void setPlaceOfIncident(final String placeOfIncident) {
 		_placeOfIncident = placeOfIncident;
-	}
-
-	/**
-	 * @return the landmark
-	 */
-	public String getLandmark() {
-		return _landmark;
-	}
-
-	/**
-	 * @param landmark
-	 *            the landmark to set
-	 */
-	public void setLandmark(final String landmark) {
-		_landmark = landmark;
 	}
 
 	/**
@@ -282,8 +267,8 @@ public class IncidentRO extends AbstractEntityRO {
 		_employeeSuspects = employeeSuspects;
 	}
 
-	public YesNoTypeRO getPropertyDamage() {
-		return _propertyDamage;
+	public YesNoTypeRO getAssetDamage() {
+		return _assetDamage;
 	}
 
 	public YesNoTypeRO getCriminalAttack() {
@@ -294,12 +279,8 @@ public class IncidentRO extends AbstractEntityRO {
 		return _accidentDamage;
 	}
 
-	public YesNoTypeRO getVehicleOrAssetDamage() {
-		return _vehicleOrAssetDamage;
-	}
-
-	public void setPropertyDamage(final YesNoTypeRO propertyDamage) {
-		_propertyDamage = propertyDamage;
+	public void setAssetDamage(final YesNoTypeRO assetDamage) {
+		_assetDamage = assetDamage;
 	}
 
 	public void setCriminalAttack(final YesNoTypeRO criminalAttack) {
@@ -308,10 +289,6 @@ public class IncidentRO extends AbstractEntityRO {
 
 	public void setAccidentDamage(final YesNoTypeRO accidentDamage) {
 		_accidentDamage = accidentDamage;
-	}
-
-	public void setVehicleOrAssetDamage(final YesNoTypeRO vehicleOrAssetDamage) {
-		_vehicleOrAssetDamage = vehicleOrAssetDamage;
 	}
 
 	public Set<ReportedLossRO> getReportedLosses() {
@@ -425,5 +402,13 @@ public class IncidentRO extends AbstractEntityRO {
 	 */
 	public void setIncidentLocationOther(final String incidentLocationOther) {
 		_incidentLocationOther = incidentLocationOther;
+	}
+
+	public OfficeAddressRO getOfficeAddress() {
+		return _officeAddress;
+	}
+
+	public void setOfficeAddress(final OfficeAddressRO officeAddress) {
+		_officeAddress = officeAddress;
 	}
 }

@@ -40,11 +40,10 @@ public class SearchIncidentRO extends AbstractEntityRO {
 	private String departmentDescription;
 	private String positionCode;
 	private String positionDescription;
-	private YesNoTypeRO propertyDamage;
+	private YesNoTypeRO assetDamage;
 	private YesNoTypeRO criminalAttack;
 	private YesNoTypeRO accidentDamage;
-	private YesNoTypeRO vehicleOrAssetDamage;
-
+	
 	/**
 	 * @return the id
 	 */
@@ -391,17 +390,17 @@ public class SearchIncidentRO extends AbstractEntityRO {
 	}
 
 	/**
-	 * @return the propertyDamage
+	 * @return the assetDamage
 	 */
-	public YesNoTypeRO getPropertyDamage() {
-		return propertyDamage;
+	public YesNoTypeRO getAssetDamage() {
+		return assetDamage;
 	}
 
 	/**
-	 * @param propertyDamage the propertyDamage to set
+	 * @param assetDamage the assetDamage to set
 	 */
-	public void setPropertyDamage(final YesNoTypeRO propertyDamage) {
-		this.propertyDamage = propertyDamage;
+	public void setAssetDamage(final YesNoTypeRO assetDamage) {
+		this.assetDamage = assetDamage;
 	}
 
 	/**
@@ -430,19 +429,5 @@ public class SearchIncidentRO extends AbstractEntityRO {
 	 */
 	public void setAccidentDamage(final YesNoTypeRO accidentDamage) {
 		this.accidentDamage = accidentDamage;
-	}
-
-	/**
-	 * @return the vehicleOrAssetDamage
-	 */
-	public YesNoTypeRO getVehicleOrAssetDamage() {
-		return vehicleOrAssetDamage;
-	}
-
-	/**
-	 * @param vehicleOrAssetDamage the vehicleOrAssetDamage to set
-	 */
-	public void setVehicleOrAssetDamage(final YesNoTypeRO vehicleOrAssetDamage) {
-		this.vehicleOrAssetDamage = vehicleOrAssetDamage;
 	}	
 }

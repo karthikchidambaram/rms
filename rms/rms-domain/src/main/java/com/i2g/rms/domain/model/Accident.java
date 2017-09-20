@@ -55,7 +55,6 @@ public class Accident extends AbstractDataModel<Long> implements Serializable {
 	private LocalDateTime _accidentDateTime;
 	private AccidentLocation _accidentLocation;
 	private AccidentLocationDetail _accidentLocationDetails;
-	private String _landmark;
 	private String _accidentPlace;
 	private AccidentType _accidentType;	
 	private Set<InjuredPerson> _injuredPersons = new HashSet<InjuredPerson>(0);
@@ -195,22 +194,6 @@ public class Accident extends AbstractDataModel<Long> implements Serializable {
 	 */
 	public void setAccidentLocationDetails(final AccidentLocationDetail accidentLocationDetails) {
 		_accidentLocationDetails = accidentLocationDetails;
-	}
-
-	/**
-	 * @return the landmark
-	 */
-	@Column(name = "LNDMRK", length = 64)
-	public String getLandmark() {
-		return _landmark;
-	}
-
-	/**
-	 * @param landmark
-	 *            the landmark to set
-	 */
-	public void setLandmark(final String landmark) {
-		_landmark = landmark;
 	}
 
 	/**

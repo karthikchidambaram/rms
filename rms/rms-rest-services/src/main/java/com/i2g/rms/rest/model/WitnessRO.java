@@ -35,7 +35,6 @@ public class WitnessRO extends AbstractEntityRO {
 	private String _email;
 	private String _website;
 	private Set<AccidentRO> _accidents = new HashSet<AccidentRO>(0);
-	private Set<AssetRO> _assets = new HashSet<AssetRO>(0);
 	private Set<CrimeRO> _crimes = new HashSet<CrimeRO>(0);
 	private Set<AddressRO> _addresses = new HashSet<AddressRO>(0);
 	private WitnessTypeRO _witnessType;
@@ -312,21 +311,6 @@ public class WitnessRO extends AbstractEntityRO {
 	 */
 	public void setWitnessType(final WitnessTypeRO witnessType) {
 		_witnessType = witnessType;
-	}
-
-	/**
-	 * @return the assets
-	 */
-	public Set<AssetRO> getAssets() {
-		return _assets;
-	}
-
-	/**
-	 * @param assets
-	 *            the assets to set
-	 */
-	public void setAssets(final Set<AssetRO> assets) {
-		_assets = assets;
 	}
 
 	/**

@@ -142,6 +142,10 @@
 	<mapping>
 		<class-a>com.i2g.rms.domain.model.tablemaintenance.Organization</class-a>
 		<class-b>com.i2g.rms.rest.model.tablemaintenance.OrganizationRO</class-b>
+		<field-exclude>
+			<a>officeAddresses</a>
+			<b>officeAddresses</b>
+		</field-exclude>
 	</mapping>
 	
 	<mapping>
