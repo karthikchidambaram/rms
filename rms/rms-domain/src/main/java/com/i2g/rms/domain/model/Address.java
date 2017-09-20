@@ -55,6 +55,7 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 	private CrimeSuspect _crimeSuspect;
 	private String _doorNumber;
 	private String _blockNumber;
+	private String _apartmentNumber;
 
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -373,6 +374,15 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 
 	public void setBlockNumber(final String blockNumber) {
 		_blockNumber = blockNumber;
+	}
+	
+	@Column(name = "APTMT_NO", length = 16)
+	public String getApartmentNumber() {
+		return _apartmentNumber;
+	}
+
+	public void setApartmentNumber(final String apartmentNumber) {
+		_apartmentNumber = apartmentNumber;
 	}
 
 	/**

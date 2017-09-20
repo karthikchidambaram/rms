@@ -31,6 +31,7 @@ public class AddressRO extends AbstractEntityRO {
 	private CrimeSuspectRO crimeSuspect;
 	private String doorNumber;
 	private String blockNumber;
+	private String apartmentNumber;
 
 	public long getId() {
 		return id;
@@ -204,4 +205,12 @@ public class AddressRO extends AbstractEntityRO {
 	public void setBlockNumber(final String blockNumber) {
 		this.blockNumber = blockNumber;
 	}
+
+	public String getApartmentNumber() {
+		return apartmentNumber;
+	}
+
+	public void setApartmentNumber(final String apartmentNumber) {
+		this.apartmentNumber = apartmentNumber;
+	}	
 }

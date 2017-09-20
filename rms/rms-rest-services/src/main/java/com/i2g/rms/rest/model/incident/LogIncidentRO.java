@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.i2g.rms.rest.model.AbstractEntityRO;
+import com.i2g.rms.rest.model.OfficeAddressRO;
 import com.i2g.rms.rest.model.YesNoTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.EntryPointRO;
 import com.i2g.rms.rest.model.tablemaintenance.IncidentLocationDetailRO;
@@ -42,6 +43,7 @@ public class LogIncidentRO extends AbstractEntityRO {
 	private String incidentTypeOther;
 	private String entryPointOther;
 	private String incidentLocationOther;
+	private OfficeAddressRO officeAddress;
 
 	public long getIncidentId() {
 		return incidentId;
@@ -178,4 +180,12 @@ public class LogIncidentRO extends AbstractEntityRO {
 	public void setIncidentLocationOther(final String incidentLocationOther) {
 		this.incidentLocationOther = incidentLocationOther;
 	}
+
+	public OfficeAddressRO getOfficeAddress() {
+		return officeAddress;
+	}
+
+	public void setOfficeAddress(final OfficeAddressRO officeAddress) {
+		this.officeAddress = officeAddress;
+	}	
 }

@@ -60,6 +60,7 @@ public class OfficeAddress extends AbstractDataModel<Long> implements Serializab
 	private Set<Incident> _incidents = new HashSet<Incident>(0);
 	private String _doorNumber;
 	private String _blockNumber;
+	private String _apartmentNumber;
 
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -297,7 +298,16 @@ public class OfficeAddress extends AbstractDataModel<Long> implements Serializab
 	public void setBlockNumber(final String blockNumber) {
 		_blockNumber = blockNumber;
 	}
+	
+	@Column(name = "APTMT_NO", length = 16)
+	public String getApartmentNumber() {
+		return _apartmentNumber;
+	}
 
+	public void setApartmentNumber(final String apartmentNumber) {
+		_apartmentNumber = apartmentNumber;
+	}
+	
 	/**
 	 * Builder pattern for constructing immutable instances of
 	 * {@link OfficeAddress}.
