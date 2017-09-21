@@ -60,6 +60,11 @@
 	</mapping>
 	
 	<mapping>
+		<class-a>com.i2g.rms.domain.model.BasicUserDetails</class-a>
+		<class-b>com.i2g.rms.rest.model.BasicUserDetailsRO</class-b>
+	</mapping>
+	
+	<mapping>
 		<class-a>com.i2g.rms.domain.model.OfficeAddress</class-a>
 		<class-b>com.i2g.rms.rest.model.OfficeAddressRO</class-b>
 		<field-exclude>
@@ -225,6 +230,24 @@
 		<field-exclude>
 			<a>incident</a>
 			<b>incident</b>
+		</field-exclude>
+	</mapping>
+	
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.Claim</class-a>
+		<class-b>com.i2g.rms.rest.model.ClaimRO</class-b>
+		<field-exclude>
+			<a>incident</a>
+			<b>incident</b>
+		</field-exclude>
+	</mapping>
+	
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.ClaimHistory</class-a>
+		<class-b>com.i2g.rms.rest.model.ClaimHistoryRO</class-b>
+		<field-exclude>
+			<a>claim</a>
+			<b>claim</b>
 		</field-exclude>
 	</mapping>
 	

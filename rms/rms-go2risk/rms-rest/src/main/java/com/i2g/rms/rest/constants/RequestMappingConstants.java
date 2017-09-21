@@ -346,6 +346,7 @@ public interface RequestMappingConstants {
 	String ADD_ACCIDENT_DETAILS							= INCIDENT + "/add-accident-details";
 	String ADD_ASSET_DETAILS							= INCIDENT + "/add-asset-details";
 	String ADD_CRIME_DETAILS							= INCIDENT + "/add-crime-details";
+	String ADD_CLAIM_DETAILS							= INCIDENT + "/add-claim-details";
 	
 	/** Search Incidents */
 	String SEARCH_INCIDENT							= SECURED + "/search-incident";	

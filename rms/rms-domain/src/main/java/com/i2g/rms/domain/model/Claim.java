@@ -1,9 +1,7 @@
 package com.i2g.rms.domain.model;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,13 +14,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import com.i2g.rms.domain.model.incident.Incident;
 import com.i2g.rms.domain.model.tablemaintenance.ClaimRequestRegistrationType;
@@ -60,8 +55,8 @@ public class Claim extends AbstractDataModel<Long> implements Serializable {
 	private PolicyType _policyType;
 	private YesNoType _securityRequested;
 	private YesNoType _trainingRequested;
-	private String _claimHandlerName;
-	private Set<ClaimHistory> _claimHistory = new HashSet<ClaimHistory>(0);
+	private ClaimHistory _claimHistory;
+	private User claimHandler;
 
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -76,7 +71,8 @@ public class Claim extends AbstractDataModel<Long> implements Serializable {
 	 * @param builder
 	 */
 	private Claim(final Builder builder) {
-		_incident = Objects.requireNonNull(builder._incident, "Incident object cannot be null when creating a claim record.");
+		_incident = Objects.requireNonNull(builder._incident,
+				"Incident object cannot be null when creating a claim record.");
 		_statusFlag = Objects.requireNonNull(builder._statusFlag, "Status flag cannot be null.");
 	}
 
@@ -112,8 +108,9 @@ public class Claim extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the incidentId
 	 */
-	@ManyToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "INC_ID")
+	@NotNull
 	public Incident getIncident() {
 		return _incident;
 	}
@@ -230,7 +227,7 @@ public class Claim extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the claimId
 	 */
-	@Column(name = "CLIMNT_ID", length = 32)
+	@Column(name = "CLIM_ID", length = 32)
 	public String getClaimId() {
 		return _claimId;
 	}
@@ -309,27 +306,10 @@ public class Claim extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @return the cliamHandlerName
-	 */
-	@Column(name = "CLIM_HNDLR_NAM", length = 128)
-	public String getClaimHandlerName() {
-		return _claimHandlerName;
-	}
-
-	/**
-	 * @param cliamHandlerName
-	 *            the cliamHandlerName to set
-	 */
-	public void setClaimHandlerName(final String claimHandlerName) {
-		_claimHandlerName = claimHandlerName;
-	}
-
-	/**
 	 * @return the claimHistory
 	 */
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "claim")
-	@Fetch(FetchMode.SUBSELECT)
-	public Set<ClaimHistory> getClaimHistory() {
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "claim")
+	public ClaimHistory getClaimHistory() {
 		return _claimHistory;
 	}
 
@@ -337,7 +317,7 @@ public class Claim extends AbstractDataModel<Long> implements Serializable {
 	 * @param claimHistory
 	 *            the claimHistory to set
 	 */
-	public void setClaimHistory(final Set<ClaimHistory> claimHistory) {
+	public void setClaimHistory(final ClaimHistory claimHistory) {
 		_claimHistory = claimHistory;
 	}
 
@@ -357,6 +337,16 @@ public class Claim extends AbstractDataModel<Long> implements Serializable {
 	 */
 	public void setStatusFlag(final StatusFlag statusFlag) {
 		_statusFlag = statusFlag;
+	}
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "USR_ID")
+	public User getClaimHandler() {
+		return claimHandler;
+	}
+
+	public void setClaimHandler(final User claimHandler) {
+		this.claimHandler = claimHandler;
 	}
 
 	/**

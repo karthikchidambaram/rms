@@ -34,6 +34,7 @@ import org.hibernate.annotations.Type;
 import com.i2g.rms.domain.model.AbstractDataModel;
 import com.i2g.rms.domain.model.Accident;
 import com.i2g.rms.domain.model.Asset;
+import com.i2g.rms.domain.model.Claim;
 import com.i2g.rms.domain.model.Crime;
 import com.i2g.rms.domain.model.OfficeAddress;
 import com.i2g.rms.domain.model.ReportedLoss;
@@ -88,6 +89,7 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 	private String _entryPointOther;
 	private String _incidentLocationOther;
 	private OfficeAddress _officeAddress;
+	private Claim _claim;
 	
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -474,6 +476,15 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 
 	public void setOfficeAddress(final OfficeAddress officeAddress) {
 		_officeAddress = officeAddress;
+	}
+	
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "incident")
+	public Claim getClaim() {
+		return _claim;
+	}
+
+	public void setClaim(final Claim claim) {
+		_claim = claim;
 	}
 
 	@Override

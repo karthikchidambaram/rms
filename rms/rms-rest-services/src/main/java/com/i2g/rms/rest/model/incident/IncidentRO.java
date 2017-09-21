@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.i2g.rms.rest.model.AbstractEntityRO;
 import com.i2g.rms.rest.model.AccidentRO;
 import com.i2g.rms.rest.model.AssetRO;
+import com.i2g.rms.rest.model.ClaimRO;
 import com.i2g.rms.rest.model.CrimeRO;
 import com.i2g.rms.rest.model.OfficeAddressRO;
 import com.i2g.rms.rest.model.ReportedLossRO;
@@ -56,6 +57,7 @@ public class IncidentRO extends AbstractEntityRO {
 	private String _entryPointOther;
 	private String _incidentLocationOther;
 	private OfficeAddressRO _officeAddress;
+	private ClaimRO _claim;
 
 	/**
 	 * @return the id
@@ -411,4 +413,12 @@ public class IncidentRO extends AbstractEntityRO {
 	public void setOfficeAddress(final OfficeAddressRO officeAddress) {
 		_officeAddress = officeAddress;
 	}
+
+	public ClaimRO getClaim() {
+		return _claim;
+	}
+
+	public void setClaim(final ClaimRO claim) {
+		_claim = claim;
+	}	
 }

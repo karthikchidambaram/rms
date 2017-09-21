@@ -17,6 +17,8 @@ import com.i2g.rms.domain.model.Accident;
 import com.i2g.rms.domain.model.Address;
 import com.i2g.rms.domain.model.Asset;
 import com.i2g.rms.domain.model.Building;
+import com.i2g.rms.domain.model.Claim;
+import com.i2g.rms.domain.model.ClaimHistory;
 import com.i2g.rms.domain.model.Crime;
 import com.i2g.rms.domain.model.CrimeSuspect;
 import com.i2g.rms.domain.model.Equipment;
@@ -42,6 +44,8 @@ import com.i2g.rms.rest.model.AccidentRO;
 import com.i2g.rms.rest.model.AddressRO;
 import com.i2g.rms.rest.model.AssetRO;
 import com.i2g.rms.rest.model.BuildingRO;
+import com.i2g.rms.rest.model.ClaimHistoryRO;
+import com.i2g.rms.rest.model.ClaimRO;
 import com.i2g.rms.rest.model.CrimeRO;
 import com.i2g.rms.rest.model.CrimeSuspectRO;
 import com.i2g.rms.rest.model.EquipmentRO;
@@ -53,6 +57,7 @@ import com.i2g.rms.rest.model.VehicleRO;
 import com.i2g.rms.rest.model.WitnessRO;
 import com.i2g.rms.rest.model.incident.AccidentDetailRO;
 import com.i2g.rms.rest.model.incident.AssetDetailRO;
+import com.i2g.rms.rest.model.incident.ClaimDetailRO;
 import com.i2g.rms.rest.model.incident.CrimeDetailRO;
 import com.i2g.rms.rest.model.incident.IncidentDetailRO;
 import com.i2g.rms.rest.model.incident.IncidentRO;
@@ -63,6 +68,7 @@ import com.i2g.rms.rest.service.AbstractRestService;
 import com.i2g.rms.rest.service.RestMessage;
 import com.i2g.rms.service.AccidentService;
 import com.i2g.rms.service.AssetService;
+import com.i2g.rms.service.ClaimService;
 import com.i2g.rms.service.CrimeService;
 import com.i2g.rms.service.CrimeSuspectService;
 import com.i2g.rms.service.InjuredPersonService;
@@ -114,6 +120,8 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 	private CrimeSuspectService _crimeSuspectService;
 	@Autowired
 	private OfficeAddressService _officeAddressService;
+	@Autowired
+	private ClaimService _claimService;
 
 	@Override
 	@Transactional(readOnly = true)
@@ -573,6 +581,37 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 			incident.setCrime(updatedCrime);
 		}
 		// Throw the incident back with the newly created crime details
+		return _mapperService.map(incident, IncidentRO.class);
+	}
+	
+	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
+	@Transactional
+	public IncidentRO addClaimDetail(final ClaimDetailRO claimDetailRO) {
+		// Validate input param (object)
+		validateObject(claimDetailRO);
+		// Validate unique incident id
+		validateUniqueIncidentId(claimDetailRO.getUniqueIncidentId());
+		// Validate crime object
+		validateObject(claimDetailRO.getClaim());
+		// Construct the incident object for update
+		Incident incident = _incidentService.getIncidentByUniqueIncidentId(claimDetailRO.getUniqueIncidentId().trim());
+		validateGenericObject(incident);
+
+		// Construct and create the claim object.
+		Claim claim = constructClaim(claimDetailRO.getClaim(), incident);
+		validateGenericObject(claim);
+		
+		// create the asset record
+		final Claim newClaim = _claimService.create(claim);
+		// Throw exception if unable to create
+		if (newClaim == null) {
+			throw new ResourceNotCreatedException(_messageBuilder.build(RestMessage.UNABLE_TO_CREATE_RECORD));
+		} else {
+			// Set the accident to incident.
+			incident.setClaim(newClaim);
+		}
+		// Throw the incident back with the newly created accident details
 		return _mapperService.map(incident, IncidentRO.class);
 	}
 
@@ -1271,7 +1310,7 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 		return bodyParts;
 	}
 
-	private Crime constructCrime(final CrimeRO crimeRO, Incident incident) {
+	private Crime constructCrime(final CrimeRO crimeRO, final Incident incident) {
 		final Crime crime = new Crime.Builder().setStatusFlag(StatusFlag.ACTIVE).setIncident(incident).build();
 		// set other values
 		// crime date and time
@@ -1297,6 +1336,140 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 		}
 
 		return newCrime;
+	}
+	
+	private Claim constructClaim(final ClaimRO claimRO, final Incident incident) {
+		final Claim claim = new Claim.Builder().setStatusFlag(StatusFlag.ACTIVE).setIncident(incident).build();
+		if (claimRO != null) {
+			//claim status
+			if (claimRO.getClaimStatus() != null) {
+				if (claimRO.getClaimStatus().getId() != null && !claimRO.getClaimStatus().getId().trim().isEmpty()) {
+					claim.setClaimStatus(_tableMaintenanceService.getClaimStatusByCode(claimRO.getClaimStatus().getId().trim()));
+				}				
+			}
+			//claim type
+			if (claimRO.getClaimType() != null) {
+				if (claimRO.getClaimType().getId() != null && !claimRO.getClaimType().getId().trim().isEmpty()) {
+					claim.setClaimType(_tableMaintenanceService.getClaimTypeByCode(claimRO.getClaimType().getId().trim()));
+				}				
+			}
+			//claim request registration type
+			if (claimRO.getClaimRequestRegistrationType() != null) {
+				if (claimRO.getClaimRequestRegistrationType().getId() != null && !claimRO.getClaimRequestRegistrationType().getId().trim().isEmpty()) {
+					claim.setClaimRequestRegistrationType(_tableMaintenanceService.getClaimRequestRegistrationTypeByCode(claimRO.getClaimRequestRegistrationType().getId().trim()));
+				}				
+			}
+			//claimant name
+			if (claimRO.getClaimantName() != null && !claimRO.getClaimantName().trim().isEmpty()) {
+				claim.setClaimantName(claimRO.getClaimantName().trim());
+			}
+			//claim id
+			if (claimRO.getClaimId() != null && !claimRO.getClaimId().trim().isEmpty()) {
+				claim.setClaimId(claimRO.getClaimId().trim());
+			}
+			//insured name
+			if (claimRO.getInsuredName() != null && !claimRO.getInsuredName().trim().isEmpty()) {
+				claim.setInsuredName(claimRO.getInsuredName().trim());
+			}
+			//policy number
+			if (claimRO.getPolicyNumber() != null && !claimRO.getPolicyNumber().trim().isEmpty()) {
+				claim.setPolicyNumber(claimRO.getPolicyNumber().trim());
+			}
+			//policy holder name
+			if (claimRO.getPolicyHolderName() != null && !claimRO.getPolicyHolderName().trim().isEmpty()) {
+				claim.setPolicyHolderName(claimRO.getPolicyHolderName().trim());
+			}
+			//policy type
+			if (claimRO.getPolicyType() != null) {
+				if (claimRO.getPolicyType().getId() != null && !claimRO.getPolicyType().getId().trim().isEmpty()) {
+					claim.setPolicyType(_tableMaintenanceService.getPolicyTypeByCode(claimRO.getPolicyType().getId().trim()));
+				}				
+			}
+			//security requested
+			YesNoType securityRequested = YesNoType.N;
+			if (claimRO.getSecurityRequested() != null && claimRO.getSecurityRequested().name().equals("Y")) {
+				securityRequested = YesNoType.Y;
+			}
+			claim.setSecurityRequested(securityRequested);			
+			//training requested
+			YesNoType trainingRequested = YesNoType.N;
+			if (claimRO.getTrainingRequested() != null && claimRO.getTrainingRequested().name().equals("Y")) {
+				trainingRequested = YesNoType.Y;
+			}
+			claim.setTrainingRequested(trainingRequested);
+			//claim history
+			if (claimRO.getClaimHistory() != null) {
+				claim.setClaimHistory(constructClaimHistory(claimRO.getClaimHistory(), claim));
+			}
+			//claim handler is automatically assigned by the batch program.
+		}
+		return claim;
+	}
+	
+	private ClaimHistory constructClaimHistory(final ClaimHistoryRO claimHistoryRO, final Claim claim) {
+		final ClaimHistory claimHistory = new ClaimHistory.Builder().setStatusFlag(StatusFlag.ACTIVE).setClaim(claim).build();
+		if (claimHistoryRO != null) {
+			//set other values for claim history
+			//amount
+			if (claimHistoryRO.getClaimRequestedAmount() != null) {
+				claimHistory.setClaimRequestedAmount(claimHistoryRO.getClaimRequestedAmount());
+			}
+			if (claimHistoryRO.getClaimApprovedAmount() != null) {
+				claimHistory.setClaimApprovedAmount(claimHistoryRO.getClaimApprovedAmount());
+			}
+			if (claimHistoryRO.getClaimSettlementAmount() != null) {
+				claimHistory.setClaimSettlementAmount(claimHistoryRO.getClaimSettlementAmount());
+			}
+			//date
+			if (claimHistoryRO.getClaimRequestedDate() != null) {
+				claimHistory.setClaimRequestedDate(claimHistoryRO.getClaimRequestedDate());
+			}
+			if (claimHistoryRO.getClaimApprovedDate() != null) {
+				claimHistory.setClaimApprovedDate(claimHistoryRO.getClaimApprovedDate());
+			}
+			if (claimHistoryRO.getClaimSettlementDate() != null) {
+				claimHistory.setClaimSettlementDate(claimHistoryRO.getClaimSettlementDate());
+			}
+			if (claimHistoryRO.getClaimDeclinedDate() != null) {
+				claimHistory.setClaimDeclinedDate(claimHistoryRO.getClaimDeclinedDate());
+			}
+			if (claimHistoryRO.getClaimReopenedDate() != null) {
+				claimHistory.setClaimReopenedDate(claimHistoryRO.getClaimReopenedDate());
+			}
+			//requested by
+			if (claimHistoryRO.getClaimRequestedBy() != null && !claimHistoryRO.getClaimRequestedBy().trim().isEmpty()) {
+				claimHistory.setClaimRequestedBy(claimHistoryRO.getClaimRequestedBy().trim());
+			}			
+			if (claimHistoryRO.getClaimApprovedBy() != null && !claimHistoryRO.getClaimApprovedBy().trim().isEmpty()) {
+				claimHistory.setClaimApprovedBy(claimHistoryRO.getClaimApprovedBy().trim());
+			}
+			if (claimHistoryRO.getClaimSettlementBy() != null && !claimHistoryRO.getClaimSettlementBy().trim().isEmpty()) {
+				claimHistory.setClaimSettlementBy(claimHistoryRO.getClaimSettlementBy().trim());
+			}
+			if (claimHistoryRO.getClaimDeclinedBy() != null && !claimHistoryRO.getClaimDeclinedBy().trim().isEmpty()) {
+				claimHistory.setClaimDeclinedBy(claimHistoryRO.getClaimDeclinedBy().trim());
+			}
+			if (claimHistoryRO.getClaimReopenedBy() != null && !claimHistoryRO.getClaimReopenedBy().trim().isEmpty()) {
+				claimHistory.setClaimReopenedBy(claimHistoryRO.getClaimReopenedBy().trim());
+			}
+			//comments
+			if (claimHistoryRO.getClaimRequestedComments() != null && !claimHistoryRO.getClaimRequestedComments().trim().isEmpty()) {
+				claimHistory.setClaimRequestedComments(claimHistoryRO.getClaimRequestedComments().trim());
+			}
+			if (claimHistoryRO.getClaimApprovedComments() != null && !claimHistoryRO.getClaimApprovedComments().trim().isEmpty()) {
+				claimHistory.setClaimApprovedComments(claimHistoryRO.getClaimApprovedComments().trim());
+			}
+			if (claimHistoryRO.getClaimSettlementComments() != null && !claimHistoryRO.getClaimSettlementComments().trim().isEmpty()) {
+				claimHistory.setClaimSettlementComments(claimHistoryRO.getClaimSettlementComments().trim());
+			}
+			if (claimHistoryRO.getClaimDeclinedComments() != null && !claimHistoryRO.getClaimDeclinedComments().trim().isEmpty()) {
+				claimHistory.setClaimDeclinedComments(claimHistoryRO.getClaimDeclinedComments().trim());
+			}
+			if (claimHistoryRO.getClaimReopenedComments() != null && !claimHistoryRO.getClaimReopenedComments().trim().isEmpty()) {
+				claimHistory.setClaimReopenedComments(claimHistoryRO.getClaimReopenedComments().trim());
+			}			
+		}
+		return claimHistory;
 	}
 
 	private Set<CrimeSuspect> constructNewCrimeSuspects(final Set<CrimeSuspectRO> crimeSuspectROs, final Crime crime) {
@@ -1483,5 +1656,5 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 				throw new ResourceNotValidException(_messageBuilder.build(RestMessage.WITNESS_FLAG_MUST_BE_YES));
 			}
 		}
-	}
+	}	
 }

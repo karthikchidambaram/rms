@@ -9,11 +9,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -55,7 +56,11 @@ public class ClaimHistory extends AbstractDataModel<Long> implements Serializabl
 	private String _claimDeclinedBy;
 	private LocalDate _claimReopenedDate;
 	private String _claimReopenedBy;
-	private String _comments;
+	private String _claimRequestedComments;
+	private String _claimApprovedComments;
+	private String _claimSettlementComments;
+	private String _claimDeclinedComments;
+	private String _claimReopenedComments;
 
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -106,8 +111,9 @@ public class ClaimHistory extends AbstractDataModel<Long> implements Serializabl
 	/**
 	 * @return the claim
 	 */
-	@ManyToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "CLIM_ID")
+	@NotNull
 	public Claim getClaim() {
 		return _claim;
 	}
@@ -334,19 +340,19 @@ public class ClaimHistory extends AbstractDataModel<Long> implements Serializabl
 	}
 
 	/**
-	 * @return the comments
+	 * @return the claimRequestedComments
 	 */
-	@Column(name = "COMNTS", length = 128)
-	public String getComments() {
-		return _comments;
+	@Column(name = "CLIM_REQ_CMNTS", length = 256)
+	public String getClaimRequestedComments() {
+		return _claimRequestedComments;
 	}
 
 	/**
-	 * @param comments
-	 *            the comments to set
+	 * @param claimRequestedComments
+	 *            the claimRequestedComments to set
 	 */
-	public void setComments(final String comments) {
-		_comments = comments;
+	public void setClaimRequestedComments(final String claimRequestedComments) {
+		_claimRequestedComments = claimRequestedComments;
 	}
 
 	/**
@@ -365,6 +371,42 @@ public class ClaimHistory extends AbstractDataModel<Long> implements Serializabl
 	 */
 	public void setStatusFlag(final StatusFlag statusFlag) {
 		_statusFlag = statusFlag;
+	}
+	
+	@Column(name = "CLIM_APR_CMNTS", length = 256)
+	public String getClaimApprovedComments() {
+		return _claimApprovedComments;
+	}
+
+	public void setClaimApprovedComments(final String claimApprovedComments) {
+		_claimApprovedComments = claimApprovedComments;
+	}
+	
+	@Column(name = "CLIM_STLMT_CMNTS", length = 256)
+	public String getClaimSettlementComments() {
+		return _claimSettlementComments;
+	}
+
+	public void setClaimSettlementComments(final String claimSettlementComments) {
+		_claimSettlementComments = claimSettlementComments;
+	}
+	
+	@Column(name = "CLIM_DEC_CMNTS", length = 256)
+	public String getClaimDeclinedComments() {
+		return _claimDeclinedComments;
+	}
+
+	public void setClaimDeclinedComments(final String claimDeclinedComments) {
+		_claimDeclinedComments = claimDeclinedComments;
+	}
+	
+	@Column(name = "CLIM_REOPN_CMNTS", length = 256)
+	public String getClaimReopenedComments() {
+		return _claimReopenedComments;
+	}
+
+	public void setClaimReopenedComments(final String claimReopenedComments) {
+		_claimReopenedComments = claimReopenedComments;
 	}
 
 	/**
