@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.i2g.rms.domain.model.OfficeAddress;
 import com.i2g.rms.rest.constants.RequestMappingConstants;
 import com.i2g.rms.rest.model.OfficeAddressRO;
+import com.i2g.rms.rest.search.Searchable;
 import com.i2g.rms.rest.service.OfficeAddressRestService;
 
 /**
@@ -29,6 +31,7 @@ public class OfficeAddressController extends AbstractRestController {
 	private OfficeAddressRestService _officeAddressRestService;
 
 	@RequestMapping(value = RequestMappingConstants.GET_OFFICE_ADDRESSES, method = RequestMethod.GET)
+	@Searchable(sourceType = OfficeAddressRO.class, value = OfficeAddress.class)
 	public List<OfficeAddressRO> get() {
 		return _officeAddressRestService.get();
 	}
