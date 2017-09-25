@@ -17,4 +17,6 @@ public interface UserService {
 	
 	public User getUserByUserLoginId(final String loginId);
 	
+	public List<User> getSubordinates(final User manager);
+	
 }

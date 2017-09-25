@@ -1,6 +1,7 @@
 package com.i2g.rms.service.incident;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,5 +29,10 @@ public class SearchIncidentServiceImpl extends AbstractService implements Search
 	@Override
 	public List<SearchIncident> get() {
 		return _searchIncidentDao.get();
+	}
+
+	@Override
+	public List<SearchIncident> get(final Set<String> loginIds, final boolean isAdmin) {
+		return _searchIncidentDao.get(loginIds, isAdmin);
 	}
 }

@@ -60,6 +60,11 @@
 	</mapping>
 	
 	<mapping>
+		<class-a>com.i2g.rms.domain.model.Subordinate</class-a>
+		<class-b>com.i2g.rms.rest.model.SubordinateRO</class-b>
+	</mapping>
+	
+	<mapping>
 		<class-a>com.i2g.rms.domain.model.BasicUserDetails</class-a>
 		<class-b>com.i2g.rms.rest.model.BasicUserDetailsRO</class-b>
 	</mapping>

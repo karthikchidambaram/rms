@@ -45,6 +45,10 @@ public class LogIncidentRO extends AbstractEntityRO {
 	private String incidentLocationOther;
 	private OfficeAddressRO officeAddress;
 
+	private YesNoTypeRO notifyClaimsHandler;
+	private YesNoTypeRO showClaims;
+	private YesNoTypeRO showInvestigation;
+
 	public long getIncidentId() {
 		return incidentId;
 	}
@@ -187,5 +191,29 @@ public class LogIncidentRO extends AbstractEntityRO {
 
 	public void setOfficeAddress(final OfficeAddressRO officeAddress) {
 		this.officeAddress = officeAddress;
-	}	
+	}
+
+	public YesNoTypeRO getNotifyClaimsHandler() {
+		return notifyClaimsHandler;
+	}
+
+	public void setNotifyClaimsHandler(final YesNoTypeRO notifyClaimsHandler) {
+		this.notifyClaimsHandler = notifyClaimsHandler;
+	}
+
+	public YesNoTypeRO getShowClaims() {
+		return showClaims;
+	}
+
+	public void setShowClaims(final YesNoTypeRO showClaims) {
+		this.showClaims = showClaims;
+	}
+
+	public YesNoTypeRO getShowInvestigation() {
+		return showInvestigation;
+	}
+
+	public void setShowInvestigation(final YesNoTypeRO showInvestigation) {
+		this.showInvestigation = showInvestigation;
+	}
 }

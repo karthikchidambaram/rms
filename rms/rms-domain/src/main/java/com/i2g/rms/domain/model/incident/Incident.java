@@ -90,6 +90,9 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 	private String _incidentLocationOther;
 	private OfficeAddress _officeAddress;
 	private Claim _claim;
+	private YesNoType _notifyClaimsHandler;
+	private YesNoType _showClaims;
+	private YesNoType _showInvestigation;
 	
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -485,6 +488,36 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 
 	public void setClaim(final Claim claim) {
 		_claim = claim;
+	}
+	
+	@Column(name = "NTFY_CLIM_HNDLR")
+	@Enumerated(EnumType.STRING)
+	public YesNoType getNotifyClaimsHandler() {
+		return _notifyClaimsHandler;
+	}
+
+	public void setNotifyClaimsHandler(final YesNoType notifyClaimsHandler) {
+		_notifyClaimsHandler = notifyClaimsHandler;
+	}
+	
+	@Column(name = "SHOW_CLAIMS")
+	@Enumerated(EnumType.STRING)
+	public YesNoType getShowClaims() {
+		return _showClaims;
+	}
+
+	public void setShowClaims(final YesNoType showClaims) {
+		_showClaims = showClaims;
+	}
+	
+	@Column(name = "SHOW_INVSTGN")
+	@Enumerated(EnumType.STRING)
+	public YesNoType getShowInvestigation() {
+		return _showInvestigation;
+	}
+
+	public void setShowInvestigation(final YesNoType showInvestigation) {
+		_showInvestigation = showInvestigation;
 	}
 
 	@Override

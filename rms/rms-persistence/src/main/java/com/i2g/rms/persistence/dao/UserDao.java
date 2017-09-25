@@ -14,7 +14,9 @@ import com.i2g.rms.domain.model.User;
 public interface UserDao {
 
 	public List<User> getUsers();
-	
+
 	public User getUserByUserLoginId(final String loginId);
-	
+
+	public List<User> getSubordinates(final User manager);
+
 }

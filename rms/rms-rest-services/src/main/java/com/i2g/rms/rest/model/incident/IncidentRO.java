@@ -58,6 +58,9 @@ public class IncidentRO extends AbstractEntityRO {
 	private String _incidentLocationOther;
 	private OfficeAddressRO _officeAddress;
 	private ClaimRO _claim;
+	private YesNoTypeRO _notifyClaimsHandler;
+	private YesNoTypeRO _showClaims;
+	private YesNoTypeRO _showInvestigation;
 
 	/**
 	 * @return the id
@@ -420,5 +423,29 @@ public class IncidentRO extends AbstractEntityRO {
 
 	public void setClaim(final ClaimRO claim) {
 		_claim = claim;
-	}	
+	}
+
+	public YesNoTypeRO getNotifyClaimsHandler() {
+		return _notifyClaimsHandler;
+	}
+
+	public void setNotifyClaimsHandler(final YesNoTypeRO notifyClaimsHandler) {
+		_notifyClaimsHandler = notifyClaimsHandler;
+	}
+
+	public YesNoTypeRO getShowClaims() {
+		return _showClaims;
+	}
+
+	public void setShowClaims(final YesNoTypeRO showClaims) {
+		_showClaims = showClaims;
+	}
+
+	public YesNoTypeRO getShowInvestigation() {
+		return _showInvestigation;
+	}
+
+	public void setShowInvestigation(final YesNoTypeRO showInvestigation) {
+		_showInvestigation = showInvestigation;
+	}
 }

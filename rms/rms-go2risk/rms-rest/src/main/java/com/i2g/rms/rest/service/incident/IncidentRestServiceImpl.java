@@ -138,6 +138,12 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 		validateUniqueIncidentId(uniqueIncidentId);
 		return _mapperService.map(_incidentService.getIncidentByUniqueIncidentId(uniqueIncidentId), IncidentRO.class);
 	}
+	
+	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
+	public UserRO addIncident() {
+		return _mapperService.map(getUserFromContext(), UserRO.class);
+	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
@@ -152,17 +158,20 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 
 		// Set yes or no type fields
 		final YesNoType assetDamage = (logIncidentRO.getAssetDamage().name().equals("Y")) ? YesNoType.Y : YesNoType.N;
-		final YesNoType criminalAttack = (logIncidentRO.getCriminalAttack().name().equals("Y")) ? YesNoType.Y
-				: YesNoType.N;
-		final YesNoType accidentDamage = (logIncidentRO.getAccidentDamage().name().equals("Y")) ? YesNoType.Y
-				: YesNoType.N;
-
+		final YesNoType criminalAttack = (logIncidentRO.getCriminalAttack().name().equals("Y")) ? YesNoType.Y : YesNoType.N;
+		final YesNoType accidentDamage = (logIncidentRO.getAccidentDamage().name().equals("Y")) ? YesNoType.Y : YesNoType.N;
+		
 		// Construct incident record first with not null columns
 		final Incident incident = new Incident.Builder()
-				.setUniqueIncidentId(ApplicationUtilService.getUniqueIncidentId()).setIncidentReportedBy(user)
-				.setIncidentStatus(IncidentStatus.DRAFT).setStatusFlag(StatusFlag.ACTIVE).setAssetDamage(assetDamage)
-				.setCriminalAttack(criminalAttack).setAccidentDamage(accidentDamage)
-				.setIncidentOpenedDateTime(ApplicationUtilService.getCurrentTimestamp()).build();
+									.setUniqueIncidentId(ApplicationUtilService.getUniqueIncidentId())
+									.setIncidentReportedBy(user)
+									.setIncidentStatus(IncidentStatus.DRAFT)
+									.setStatusFlag(StatusFlag.ACTIVE)
+									.setAssetDamage(assetDamage)
+									.setCriminalAttack(criminalAttack)
+									.setAccidentDamage(accidentDamage)
+									.setIncidentOpenedDateTime(ApplicationUtilService.getCurrentTimestamp())
+									.build();
 
 		// Validate the newly created object
 		validateGenericObject(incident);
@@ -230,20 +239,32 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 				incident.setOfficeAddress(_officeAddressService.get(logIncidentRO.getOfficeAddress().getId()));
 			}
 		}
+		YesNoType notifyClaimsHandler = YesNoType.N;
+		if (logIncidentRO.getNotifyClaimsHandler() != null && logIncidentRO.getNotifyClaimsHandler().name().equals("Y")) {
+			notifyClaimsHandler = YesNoType.Y;
+		}
+		incident.setNotifyClaimsHandler(notifyClaimsHandler);
+		
+		YesNoType showClaims = YesNoType.N;
+		if (logIncidentRO.getShowClaims() != null && logIncidentRO.getShowClaims().name().equals("Y")) {
+			showClaims = YesNoType.Y;
+		}
+		incident.setShowClaims(showClaims);
+		
+		YesNoType showInvestigation = YesNoType.N;
+		if (logIncidentRO.getShowInvestigation() != null && logIncidentRO.getShowInvestigation().name().equals("Y")) {
+			showInvestigation = YesNoType.Y;
+		}
+		incident.setShowInvestigation(showInvestigation);
 		
 		// Save the newly constructed incident
-		Incident newIncident = _incidentService.logIncident(incident);
+		final Incident newIncident = _incidentService.logIncident(incident);
 
 		if (newIncident != null) {
 			return _mapperService.map(newIncident, IncidentRO.class);
 		} else {
 			throw new ResourceNotCreatedException(_messageBuilder.build(RestMessage.UNABLE_TO_CREATE_RECORD));
 		}
-	}
-
-	@Override
-	public UserRO addIncident() {
-		return _mapperService.map(getUserFromContext(), UserRO.class);
 	}
 
 	@Override
@@ -350,8 +371,7 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 		}
 
 		// Holder variables for newly created objects
-		final Set<InjuredPerson> newInjuredPersons = constructNewInjuredPersons(
-				accidentDetailRO.getNewInjuredPersons());
+		final Set<InjuredPerson> newInjuredPersons = constructNewInjuredPersons(accidentDetailRO.getNewInjuredPersons());
 		final Set<InjuredPerson> existingInjuredPersons = new HashSet<InjuredPerson>(0);
 		final Set<User> employeeInjuredPersons = new HashSet<User>(0);
 		final Set<Witness> newWitnesses = constructNewWitnesses(accidentDetailRO.getNewWitnesses());
@@ -504,8 +524,7 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 			crime.setEmployeeWitnesses(new HashSet<User>(0));
 		}
 
-		final Set<CrimeSuspect> newCrimeSuspects = constructNewCrimeSuspects(crimeDetailRO.getNewCrimeSuspects(),
-				crime);
+		final Set<CrimeSuspect> newCrimeSuspects = constructNewCrimeSuspects(crimeDetailRO.getNewCrimeSuspects(), crime);
 		final Set<CrimeSuspect> existingCrimeSuspects = new HashSet<CrimeSuspect>(0);
 		final Set<User> employeeCrimeSuspects = new HashSet<User>(0);
 

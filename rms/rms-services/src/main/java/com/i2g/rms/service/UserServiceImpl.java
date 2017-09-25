@@ -33,7 +33,13 @@ public class UserServiceImpl extends AbstractService implements UserService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public User getUserByUserLoginId(String loginId) {
+	public User getUserByUserLoginId(final String loginId) {
 		return _userDao.getUserByUserLoginId(loginId);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<User> getSubordinates(final User manager) {
+		return _userDao.getSubordinates(manager);
 	}
 }
