@@ -36,6 +36,7 @@ import com.i2g.rms.domain.model.Accident;
 import com.i2g.rms.domain.model.Asset;
 import com.i2g.rms.domain.model.Claim;
 import com.i2g.rms.domain.model.Crime;
+import com.i2g.rms.domain.model.Investigation;
 import com.i2g.rms.domain.model.OfficeAddress;
 import com.i2g.rms.domain.model.ReportedLoss;
 import com.i2g.rms.domain.model.StatusFlag;
@@ -93,6 +94,7 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 	private YesNoType _notifyClaimsHandler;
 	private YesNoType _showClaims;
 	private YesNoType _showInvestigation;
+	private Investigation _investigation;
 	
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -518,6 +520,15 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 
 	public void setShowInvestigation(final YesNoType showInvestigation) {
 		_showInvestigation = showInvestigation;
+	}
+	
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "incident")
+	public Investigation getInvestigation() {
+		return _investigation;
+	}
+
+	public void setInvestigation(final Investigation investigation) {
+		_investigation = investigation;
 	}
 
 	@Override

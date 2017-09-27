@@ -36,7 +36,7 @@ import com.i2g.rms.domain.model.tablemaintenance.Organization;
  */
 @Entity
 @Table(name = "RMS_OFF_ADDR")
-@JsonIgnoreProperties({ "incidents" })
+@JsonIgnoreProperties({ "incidents", "users" })
 public class OfficeAddress extends AbstractDataModel<Long> implements Serializable {
 
 	/**
@@ -61,6 +61,7 @@ public class OfficeAddress extends AbstractDataModel<Long> implements Serializab
 	private String _doorNumber;
 	private String _blockNumber;
 	private String _apartmentNumber;
+	private Set<User> _users = new HashSet<User>(0);
 
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -308,6 +309,15 @@ public class OfficeAddress extends AbstractDataModel<Long> implements Serializab
 		_apartmentNumber = apartmentNumber;
 	}
 	
+	@OneToMany(mappedBy = "officeAddress")
+	public Set<User> getUsers() {
+		return _users;
+	}
+
+	public void setUsers(final Set<User> users) {
+		_users = users;
+	}
+
 	/**
 	 * Builder pattern for constructing immutable instances of
 	 * {@link OfficeAddress}.

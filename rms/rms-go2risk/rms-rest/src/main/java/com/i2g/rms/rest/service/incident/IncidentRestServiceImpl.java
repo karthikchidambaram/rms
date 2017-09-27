@@ -23,6 +23,7 @@ import com.i2g.rms.domain.model.Crime;
 import com.i2g.rms.domain.model.CrimeSuspect;
 import com.i2g.rms.domain.model.Equipment;
 import com.i2g.rms.domain.model.InjuredPerson;
+import com.i2g.rms.domain.model.Investigation;
 import com.i2g.rms.domain.model.ReportedLoss;
 import com.i2g.rms.domain.model.StatusFlag;
 import com.i2g.rms.domain.model.Suspect;
@@ -50,6 +51,7 @@ import com.i2g.rms.rest.model.CrimeRO;
 import com.i2g.rms.rest.model.CrimeSuspectRO;
 import com.i2g.rms.rest.model.EquipmentRO;
 import com.i2g.rms.rest.model.InjuredPersonRO;
+import com.i2g.rms.rest.model.InvestigationRO;
 import com.i2g.rms.rest.model.ReportedLossRO;
 import com.i2g.rms.rest.model.SuspectRO;
 import com.i2g.rms.rest.model.UserRO;
@@ -61,6 +63,7 @@ import com.i2g.rms.rest.model.incident.ClaimDetailRO;
 import com.i2g.rms.rest.model.incident.CrimeDetailRO;
 import com.i2g.rms.rest.model.incident.IncidentDetailRO;
 import com.i2g.rms.rest.model.incident.IncidentRO;
+import com.i2g.rms.rest.model.incident.InvestigationDetailRO;
 import com.i2g.rms.rest.model.incident.LogIncidentRO;
 import com.i2g.rms.rest.model.tablemaintenance.BodyPartRO;
 import com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeatureDetailRO;
@@ -72,6 +75,7 @@ import com.i2g.rms.service.ClaimService;
 import com.i2g.rms.service.CrimeService;
 import com.i2g.rms.service.CrimeSuspectService;
 import com.i2g.rms.service.InjuredPersonService;
+import com.i2g.rms.service.InvestigationService;
 import com.i2g.rms.service.OfficeAddressService;
 import com.i2g.rms.service.ReportedLossService;
 import com.i2g.rms.service.SuspectService;
@@ -122,6 +126,8 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 	private OfficeAddressService _officeAddressService;
 	@Autowired
 	private ClaimService _claimService;
+	@Autowired
+	private InvestigationService _investigationService;
 
 	@Override
 	@Transactional(readOnly = true)
@@ -604,14 +610,14 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 	}
 	
 	@Override
-	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
+	@PreAuthorize("hasAnyAuthority('ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
 	@Transactional
 	public IncidentRO addClaimDetail(final ClaimDetailRO claimDetailRO) {
 		// Validate input param (object)
 		validateObject(claimDetailRO);
 		// Validate unique incident id
 		validateUniqueIncidentId(claimDetailRO.getUniqueIncidentId());
-		// Validate crime object
+		// Validate claim object
 		validateObject(claimDetailRO.getClaim());
 		// Construct the incident object for update
 		Incident incident = _incidentService.getIncidentByUniqueIncidentId(claimDetailRO.getUniqueIncidentId().trim());
@@ -627,11 +633,41 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 		if (newClaim == null) {
 			throw new ResourceNotCreatedException(_messageBuilder.build(RestMessage.UNABLE_TO_CREATE_RECORD));
 		} else {
-			// Set the accident to incident.
+			// Set the claim to incident.
 			incident.setClaim(newClaim);
 		}
-		// Throw the incident back with the newly created accident details
+		// Throw the incident back with the newly created claim details
 		return _mapperService.map(incident, IncidentRO.class);
+	}
+	
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional
+	public IncidentRO addInvestigationDetail(final InvestigationDetailRO investigationDetailRO) {
+		// Validate input param (object)
+		validateObject(investigationDetailRO);
+		// Validate unique incident id
+		validateUniqueIncidentId(investigationDetailRO.getUniqueIncidentId());
+		// Validate investigation object
+		validateObject(investigationDetailRO.getInvestigation());
+		// Construct the incident object for update
+		Incident incident = _incidentService.getIncidentByUniqueIncidentId(investigationDetailRO.getUniqueIncidentId().trim());
+		validateGenericObject(incident);
+
+		// Construct and create the investigation object.
+		Investigation investigation = constructInvestigation(investigationDetailRO.getInvestigation(), incident);
+		validateGenericObject(investigation);
+		// create the investigation record
+		final Investigation newInvestigation = _investigationService.create(investigation);
+		// Throw exception if unable to create
+		if (newInvestigation == null) {
+			throw new ResourceNotCreatedException(_messageBuilder.build(RestMessage.UNABLE_TO_CREATE_RECORD));
+		} else {
+			// Set the new investigation to incident.
+			incident.setInvestigation(newInvestigation);
+		}
+		// Throw the incident back with the newly created investigation details
+		return _mapperService.map(incident, IncidentRO.class);		
 	}
 
 	private Set<Suspect> constructNewSuspects(final Set<SuspectRO> suspectROs) {
@@ -1490,6 +1526,71 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 		}
 		return claimHistory;
 	}
+	
+	private Investigation constructInvestigation(final InvestigationRO investigationRO, final Incident incident) {
+		final Investigation investigation = new Investigation.Builder().setStatusFlag(StatusFlag.ACTIVE).setIncident(incident).build();
+		if (investigationRO != null) {
+			
+			YesNoType securityRequested = YesNoType.N;
+			YesNoType trainingRequested = YesNoType.N;
+			YesNoType reviewedInvestigationRecords = YesNoType.N;
+			YesNoType reviewedCCTV = YesNoType.N;
+			YesNoType reviewedPictures = YesNoType.N;
+			YesNoType reviewedWitnessStatement = YesNoType.N;
+			YesNoType reviewedLearnerRecords = YesNoType.N;
+			YesNoType reviewedAssetRecords = YesNoType.N;
+			YesNoType reviewedComplianceRecords = YesNoType.N;
+			
+			if (investigationRO.getSecurityRequested() != null && investigationRO.getSecurityRequested().name().equals("Y")) {
+				securityRequested = YesNoType.Y;
+			}
+			if (investigationRO.getTrainingRequested() != null && investigationRO.getTrainingRequested().name().equals("Y")) {
+				trainingRequested = YesNoType.Y;
+			}
+			if (investigationRO.getReviewedInvestigationRecords() != null && investigationRO.getReviewedInvestigationRecords().name().equals("Y")) {
+				reviewedInvestigationRecords = YesNoType.Y;
+			}
+			if (investigationRO.getReviewedCCTV() != null && investigationRO.getReviewedCCTV().name().equals("Y")) {
+				reviewedCCTV = YesNoType.Y;
+			}
+			if (investigationRO.getReviewedPictures() != null && investigationRO.getReviewedPictures().name().equals("Y")) {
+				reviewedPictures = YesNoType.Y;
+			}
+			if (investigationRO.getReviewedWitnessStatement() != null && investigationRO.getReviewedWitnessStatement().name().equals("Y")) {
+				reviewedWitnessStatement = YesNoType.Y;
+			}
+			if (investigationRO.getReviewedLearnerRecords() != null && investigationRO.getReviewedLearnerRecords().name().equals("Y")) {
+				reviewedLearnerRecords = YesNoType.Y;
+			}
+			if (investigationRO.getReviewedAssetRecords() != null && investigationRO.getReviewedAssetRecords().name().equals("Y")) {
+				reviewedAssetRecords = YesNoType.Y;
+			}
+			if (investigationRO.getReviewedComplianceRecords() != null && investigationRO.getReviewedComplianceRecords().name().equals("Y")) {
+				reviewedComplianceRecords = YesNoType.Y;
+			}
+			
+			investigation.setSecurityRequested(securityRequested);
+			investigation.setTrainingRequested(trainingRequested);
+			investigation.setReviewedInvestigationRecords(reviewedInvestigationRecords);
+			investigation.setReviewedCCTV(reviewedCCTV);
+			investigation.setReviewedPictures(reviewedPictures);
+			investigation.setReviewedWitnessStatement(reviewedWitnessStatement);
+			investigation.setReviewedLearnerRecords(reviewedLearnerRecords);
+			investigation.setReviewedAssetRecords(reviewedAssetRecords);
+			investigation.setReviewedComplianceRecords(reviewedComplianceRecords);
+			
+			if (investigationRO.getInvestigator() != null) {
+				if (investigationRO.getInvestigator().getLoginId() != null && !investigationRO.getInvestigator().getLoginId().trim().isEmpty()) {
+					final User investigator = _userService.getUserByUserLoginId(investigationRO.getInvestigator().getLoginId().trim());
+					if (investigator != null) {
+						investigation.setInvestigator(investigator);
+					}
+				}
+			}
+		}
+		
+		return investigation;
+	}
 
 	private Set<CrimeSuspect> constructNewCrimeSuspects(final Set<CrimeSuspectRO> crimeSuspectROs, final Crime crime) {
 		final Set<CrimeSuspect> crimeSuspects = new HashSet<CrimeSuspect>(0);
@@ -1675,5 +1776,5 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 				throw new ResourceNotValidException(_messageBuilder.build(RestMessage.WITNESS_FLAG_MUST_BE_YES));
 			}
 		}
-	}	
+	}		
 }

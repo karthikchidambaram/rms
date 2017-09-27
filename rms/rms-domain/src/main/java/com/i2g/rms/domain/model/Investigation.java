@@ -1,9 +1,7 @@
 package com.i2g.rms.domain.model;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,9 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.i2g.rms.domain.model.incident.Incident;
 
 /**
@@ -31,6 +28,7 @@ import com.i2g.rms.domain.model.incident.Incident;
  */
 @Entity
 @Table(name = "RMS_INVST")
+@JsonIgnoreProperties({"incident"})
 public class Investigation extends AbstractDataModel<Long> implements Serializable {
 	
 	/**
@@ -50,9 +48,7 @@ public class Investigation extends AbstractDataModel<Long> implements Serializab
 	private YesNoType _reviewedLearnerRecords;
 	private YesNoType _reviewedAssetRecords;
 	private YesNoType _reviewedComplianceRecords;
-	private InvestigationTeam _investigationTeam;
-	@Transient
-	private Set<InvestigationLeadDetails> _investigationTeamLeadDetails = new HashSet<InvestigationLeadDetails>(0);
+	private User _investigator;
 		
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -67,6 +63,7 @@ public class Investigation extends AbstractDataModel<Long> implements Serializab
 	 * @param builder
 	 */
 	private Investigation(final Builder builder) {
+		_incident = Objects.requireNonNull(builder._incident, "Incident object cannot be null.");
 		_statusFlag = Objects.requireNonNull(builder._statusFlag, "Status flag cannot be null.");
 	}
 	
@@ -119,7 +116,6 @@ public class Investigation extends AbstractDataModel<Long> implements Serializab
 	 * @return the securityRequested
 	 */
 	@Column(name = "SEC_REQ")
-	@Size(max = 1, message = "Security requested is 'Yes' or 'No' data type. The max length for the corresponding code is 1.")
 	@Enumerated(EnumType.STRING)
 	public YesNoType getSecurityRequested() {
 		return _securityRequested;
@@ -136,7 +132,6 @@ public class Investigation extends AbstractDataModel<Long> implements Serializab
 	 * @return the trainingRequested
 	 */
 	@Column(name = "TRA_REQ")
-	@Size(max = 1, message = "Training requested is 'Yes' or 'No' data type. The max length for the corresponding code is 1.")
 	@Enumerated(EnumType.STRING)
 	public YesNoType getTrainingRequested() {
 		return _trainingRequested;
@@ -153,7 +148,6 @@ public class Investigation extends AbstractDataModel<Long> implements Serializab
 	 * @return the reviewedInvestigationRecords
 	 */
 	@Column(name = "RVWD_INVST_REC")
-	@Size(max = 1, message = "Reviewed investigation record(s) is 'Yes' or 'No' data type. The max length for the corresponding code is 1.")
 	@Enumerated(EnumType.STRING)
 	public YesNoType getReviewedInvestigationRecords() {
 		return _reviewedInvestigationRecords;
@@ -170,7 +164,6 @@ public class Investigation extends AbstractDataModel<Long> implements Serializab
 	 * @return the reviewedCCTV
 	 */
 	@Column(name = "RVWD_CCTV")
-	@Size(max = 1, message = "Reviewed CCTV footage(s) is 'Yes' or 'No' data type. The max length for the corresponding code is 1.")
 	@Enumerated(EnumType.STRING)
 	public YesNoType getReviewedCCTV() {
 		return _reviewedCCTV;
@@ -187,7 +180,6 @@ public class Investigation extends AbstractDataModel<Long> implements Serializab
 	 * @return the reviewedPictures
 	 */
 	@Column(name = "RVWD_PIC")
-	@Size(max = 1, message = "Reviewed picture(s) is 'Yes' or 'No' data type. The max length for the corresponding code is 1.")
 	@Enumerated(EnumType.STRING)
 	public YesNoType getReviewedPictures() {
 		return _reviewedPictures;
@@ -204,7 +196,6 @@ public class Investigation extends AbstractDataModel<Long> implements Serializab
 	 * @return the reviewedWitnessStatement
 	 */
 	@Column(name = "RVWD_WITNS_STMT")
-	@Size(max = 1, message = "Reviewed witness statement is 'Yes' or 'No' data type. The max length for the corresponding code is 1.")
 	@Enumerated(EnumType.STRING)
 	public YesNoType getReviewedWitnessStatement() {
 		return _reviewedWitnessStatement;
@@ -221,7 +212,6 @@ public class Investigation extends AbstractDataModel<Long> implements Serializab
 	 * @return the reviewedLearnerRecords
 	 */
 	@Column(name = "RVWD_LRNR_REC")
-	@Size(max = 1, message = "Reviewed learner record(s) is 'Yes' or 'No' data type. The max length for the corresponding code is 1.")
 	@Enumerated(EnumType.STRING)
 	public YesNoType getReviewedLearnerRecords() {
 		return _reviewedLearnerRecords;
@@ -238,7 +228,6 @@ public class Investigation extends AbstractDataModel<Long> implements Serializab
 	 * @return the reviewedAssetRecords
 	 */
 	@Column(name = "RVWD_ASST_REC")
-	@Size(max = 1, message = "Reviewed asset record(s) is 'Yes' or 'No' data type. The max length for the corresponding code is 1.")
 	@Enumerated(EnumType.STRING)
 	public YesNoType getReviewedAssetRecords() {
 		return _reviewedAssetRecords;
@@ -255,7 +244,6 @@ public class Investigation extends AbstractDataModel<Long> implements Serializab
 	 * @return the reviewedComplianceRecords
 	 */
 	@Column(name = "RVWD_CMPL_REC")
-	@Size(max = 1, message = "Reviewed compliance record(s) is 'Yes' or 'No' data type. The max length for the corresponding code is 1.")
 	@Enumerated(EnumType.STRING)
 	public YesNoType getReviewedComplianceRecords() {
 		return _reviewedComplianceRecords;
@@ -267,62 +255,34 @@ public class Investigation extends AbstractDataModel<Long> implements Serializab
 	public void setReviewedComplianceRecords(final YesNoType reviewedComplianceRecords) {
 		_reviewedComplianceRecords = reviewedComplianceRecords;
 	}
-
-	/**
-	 * @return the investigationTeam
-	 */
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "INVST_TEAM_ID")
-	public InvestigationTeam getInvestigationTeam() {
-		return _investigationTeam;
+	
+	@Column(name = "STS_FLG", nullable = false)
+	@Enumerated(EnumType.STRING)
+	public StatusFlag getStatusFlag() {
+		return _statusFlag;
 	}
 
-	/**
-	 * @param investigationTeam the investigationTeam to set
-	 */
-	public void setInvestigationTeam(final InvestigationTeam investigationTeam) {
-		_investigationTeam = investigationTeam;
-	}
-
-	/**
-	 * @return the investigationTeamLeadDetails
-	 */
-	@Transient
-	public Set<InvestigationLeadDetails> getInvestigationTeamLeadDetails() {
-		return constructInvestigationLeadDetailsFromUsers(getInvestigationTeam().getUsers());
-	}
-
-	/**
-	 * @param investigationTeamLeadDetails the investigationTeamLeadDetails to set
-	 */
-	@Transient
-	public void setInvestigationTeamLeadDetails(final Set<InvestigationLeadDetails> investigationTeamLeadDetails) {
-		_investigationTeamLeadDetails = investigationTeamLeadDetails;
+	public void setStatusFlag(final StatusFlag statusFlag) {
+		_statusFlag = statusFlag;
 	}
 	
-	@Transient
-	private Set<InvestigationLeadDetails> constructInvestigationLeadDetailsFromUsers(final Set<User> users) {
-		Set<InvestigationLeadDetails> investigationLeadDetailsList = new HashSet<InvestigationLeadDetails>(0);
-		if (users != null && !users.isEmpty()) {
-			for (User user : users) {
-				InvestigationLeadDetails investigationLeadDetails = new InvestigationLeadDetails();
-				investigationLeadDetails.setInvestigationTeamLeadId(user.getLoginId());
-				investigationLeadDetails.setInvestigationTeamLeadTitle(user.getTitle());
-				investigationLeadDetails.setInvestigationTeamLeadFirstName(user.getFirstName());
-				investigationLeadDetails.setInvestigationTeamLeadMiddleName(user.getMiddleName());
-				investigationLeadDetails.setInvestigationTeamLeadLastName(user.getLastName());
-				investigationLeadDetailsList.add(investigationLeadDetails);
-			}			
-		}
-		return investigationLeadDetailsList;
+	@ManyToOne
+	@JoinColumn(name = "USR_ID")
+	public User getInvestigator() {
+		return _investigator;
 	}
 
+	public void setInvestigator(final User investigator) {
+		_investigator = investigator;
+	}	
+	
 	/**
 	 * Builder pattern for constructing immutable instances of
 	 * {@link Investigation}.
 	 */
 	public final static class Builder {
-
+		
+		private Incident _incident;
 		private StatusFlag _statusFlag;
 
 		/**
@@ -332,6 +292,11 @@ public class Investigation extends AbstractDataModel<Long> implements Serializab
 		 */
 		public Investigation build() {
 			return new Investigation(this);
+		}
+		
+		public Builder setIncident(final Incident incident) {
+			_incident = incident;
+			return this;
 		}
 
 		public Builder setStatusFlag(final StatusFlag statusFlag) {

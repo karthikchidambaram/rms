@@ -76,11 +76,28 @@
 			<a>incidents</a>
 			<b>incidents</b>
 		</field-exclude>
+		<field-exclude>
+			<a>users</a>
+			<b>users</b>
+		</field-exclude>
 	</mapping>
 
 	<mapping>
 		<class-a>com.i2g.rms.domain.model.InvestigationTeam</class-a>
 		<class-b>com.i2g.rms.rest.model.InvestigationTeamRO</class-b>
+		<field-exclude>
+			<a>teamLeads</a>
+			<b>teamLeads</b>
+		</field-exclude>
+	</mapping>
+	
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.Investigation</class-a>
+		<class-b>com.i2g.rms.rest.model.InvestigationRO</class-b>
+		<field-exclude>
+			<a>incident</a>
+			<b>incident</b>
+		</field-exclude>
 	</mapping>
 
 	<mapping>

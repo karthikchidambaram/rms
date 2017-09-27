@@ -35,8 +35,8 @@ public class InvestigationTeamLead extends AbstractDataModel<InvestigationTeamLe
 	public InvestigationTeamLead() {
 	}
 
-	public InvestigationTeamLead(final User user, final InvestigationTeam investigationTeam) {
-		_id = new PrimaryKey(user, investigationTeam);
+	public InvestigationTeamLead(final User investigationTeamLead, final InvestigationTeam investigationTeam) {
+		_id = new PrimaryKey(investigationTeamLead, investigationTeam);
 	}
 
 	@EmbeddedId
@@ -50,13 +50,13 @@ public class InvestigationTeamLead extends AbstractDataModel<InvestigationTeamLe
 	}
 
 	/**
-	 * Returns the {@link User} associated to the investigation team.
+	 * Returns the {@link investigationTeamLead} associated to the investigation team.
 	 * 
-	 * @return user
+	 * @return investigationTeamLead
 	 */
 	@Transient
-	public User getUser() {
-		return _id.getUser();
+	public User getInvestigationTeamLead() {
+		return _id.getInvestigationTeamLead();
 	}
 
 	/**
@@ -82,12 +82,14 @@ public class InvestigationTeamLead extends AbstractDataModel<InvestigationTeamLe
 
 	@Override
 	public String toString() {
-		return "Investigation Team -> Team Lead: " + _id.getInvestigationTeam().getInvestigationTeamDescription()
-				+ " -> " + _id.getUser().getLoginId();
+		return "Investigation Team -> Team Lead: " 
+					+ _id.getInvestigationTeam().getInvestigationTeamDescription()
+					+ " -> " 
+					+ _id.getInvestigationTeamLead().getLoginId();
 	}
 
 	/**
-	 * Primary key ID for the user/team relationship.
+	 * Primary key ID for the investigationTeamLead/investigationTeam relationship.
 	 */
 	@Embeddable
 	public static class PrimaryKey implements Serializable {
@@ -98,7 +100,7 @@ public class InvestigationTeamLead extends AbstractDataModel<InvestigationTeamLe
 		private static final long serialVersionUID = 1L;
 
 		/** User of the relationship. */
-		private User _user;
+		private User _investigationTeamLead;
 		/** InvestigationTeam of the relationship. */
 		private InvestigationTeam _investigationTeam;
 
@@ -111,24 +113,24 @@ public class InvestigationTeamLead extends AbstractDataModel<InvestigationTeamLe
 
 		/**
 		 * Creates a new instance of {@code PrimaryKey} for the specified
-		 * {@code user} and {@code investigationTeam}.
+		 * {@code investigationTeamLead} and {@code investigationTeam}.
 		 * 
-		 * @param user
+		 * @param investigationTeamLead
 		 * @param investigationTeam
 		 */
-		PrimaryKey(final User user, final InvestigationTeam investigationTeam) {
-			_user = user;
+		PrimaryKey(final User investigationTeamLead, final InvestigationTeam investigationTeam) {
+			_investigationTeamLead = investigationTeamLead;
 			_investigationTeam = investigationTeam;
 		}
 
 		@ManyToOne
 		@JoinColumn(name = "USR_ID")
-		public User getUser() {
-			return _user;
+		public User getInvestigationTeamLead() {
+			return _investigationTeamLead;
 		}
 
-		public void setUser(final User user) {
-			_user = user;
+		public void setInvestigationTeamLead(final User investigationTeamLead) {
+			_investigationTeamLead = investigationTeamLead;
 		}
 
 		@ManyToOne
@@ -147,7 +149,7 @@ public class InvestigationTeamLead extends AbstractDataModel<InvestigationTeamLe
 				return true;
 			} else if (obj instanceof PrimaryKey) {
 				final PrimaryKey key = (PrimaryKey) obj;
-				return Objects.equals(_user, key.getUser())
+				return Objects.equals(_investigationTeamLead, key.getInvestigationTeamLead())
 						&& Objects.equals(_investigationTeam, key.getInvestigationTeam());
 			}
 			return false;
@@ -156,7 +158,7 @@ public class InvestigationTeamLead extends AbstractDataModel<InvestigationTeamLe
 		@Override
 		public int hashCode() {
 			int hash = 7;
-			hash = 79 * hash + Objects.hashCode(_user);
+			hash = 79 * hash + Objects.hashCode(_investigationTeamLead);
 			hash = 79 * hash + Objects.hashCode(_investigationTeam);
 			return hash;
 		}

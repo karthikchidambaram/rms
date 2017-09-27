@@ -37,8 +37,9 @@ public interface RequestMappingConstants {
 	String GET_ALL_INVESTIGATION_TEAMS 	= INVESTIGATION_TEAM + "/investigation-teams";
 	
 	/** User */
-	String USER 			= SECURED + "/user";
-	String GET_ALL_USERS 	= USER + "/users";	
+	String USER 					= SECURED + "/user";
+	String GET_ALL_USERS 			= USER + "/users";
+	String GET_USER_BY_LOGIN_ID 	= USER + "/{loginId}";
 	
 	/** Testing purpose URLs */
 	String TEST 								= PUBLIC + "/test";
@@ -347,6 +348,7 @@ public interface RequestMappingConstants {
 	String ADD_ASSET_DETAILS							= INCIDENT + "/add-asset-details";
 	String ADD_CRIME_DETAILS							= INCIDENT + "/add-crime-details";
 	String ADD_CLAIM_DETAILS							= INCIDENT + "/add-claim-details";
+	String ADD_INVESTIGATION_DETAILS					= INCIDENT + "/add-investigation-details";
 	
 	/** Search Incidents */
 	String SEARCH_INCIDENT							= SECURED + "/search-incident";	

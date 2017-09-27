@@ -9,6 +9,7 @@ import com.i2g.rms.rest.model.incident.ClaimDetailRO;
 import com.i2g.rms.rest.model.incident.CrimeDetailRO;
 import com.i2g.rms.rest.model.incident.IncidentDetailRO;
 import com.i2g.rms.rest.model.incident.IncidentRO;
+import com.i2g.rms.rest.model.incident.InvestigationDetailRO;
 import com.i2g.rms.rest.model.incident.LogIncidentRO;
 
 /**
@@ -29,4 +30,5 @@ public interface IncidentRestService {
 	public IncidentRO addAssetDetail(final AssetDetailRO assetDetailRO);
 	public IncidentRO addCrimeDetail(final CrimeDetailRO crimeDetailRO);
 	public IncidentRO addClaimDetail(final ClaimDetailRO claimDetailRO);
+	public IncidentRO addInvestigationDetail(final InvestigationDetailRO investigationDetailRO);
 }

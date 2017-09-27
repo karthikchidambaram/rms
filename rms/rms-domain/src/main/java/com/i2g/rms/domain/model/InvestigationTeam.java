@@ -17,7 +17,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Entity representation of Investigation Team.
@@ -28,6 +29,7 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "RMS_INVST_TEAM")
+@JsonIgnoreProperties({ "teamLeads" })
 public class InvestigationTeam extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * 
@@ -37,13 +39,13 @@ public class InvestigationTeam extends AbstractDataModel<Long> implements Serial
 	/** Primary surrogate key ID of investigation team table. */
 	private long _id;
 	private String _investigationTeamName;
-	private String _investigationTeamDescription;	
+	private String _investigationTeamDescription;
 	/**
 	 * Leader(s) of the team. Normally there will be only one leader for a team,
 	 * but to allow flexibility and to accommodate future changes we are having
 	 * the design to allow multiple users.
 	 */
-	private Set<User> _users = new HashSet<User>(0);
+	private Set<User> _teamLeads = new HashSet<User>(0);
 
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -91,8 +93,7 @@ public class InvestigationTeam extends AbstractDataModel<Long> implements Serial
 		_id = id;
 	}
 
-	@Column(name = "TEAM_NAM")
-	@Size(min = 1, max = 64, message = "Investigation team name must be between {min} and {max} characters")
+	@Column(name = "TEAM_NAM", length = 64)
 	public String getInvestigationTeamName() {
 		return _investigationTeamName;
 	}
@@ -101,8 +102,7 @@ public class InvestigationTeam extends AbstractDataModel<Long> implements Serial
 		_investigationTeamName = investigationTeamName;
 	}
 
-	@Column(name = "TEAM_DESC")
-	@Size(min = 1, max = 128, message = "Investigation team description must be between {min} and {max} characters")
+	@Column(name = "TEAM_DESC", length = 128)
 	public String getInvestigationTeamDescription() {
 		return _investigationTeamDescription;
 	}
@@ -111,37 +111,16 @@ public class InvestigationTeam extends AbstractDataModel<Long> implements Serial
 		_investigationTeamDescription = investigationTeamDescription;
 	}
 
-	/**
-	 * Returns the set of {@code User}s which are associated with this
-	 * InvestigationTeam.
-	 * 
-	 * @return set of associated users
-	 */
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinTable(
-			name = "RMS_INVST_TEAM_LEAD", 
-			joinColumns = @JoinColumn(name = "INVST_TEAM_ID"), 
-			inverseJoinColumns = @JoinColumn(name = "USR_ID")
-	)
-	public Set<User> getUsers() {
-		return _users;
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable(name = "RMS_INVST_TEAM_LEAD", 
+		joinColumns = @JoinColumn(name = "INVST_TEAM_ID"), 
+		inverseJoinColumns = @JoinColumn(name = "USR_ID"))
+	public Set<User> getTeamLeads() {
+		return _teamLeads;
 	}
 
-	/**
-	 * Sets the set of {@code User}s which are associated to this investigation
-	 * team.
-	 * 
-	 * <p>
-	 * <strong>Note:</strong> This method has protected access to prevent
-	 * callers from manually setting the permissions as Roles should never be
-	 * created/updated programmatically; Hibernate has access to invoke this
-	 * method when populating an entity.
-	 * </p>
-	 * 
-	 * @param users
-	 */
-	public void setUsers(final Set<User> users) {
-		this._users = users;
+	public void setTeamLeads(final Set<User> teamLeads) {
+		_teamLeads = teamLeads;
 	}
 
 	/**

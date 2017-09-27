@@ -49,6 +49,8 @@ public class UserRO extends AbstractEntityRO {
 	private Set<AddressRO> _addresses = new HashSet<AddressRO>(0);
 	private String _genderTypeOther;
 	private String _employeeTypeOther;
+	private OfficeAddressRO _officeAddress;
+	private Set<InvestigationTeamRO> _investigationTeams = new HashSet<InvestigationTeamRO>(0);
 
 	public long getId() {
 		return _id;
@@ -403,5 +405,21 @@ public class UserRO extends AbstractEntityRO {
 	 */
 	public void setEmployeeTypeOther(final String employeeTypeOther) {
 		_employeeTypeOther = employeeTypeOther;
+	}
+
+	public OfficeAddressRO getOfficeAddress() {
+		return _officeAddress;
+	}
+
+	public void setOfficeAddress(final OfficeAddressRO officeAddress) {
+		_officeAddress = officeAddress;
+	}
+
+	public Set<InvestigationTeamRO> getInvestigationTeams() {
+		return _investigationTeams;
+	}
+
+	public void setInvestigationTeams(final Set<InvestigationTeamRO> investigationTeams) {
+		_investigationTeams = investigationTeams;
 	}	
 }

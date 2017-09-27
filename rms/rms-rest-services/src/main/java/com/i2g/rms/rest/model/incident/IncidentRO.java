@@ -10,6 +10,7 @@ import com.i2g.rms.rest.model.AccidentRO;
 import com.i2g.rms.rest.model.AssetRO;
 import com.i2g.rms.rest.model.ClaimRO;
 import com.i2g.rms.rest.model.CrimeRO;
+import com.i2g.rms.rest.model.InvestigationRO;
 import com.i2g.rms.rest.model.OfficeAddressRO;
 import com.i2g.rms.rest.model.ReportedLossRO;
 import com.i2g.rms.rest.model.StatusFlagRO;
@@ -61,7 +62,8 @@ public class IncidentRO extends AbstractEntityRO {
 	private YesNoTypeRO _notifyClaimsHandler;
 	private YesNoTypeRO _showClaims;
 	private YesNoTypeRO _showInvestigation;
-
+	private InvestigationRO _investigation;
+	
 	/**
 	 * @return the id
 	 */
@@ -448,4 +450,12 @@ public class IncidentRO extends AbstractEntityRO {
 	public void setShowInvestigation(final YesNoTypeRO showInvestigation) {
 		_showInvestigation = showInvestigation;
 	}
+
+	public InvestigationRO getInvestigation() {
+		return _investigation;
+	}
+
+	public void setInvestigation(final InvestigationRO investigation) {
+		_investigation = investigation;
+	}	
 }

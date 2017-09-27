@@ -104,7 +104,9 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	private Set<Address> _addresses = new HashSet<Address>(0);
 	private String _genderTypeOther;
 	private String _employeeTypeOther;
-		
+	private OfficeAddress _officeAddress;
+	private Set<InvestigationTeam> _investigationTeams = new HashSet<InvestigationTeam>(0);
+			
 	@NotNull
 	@Transient
 	private boolean _accountExpired;
@@ -759,5 +761,29 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	 */
 	public void setEmployeeTypeOther(final String employeeTypeOther) {
 		_employeeTypeOther = employeeTypeOther;
-	}	
+	}
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "OFF_ADDR_ID")
+	public OfficeAddress getOfficeAddress() {
+		return _officeAddress;
+	}
+
+	public void setOfficeAddress(final OfficeAddress officeAddress) {
+		_officeAddress = officeAddress;
+	}
+
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable(
+			name = "RMS_INVST_TEAM_INVSTGATOR", 
+			joinColumns = @JoinColumn(name = "USR_ID"), 
+			inverseJoinColumns = @JoinColumn(name = "INVST_TEAM_ID")
+	)
+	public Set<InvestigationTeam> getInvestigationTeams() {
+		return _investigationTeams;
+	}
+
+	public void setInvestigationTeams(final Set<InvestigationTeam> investigationTeams) {
+		_investigationTeams = investigationTeams;
+	}
 }

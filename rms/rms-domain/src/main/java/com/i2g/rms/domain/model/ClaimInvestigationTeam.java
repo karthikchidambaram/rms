@@ -19,6 +19,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Entity representation of Claim Investigation Team.
  * 
@@ -28,6 +30,7 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "RMS_CLIM_INVST_TEAM")
+@JsonIgnoreProperties({"claimInvestigationTeamLeads", "claimHandlers"})
 public class ClaimInvestigationTeam extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * 
@@ -43,7 +46,8 @@ public class ClaimInvestigationTeam extends AbstractDataModel<Long> implements S
 	 * but to allow flexibility and to accommodate future changes we are having
 	 * the design to allow multiple users.
 	 */
-	private Set<User> _users = new HashSet<User>(0);
+	private Set<User> _claimInvestigationTeamLeads = new HashSet<User>(0);
+	private Set<User> _claimHandlers = new HashSet<User>(0);
 
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -111,34 +115,27 @@ public class ClaimInvestigationTeam extends AbstractDataModel<Long> implements S
 		_claimInvestigationTeamDescription = claimInvestigationTeamDescription;
 	}
 
-	/**
-	 * Returns the set of {@code User}s which are associated with this
-	 * InvestigationTeam.
-	 * 
-	 * @return set of associated users
-	 */
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinTable(name = "RMS_CLIM_INVST_TEAM_LEAD", joinColumns = @JoinColumn(name = "CLIM_INVST_TEAM_ID"), inverseJoinColumns = @JoinColumn(name = "USR_ID"))
-	public Set<User> getUsers() {
-		return _users;
+	public Set<User> getClaimInvestigationTeamLeads() {
+		return _claimInvestigationTeamLeads;
 	}
 
-	/**
-	 * Sets the set of {@code User}s which are associated to this investigation
-	 * team.
-	 * 
-	 * <p>
-	 * <strong>Note:</strong> This method has protected access to prevent
-	 * callers from manually setting the permissions as Roles should never be
-	 * created/updated programmatically; Hibernate has access to invoke this
-	 * method when populating an entity.
-	 * </p>
-	 * 
-	 * @param users
-	 */
-	public void setUsers(final Set<User> users) {
-		this._users = users;
+	public void setClaimInvestigationTeamLeads(final Set<User> claimInvestigationTeamLeads) {
+		_claimInvestigationTeamLeads = claimInvestigationTeamLeads;
 	}
+	
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(name = "RMS_CLIM_HNDLRS", joinColumns = @JoinColumn(name = "CLIM_INVST_TEAM_ID"), inverseJoinColumns = @JoinColumn(name = "USR_ID"))
+	public Set<User> getClaimHandlers() {
+		return _claimHandlers;
+	}
+
+	public void setClaimHandlers(final Set<User> claimHandlers) {
+		_claimHandlers = claimHandlers;
+	}
+
+
 
 	/**
 	 * Builder pattern for constructing immutable instances of

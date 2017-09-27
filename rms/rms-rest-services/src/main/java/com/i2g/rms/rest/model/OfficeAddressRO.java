@@ -33,6 +33,7 @@ public class OfficeAddressRO extends AbstractEntityRO {
 	private String doorNumber;
 	private String blockNumber;
 	private String apartmentNumber;
+	private Set<UserRO> users = new HashSet<UserRO>(0);
 
 	public long getId() {
 		return id;
@@ -160,5 +161,13 @@ public class OfficeAddressRO extends AbstractEntityRO {
 
 	public void setApartmentNumber(final String apartmentNumber) {
 		this.apartmentNumber = apartmentNumber;
+	}
+
+	public Set<UserRO> getUsers() {
+		return users;
+	}
+
+	public void setUsers(final Set<UserRO> users) {
+		this.users = users;
 	}	
 }
