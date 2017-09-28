@@ -49,6 +49,7 @@ public class Investigation extends AbstractDataModel<Long> implements Serializab
 	private YesNoType _reviewedAssetRecords;
 	private YesNoType _reviewedComplianceRecords;
 	private User _investigator;
+	private String _investigatorStatement;
 		
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -274,8 +275,17 @@ public class Investigation extends AbstractDataModel<Long> implements Serializab
 
 	public void setInvestigator(final User investigator) {
 		_investigator = investigator;
-	}	
+	}
 	
+	@Column(name = "INVST_STMT", length = 256)
+	public String getInvestigatorStatement() {
+		return _investigatorStatement;
+	}
+
+	public void setInvestigatorStatement(final String investigatorStatement) {
+		_investigatorStatement = investigatorStatement;
+	}
+
 	/**
 	 * Builder pattern for constructing immutable instances of
 	 * {@link Investigation}.

@@ -1587,6 +1587,10 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 					}
 				}
 			}
+			
+			if (investigationRO.getInvestigatorStatement() != null && !investigationRO.getInvestigatorStatement().trim().isEmpty()) {
+				investigation.setInvestigatorStatement(investigationRO.getInvestigatorStatement().trim());
+			}
 		}
 		
 		return investigation;

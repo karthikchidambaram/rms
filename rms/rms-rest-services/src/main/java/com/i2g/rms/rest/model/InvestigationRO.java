@@ -26,7 +26,8 @@ public class InvestigationRO extends AbstractEntityRO {
 	private YesNoTypeRO reviewedAssetRecords;
 	private YesNoTypeRO reviewedComplianceRecords;
 	private UserRO investigator;
-
+	private String investigatorStatement;
+	
 	public long getId() {
 		return id;
 	}
@@ -130,4 +131,12 @@ public class InvestigationRO extends AbstractEntityRO {
 	public void setInvestigator(final UserRO investigator) {
 		this.investigator = investigator;
 	}
+
+	public String getInvestigatorStatement() {
+		return investigatorStatement;
+	}
+
+	public void setInvestigatorStatement(final String investigatorStatement) {
+		this.investigatorStatement = investigatorStatement;
+	}	
 }
