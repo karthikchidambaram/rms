@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import com.i2g.rms.domain.model.Investigation;
 import com.i2g.rms.domain.model.StatusFlag;
+import com.i2g.rms.domain.model.incident.Incident;
 import com.i2g.rms.persistence.hibernate.AbstractHibernateDao;
 
 /**
@@ -73,6 +74,34 @@ public class InvestigationDaoImpl extends AbstractHibernateDao<Long, Investigati
 			return get(id);
 		} else {
 			return null;
+		}
+	}
+	
+	@Override
+	public Investigation updateInvestigation(final Investigation investigation) {
+		validateObject(investigation);
+		Long id = save(investigation);
+		if (id != null) {
+			return get(id);
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public Investigation get(final Incident incident) {
+		final Criteria criteria = getSession().createCriteria(_modelType);
+		criteria.add(Restrictions.eq("incident", Objects.requireNonNull(incident, "Incident object cannot be null or empty.")));
+		criteria.add(Restrictions.eq("statusFlag", StatusFlag.ACTIVE));
+		return (Investigation) criteria.uniqueResult();
+	}
+
+	@Override
+	public boolean isInvestigatorAssigned(final long id) {
+		if (get(id).getInvestigator() != null) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 }

@@ -10,6 +10,7 @@ import com.i2g.rms.domain.model.tablemaintenance.AccidentLocationDetail;
 import com.i2g.rms.domain.model.tablemaintenance.AccidentType;
 import com.i2g.rms.domain.model.tablemaintenance.AssetCategory;
 import com.i2g.rms.domain.model.tablemaintenance.BodyPart;
+import com.i2g.rms.domain.model.tablemaintenance.BodyPart.BodyPartFrontOrBack;
 import com.i2g.rms.domain.model.tablemaintenance.ClaimRequestRegistrationType;
 import com.i2g.rms.domain.model.tablemaintenance.ClaimStatus;
 import com.i2g.rms.domain.model.tablemaintenance.ClaimType;
@@ -803,6 +804,16 @@ public class TableMaintenaceServiceImpl extends AbstractService implements Table
 	@Override
 	public BodyPart updateBodyPart(final String code, final String description) {
 		return _bodyPartsDao.update(code, description);
+	}
+	
+	@Override
+	public BodyPart createBodyPart(final String code, final String description, final BodyPartFrontOrBack bodyPartFrontOrBack) {
+		return _bodyPartsDao.create(code, description, bodyPartFrontOrBack);
+	}
+
+	@Override
+	public BodyPart updateBodyPart(final String code, final String description, final BodyPartFrontOrBack bodyPartFrontOrBack) {
+		return _bodyPartsDao.update(code, description, bodyPartFrontOrBack);
 	}
 
 	@Override

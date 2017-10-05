@@ -206,5 +206,10 @@
 		<class-a>com.i2g.rms.domain.model.tablemaintenance.VehicleDamageType</class-a>
 		<class-b>com.i2g.rms.rest.model.tablemaintenance.VehicleDamageTypeRO</class-b>
 	</mapping>
+	
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.tablemaintenance.BodyPart.BodyPartFrontOrBack</class-a>
+		<class-b>com.i2g.rms.rest.model.tablemaintenance.BodyPartRO.BodyPartFrontOrBackRO</class-b>
+	</mapping>
 
 </mappings>

@@ -739,6 +739,16 @@ public class TableMaintenanceController extends AbstractRestController {
 	public BodyPartRO updateBodyPart(final @Valid @RequestBody BodyPartRO bodyPartRO) {
 		return _tableMaintenanceRestService.updateBodyPart(bodyPartRO);
 	}
+	
+	@RequestMapping(value = RequestMappingConstants.CREATE_BODY_PART_TYPE_WITH_FRONT_OR_BACK, method = RequestMethod.POST)
+	public BodyPartRO createBodyPartWithFrontOrBack(final @Valid @RequestBody BodyPartRO bodyPartRO) {
+		return _tableMaintenanceRestService.createBodyPartWithFrontOrBack(bodyPartRO);
+	}
+
+	@RequestMapping(value = RequestMappingConstants.UPDATE_BODY_PART_TYPE_WITH_FRONT_OR_BACK, method = RequestMethod.PUT)
+	public BodyPartRO updateBodyPartWithFrontOrBack(final @Valid @RequestBody BodyPartRO bodyPartRO) {
+		return _tableMaintenanceRestService.updateBodyPartWithFrontOrBack(bodyPartRO);
+	}
 
 	@RequestMapping(value = RequestMappingConstants.DELETE_BODY_PART_TYPE, method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)

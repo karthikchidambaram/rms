@@ -18,11 +18,13 @@ import com.i2g.rms.domain.model.tablemaintenance.InjuryType;
 import com.i2g.rms.domain.model.tablemaintenance.InjuryTypeDetail;
 import com.i2g.rms.domain.model.tablemaintenance.Organization;
 import com.i2g.rms.domain.model.tablemaintenance.PositionLevel;
+import com.i2g.rms.domain.model.tablemaintenance.BodyPart.BodyPartFrontOrBack;
 import com.i2g.rms.rest.model.tablemaintenance.AccidentLocationDetailRO;
 import com.i2g.rms.rest.model.tablemaintenance.AccidentLocationRO;
 import com.i2g.rms.rest.model.tablemaintenance.AccidentTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.AssetCategoryRO;
 import com.i2g.rms.rest.model.tablemaintenance.BodyPartRO;
+import com.i2g.rms.rest.model.tablemaintenance.BodyPartRO.BodyPartFrontOrBackRO;
 import com.i2g.rms.rest.model.tablemaintenance.ClaimRequestRegistrationTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.ClaimStatusRO;
 import com.i2g.rms.rest.model.tablemaintenance.ClaimTypeRO;
@@ -1303,6 +1305,45 @@ public class TableMaintenanceRestServiceImpl extends AbstractRestService impleme
 		validateCode(bodyPartRO.getId());
 		validateDescription(bodyPartRO.getDescription());
 		return _mapperService.map(_tableMaintenanceService.updateBodyPart(bodyPartRO.getId(), bodyPartRO.getDescription()), BodyPartRO.class);
+	}
+	
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
+	public BodyPartRO createBodyPartWithFrontOrBack(BodyPartRO bodyPartRO) {
+		validateObject(bodyPartRO);
+		validateCode(bodyPartRO.getId());
+		validateDescription(bodyPartRO.getDescription());
+		validateObject(bodyPartRO.getBodyPartFrontOrBack());
+		
+		BodyPartFrontOrBack bodyPartFrontOrBack = null;
+		
+		if (bodyPartRO.getBodyPartFrontOrBack().name().equals("FRONT")) {
+			bodyPartFrontOrBack = BodyPartFrontOrBack.FRONT; 
+		} else if (bodyPartRO.getBodyPartFrontOrBack().name().equals("BACK")) {
+			bodyPartFrontOrBack = BodyPartFrontOrBack.BACK;
+		}
+		
+		return _mapperService.map(_tableMaintenanceService.createBodyPart(bodyPartRO.getId(), bodyPartRO.getDescription(), bodyPartFrontOrBack), BodyPartRO.class);
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@Transactional
+	public BodyPartRO updateBodyPartWithFrontOrBack(BodyPartRO bodyPartRO) {
+		validateObject(bodyPartRO);
+		validateCode(bodyPartRO.getId());
+		validateDescription(bodyPartRO.getDescription());
+		validateObject(bodyPartRO.getBodyPartFrontOrBack());
+		BodyPartFrontOrBack bodyPartFrontOrBack = null;
+		
+		if (bodyPartRO.getBodyPartFrontOrBack().name().equals("FRONT")) {
+			bodyPartFrontOrBack = BodyPartFrontOrBack.FRONT; 
+		} else if (bodyPartRO.getBodyPartFrontOrBack().name().equals("BACK")) {
+			bodyPartFrontOrBack = BodyPartFrontOrBack.BACK;
+		}
+		
+		return _mapperService.map(_tableMaintenanceService.updateBodyPart(bodyPartRO.getId(), bodyPartRO.getDescription(), bodyPartFrontOrBack), BodyPartRO.class);
 	}
 
 	@Override

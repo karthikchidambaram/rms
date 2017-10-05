@@ -89,4 +89,9 @@ public class IncidentController extends AbstractRestController {
 	public IncidentRO addInvestigationDetail(final @Valid @RequestBody InvestigationDetailRO investigationDetailRO) {
 		return _incidentRestService.addInvestigationDetail(investigationDetailRO);
 	}
+	
+	@RequestMapping(value = RequestMappingConstants.ADD_OR_UPDATE_INVESTIGATION_DETAILS, method = RequestMethod.POST)
+	public IncidentRO addOrUpdateInvestigationDetail(final @Valid @RequestBody InvestigationDetailRO investigationDetailRO) {
+		return _incidentRestService.addOrUpdateInvestigationDetail(investigationDetailRO);
+	}
 }

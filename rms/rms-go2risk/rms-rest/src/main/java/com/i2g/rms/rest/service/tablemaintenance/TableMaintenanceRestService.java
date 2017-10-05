@@ -7,6 +7,7 @@ import com.i2g.rms.rest.model.tablemaintenance.AccidentLocationRO;
 import com.i2g.rms.rest.model.tablemaintenance.AccidentTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.AssetCategoryRO;
 import com.i2g.rms.rest.model.tablemaintenance.BodyPartRO;
+import com.i2g.rms.rest.model.tablemaintenance.BodyPartRO.BodyPartFrontOrBackRO;
 import com.i2g.rms.rest.model.tablemaintenance.ClaimRequestRegistrationTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.ClaimStatusRO;
 import com.i2g.rms.rest.model.tablemaintenance.ClaimTypeRO;
@@ -220,6 +221,8 @@ public interface TableMaintenanceRestService {
 	public BodyPartRO getBodyPartByCode(final String code);
 	public BodyPartRO createBodyPart(final BodyPartRO bodyPartRO);
 	public BodyPartRO updateBodyPart(final BodyPartRO bodyPartRO);
+	public BodyPartRO createBodyPartWithFrontOrBack(final BodyPartRO bodyPartRO);
+	public BodyPartRO updateBodyPartWithFrontOrBack(final BodyPartRO bodyPartRO);
 	public void deleteBodyPart(final String code);
 	
 	/** Methods related to Document Category */

@@ -16,10 +16,27 @@ import com.i2g.rms.rest.model.InjuredPersonRO;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BodyPartRO extends AbstractEntityRO {
+	
+	public enum BodyPartFrontOrBackRO {
+		
+		FRONT("Front"),
+		BACK("Back");
+
+		public String value;
+
+		private BodyPartFrontOrBackRO(final String value) {
+			this.value = value;
+		}
+
+		public String getValue() {
+			return value;
+		}
+	}
 
 	private String _id;
 	private String _description;
 	private Set<InjuredPersonRO> _injuredPersons = new HashSet<InjuredPersonRO>(0);
+	private BodyPartFrontOrBackRO _bodyPartFrontOrBack;
 
 	public String getId() {
 		return _id;
@@ -50,5 +67,13 @@ public class BodyPartRO extends AbstractEntityRO {
 	 */
 	public void setInjuredPersons(final Set<InjuredPersonRO> injuredPersons) {
 		_injuredPersons = injuredPersons;
+	}
+
+	public BodyPartFrontOrBackRO getBodyPartFrontOrBack() {
+		return _bodyPartFrontOrBack;
+	}
+
+	public void setBodyPartFrontOrBack(final BodyPartFrontOrBackRO bodyPartFrontOrBack) {
+		_bodyPartFrontOrBack = bodyPartFrontOrBack;
 	}
 }

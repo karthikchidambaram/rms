@@ -7,6 +7,8 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
@@ -29,6 +31,22 @@ import com.i2g.rms.domain.model.InjuredPerson;
 @Table(name = "RMS_BDY_PRTS")
 @JsonIgnoreProperties({"injuredPersons"})
 public class BodyPart extends AbstractDataModel<String> implements Serializable {
+	
+	public enum BodyPartFrontOrBack {
+		
+		FRONT("Front"),
+		BACK("Back");
+
+		public String value;
+
+		private BodyPartFrontOrBack(final String value) {
+			this.value = value;
+		}
+
+		public String getValue() {
+			return value;
+		}
+	}
 
 	/**
 	 * 
@@ -37,6 +55,7 @@ public class BodyPart extends AbstractDataModel<String> implements Serializable 
 	private String _id;
 	private String _description;
 	private Set<InjuredPerson> _injuredPersons = new HashSet<InjuredPerson>(0);
+	private BodyPartFrontOrBack _bodyPartFrontOrBack;
 
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -63,6 +82,12 @@ public class BodyPart extends AbstractDataModel<String> implements Serializable 
 	public BodyPart(final String code, final String description) {
 		_id = Objects.requireNonNull(code, "Body parts code cannot be null.");
 		_description = Objects.requireNonNull(description, "Body parts description cannot be null.");
+	}
+	
+	public BodyPart(final String code, final String description, final BodyPartFrontOrBack bodyPartFrontOrBack) {
+		_id = Objects.requireNonNull(code, "Body parts code cannot be null.");
+		_description = Objects.requireNonNull(description, "Body parts description cannot be null.");
+		_bodyPartFrontOrBack = Objects.requireNonNull(bodyPartFrontOrBack, "Body part front or back must be mentioned.");
 	}
 
 	@Id
@@ -141,4 +166,14 @@ public class BodyPart extends AbstractDataModel<String> implements Serializable 
 	public String toString() {
 		return "Code: " + _id + ", Description: " + _description;
 	}
+	
+	@Column(name = "FRNT_BCK")
+	@Enumerated(EnumType.STRING)
+	public BodyPartFrontOrBack getBodyPartFrontOrBack() {
+		return _bodyPartFrontOrBack;
+	}
+
+	public void setBodyPartFrontOrBack(final BodyPartFrontOrBack bodyPartFrontOrBack) {
+		_bodyPartFrontOrBack = bodyPartFrontOrBack;
+	}	
 }

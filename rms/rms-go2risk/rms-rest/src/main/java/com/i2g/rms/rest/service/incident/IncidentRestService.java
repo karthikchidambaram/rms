@@ -31,4 +31,5 @@ public interface IncidentRestService {
 	public IncidentRO addCrimeDetail(final CrimeDetailRO crimeDetailRO);
 	public IncidentRO addClaimDetail(final ClaimDetailRO claimDetailRO);
 	public IncidentRO addInvestigationDetail(final InvestigationDetailRO investigationDetailRO);
+	public IncidentRO addOrUpdateInvestigationDetail(final InvestigationDetailRO investigationDetailRO);
 }

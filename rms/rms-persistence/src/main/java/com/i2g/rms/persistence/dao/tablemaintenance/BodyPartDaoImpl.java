@@ -12,6 +12,7 @@ import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.i2g.rms.domain.model.tablemaintenance.BodyPart;
+import com.i2g.rms.domain.model.tablemaintenance.BodyPart.BodyPartFrontOrBack;
 import com.i2g.rms.persistence.hibernate.AbstractHibernateDao;
 
 /**
@@ -135,5 +136,33 @@ public class BodyPartDaoImpl extends AbstractHibernateDao<String, BodyPart> impl
 		validateObject(object);
 		// Issue delete
 		super.delete(object);
+	}
+
+	@Override
+	public BodyPart create(final String code, final String description, final BodyPartFrontOrBack bodyPartFrontOrBack) {
+		// Validate input parameter(s) if any..
+		validateCode(code);
+		validateDescription(description);
+		// Create the new object (record)
+		BodyPart object = new BodyPart(code, description, bodyPartFrontOrBack);
+		// Issue save
+		save(object);
+		return object;
+	}
+
+	@Override
+	public BodyPart update(String code, final String description, final BodyPartFrontOrBack bodyPartFrontOrBack) {
+		// Validate input parameter(s) if any..
+		validateCode(code);
+		validateDescription(description);
+		// Check if the record exists before issuing the update.
+		BodyPart object = getByCode(code);
+		validateObject(object);
+		// Set the new value(s).
+		object.setDescription(description);
+		object.setBodyPartFrontOrBack(bodyPartFrontOrBack);
+		// Issue update
+		update(object);
+		return object;
 	}
 }

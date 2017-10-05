@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.i2g.rms.domain.model.Investigation;
+import com.i2g.rms.domain.model.incident.Incident;
 import com.i2g.rms.persistence.dao.InvestigationDao;
 
 /**
@@ -37,5 +38,20 @@ public class InvestigationServiceImpl extends AbstractService implements Investi
 	@Override
 	public Investigation create(final Investigation investigation) {
 		return _investigationDao.create(investigation);
+	}
+	
+	@Override
+	public Investigation updateInvestigation(final Investigation investigation) {
+		return _investigationDao.updateInvestigation(investigation);
+	}
+
+	@Override
+	public Investigation get(final Incident incident) {
+		return _investigationDao.get(incident);
+	}
+
+	@Override
+	public boolean isInvestigatorAssigned(final long id) {
+		return _investigationDao.isInvestigatorAssigned(id);
 	}	
 }

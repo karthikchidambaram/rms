@@ -236,11 +236,13 @@ public interface RequestMappingConstants {
 	String DELETE_ACCIDENT_TYPE				= TABLE_MAINTENANCE + "/accident-type/delete-accident-type/{code}";
 	
 	/** Body Parts Request Mappings */
-	String GET_BODY_PARTS					= TABLE_MAINTENANCE + "/body-part/body-parts";
-	String GET_BODY_PART_BY_CODE 			= TABLE_MAINTENANCE + "/body-part/{code}";
-	String CREATE_BODY_PART_TYPE			= TABLE_MAINTENANCE + "/body-part/create-body-part";
-	String UPDATE_BODY_PART_TYPE			= TABLE_MAINTENANCE + "/body-part/update-body-part";
-	String DELETE_BODY_PART_TYPE			= TABLE_MAINTENANCE + "/body-part/delete-body-part/{code}";
+	String GET_BODY_PARTS									= TABLE_MAINTENANCE + "/body-part/body-parts";
+	String GET_BODY_PART_BY_CODE 							= TABLE_MAINTENANCE + "/body-part/{code}";
+	String CREATE_BODY_PART_TYPE							= TABLE_MAINTENANCE + "/body-part/create-body-part";
+	String UPDATE_BODY_PART_TYPE							= TABLE_MAINTENANCE + "/body-part/update-body-part";
+	String CREATE_BODY_PART_TYPE_WITH_FRONT_OR_BACK			= TABLE_MAINTENANCE + "/body-part/create-body-part-fb";
+	String UPDATE_BODY_PART_TYPE_WITH_FRONT_OR_BACK			= TABLE_MAINTENANCE + "/body-part/update-body-part-fb";
+	String DELETE_BODY_PART_TYPE							= TABLE_MAINTENANCE + "/body-part/delete-body-part/{code}";
 	
 	/** Document Category Request Mappings */
 	String GET_DOCUMENT_CATEGORIES				= TABLE_MAINTENANCE + "/document-category/document-categories";
@@ -349,6 +351,7 @@ public interface RequestMappingConstants {
 	String ADD_CRIME_DETAILS							= INCIDENT + "/add-crime-details";
 	String ADD_CLAIM_DETAILS							= INCIDENT + "/add-claim-details";
 	String ADD_INVESTIGATION_DETAILS					= INCIDENT + "/add-investigation-details";
+	String ADD_OR_UPDATE_INVESTIGATION_DETAILS			= INCIDENT + "/add-or-update-investigation-details";
 	
 	/** Search Incidents */
 	String SEARCH_INCIDENT							= SECURED + "/search-incident";	

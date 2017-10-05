@@ -133,8 +133,7 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 	@Transactional(readOnly = true)
 	public List<IncidentRO> get() {
 		List<Incident> incidents = _incidentService.get();
-		List<IncidentRO> incidentROs = incidents.isEmpty() ? Collections.emptyList()
-				: _mapperService.map(incidents, IncidentRO.class);
+		List<IncidentRO> incidentROs = incidents.isEmpty() ? Collections.emptyList() : _mapperService.map(incidents, IncidentRO.class);
 		return incidentROs;
 	}
 
@@ -668,6 +667,48 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 		}
 		// Throw the incident back with the newly created investigation details
 		return _mapperService.map(incident, IncidentRO.class);		
+	}
+	
+	@Override
+	@PreAuthorize("hasAnyAuthority('ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
+	@Transactional
+	public IncidentRO addOrUpdateInvestigationDetail(final InvestigationDetailRO investigationDetailRO) {
+		// Validate input param (object)
+		validateObject(investigationDetailRO);
+		// Validate unique incident id
+		validateUniqueIncidentId(investigationDetailRO.getUniqueIncidentId());
+		// Validate investigation object
+		validateObject(investigationDetailRO.getInvestigation());
+		// Construct the incident object for update
+		Incident incident = _incidentService.getIncidentByUniqueIncidentId(investigationDetailRO.getUniqueIncidentId().trim());
+		validateGenericObject(incident);
+		// Get investigation detail for the given incident
+		Investigation existingInvestigationRecord = _investigationService.get(incident);
+		// Update with new values
+		if (existingInvestigationRecord != null) {
+			Investigation updatedInvestigationRecord = _investigationService.updateInvestigation(constructInvestigationRecordForUpdate(investigationDetailRO.getInvestigation(), existingInvestigationRecord));
+			if (updatedInvestigationRecord == null) {
+				throw new ResourceNotCreatedException(_messageBuilder.build(RestMessage.UNABLE_TO_UPDATE_RECORD));
+			} else {
+				// Set the new investigation to incident.
+				incident.setInvestigation(updatedInvestigationRecord);
+			}			
+		} else {
+			// Construct and create the investigation object.
+			Investigation investigation = constructInvestigation(investigationDetailRO.getInvestigation(), incident);
+			validateGenericObject(investigation);
+			// create the investigation record
+			final Investigation newInvestigation = _investigationService.create(investigation);
+			// Throw exception if unable to create
+			if (newInvestigation == null) {
+				throw new ResourceNotCreatedException(_messageBuilder.build(RestMessage.UNABLE_TO_CREATE_RECORD));
+			} else {
+				// Set the new investigation to incident.
+				incident.setInvestigation(newInvestigation);
+			}
+		}
+		// Throw the incident back with the newly created investigation details
+		return _mapperService.map(incident, IncidentRO.class);
 	}
 
 	private Set<Suspect> constructNewSuspects(final Set<SuspectRO> suspectROs) {
@@ -1595,6 +1636,74 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 		
 		return investigation;
 	}
+	
+	private Investigation constructInvestigationRecordForUpdate(final InvestigationRO investigationRO, final Investigation investigation) {
+		if (investigationRO != null) {
+			
+			YesNoType securityRequested = YesNoType.N;
+			YesNoType trainingRequested = YesNoType.N;
+			YesNoType reviewedInvestigationRecords = YesNoType.N;
+			YesNoType reviewedCCTV = YesNoType.N;
+			YesNoType reviewedPictures = YesNoType.N;
+			YesNoType reviewedWitnessStatement = YesNoType.N;
+			YesNoType reviewedLearnerRecords = YesNoType.N;
+			YesNoType reviewedAssetRecords = YesNoType.N;
+			YesNoType reviewedComplianceRecords = YesNoType.N;
+			
+			if (investigationRO.getSecurityRequested() != null && investigationRO.getSecurityRequested().name().equals("Y")) {
+				securityRequested = YesNoType.Y;
+			}
+			if (investigationRO.getTrainingRequested() != null && investigationRO.getTrainingRequested().name().equals("Y")) {
+				trainingRequested = YesNoType.Y;
+			}
+			if (investigationRO.getReviewedInvestigationRecords() != null && investigationRO.getReviewedInvestigationRecords().name().equals("Y")) {
+				reviewedInvestigationRecords = YesNoType.Y;
+			}
+			if (investigationRO.getReviewedCCTV() != null && investigationRO.getReviewedCCTV().name().equals("Y")) {
+				reviewedCCTV = YesNoType.Y;
+			}
+			if (investigationRO.getReviewedPictures() != null && investigationRO.getReviewedPictures().name().equals("Y")) {
+				reviewedPictures = YesNoType.Y;
+			}
+			if (investigationRO.getReviewedWitnessStatement() != null && investigationRO.getReviewedWitnessStatement().name().equals("Y")) {
+				reviewedWitnessStatement = YesNoType.Y;
+			}
+			if (investigationRO.getReviewedLearnerRecords() != null && investigationRO.getReviewedLearnerRecords().name().equals("Y")) {
+				reviewedLearnerRecords = YesNoType.Y;
+			}
+			if (investigationRO.getReviewedAssetRecords() != null && investigationRO.getReviewedAssetRecords().name().equals("Y")) {
+				reviewedAssetRecords = YesNoType.Y;
+			}
+			if (investigationRO.getReviewedComplianceRecords() != null && investigationRO.getReviewedComplianceRecords().name().equals("Y")) {
+				reviewedComplianceRecords = YesNoType.Y;
+			}
+			
+			investigation.setSecurityRequested(securityRequested);
+			investigation.setTrainingRequested(trainingRequested);
+			investigation.setReviewedInvestigationRecords(reviewedInvestigationRecords);
+			investigation.setReviewedCCTV(reviewedCCTV);
+			investigation.setReviewedPictures(reviewedPictures);
+			investigation.setReviewedWitnessStatement(reviewedWitnessStatement);
+			investigation.setReviewedLearnerRecords(reviewedLearnerRecords);
+			investigation.setReviewedAssetRecords(reviewedAssetRecords);
+			investigation.setReviewedComplianceRecords(reviewedComplianceRecords);
+			
+			if (investigationRO.getInvestigator() != null) {
+				if (investigationRO.getInvestigator().getLoginId() != null && !investigationRO.getInvestigator().getLoginId().trim().isEmpty()) {
+					final User investigator = _userService.getUserByUserLoginId(investigationRO.getInvestigator().getLoginId().trim());
+					if (investigator != null) {
+						investigation.setInvestigator(investigator);
+					}
+				}
+			}
+			
+			if (investigationRO.getInvestigatorStatement() != null && !investigationRO.getInvestigatorStatement().trim().isEmpty()) {
+				investigation.setInvestigatorStatement(investigationRO.getInvestigatorStatement().trim());
+			}
+		}
+		
+		return investigation;
+	}
 
 	private Set<CrimeSuspect> constructNewCrimeSuspects(final Set<CrimeSuspectRO> crimeSuspectROs, final Crime crime) {
 		final Set<CrimeSuspect> crimeSuspects = new HashSet<CrimeSuspect>(0);
@@ -1780,5 +1889,5 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 				throw new ResourceNotValidException(_messageBuilder.build(RestMessage.WITNESS_FLAG_MUST_BE_YES));
 			}
 		}
-	}		
+	}			
 }
