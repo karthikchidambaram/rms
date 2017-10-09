@@ -32,6 +32,17 @@ public interface RequestMappingConstants {
 	String ROLE 			= SECURED + "/role";
 	String GET_ALL_ROLES 	= ROLE + "/roles";
 	
+	/** Document */
+	String DOCUMENT 					= SECURED + "/document";
+	String GET_ALL_DOCUMENTS			= DOCUMENT + "/documents";
+	String GET_DOCUMENT_BY_ID			= DOCUMENT + "/{documentId}";
+	String GET_DOCUMENTS_BY_INCIDENT_ID	= DOCUMENT + "/documents-for-incident/{uniqueIncidentId}";
+	String SAVE_DOCUMENTS				= DOCUMENT + "/save-documents";
+	String SAVE_DOCUMENT				= DOCUMENT + "/save-document";
+	String DELETE_DOCUMENT				= DOCUMENT + "/delete-document/{id}";	
+	String DELETE_DOCUMENTS				= DOCUMENT + "/delete-documents";
+	String DOWNLOAD_DOCUMENT			= DOCUMENT + "/download-document/{id}";
+	
 	/** Investigation Team */
 	String INVESTIGATION_TEAM			= SECURED + "/investigation-team";
 	String GET_ALL_INVESTIGATION_TEAMS 	= INVESTIGATION_TEAM + "/investigation-teams";
@@ -59,11 +70,14 @@ public interface RequestMappingConstants {
 	String TEST_CREATE_DEPARTMENT 				= TEST + "/department/create-department";
 	String TEST_UPDATE_DEPARTMENT 				= TEST + "/department/update-department";
 	String TEST_DELETE_DEPARTMENT 				= TEST + "/department/delete-department/{deptNo}";	
-	
+	String TEST_FILE_UPLOAD						= TEST + "/file-upload";
+			
 	String TEST_AUTHENTICATION 					= TEST_SECURED + "/test-authentication";
 	String TEST_CREATE_MY_DEPARTMENT 			= TEST_SECURED + "/my-department/create-my-department";
 	String TEST_UPDATE_MY_DEPARTMENT 			= TEST_SECURED + "/my-department/update-my-department";
 	String TEST_DELETE_MY_DEPARTMENT			= TEST_SECURED + "/my-department/delete-my-department/{deptNo}";
+	
+	
 	
 	/** Table Maintenance Requests */
 	String TABLE_MAINTENANCE 		= SECURED + "/table-maintenance";
@@ -352,6 +366,7 @@ public interface RequestMappingConstants {
 	String ADD_CLAIM_DETAILS							= INCIDENT + "/add-claim-details";
 	String ADD_INVESTIGATION_DETAILS					= INCIDENT + "/add-investigation-details";
 	String ADD_OR_UPDATE_INVESTIGATION_DETAILS			= INCIDENT + "/add-or-update-investigation-details";
+	String ADD_SUPPORTING_DOCUMENTS						= INCIDENT + "/add-supporting-documents";
 	
 	/** Search Incidents */
 	String SEARCH_INCIDENT							= SECURED + "/search-incident";	

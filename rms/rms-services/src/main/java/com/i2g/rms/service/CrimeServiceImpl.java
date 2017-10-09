@@ -9,7 +9,7 @@ import com.i2g.rms.domain.model.Crime;
 import com.i2g.rms.persistence.dao.CrimeDao;
 
 /**
- * Back-end service for asset related functions.
+ * Back-end service for crime related functions.
  * 
  * @since 1.0.0
  * @author Karthikeyan Chidambaram

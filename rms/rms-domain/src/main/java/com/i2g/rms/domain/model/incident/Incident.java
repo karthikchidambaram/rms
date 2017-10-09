@@ -36,6 +36,7 @@ import com.i2g.rms.domain.model.Accident;
 import com.i2g.rms.domain.model.Asset;
 import com.i2g.rms.domain.model.Claim;
 import com.i2g.rms.domain.model.Crime;
+import com.i2g.rms.domain.model.DocumentView;
 import com.i2g.rms.domain.model.Investigation;
 import com.i2g.rms.domain.model.OfficeAddress;
 import com.i2g.rms.domain.model.ReportedLoss;
@@ -95,6 +96,7 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 	private YesNoType _showClaims;
 	private YesNoType _showInvestigation;
 	private Investigation _investigation;
+	private Set<DocumentView> _documents = new HashSet<DocumentView>(0);
 	
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -529,6 +531,16 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 
 	public void setInvestigation(final Investigation investigation) {
 		_investigation = investigation;
+	}
+	
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name = "INC_ID")
+	public Set<DocumentView> getDocuments() {
+		return _documents;
+	}
+
+	public void setDocuments(final Set<DocumentView> documents) {
+		_documents = documents;
 	}
 
 	@Override

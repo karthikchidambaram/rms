@@ -319,4 +319,10 @@ public abstract class AbstractRestService {
 	protected String stringTrimmer(final String text) {
 		return text.trim();
 	}
+	
+	protected void validateCollectionObject(final Collection<?> collectionObject) {
+		if (collectionObject == null || collectionObject.isEmpty()) {
+			throw new ResourceNotValidException(_messageBuilder.build(RestMessage.INPUT_OBJECT_NULL_OR_EMPTY));
+		}
+	}
 }

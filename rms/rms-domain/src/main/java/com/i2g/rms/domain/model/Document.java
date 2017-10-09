@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.sql.Blob;
 import java.util.Objects;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -13,15 +14,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.i2g.rms.domain.model.incident.Incident;
-import com.i2g.rms.domain.model.tablemaintenance.DocumentCategory;
-import com.i2g.rms.domain.model.tablemaintenance.DocumentType;
 
 /**
  * Entity representation of Document.
@@ -32,38 +32,42 @@ import com.i2g.rms.domain.model.tablemaintenance.DocumentType;
  */
 @Entity
 @Table(name = "RMS_DOC")
+@JsonIgnoreProperties({ "incident" })
 public class Document extends AbstractDataModel<Long> implements Serializable {
-	
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	/** Primary surrogate key ID */
 	private long _id;
 	private Incident _incident;
 	private StatusFlag _statusFlag;
-	private DocumentType _documentType;
-	private String _documentName;
-	private Blob _document;
-	private DocumentCategory _documentCategory;
-		
+	private String _fileName;
+	private String _originalFileName;
+	private String _fileDescription;
+	private String _fileContentType;
+	private Long _fileSize;
+	private Blob _fileContent;
+	
 	/**
 	 * Default empty constructor required for Hibernate.
 	 */
 	protected Document() {
 	}
-	
+
 	/**
-	 * Creates a new immutable instance of {@link Document} from the
-	 * specified {@code builder}.
+	 * Creates a new immutable instance of {@link Document} from the specified
+	 * {@code builder}.
 	 * 
 	 * @param builder
 	 */
 	private Document(final Builder builder) {
 		_statusFlag = Objects.requireNonNull(builder._statusFlag, "Status flag cannot be null.");
+		_incident = Objects.requireNonNull(builder._incident, "Incident cannot be null.");
 	}
-	
+
 	/**
 	 * Return the ReportedLoss primary key ID.
 	 * 
@@ -92,7 +96,7 @@ public class Document extends AbstractDataModel<Long> implements Serializable {
 	protected void setId(final long id) {
 		_id = id;
 	}
-	
+
 	/**
 	 * @return the incidentId
 	 */
@@ -103,102 +107,98 @@ public class Document extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @param incident the incident to set
+	 * @param incident
+	 *            the incident to set
 	 */
 	public void setIncident(final Incident incident) {
 		_incident = incident;
 	}
-	
+
 	/**
 	 * @return the statusFlag
 	 */
 	@Column(name = "STS_FLG", nullable = false)
-	@Size(min = 1, max = 16, message = "Status flag code must be between {min} and {max} characters")
-	@NotNull
 	@Enumerated(EnumType.STRING)
+	@NotNull
 	public StatusFlag getStatusFlag() {
 		return _statusFlag;
 	}
 
 	/**
-	 * @param statusFlag the statusFlag to set
+	 * @param statusFlag
+	 *            the statusFlag to set
 	 */
 	public void setStatusFlag(final StatusFlag statusFlag) {
 		_statusFlag = statusFlag;
 	}
 	
-	/**
-	 * @return the documentType
-	 */
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "DOC_TYP_CDE")
-	@Size(min = 1, max = 16, message = "Document type code must be between {min} and {max} characters")
-	public DocumentType getDocumentType() {
-		return _documentType;
+	@Column(name = "FILE_NAME", length = 128)
+	public String getFileName() {
+		return _fileName;
+	}
+
+	public void setFileName(final String fileName) {
+		_fileName = fileName;
+	}
+	
+	@Column(name = "ORG_FILE_NAME", length = 128)
+	public String getOriginalFileName() {
+		return _originalFileName;
+	}
+
+	public void setOriginalFileName(final String originalFileName) {
+		_originalFileName = originalFileName;
+	}
+	
+	@Column(name = "FILE_DESC", length = 256)
+	public String getFileDescription() {
+		return _fileDescription;
+	}
+
+	public void setFileDescription(final String fileDescription) {
+		_fileDescription = fileDescription;
+	}
+	
+	@Column(name = "FILE_CONTENT_TYPE", length = 128)
+	public String getFileContentType() {
+		return _fileContentType;
+	}
+
+	public void setFileContentType(final String fileContentType) {
+		_fileContentType = fileContentType;
+	}
+	
+	@Column(name = "FILE_SIZE")
+	public Long getFileSize() {
+		return _fileSize;
+	}
+
+	public void setFileSize(final Long fileSize) {
+		if (fileSize != null) {
+			_fileSize = fileSize;
+		} else {
+			_fileSize = 0l;
+		}
+	}
+	
+	@Lob
+	@Column(name = "FILE_CONTENT")
+	@Basic(fetch = FetchType.LAZY)
+	public Blob getFileContent() {
+		return _fileContent;
+	}
+
+	public void setFileContent(final Blob fileContent) {
+		_fileContent = fileContent;
 	}
 
 	/**
-	 * @param documentType the documentType to set
-	 */
-	public void setDocumentType(final DocumentType documentType) {
-		_documentType = documentType;
-	}
-
-	/**
-	 * @return the documentName
-	 */
-	@Column(name = "DOC_NAM")
-	@Size(min = 1, max = 128, message = "Document name must be between {min} and {max} characters")
-	public String getDocumentName() {
-		return _documentName;
-	}
-
-	/**
-	 * @param documentName the documentName to set
-	 */
-	public void setDocumentName(final String documentName) {
-		_documentName = documentName;
-	}
-
-	/**
-	 * @return the document
-	 */
-	@Column(name = "DOC")
-	public Blob getDocument() {
-		return _document;
-	}
-
-	/**
-	 * @param document the document to set
-	 */
-	public void setDocument(final Blob document) {
-		_document = document;
-	}
-
-	/**
-	 * @return the documentCategory
-	 */
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "DOC_CTGRY_CDE")
-	@Size(min = 1, max = 16, message = "Document category code must be between {min} and {max} characters")
-	public DocumentCategory getDocumentCategory() {
-		return _documentCategory;
-	}
-
-	/**
-	 * @param documentCategory the documentCategory to set
-	 */
-	public void setDocumentCategory(final DocumentCategory documentCategory) {
-		_documentCategory = documentCategory;
-	}
-
-	/**
-	 * Builder pattern for constructing immutable instances of
-	 * {@link Document}.
+	 * Builder pattern for constructing immutable instances of {@link Document}.
 	 */
 	public final static class Builder {
 
 		private StatusFlag _statusFlag;
+		private Incident _incident;
 
 		/**
 		 * Builds a new immutable instance of Document.
@@ -211,6 +211,11 @@ public class Document extends AbstractDataModel<Long> implements Serializable {
 
 		public Builder setStatusFlag(final StatusFlag statusFlag) {
 			_statusFlag = statusFlag;
+			return this;
+		}
+
+		public Builder setIncident(final Incident incident) {
+			_incident = incident;
 			return this;
 		}
 	}

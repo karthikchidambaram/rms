@@ -60,6 +60,11 @@
 				<class-b>java.sql.Timestamp</class-b>
 			</converter>
 			
+			<converter type="com.i2g.rms.rest.converter.ByteArrayConverter">
+				<class-a>[B</class-a>
+                <class-b>[B</class-b>
+			</converter>
+			
 		</custom-converters>
 	</configuration>
 

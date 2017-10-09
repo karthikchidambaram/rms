@@ -9,11 +9,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.i2g.rms.domain.model.incident.Incident;
 import com.i2g.rms.rest.constants.RequestMappingConstants;
 import com.i2g.rms.rest.controller.AbstractRestController;
+import com.i2g.rms.rest.model.DocumentViewRO;
 import com.i2g.rms.rest.model.UserRO;
 import com.i2g.rms.rest.model.incident.AccidentDetailRO;
 import com.i2g.rms.rest.model.incident.AssetDetailRO;
@@ -24,6 +27,7 @@ import com.i2g.rms.rest.model.incident.IncidentRO;
 import com.i2g.rms.rest.model.incident.InvestigationDetailRO;
 import com.i2g.rms.rest.model.incident.LogIncidentRO;
 import com.i2g.rms.rest.search.Searchable;
+import com.i2g.rms.rest.service.incident.DocumentRestService;
 import com.i2g.rms.rest.service.incident.IncidentRestService;
 
 /**
@@ -38,6 +42,8 @@ public class IncidentController extends AbstractRestController {
 	
 	@Autowired
 	private IncidentRestService _incidentRestService;
+	@Autowired
+	private DocumentRestService _documentRestService;
 	
 	@RequestMapping(value = RequestMappingConstants.GET_INCIDENTS, method = RequestMethod.GET)
 	@Searchable(sourceType = IncidentRO.class, value = Incident.class)
@@ -93,5 +99,14 @@ public class IncidentController extends AbstractRestController {
 	@RequestMapping(value = RequestMappingConstants.ADD_OR_UPDATE_INVESTIGATION_DETAILS, method = RequestMethod.POST)
 	public IncidentRO addOrUpdateInvestigationDetail(final @Valid @RequestBody InvestigationDetailRO investigationDetailRO) {
 		return _incidentRestService.addOrUpdateInvestigationDetail(investigationDetailRO);
+	}
+	
+	@RequestMapping(value = RequestMappingConstants.ADD_SUPPORTING_DOCUMENTS, method = RequestMethod.POST)
+	public List<DocumentViewRO> addSupportingDocuments(
+				@RequestParam("uniqueIncidentId") final String uniqueIncidentId,
+				@RequestParam("fileDescription") final String[] fileDescriptions,
+				@RequestParam("file") final MultipartFile[] files
+				) {
+		return _documentRestService.saveDocuments(uniqueIncidentId, fileDescriptions, files);
 	}
 }

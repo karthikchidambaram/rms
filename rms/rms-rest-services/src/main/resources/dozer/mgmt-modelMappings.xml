@@ -294,5 +294,23 @@
 			<b>crimes</b>
 		</field-exclude>
 	</mapping>
+	
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.Document</class-a>
+		<class-b>com.i2g.rms.rest.model.DocumentRO</class-b>
+		<field-exclude>
+			<a>incident</a>
+			<b>incident</b>
+		</field-exclude>
+		<field custom-converter = "com.i2g.rms.rest.converter.RMSBlobCustomConverter">
+    		<a>fileContent</a>
+    		<b>fileContent</b>
+  		</field>
+	</mapping>
+	
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.DocumentView</class-a>
+		<class-b>com.i2g.rms.rest.model.DocumentViewRO</class-b>				
+	</mapping>
 
 </mappings>

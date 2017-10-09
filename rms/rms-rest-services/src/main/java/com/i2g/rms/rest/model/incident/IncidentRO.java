@@ -10,6 +10,7 @@ import com.i2g.rms.rest.model.AccidentRO;
 import com.i2g.rms.rest.model.AssetRO;
 import com.i2g.rms.rest.model.ClaimRO;
 import com.i2g.rms.rest.model.CrimeRO;
+import com.i2g.rms.rest.model.DocumentViewRO;
 import com.i2g.rms.rest.model.InvestigationRO;
 import com.i2g.rms.rest.model.OfficeAddressRO;
 import com.i2g.rms.rest.model.ReportedLossRO;
@@ -63,6 +64,7 @@ public class IncidentRO extends AbstractEntityRO {
 	private YesNoTypeRO _showClaims;
 	private YesNoTypeRO _showInvestigation;
 	private InvestigationRO _investigation;
+	private Set<DocumentViewRO> _documents = new HashSet<DocumentViewRO>(0);
 	
 	/**
 	 * @return the id
@@ -457,5 +459,13 @@ public class IncidentRO extends AbstractEntityRO {
 
 	public void setInvestigation(final InvestigationRO investigation) {
 		_investigation = investigation;
+	}
+
+	public Set<DocumentViewRO> getDocuments() {
+		return _documents;
+	}
+
+	public void setDocuments(final Set<DocumentViewRO> documents) {
+		_documents = documents;
 	}	
 }
