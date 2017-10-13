@@ -3,6 +3,7 @@ package com.i2g.rms.persistence.dao;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
@@ -94,17 +95,20 @@ public class DocumentDaoImpl extends AbstractHibernateDao<Long, Document> implem
 	}
 	
 	@Override
-	public void deleteDocumentById(final long id) {
-		final Document document = get(id);
+	public void deleteDocument(final Document document) {
 		if (document != null) {
 			delete(document);
 		}
 	}
 	
 	@Override
-	public void deleteDocumentByIds(final Long[] ids) {
-		for (int i = 0; i < ids.length; i++) {
-			deleteDocumentById(ids[i]);
+	public void deleteDocuments(final Set<Document> documents) {
+		if (documents != null && !documents.isEmpty()) {
+			for (Document document : documents) {
+				if (document != null) {
+					deleteDocument(document);
+				}
+			}
 		}
 	}
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.i2g.rms.domain.model.Suspect;
+import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeatureDetail;
 import com.i2g.rms.persistence.dao.SuspectDao;
 
 /**
@@ -34,9 +35,29 @@ public class SuspectServiceImpl extends AbstractService implements SuspectServic
 	public Suspect get(final long id) {
 		return _suspectDao.get(id);
 	}
+	
+	@Override
+	public Suspect createNewSuspect(final Suspect suspect) {
+		return _suspectDao.createNewSuspect(suspect);
+	}
 
 	@Override
-	public Set<Suspect> createNewSuspects(final Set<Suspect> suspects) {
+	public List<Suspect> createNewSuspects(final Set<Suspect> suspects) {
 		return _suspectDao.createNewSuspects(suspects);
-	}	
+	}
+
+	@Override
+	public Suspect updateSuspect(final Suspect suspect) {
+		return _suspectDao.updateSuspect(suspect);
+	}
+	
+	@Override
+	public List<Suspect> updateSuspects(final Set<Suspect> suspects) {
+		return _suspectDao.updateSuspects(suspects);
+	}
+
+	@Override
+	public void removeDistinguishingFeatureDetailsFromSuspect(Suspect suspect, Set<DistinguishingFeatureDetail> distinguishingFeatureDetails) {
+		_suspectDao.removeDistinguishingFeatureDetailsFromSuspect(suspect, distinguishingFeatureDetails);		
+	}		
 }

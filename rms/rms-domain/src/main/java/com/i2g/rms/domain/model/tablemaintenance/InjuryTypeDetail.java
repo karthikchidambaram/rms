@@ -156,7 +156,7 @@ public class InjuryTypeDetail extends AbstractDataModel<String> implements Seria
 		_injuryType = injuryType;
 	}
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "injuryTypeDetail")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "injuryTypeDetail")
 	@JsonIgnoreProperties("injuryTypeDetail")
 	public Set<InjuryTypeDetailSpec> getInjuryTypeDetailSpecs() {
 		return _injuryTypeDetailSpecs;

@@ -5,7 +5,9 @@ import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.sql.rowset.serial.SerialBlob;
 import javax.sql.rowset.serial.SerialException;
@@ -66,11 +68,8 @@ public class DocumentRestServiceImpl extends AbstractRestService implements Docu
 	public DocumentViewRO get(final long id) {
 		if (id > 0) {
 			final DocumentView documentView = _documentViewService.get(id);
-			if (documentView != null) {
-				return _mapperService.map(documentView, DocumentViewRO.class);
-			} else {
-				return null;
-			}
+			validateGenericObject(documentView);
+			return _mapperService.map(documentView, DocumentViewRO.class);			
 		} else {
 			return null;
 		}
@@ -181,24 +180,30 @@ public class DocumentRestServiceImpl extends AbstractRestService implements Docu
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
 	@Transactional
-	public void deleteDocumentById(final long id) {
-		if (id > 0) {
-			final Document document = _documentService.get(id);
-			validateGenericObject(document);
-			_documentService.deleteDocumentById(id);
-		} else {
-			throw new ResourceNotValidException(_messageBuilder.build(RestMessage.INVALID_KEY_PASSED_FOR_DELETE, id));
+	public void deleteDocument(final Long id) {
+		if (id == null || id <= 0) {
+			throw new ResourceNotValidException(_messageBuilder.build(RestMessage.INVALID_KEY_PASSED_FOR_DELETE));
 		}
+		final Document document = _documentService.get(id);
+		validateGenericObject(document);
+		_documentService.deleteDocument(document);
 	}
 	
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
 	@Transactional
-	public void deleteDocumentByIds(final Long[] ids) {
-		if (ids == null) {
+	public void deleteDocuments(final Long[] ids) {
+		if (ids == null || ids.length <= 0) {
 			throw new ResourceNotValidException(_messageBuilder.build(RestMessage.NOTHING_TO_DELETE));
 		}
-		_documentService.deleteDocumentByIds(ids);
+		Set<Document> documents = new HashSet<Document>(0);
+		for (int i = 0; i < ids.length; i++) {
+			final Document document = _documentService.get(ids[i]);
+			if (document != null) {
+				documents.add(document);
+			}
+		}
+		_documentService.deleteDocuments(documents);
 	}
 	
 	@Override

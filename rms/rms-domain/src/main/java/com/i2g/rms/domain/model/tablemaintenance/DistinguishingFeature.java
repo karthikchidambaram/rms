@@ -127,7 +127,7 @@ public class DistinguishingFeature extends AbstractDataModel<String> implements 
 		_description = description;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "distinguishingFeature")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "distinguishingFeature")
 	@JsonIgnoreProperties("distinguishingFeature")
 	public Set<DistinguishingFeatureDetail> getDistinguishingFeatureDetails() {
 		return _distinguishingFeatureDetails;

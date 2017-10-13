@@ -167,7 +167,7 @@ public class Asset extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the equipments
 	 */
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "asset")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "asset")
 	@Fetch(FetchMode.SUBSELECT)
 	public Set<Equipment> getEquipments() {
 		return _equipments;
@@ -183,7 +183,7 @@ public class Asset extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the buildings
 	 */
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "asset")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "asset")
 	@Fetch(FetchMode.SUBSELECT)
 	public Set<Building> getBuildings() {
 		return _buildings;
@@ -199,7 +199,7 @@ public class Asset extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the vehicles
 	 */
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "asset")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "asset")
 	@Fetch(FetchMode.SUBSELECT)
 	public Set<Vehicle> getVehicles() {
 		return _vehicles;

@@ -58,7 +58,6 @@ import com.i2g.rms.domain.model.tablemaintenance.Position;
  */
 @Entity
 @Table(name = "RMS_USR")
-@Immutable
 @DynamicUpdate
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "userCache")
@@ -123,7 +122,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	@Transient
 	private boolean _accountEnabled;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER, orphanRemoval = true)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
 	@Transient
 	private Set<UserAuthority> _authorities;	
 	
@@ -187,10 +186,9 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 		_id = id;
 	}
 
-	@Column(name = "LGN_ID", nullable = false, updatable = false)
+	@Column(name = "LGN_ID", nullable = false, updatable = false, length = 64)
 	@NotNull
 	@Unique
-	@Size(min = 1, max = 64, message = "User login ID must be between {min} and {max} characters")
 	public String getLoginId() {
 		return _loginId;
 	}
@@ -200,9 +198,8 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 		_username = loginId;
 	}
 
-	@Column(name = "PWD", nullable = false)
+	@Column(name = "PWD", nullable = false, length = 128)
 	@NotNull
-	@Size(min = 1, max = 128, message = "User password must be between {min} and {max} characters")
 	@JsonIgnore
 	public String getPassword() {
 		return _password;
@@ -213,9 +210,8 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 		_password = password;
 	}
 	
-	@Column(name = "FNAME", nullable = false)
+	@Column(name = "FNAME", nullable = false, length = 64)
 	@NotNull
-	@Size(min = 1, max = 64, message = "User first name must be between {min} and {max} characters")
 	public String getFirstName() {
 		return _firstName;
 	}
@@ -224,8 +220,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 		_firstName = firstName;
 	}
 
-	@Column(name = "LNAME")
-	@Size(min = 1, max = 64, message = "User last name must be between {min} and {max} characters")
+	@Column(name = "LNAME", length = 64)
 	public String getLastName() {
 		return _lastName;
 	}
@@ -234,8 +229,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 		_lastName = lastName;
 	}
 
-	@Column(name = "MNAME")
-	@Size(min = 1, max = 64, message = "User middle name must be between {min} and {max} characters")
+	@Column(name = "MNAME", length = 64)
 	public String getMiddleName() {
 		return _middleName;
 	}
@@ -244,8 +238,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 		_middleName = middleName;
 	}
 
-	@Column(name = "TITLE")
-	@Size(min = 1, max = 32, message = "User title must be between {min} and {max} characters")
+	@Column(name = "TITLE", length = 32)
 	public String getTitle() {
 		return _title;
 	}
@@ -254,8 +247,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 		_title = title;
 	}
 
-	@Column(name = "NAM_SUFFIX")
-	@Size(min = 1, max = 32, message = "User name suffix must be between {min} and {max} characters")
+	@Column(name = "NAM_SUFFIX", length = 32)
 	public String getNameSuffix() {
 		return _nameSuffix;
 	}
@@ -265,7 +257,6 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	}
 
 	@Column(name = "STS_FLG", nullable = false)
-	@Size(min = 1, max = 16, message = "Status flag code must be between {min} and {max} characters")
 	@Enumerated(EnumType.STRING)
 	public StatusFlag getStatusFlag() {
 		return _statusFlag;
@@ -287,7 +278,6 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 			inverseJoinColumns = @JoinColumn(name = "RLE_ID")
 	)
 	@Fetch(FetchMode.SUBSELECT)
-	@Immutable
 	@Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region="userCache")
 	public Set<Role> getRoles() {
 		return _roles;
@@ -309,7 +299,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 		_roles = roles;		
 	}	
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "user")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
 	@Fetch(FetchMode.SUBSELECT)
 	public Set<PasswordHistory> getPasswordHistory() {
 		return _passwordHistory;
@@ -499,7 +489,6 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	 */
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "GNDR_TYP_CDE")
-	@Size(min = 1, max = 16, message = "Gender type code must be between {min} and {max} characters")
 	public GenderType getGenderType() {
 		return _genderType;
 	}
@@ -581,8 +570,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	/**
 	 * @return the phone
 	 */
-	@Column(name = "PHN")
-	@Size(min = 1, max = 20, message = "Phone number must be between {min} and {max} characters")
+	@Column(name = "PHN", length = 20)
 	public String getPhone() {
 		return _phone;
 	}
@@ -597,8 +585,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	/**
 	 * @return the alternatePhone
 	 */
-	@Column(name = "ALT_PHN")
-	@Size(min = 1, max = 20, message = "Alternate phone number must be between {min} and {max} characters")
+	@Column(name = "ALT_PHN", length = 20)
 	public String getAlternatePhone() {
 		return _alternatePhone;
 	}
@@ -613,8 +600,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	/**
 	 * @return the fax
 	 */
-	@Column(name = "FAX")
-	@Size(min = 1, max = 20, message = "Fax number must be between {min} and {max} characters")
+	@Column(name = "FAX", length = 20)
 	public String getFax() {
 		return _fax;
 	}
@@ -629,8 +615,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	/**
 	 * @return the email
 	 */
-	@Column(name = "EML")
-	@Size(min = 1, max = 128, message = "Email must be between {min} and {max} characters")
+	@Column(name = "EML", length = 128)
 	public String getEmail() {
 		return _email;
 	}
@@ -645,8 +630,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	/**
 	 * @return the employeeId
 	 */
-	@Column(name = "EMP_ID")
-	@Size(min = 1, max = 20, message = "Employee ID must be between {min} and {max} characters")
+	@Column(name = "EMP_ID", length = 20)
 	public String getEmployeeId() {
 		return _employeeId;
 	}
@@ -663,7 +647,6 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	 */
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "POSTN_CDE")
-	@Size(min = 1, max = 16, message = "Position code must be between {min} and {max} characters")
 	public Position getPosition() {
 		return _position;
 	}
@@ -680,7 +663,6 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	 */
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "EMP_TYP_CDE")
-	@Size(min = 1, max = 16, message = "Employee type code must be between {min} and {max} characters")
 	public EmployeeType getEmployeeType() {
 		return _employeeType;
 	}
@@ -723,7 +705,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 		_subordinates = subordinates;
 	}
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "user")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
 	@Fetch(FetchMode.SUBSELECT)
 	public Set<Address> getAddresses() {
 		return _addresses;

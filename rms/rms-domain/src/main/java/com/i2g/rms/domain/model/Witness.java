@@ -371,7 +371,7 @@ public class Witness extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the addresses
 	 */
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "witness")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "witness")
 	@Fetch(FetchMode.SUBSELECT)
 	public Set<Address> getAddresses() {
 		return _addresses;
@@ -438,7 +438,9 @@ public class Witness extends AbstractDataModel<Long> implements Serializable {
 	 * @return the distinguishingFeatureDetails
 	 */
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinTable(name = "RMS_WITNS_DIST_FEA_CHLD", joinColumns = @JoinColumn(name = "WITNS_ID"), inverseJoinColumns = @JoinColumn(name = "DIST_FEA_CHLD_CDE"))
+	@JoinTable(name = "RMS_WITNS_DIST_FEA_CHLD", 
+		joinColumns = @JoinColumn(name = "WITNS_ID"), 
+		inverseJoinColumns = @JoinColumn(name = "DIST_FEA_CHLD_CDE"))
 	public Set<DistinguishingFeatureDetail> getDistinguishingFeatureDetails() {
 		return _distinguishingFeatureDetails;
 	}

@@ -384,6 +384,27 @@ public class Address extends AbstractDataModel<Long> implements Serializable {
 	public void setApartmentNumber(final String apartmentNumber) {
 		_apartmentNumber = apartmentNumber;
 	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(_id, _statusFlag);
+	}
+	
+	@Override
+	public boolean equals(final Object obj) {
+		if (this == obj) {
+			return true;
+		} else if (obj instanceof User) {
+			final Address other = (Address) obj;
+			return Objects.equals(_id, other._id) && Objects.equals(_statusFlag, other._statusFlag);
+		}
+		return false;
+	}
+
+	@Override
+	public String toString() {
+		return "Address Id: " + _id + ", Status Flag: " + _statusFlag;
+	}
 
 	/**
 	 * Builder pattern for constructing immutable instances of {@link Address}.

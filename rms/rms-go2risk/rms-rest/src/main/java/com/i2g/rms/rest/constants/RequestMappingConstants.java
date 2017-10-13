@@ -29,9 +29,12 @@ public interface RequestMappingConstants {
 	String GET_ALL_PERMISSIONS 	= PERMISSION + "/permissions";
 	
 	/** Role */
-	String ROLE 			= SECURED + "/role";
-	String GET_ALL_ROLES 	= ROLE + "/roles";
-	
+	String ROLE 						= SECURED + "/role";
+	String GET_ALL_ROLES 				= ROLE + "/roles";
+	String GET_ROLE_BY_ROLE_ID 			= ROLE + "/{id}";
+	String GET_ROLE_BY_ROLE_NAME		= ROLE + "/role-name/{roleName}";
+	String DELETE_PERMISSION_FROM_ROLE	= ROLE + "/role-name/{roleName}/permission-name/{permissionName}";
+		
 	/** Document */
 	String DOCUMENT 					= SECURED + "/document";
 	String GET_ALL_DOCUMENTS			= DOCUMENT + "/documents";
@@ -367,9 +370,43 @@ public interface RequestMappingConstants {
 	String ADD_INVESTIGATION_DETAILS					= INCIDENT + "/add-investigation-details";
 	String ADD_OR_UPDATE_INVESTIGATION_DETAILS			= INCIDENT + "/add-or-update-investigation-details";
 	String ADD_SUPPORTING_DOCUMENTS						= INCIDENT + "/add-supporting-documents";
+	String CREATE_SUSPECTS_FOR_INCIDENT					= INCIDENT + "/create-suspects";
+	String CREATE_SUSPECT_FOR_INCIDENT					= INCIDENT + "/create-suspect/{uniqueIncidentId}";
+	String REMOVE_SUSPECTS_FOR_INCIDENT					= INCIDENT + "/remove-suspects";
+	String REMOVE_SUSPECT_FOR_INCIDENT					= INCIDENT + "/remove-suspect/uniqueIncidentId/{uniqueIncidentId}/suspectId/{suspectId}";
+	
+	/** Update flow - Incidents */
+	String UPDATE_LOG_INCIDENT 							= INCIDENT + "/update-log-incident";
+	String UPDATE_INCIDENT_DETAILS						= INCIDENT + "/update-incident-details";
+	
+	/** Add or update incident flows */
+	String ADD_OR_UPDATE_LOG_INCIDENT 					= INCIDENT + "/add-or-update-log-incident";
+	String ADD_OR_UPDATE_INCIDENT_DETAILS 				= INCIDENT + "/add-or-update-incident-details";
+	String REMOVE_SUSPECT_FROM_INCIDENT					= INCIDENT + "/remove-suspect";
+		
+	/** Suspect operations */
+	String SUSPECT 												= SECURED + "/suspect";
+	String GET_ALL_SUSPECTS										= SUSPECT + "/suspects";
+	String GET_SUSPECT_BY_SUSPECT_ID							= SUSPECT + "/{id}";
+	String CREATE_SUSPECTS										= SUSPECT + "/create-suspects";
+	String CREATE_SUSPECT										= SUSPECT + "/create-suspect";
+	String UPDATE_SUSPECTS										= SUSPECT + "/update-suspects";
+	String UPDATE_SUSPECT										= SUSPECT + "/update-suspect";
+	String REMOVE_DISTINGUISHING_FEATURE_DETAILS_FROM_SUSPECT 	= SUSPECT + "/remove-dist-fea-details";
+	
+	/** Reported Loss flows */
+	String REPORTED_LOSS 												= SECURED + "/reported-loss";
+	String GET_ALL_REPORTED_LOSSES										= REPORTED_LOSS + "/reported-losses";
+	String GET_REPORTED_LOSS_BY_REPORTED_LOSS_ID						= REPORTED_LOSS + "/{id}";
+	String CREATE_REPORTED_LOSSES										= REPORTED_LOSS + "/create-reported-losses";
+	String CREATE_REPORTED_LOSS											= REPORTED_LOSS + "/create-reported-loss/{uniqueIncidentId}";
+	String UPDATE_REPORTED_LOSSES										= REPORTED_LOSS + "/update-reported-losses";
+	String UPDATE_REPORTED_LOSS											= REPORTED_LOSS + "/update-reported-loss";
+	String DELETE_REPORTED_LOSSES										= REPORTED_LOSS + "/delete-reported-losses";
+	String DELETE_REPORTED_LOSS											= REPORTED_LOSS + "/delete-reported-loss/{id}";
 	
 	/** Search Incidents */
-	String SEARCH_INCIDENT							= SECURED + "/search-incident";	
+	String SEARCH_INCIDENT						= SECURED + "/search-incident";	
 	
 	/** Lookups */
 	String USER_LOOKUP 							= SECURED + "/user-lookup";

@@ -52,7 +52,7 @@ public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter
 			response.addHeader("Access-Control-Allow-Headers", "Authorization, Search, Accept, Origin, X-AUTH-TOKEN, X-Requested-With, Content-Type, X-Codingpedia, location, info");
 			response.addHeader("Access-Control-Expose-Headers", "Authorization, Search, Accept, Origin, X-AUTH-TOKEN, X-Requested-With, Content-Type, X-Codingpedia, location, info");
 			response.addHeader("Access-Control-Allow-Credentials", "true");
-			response.addHeader("Access-Control-Max-Age", RMSSecurityProperties.TEN_DAYS_IN_SECONDS);
+			response.addHeader("Access-Control-Max-Age", RMSSecurityProperties.ONE_DAY_IN_SECONDS);
 		}
 		
 		if (!HttpMethod.OPTIONS.name().equals(request.getMethod())) {
@@ -80,7 +80,7 @@ public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter
 			response.addHeader("Access-Control-Allow-Headers", "Authorization, Search, Accept, Origin, X-AUTH-TOKEN, X-Requested-With, Content-Type, X-Codingpedia, location, info");
 			response.addHeader("Access-Control-Expose-Headers", "Authorization, Search, Accept, Origin, X-AUTH-TOKEN, X-Requested-With, Content-Type, X-Codingpedia, location, info");
 			response.addHeader("Access-Control-Allow-Credentials", "true");
-			response.addHeader("Access-Control-Max-Age", RMSSecurityProperties.TEN_DAYS_IN_SECONDS);
+			response.addHeader("Access-Control-Max-Age", RMSSecurityProperties.ONE_DAY_IN_SECONDS);
 		}
 				
 		if (!HttpMethod.OPTIONS.name().equals(request.getMethod())) {			

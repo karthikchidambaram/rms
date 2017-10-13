@@ -125,7 +125,7 @@ public class InjuryType extends AbstractDataModel<String> implements Serializabl
 		_description = description;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "injuryType")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "injuryType")
 	@JsonIgnoreProperties("injuryType")
 	public Set<InjuryTypeDetail> getInjuryTypeDetails() {
 		return _injuryTypeDetails;

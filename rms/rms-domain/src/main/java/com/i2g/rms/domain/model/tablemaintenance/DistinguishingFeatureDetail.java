@@ -1,13 +1,16 @@
 package com.i2g.rms.domain.model.tablemaintenance;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -15,6 +18,10 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.i2g.rms.domain.model.AbstractDataModel;
+import com.i2g.rms.domain.model.CrimeSuspect;
+import com.i2g.rms.domain.model.InjuredPerson;
+import com.i2g.rms.domain.model.Suspect;
+import com.i2g.rms.domain.model.Witness;
 
 /**
  * Entity for representing allowable values for the drop down "Distinguishing
@@ -26,7 +33,7 @@ import com.i2g.rms.domain.model.AbstractDataModel;
  */
 @Entity
 @Table(name = "RMS_DIST_FEA_CHLD")
-@JsonIgnoreProperties({"distinguishingFeature"})
+@JsonIgnoreProperties({ "distinguishingFeature", "suspects", "injuredPersons", "crimeSuspects", "witnesses" })
 public class DistinguishingFeatureDetail extends AbstractDataModel<String> implements Serializable {
 
 	/**
@@ -37,7 +44,11 @@ public class DistinguishingFeatureDetail extends AbstractDataModel<String> imple
 	private String _id;
 	private String _description;
 	private DistinguishingFeature _distinguishingFeature;
-
+	private Set<Suspect> _suspects = new HashSet<Suspect>(0);	
+	private Set<InjuredPerson> _injuredPersons = new HashSet<InjuredPerson>(0);
+	private Set<CrimeSuspect> _crimeSuspects = new HashSet<CrimeSuspect>(0);
+	private Set<Witness> _witnesses = new HashSet<Witness>(0);
+	
 	/**
 	 * Default empty constructor required for Hibernate.
 	 */
@@ -74,10 +85,12 @@ public class DistinguishingFeatureDetail extends AbstractDataModel<String> imple
 	 * @param description
 	 * @param distinguishingFeatures
 	 */
-	public DistinguishingFeatureDetail(final String code, final String description, final DistinguishingFeature distinguishingFeature) {
+	public DistinguishingFeatureDetail(final String code, final String description,
+			final DistinguishingFeature distinguishingFeature) {
 		_id = Objects.requireNonNull(code, "Distinguishing feature detail code cannot be null.");
 		_description = Objects.requireNonNull(description, "Distinguishing feature detail description cannot be null.");
-		_distinguishingFeature = Objects.requireNonNull(distinguishingFeature, "Distinguishing feature cannot be null.");
+		_distinguishingFeature = Objects.requireNonNull(distinguishingFeature,
+				"Distinguishing feature cannot be null.");
 	}
 
 	@Id
@@ -134,6 +147,42 @@ public class DistinguishingFeatureDetail extends AbstractDataModel<String> imple
 
 	public void setDistinguishingFeature(final DistinguishingFeature distinguishingFeature) {
 		_distinguishingFeature = distinguishingFeature;
+	}
+
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "distinguishingFeatureDetails")
+	public Set<Suspect> getSuspects() {
+		return _suspects;
+	}
+
+	public void setSuspects(final Set<Suspect> suspects) {
+		_suspects = suspects;
+	}
+	
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "distinguishingFeatureDetails")
+	public Set<InjuredPerson> getInjuredPersons() {
+		return _injuredPersons;
+	}
+
+	public void setInjuredPersons(final Set<InjuredPerson> injuredPersons) {
+		_injuredPersons = injuredPersons;
+	}
+	
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "distinguishingFeatureDetails")
+	public Set<CrimeSuspect> getCrimeSuspects() {
+		return _crimeSuspects;
+	}
+
+	public void setCrimeSuspects(final Set<CrimeSuspect> crimeSuspects) {
+		_crimeSuspects = crimeSuspects;
+	}
+	
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "distinguishingFeatureDetails")
+	public Set<Witness> getWitnesses() {
+		return _witnesses;
+	}
+
+	public void setWitnesses(final Set<Witness> witnesses) {
+		_witnesses = witnesses;
 	}
 
 	@Override

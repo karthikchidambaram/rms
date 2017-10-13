@@ -41,6 +41,8 @@ public class UserRestServiceImpl extends AbstractRestService implements UserRest
 	@Transactional(readOnly = true)
 	public UserRO getUserByUserLoginId(final String loginId) {
 		validateUsername(loginId);
-		return _mapperService.map(_userService.getUserByUserLoginId(loginId), UserRO.class);
+		final User user = _userService.getUserByUserLoginId(loginId);
+		validateGenericObject(user);
+		return _mapperService.map(user, UserRO.class);
 	}
 }

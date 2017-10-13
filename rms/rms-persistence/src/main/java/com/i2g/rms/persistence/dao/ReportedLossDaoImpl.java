@@ -1,6 +1,6 @@
 package com.i2g.rms.persistence.dao;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -63,11 +63,22 @@ public class ReportedLossDaoImpl extends AbstractHibernateDao<Long, ReportedLoss
 		criteria.add(Restrictions.eq("statusFlag", StatusFlag.ACTIVE));
 		return (ReportedLoss) criteria.uniqueResult();
 	}
+	
+	@Override
+	public ReportedLoss createReportedLoss(final ReportedLoss reportedLoss) {
+		validateObject(reportedLoss);
+		final Long id = save(reportedLoss);
+		if (id != null) {
+			return get(id);
+		} else {
+			return null;
+		}
+	}
 
 	@Override
-	public Set<ReportedLoss> createNewReportedLosses(final Set<ReportedLoss> reportedLosses) {
+	public List<ReportedLoss> createReportedLosses(final Set<ReportedLoss> reportedLosses) {
 		validateCollectionObject(reportedLosses);
-		final Set<ReportedLoss> newReportedLosses = new HashSet<ReportedLoss>(0);
+		final List<ReportedLoss> newReportedLosses = new ArrayList<ReportedLoss>(0);
 		for (ReportedLoss reportedLoss : reportedLosses) {
 			final Long id = save(reportedLoss);
 			if (id != null) {
@@ -75,5 +86,47 @@ public class ReportedLossDaoImpl extends AbstractHibernateDao<Long, ReportedLoss
 			}
 		}
 		return newReportedLosses;
+	}
+
+	@Override
+	public ReportedLoss updateReportedLoss(final ReportedLoss reportedLoss) {
+		validateObject(reportedLoss);
+		final Long id = save(reportedLoss);
+		if (id != null) {
+			return get(id);
+		} else {
+			return null;
+		}
+	}
+	
+	@Override
+	public List<ReportedLoss> updateReportedLosses(final Set<ReportedLoss> reportedLosses) {
+		validateCollectionObject(reportedLosses);
+		final List<ReportedLoss> updatedReportedLosses = new ArrayList<ReportedLoss>(0);
+		for (ReportedLoss reportedLoss : reportedLosses) {
+			final Long id = save(reportedLoss);
+			if (id != null) {
+				updatedReportedLosses.add(get(id));
+			}
+		}
+		return updatedReportedLosses;
+	}
+
+	@Override
+	public void deleteReportedLoss(final ReportedLoss reportedLoss) {
+		if (reportedLoss != null) {
+			delete(reportedLoss);
+		}
+	}
+
+	@Override
+	public void deleteReportedLosses(final Set<ReportedLoss> reportedLosses) {
+		if (reportedLosses != null && !reportedLosses.isEmpty()) {
+			for (ReportedLoss reportedLoss : reportedLosses) {
+				if (reportedLoss != null) {
+					deleteReportedLoss(reportedLoss);
+				}
+			}
+		}
 	}
 }

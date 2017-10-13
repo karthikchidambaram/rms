@@ -116,7 +116,7 @@ public class Organization extends AbstractDataModel<String> implements Serializa
 		_description = description;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "organization")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "organization")
 	@Fetch(FetchMode.SUBSELECT)
 	public Set<OfficeAddress> getOfficeAddresses() {
 		return _officeAddresses;

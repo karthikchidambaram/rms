@@ -15,8 +15,14 @@ public interface UserService {
 	
 	public List<User> getUsers();
 	
+	public List<User> get();
+	
+	public User get(final long id);
+	
 	public User getUserByUserLoginId(final String loginId);
 	
 	public List<User> getSubordinates(final User manager);
+	
+	public User updateUser(final User user);
 	
 }

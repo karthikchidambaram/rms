@@ -50,6 +50,22 @@
 			<a>distinguishingFeature</a>
 			<b>distinguishingFeature</b>
 		</field-exclude>
+		<field-exclude>
+			<a>suspects</a>
+			<b>suspects</b>
+		</field-exclude>		
+		<field-exclude>
+			<a>injuredPersons</a>
+			<b>injuredPersons</b>
+		</field-exclude>
+		<field-exclude>
+			<a>crimeSuspects</a>
+			<b>crimeSuspects</b>
+		</field-exclude>
+		<field-exclude>
+			<a>witnesses</a>
+			<b>witnesses</b>
+		</field-exclude>
 	</mapping>
 
 	<mapping>

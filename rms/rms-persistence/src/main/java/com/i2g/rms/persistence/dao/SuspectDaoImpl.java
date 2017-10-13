@@ -1,6 +1,6 @@
 package com.i2g.rms.persistence.dao;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import com.i2g.rms.domain.model.StatusFlag;
 import com.i2g.rms.domain.model.Suspect;
+import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeatureDetail;
 import com.i2g.rms.persistence.hibernate.AbstractHibernateDao;
 
 /**
@@ -69,9 +70,9 @@ public class SuspectDaoImpl extends AbstractHibernateDao<Long, Suspect> implemen
 	 * While creating new suspects, there will be no unique id representing the records uniquely.
 	 * So a list will be used. But after saving the records the return collection can be a set.
 	 */	
-	public Set<Suspect> createNewSuspects(final Set<Suspect> suspects) {
+	public List<Suspect> createNewSuspects(final Set<Suspect> suspects) {
 		validateCollectionObject(suspects);
-		final Set<Suspect> newSuspects = new HashSet<Suspect>(0);
+		final List<Suspect> newSuspects = new ArrayList<Suspect>(0);
 		for (Suspect suspect : suspects) {
 			final Long id = save(suspect);
 			if (id != null) {
@@ -79,5 +80,52 @@ public class SuspectDaoImpl extends AbstractHibernateDao<Long, Suspect> implemen
 			}
 		}
 		return newSuspects;
-	}	
+	}
+
+	@Override
+	public Suspect updateSuspect(final Suspect suspect) {
+		validateObject(suspect);
+		final Long id = save(suspect);
+		if (id != null) {
+			return get(id);
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public void removeDistinguishingFeatureDetailsFromSuspect(final Suspect suspect, final Set<DistinguishingFeatureDetail> distinguishingFeatureDetails) {
+		validateObject(suspect);
+		validateCollectionObject(distinguishingFeatureDetails);
+		for (DistinguishingFeatureDetail distinguishingFeatureDetail : distinguishingFeatureDetails) {
+			if (distinguishingFeatureDetail != null) {
+				suspect.getDistinguishingFeatureDetails().remove(distinguishingFeatureDetail);
+				save(suspect);
+			}
+		}		
+	}
+
+	@Override
+	public Suspect createNewSuspect(final Suspect suspect) {
+		validateObject(suspect);
+		final Long id = save(suspect);
+		if (id != null) {
+			return get(id);
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public List<Suspect> updateSuspects(final Set<Suspect> suspects) {
+		validateCollectionObject(suspects);
+		final List<Suspect> newSuspects = new ArrayList<Suspect>(0);
+		for (Suspect suspect : suspects) {
+			final Long id = save(suspect);
+			if (id != null) {
+				newSuspects.add(get(id));
+			}
+		}
+		return newSuspects;
+	}
 }

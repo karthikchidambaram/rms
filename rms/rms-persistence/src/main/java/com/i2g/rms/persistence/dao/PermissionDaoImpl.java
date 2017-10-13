@@ -1,7 +1,10 @@
 package com.i2g.rms.persistence.dao;
 
 import java.util.List;
+import java.util.Objects;
 
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,5 +49,19 @@ public class PermissionDaoImpl extends AbstractHibernateDao<Long, Permission> im
 	@Override
 	public List<Permission> getPermissions() {
 		return (List<Permission>) applySearch(getSession().createCriteria(_modelType)).list();
+	}
+
+	@Override
+	public Permission getPermissionById(final long id) {
+		final Criteria criteria = getSession().createCriteria(_modelType);
+		criteria.add(Restrictions.eq("id", Objects.requireNonNull(id, "Permission id cannot be null or empty.")));
+		return (Permission) criteria.uniqueResult();
+	}
+
+	@Override
+	public Permission getPermissionByPermissionName(final String permissionName) {
+		final Criteria criteria = getSession().createCriteria(_modelType);
+		criteria.add(Restrictions.eq("permissionName", Objects.requireNonNull(permissionName, "Permission name cannot be null or empty.")));
+		return (Permission) criteria.uniqueResult();
 	}
 }

@@ -70,4 +70,31 @@ public class UserDaoImpl extends AbstractHibernateDao<Long, User> implements Use
 		criteria.add(Restrictions.eq("manager", Objects.requireNonNull(manager, "Manager cannot be null or empty.")));
 		return (List<User>) applySearch(criteria).list();
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<User> get() {
+		final Criteria criteria = getSession().createCriteria(_modelType);
+		criteria.add(Restrictions.eq("statusFlag", StatusFlag.ACTIVE));
+		return (List<User>) applySearch(criteria).list();
+	}
+
+	@Override
+	public User get(final long id) {
+		final Criteria criteria = getSession().createCriteria(_modelType);
+		criteria.add(Restrictions.eq("id", Objects.requireNonNull(id, "User id cannot be null or empty.")));
+		criteria.add(Restrictions.eq("statusFlag", StatusFlag.ACTIVE));
+		return (User) criteria.uniqueResult();
+	}
+
+	@Override
+	public User updateUser(final User user) {
+		validateObject(user);
+		final Long id = save(user);
+		if (id != null) {
+			return get(id);
+		} else {
+			return null;
+		}
+	}
 }

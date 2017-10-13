@@ -15,4 +15,8 @@ public interface PermissionDao {
 	
 	public List<Permission> getPermissions();
 	
+	public Permission getPermissionById(final long id);
+	
+	public Permission getPermissionByPermissionName(final String permissionName);
+	
 }

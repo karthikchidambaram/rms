@@ -359,7 +359,7 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 		_accidentDamage = accidentDamage;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "incident")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "incident")
 	@Fetch(FetchMode.SUBSELECT)
 	public Set<ReportedLoss> getReportedLosses() {
 		return _reportedLosses;
@@ -372,7 +372,7 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the accident
 	 */
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "incident")
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "incident")
 	public Accident getAccident() {
 		return _accident;
 	}
@@ -403,7 +403,7 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the asset
 	 */
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "incident")
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "incident")
 	public Asset getAsset() {
 		return _asset;
 	}
@@ -418,7 +418,7 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the crime
 	 */
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "incident")
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "incident")
 	public Crime getCrime() {
 		return _crime;
 	}
@@ -485,7 +485,7 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 		_officeAddress = officeAddress;
 	}
 	
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "incident")
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "incident")
 	public Claim getClaim() {
 		return _claim;
 	}
@@ -524,7 +524,7 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 		_showInvestigation = showInvestigation;
 	}
 	
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "incident")
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "incident")
 	public Investigation getInvestigation() {
 		return _investigation;
 	}

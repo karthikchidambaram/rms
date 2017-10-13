@@ -127,7 +127,7 @@ public class AccidentLocation extends AbstractDataModel<String> implements Seria
 		_description = description;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "accidentLocation")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "accidentLocation")
 	@JsonIgnoreProperties("accidentLocation")
 	public Set<AccidentLocationDetail> getAccidentLocationDetails() {		
 		return _accidentLocationDetails;

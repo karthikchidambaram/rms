@@ -354,7 +354,7 @@ public class CrimeSuspect extends AbstractDataModel<Long> implements Serializabl
 	/**
 	 * @return the addresses
 	 */
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "crimeSuspect")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "crimeSuspect")
 	@Fetch(FetchMode.SUBSELECT)
 	public Set<Address> getAddresses() {
 		return _addresses;
@@ -407,8 +407,7 @@ public class CrimeSuspect extends AbstractDataModel<Long> implements Serializabl
 	@JoinTable(
 			name = "RMS_CRME_SUSPT_DIST_FEA_CHLD",
 			joinColumns = @JoinColumn(name = "CRME_SUSPT_ID"),
-			inverseJoinColumns = @JoinColumn(name = "DIST_FEA_CHLD_CDE")
-	)
+			inverseJoinColumns = @JoinColumn(name = "DIST_FEA_CHLD_CDE"))
 	public Set<DistinguishingFeatureDetail> getDistinguishingFeatureDetails() {
 		return _distinguishingFeatureDetails;
 	}

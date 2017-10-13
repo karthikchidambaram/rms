@@ -36,7 +36,32 @@ public class ReportedLossServiceImpl extends AbstractService implements Reported
 	}
 
 	@Override
-	public Set<ReportedLoss> createNewReportedLosses(final Set<ReportedLoss> reportedLosses) {
-		return _reportedLossDao.createNewReportedLosses(reportedLosses);
-	}	
+	public ReportedLoss createReportedLoss(final ReportedLoss reportedLoss) {
+		return _reportedLossDao.createReportedLoss(reportedLoss);
+	}
+
+	@Override
+	public List<ReportedLoss> createReportedLosses(final Set<ReportedLoss> reportedLosses) {
+		return _reportedLossDao.createReportedLosses(reportedLosses);
+	}
+
+	@Override
+	public ReportedLoss updateReportedLoss(final ReportedLoss reportedLoss) {
+		return _reportedLossDao.updateReportedLoss(reportedLoss);
+	}
+
+	@Override
+	public List<ReportedLoss> updateReportedLosses(final Set<ReportedLoss> reportedLosses) {
+		return _reportedLossDao.updateReportedLosses(reportedLosses);
+	}
+
+	@Override
+	public void deleteReportedLoss(final ReportedLoss reportedLoss) {
+		_reportedLossDao.deleteReportedLoss(reportedLoss);		
+	}
+
+	@Override
+	public void deleteReportedLosses(final Set<ReportedLoss> reportedLosses) {
+		_reportedLossDao.deleteReportedLosses(reportedLosses);
+	}
 }

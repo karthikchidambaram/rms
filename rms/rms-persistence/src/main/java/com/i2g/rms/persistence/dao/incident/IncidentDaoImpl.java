@@ -76,11 +76,11 @@ public class IncidentDaoImpl extends AbstractHibernateDao<Long, Incident> implem
 	public Incident updateIncident(final Incident incident) {
 		//Validate the object before save.
 		validateObject(incident);
-		Long id = save(incident);
+		final Long id = save(incident);
 		if (id != null) {
 			return get(id);	
 		} else {
 			return null;
 		}
-	}		
+	}	
 }

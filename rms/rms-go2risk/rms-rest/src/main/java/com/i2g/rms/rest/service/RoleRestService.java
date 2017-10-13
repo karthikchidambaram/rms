@@ -15,4 +15,10 @@ public interface RoleRestService {
 	
 	public List<RoleRO> getRoles();
 	
+	public RoleRO getRoleById(final long id);
+	
+	public RoleRO getRoleByRoleName(final String roleName);
+	
+	public void deletePermissionFromRole(final String roleName, final String permissionName);
+
 }

@@ -72,14 +72,14 @@ public class DocumentController extends AbstractRestController {
 	
 	@RequestMapping(value = RequestMappingConstants.DELETE_DOCUMENT, method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deleteDocumentById(final @PathVariable Long id) {
-		_documentRestService.deleteDocumentById(id);
+	public void deleteDocument(final @PathVariable Long id) {
+		_documentRestService.deleteDocument(id);
 	}
 	
 	@RequestMapping(value = RequestMappingConstants.DELETE_DOCUMENTS, method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deleteDocumentByIds(final @Valid @RequestBody DeleteRO deleteRO) {
-		_documentRestService.deleteDocumentByIds(deleteRO.getIds());
+	public void deleteDocuments(final @Valid @RequestBody DeleteRO deleteRO) {
+		_documentRestService.deleteDocuments(deleteRO.getIds());
 	}
 	
 	@RequestMapping(value = RequestMappingConstants.DOWNLOAD_DOCUMENT, method = RequestMethod.GET)

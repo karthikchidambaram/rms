@@ -18,6 +18,13 @@ public interface ReportedLossService {
 	
 	public ReportedLoss get(final long id);
 	
-	public Set<ReportedLoss> createNewReportedLosses(final Set<ReportedLoss> reportedLosses);
+	public ReportedLoss createReportedLoss(final ReportedLoss reportedLoss);
+	public List<ReportedLoss> createReportedLosses(final Set<ReportedLoss> reportedLosses);
+	
+	public ReportedLoss updateReportedLoss(final ReportedLoss reportedLoss);
+	public List<ReportedLoss> updateReportedLosses(final Set<ReportedLoss> reportedLosses);
+	
+	public void deleteReportedLoss(final ReportedLoss reportedLoss);
+	public void deleteReportedLosses(final Set<ReportedLoss> reportedLosses);
 	
 }

@@ -1,6 +1,7 @@
 package com.i2g.rms.service;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,12 +52,12 @@ public class DocumentServiceImpl extends AbstractService implements DocumentServ
 	}
 
 	@Override
-	public void deleteDocumentById(final long id) {
-		_documentDao.deleteDocumentById(id);		
+	public void deleteDocument(final Document document) {
+		_documentDao.deleteDocument(document);		
 	}
 	
 	@Override
-	public void deleteDocumentByIds(final Long[] ids) {
-		_documentDao.deleteDocumentByIds(ids);		
+	public void deleteDocuments(final Set<Document> documents) {
+		_documentDao.deleteDocuments(documents);		
 	}
 }

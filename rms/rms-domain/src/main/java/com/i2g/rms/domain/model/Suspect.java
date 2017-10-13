@@ -406,17 +406,17 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 		_suspectType = suspectType;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "suspect")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "suspect")
 	@Fetch(FetchMode.SUBSELECT)
 	public Set<Address> getAddresses() {
 		return _addresses;
 	}
 
-	public void setAddresses(final Set<Address> address) {
-		_addresses = address;
+	public void setAddresses(final Set<Address> addresses) {
+		_addresses = addresses;
 	}
 
-	@ManyToMany(mappedBy = "suspects")
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "suspects")
 	public Set<Incident> getIncidents() {
 		return _incidents;
 	}
@@ -445,7 +445,9 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	 * @return the distinguishingFeatureDetails
 	 */
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinTable(name = "RMS_SUSPT_DIST_FEA_CHLD", joinColumns = @JoinColumn(name = "SUSPT_ID"), inverseJoinColumns = @JoinColumn(name = "DIST_FEA_CHLD_CDE"))
+	@JoinTable(name = "RMS_SUSPT_DIST_FEA_CHLD", 
+		joinColumns = @JoinColumn(name = "SUSPT_ID"), 
+		inverseJoinColumns = @JoinColumn(name = "DIST_FEA_CHLD_CDE"))
 	public Set<DistinguishingFeatureDetail> getDistinguishingFeatureDetails() {
 		return _distinguishingFeatureDetails;
 	}

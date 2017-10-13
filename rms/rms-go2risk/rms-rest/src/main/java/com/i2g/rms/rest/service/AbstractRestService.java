@@ -176,6 +176,12 @@ public abstract class AbstractRestService {
 		}
 	}
 	
+	protected void validateStringObject(final String object) {
+		if (object == null || object.trim().isEmpty()) {
+			throw new ResourceNotValidException(_messageBuilder.build(RestMessage.INPUT_STRING_NULL_OR_EMPTY));
+		}
+	}
+	
 	/**
 	 * Generic method which validates object for null or empty.
 	 *  

@@ -126,7 +126,7 @@
 		<field-exclude>
 			<a>incidents</a>
 			<b>incidents</b>
-		</field-exclude>		
+		</field-exclude>
 	</mapping>
 	
 	<mapping>

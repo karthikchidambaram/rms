@@ -20,7 +20,6 @@ import org.hibernate.annotations.Immutable;
 @Entity
 @Table(name = "DEPT", uniqueConstraints = { @UniqueConstraint(columnNames = "DEPTNO"),
 		@UniqueConstraint(columnNames = "DNAME") })
-@Immutable
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "myDepartment")
 public class MyDepartment implements Serializable {

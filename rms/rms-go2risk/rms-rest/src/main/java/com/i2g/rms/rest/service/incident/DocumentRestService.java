@@ -36,9 +36,9 @@ public interface DocumentRestService {
 			final MultipartFile file 
 			);
 
-	public void deleteDocumentById(final long id);
+	public void deleteDocument(final Long id);
 	
-	public void deleteDocumentByIds(final Long[] ids);
+	public void deleteDocuments(final Long[] ids);
 	
 	public void exceptionDuringFileDownload(final String exceptionType);
 

@@ -42,4 +42,19 @@ public class UserServiceImpl extends AbstractService implements UserService {
 	public List<User> getSubordinates(final User manager) {
 		return _userDao.getSubordinates(manager);
 	}
+
+	@Override
+	public List<User> get() {
+		return _userDao.get();
+	}
+
+	@Override
+	public User get(final long id) {
+		return _userDao.get(id);
+	}
+
+	@Override
+	public User updateUser(final User user) {
+		return _userDao.updateUser(user);
+	}
 }

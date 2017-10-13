@@ -197,7 +197,7 @@ public class Building extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the addresses
 	 */
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "building")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "building")
 	@Fetch(FetchMode.SUBSELECT)
 	public Set<Address> getAddresses() {
 		return _addresses;

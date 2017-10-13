@@ -24,7 +24,6 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.Immutable;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -37,7 +36,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 @Entity
 @Table(name = "RMS_RLE")
-@Immutable
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region="userCache")
 @JsonIgnoreProperties({"users"})
@@ -133,8 +131,6 @@ public class Role extends AbstractDataModel<Long> implements Serializable {
 			inverseJoinColumns = @JoinColumn(name = "PRMSN_ID")
 	)
 	@Fetch(FetchMode.SUBSELECT)
-	@Immutable
-	@Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region="userCache")
 	public Set<Permission> getPermissions() {
 		return _permissions;
 	}

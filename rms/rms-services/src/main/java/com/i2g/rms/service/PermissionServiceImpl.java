@@ -28,4 +28,14 @@ public class PermissionServiceImpl extends AbstractService implements Permission
 	public List<Permission> getPermissions() {
 		return _permissionDao.getPermissions();
 	}
+
+	@Override
+	public Permission getPermissionById(final long id) {
+		return _permissionDao.getPermissionById(id);
+	}
+
+	@Override
+	public Permission getPermissionByPermissionName(final String permissionName) {
+		return _permissionDao.getPermissionByPermissionName(permissionName);
+	}
 }

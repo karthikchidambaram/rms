@@ -433,7 +433,7 @@ public class InjuredPerson extends AbstractDataModel<Long> implements Serializab
 	/**
 	 * @return the addresses
 	 */
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "injuredPerson")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "injuredPerson")
 	@Fetch(FetchMode.SUBSELECT)
 	public Set<Address> getAddresses() {
 		return _addresses;
@@ -535,7 +535,9 @@ public class InjuredPerson extends AbstractDataModel<Long> implements Serializab
 	 * @return the distinguishingFeatureDetails
 	 */
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinTable(name = "RMS_INJRD_PRSN_DIST_FEA_CHLD", joinColumns = @JoinColumn(name = "INJRD_PRSN_ID"), inverseJoinColumns = @JoinColumn(name = "DIST_FEA_CHLD_CDE"))
+	@JoinTable(name = "RMS_INJRD_PRSN_DIST_FEA_CHLD", 
+		joinColumns = @JoinColumn(name = "INJRD_PRSN_ID"), 
+		inverseJoinColumns = @JoinColumn(name = "DIST_FEA_CHLD_CDE"))
 	public Set<DistinguishingFeatureDetail> getDistinguishingFeatureDetails() {
 		return _distinguishingFeatureDetails;
 	}

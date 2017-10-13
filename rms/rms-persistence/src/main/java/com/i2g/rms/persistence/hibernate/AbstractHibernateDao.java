@@ -222,7 +222,7 @@ public abstract class AbstractHibernateDao<K extends Serializable, T extends Abs
 			throw new IllegalArgumentException("Collection of object(s) is null or empty.");
 		}
 	}
-
+	
 	/**
 	 * Method which validates the input parameter {@code code} for table
 	 * maintenance entities.

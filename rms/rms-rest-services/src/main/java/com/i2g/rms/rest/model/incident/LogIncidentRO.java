@@ -27,7 +27,6 @@ public class LogIncidentRO extends AbstractEntityRO {
 
 	private String uniqueIncidentId;
 	private String placeOfIncident;
-	private String landmark;
 	private String incidentDescription;
 
 	private EntryPointRO entryPoint;
@@ -79,14 +78,6 @@ public class LogIncidentRO extends AbstractEntityRO {
 
 	public void setPlaceOfIncident(final String placeOfIncident) {
 		this.placeOfIncident = placeOfIncident;
-	}
-
-	public String getLandmark() {
-		return landmark;
-	}
-
-	public void setLandmark(final String landmark) {
-		this.landmark = landmark;
 	}
 
 	public EntryPointRO getEntryPoint() {

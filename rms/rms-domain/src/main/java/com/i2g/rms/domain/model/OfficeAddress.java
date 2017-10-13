@@ -272,7 +272,7 @@ public class OfficeAddress extends AbstractDataModel<Long> implements Serializab
 		_organization = organization;
 	}
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "officeAddress")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "officeAddress")
 	@Fetch(FetchMode.SUBSELECT)
 	public Set<Incident> getIncidents() {
 		return _incidents;

@@ -58,7 +58,7 @@ public class SessionFilter implements Filter {
 			((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Headers", "Authorization, Search, Accept, Origin, X-AUTH-TOKEN, X-Requested-With, Content-Type, X-Codingpedia, location, info");
 			((HttpServletResponse) servletResponse).addHeader("Access-Control-Expose-Headers", "Authorization, Search, Accept, Origin, X-AUTH-TOKEN, X-Requested-With, Content-Type, X-Codingpedia, location, info");
 			((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Credentials", "true");
-			((HttpServletResponse) servletResponse).addHeader("Access-Control-Max-Age", RMSSecurityProperties.TEN_DAYS_IN_SECONDS);			 
+			((HttpServletResponse) servletResponse).addHeader("Access-Control-Max-Age", RMSSecurityProperties.ONE_DAY_IN_SECONDS);			 
 		}
 		
 		if (!HttpMethod.OPTIONS.name().equals(httpRequest.getMethod())) {

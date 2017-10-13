@@ -1,5 +1,6 @@
 package com.i2g.rms.persistence.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -12,7 +13,13 @@ import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.i2g.rms.domain.model.Address;
+import com.i2g.rms.domain.model.Building;
+import com.i2g.rms.domain.model.CrimeSuspect;
+import com.i2g.rms.domain.model.InjuredPerson;
 import com.i2g.rms.domain.model.StatusFlag;
+import com.i2g.rms.domain.model.Suspect;
+import com.i2g.rms.domain.model.User;
+import com.i2g.rms.domain.model.Witness;
 import com.i2g.rms.persistence.hibernate.AbstractHibernateDao;
 
 /**
@@ -68,11 +75,85 @@ public class AddressDaoImpl extends AbstractHibernateDao<Long, Address> implemen
 	@Override
 	public Address create(final Address address) {
 		validateObject(address);
-		Long id = save(address);
+		final Long id = save(address);
 		if (id != null) {
 			return get(id);	
 		} else {
 			return null;
 		}
+	}
+
+	@Override
+	public Address updateAddress(final Address address) {
+		validateObject(address);
+		final Long id = save(address);
+		if (id != null) {
+			return get(id);	
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public List<Address> updateAddresses(final List<Address> addresses) {
+		validateCollectionObject(addresses);
+		List<Address> updatedAddresses = new ArrayList<Address>(0);
+		for (Address address : addresses) {
+			if (address != null) {
+				final Long id = save(address);
+				if (id != null) {
+					updatedAddresses.add(get(id));
+				}
+			}
+		}
+		return updatedAddresses;
+	}
+
+	@Override
+	public List<Address> get(final User user) {
+		final Criteria criteria = getSession().createCriteria(_modelType);
+		criteria.add(Restrictions.eq("user", Objects.requireNonNull(user, "User id (object) cannot be null or empty.")));
+		criteria.add(Restrictions.eq("statusFlag", StatusFlag.ACTIVE));
+		return (List<Address>) applySearch(criteria).list();
+	}
+
+	@Override
+	public List<Address> get(final Building building) {
+		final Criteria criteria = getSession().createCriteria(_modelType);
+		criteria.add(Restrictions.eq("building", Objects.requireNonNull(building, "Building id (object) cannot be null or empty.")));
+		criteria.add(Restrictions.eq("statusFlag", StatusFlag.ACTIVE));
+		return (List<Address>) applySearch(criteria).list();
+	}
+
+	@Override
+	public List<Address> get(final Witness witness) {
+		final Criteria criteria = getSession().createCriteria(_modelType);
+		criteria.add(Restrictions.eq("witness", Objects.requireNonNull(witness, "Witness id (object) cannot be null or empty.")));
+		criteria.add(Restrictions.eq("statusFlag", StatusFlag.ACTIVE));
+		return (List<Address>) applySearch(criteria).list();
+	}
+
+	@Override
+	public List<Address> get(final InjuredPerson injuredPerson) {
+		final Criteria criteria = getSession().createCriteria(_modelType);
+		criteria.add(Restrictions.eq("injuredPerson", Objects.requireNonNull(injuredPerson, "Injured person id (object) cannot be null or empty.")));
+		criteria.add(Restrictions.eq("statusFlag", StatusFlag.ACTIVE));
+		return (List<Address>) applySearch(criteria).list();
+	}
+
+	@Override
+	public List<Address> get(final Suspect suspect) {
+		final Criteria criteria = getSession().createCriteria(_modelType);
+		criteria.add(Restrictions.eq("suspect", Objects.requireNonNull(suspect, "Suspect id (object) cannot be null or empty.")));
+		criteria.add(Restrictions.eq("statusFlag", StatusFlag.ACTIVE));
+		return (List<Address>) applySearch(criteria).list();
+	}
+
+	@Override
+	public List<Address> get(final CrimeSuspect crimeSuspect) {
+		final Criteria criteria = getSession().createCriteria(_modelType);
+		criteria.add(Restrictions.eq("crimeSuspect", Objects.requireNonNull(crimeSuspect, "Crime suspect id (object) cannot be null or empty.")));
+		criteria.add(Restrictions.eq("statusFlag", StatusFlag.ACTIVE));
+		return (List<Address>) applySearch(criteria).list();
 	}
 }

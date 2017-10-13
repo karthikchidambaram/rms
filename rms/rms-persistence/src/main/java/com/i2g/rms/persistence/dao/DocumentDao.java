@@ -1,6 +1,7 @@
 package com.i2g.rms.persistence.dao;
 
 import java.util.List;
+import java.util.Set;
 
 import com.i2g.rms.domain.model.Document;
 import com.i2g.rms.domain.model.incident.Incident;
@@ -24,7 +25,7 @@ public interface DocumentDao {
 	
 	public Document saveDocument(final Document document);
 	
-	public void deleteDocumentById(final long id);
+	public void deleteDocument(final Document document);
 
-	public void deleteDocumentByIds(final Long[] ids);
+	public void deleteDocuments(final Set<Document> documents);
 }
