@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.i2g.rms.domain.model.incident.Incident;
 import com.i2g.rms.rest.constants.RequestMappingConstants;
 import com.i2g.rms.rest.controller.AbstractRestController;
+import com.i2g.rms.rest.model.DeleteRO;
 import com.i2g.rms.rest.model.DocumentViewRO;
 import com.i2g.rms.rest.model.SuspectRO;
 import com.i2g.rms.rest.model.SuspectWrapper;
@@ -145,13 +146,23 @@ public class IncidentController extends AbstractRestController {
 		return _incidentRestService.createSuspectsForIncident(suspectWrapper);
 	}
 	
-	@RequestMapping(value = RequestMappingConstants.REMOVE_SUSPECT_FOR_INCIDENT, method = RequestMethod.DELETE)
+	@RequestMapping(value = RequestMappingConstants.REMOVE_SUSPECT_FROM_INCIDENT, method = RequestMethod.DELETE)
 	public IncidentRO removeSuspectFromIncident(@PathVariable final String uniqueIncidentId, @PathVariable final Long suspectId) {
 		return _incidentRestService.removeSuspectFromIncident(uniqueIncidentId, suspectId);
 	}
 	
-	@RequestMapping(value = RequestMappingConstants.REMOVE_SUSPECTS_FOR_INCIDENT, method = RequestMethod.DELETE)
+	@RequestMapping(value = RequestMappingConstants.REMOVE_SUSPECTS_FROM_INCIDENT, method = RequestMethod.DELETE)
 	public IncidentRO removeSuspectsFromIncident(@Valid @RequestBody final SuspectWrapper suspectWrapper) {
 		return _incidentRestService.removeSuspectsFromIncident(suspectWrapper);
+	}
+	
+	@RequestMapping(value = RequestMappingConstants.REMOVE_EMPLOYEE_SUSPECT_FROM_INCIDENT, method = RequestMethod.DELETE)
+	public IncidentRO removeEmployeeSuspectFromIncident(@PathVariable final String uniqueIncidentId, @PathVariable final Long userId) {
+		return _incidentRestService.removeEmployeeSuspectFromIncident(uniqueIncidentId, userId);
+	}
+	
+	@RequestMapping(value = RequestMappingConstants.REMOVE_EMPLOYEE_SUSPECTS_FROM_INCIDENT, method = RequestMethod.DELETE)
+	public IncidentRO removeEmployeeSuspectsFromIncident(@PathVariable final String uniqueIncidentId, @Valid @RequestBody final DeleteRO deleteRO) {
+		return _incidentRestService.removeEmployeeSuspectsFromIncident(uniqueIncidentId, deleteRO);
 	}
 }

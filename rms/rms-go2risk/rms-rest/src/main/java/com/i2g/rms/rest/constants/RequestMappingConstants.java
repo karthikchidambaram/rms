@@ -371,9 +371,11 @@ public interface RequestMappingConstants {
 	String ADD_OR_UPDATE_INVESTIGATION_DETAILS			= INCIDENT + "/add-or-update-investigation-details";
 	String ADD_SUPPORTING_DOCUMENTS						= INCIDENT + "/add-supporting-documents";
 	String CREATE_SUSPECTS_FOR_INCIDENT					= INCIDENT + "/create-suspects";
-	String CREATE_SUSPECT_FOR_INCIDENT					= INCIDENT + "/create-suspect/{uniqueIncidentId}";
-	String REMOVE_SUSPECTS_FOR_INCIDENT					= INCIDENT + "/remove-suspects";
-	String REMOVE_SUSPECT_FOR_INCIDENT					= INCIDENT + "/remove-suspect/uniqueIncidentId/{uniqueIncidentId}/suspectId/{suspectId}";
+	String CREATE_SUSPECT_FOR_INCIDENT					= INCIDENT + "/create-suspect/uniqueIncidentId/{uniqueIncidentId}";
+	String REMOVE_SUSPECTS_FROM_INCIDENT				= INCIDENT + "/remove-suspects";
+	String REMOVE_SUSPECT_FROM_INCIDENT					= INCIDENT + "/remove-suspect/uniqueIncidentId/{uniqueIncidentId}/suspectId/{suspectId}";
+	String REMOVE_EMPLOYEE_SUSPECTS_FROM_INCIDENT		= INCIDENT + "/remove-employee-suspects/uniqueIncidentId/{uniqueIncidentId}";
+	String REMOVE_EMPLOYEE_SUSPECT_FROM_INCIDENT		= INCIDENT + "/remove-employee-suspect/uniqueIncidentId/{uniqueIncidentId}/userId/{userId}";
 	
 	/** Update flow - Incidents */
 	String UPDATE_LOG_INCIDENT 							= INCIDENT + "/update-log-incident";
@@ -382,8 +384,7 @@ public interface RequestMappingConstants {
 	/** Add or update incident flows */
 	String ADD_OR_UPDATE_LOG_INCIDENT 					= INCIDENT + "/add-or-update-log-incident";
 	String ADD_OR_UPDATE_INCIDENT_DETAILS 				= INCIDENT + "/add-or-update-incident-details";
-	String REMOVE_SUSPECT_FROM_INCIDENT					= INCIDENT + "/remove-suspect";
-		
+			
 	/** Suspect operations */
 	String SUSPECT 												= SECURED + "/suspect";
 	String GET_ALL_SUSPECTS										= SUSPECT + "/suspects";
@@ -399,11 +400,11 @@ public interface RequestMappingConstants {
 	String GET_ALL_REPORTED_LOSSES										= REPORTED_LOSS + "/reported-losses";
 	String GET_REPORTED_LOSS_BY_REPORTED_LOSS_ID						= REPORTED_LOSS + "/{id}";
 	String CREATE_REPORTED_LOSSES										= REPORTED_LOSS + "/create-reported-losses";
-	String CREATE_REPORTED_LOSS											= REPORTED_LOSS + "/create-reported-loss/{uniqueIncidentId}";
+	String CREATE_REPORTED_LOSS											= REPORTED_LOSS + "/create-reported-loss/uniqueIncidentId/{uniqueIncidentId}";
 	String UPDATE_REPORTED_LOSSES										= REPORTED_LOSS + "/update-reported-losses";
 	String UPDATE_REPORTED_LOSS											= REPORTED_LOSS + "/update-reported-loss";
 	String DELETE_REPORTED_LOSSES										= REPORTED_LOSS + "/delete-reported-losses";
-	String DELETE_REPORTED_LOSS											= REPORTED_LOSS + "/delete-reported-loss/{id}";
+	String DELETE_REPORTED_LOSS											= REPORTED_LOSS + "/delete-reported-loss/reportedLossId/{reportedLossId}";
 	
 	/** Search Incidents */
 	String SEARCH_INCIDENT						= SECURED + "/search-incident";	

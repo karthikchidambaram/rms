@@ -18,6 +18,7 @@ import com.i2g.rms.domain.model.StatusFlag;
 import com.i2g.rms.domain.model.YesNoType;
 import com.i2g.rms.domain.model.incident.Incident;
 import com.i2g.rms.domain.model.tablemaintenance.ExternalAgency;
+import com.i2g.rms.rest.model.DeleteRO;
 import com.i2g.rms.rest.model.ReportedLossRO;
 import com.i2g.rms.rest.model.ReportedLossWrapper;
 import com.i2g.rms.rest.service.incident.IncidentRestService;
@@ -152,11 +153,11 @@ public class ReportedLossRestServiceImpl extends AbstractRestService implements 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
 	@Transactional
-	public void deleteReportedLoss(final Long id) {
-		if (id == null || id <= 0) {
+	public void deleteReportedLoss(final Long reportedLossId) {
+		if (reportedLossId == null || reportedLossId <= 0) {
 			throw new ResourceNotValidException(_messageBuilder.build(RestMessage.INVALID_KEY_PASSED_FOR_DELETE));
 		}
-		final ReportedLoss reportedLoss = _reportedLossService.get(id);
+		final ReportedLoss reportedLoss = _reportedLossService.get(reportedLossId);
 		validateGenericObject(reportedLoss);
 		_reportedLossService.deleteReportedLoss(reportedLoss);
 	}
@@ -164,7 +165,9 @@ public class ReportedLossRestServiceImpl extends AbstractRestService implements 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
 	@Transactional
-	public void deleteReportedLosses(final Long[] ids) {
+	public void deleteReportedLosses(final DeleteRO deleteRO) { 
+		validateObject(deleteRO);
+		final Long[] ids = deleteRO.getIds();	
 		if (ids == null || ids.length <= 0) {
 			throw new ResourceNotValidException(_messageBuilder.build(RestMessage.NOTHING_TO_DELETE));
 		}

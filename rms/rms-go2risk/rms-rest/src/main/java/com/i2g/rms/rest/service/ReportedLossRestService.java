@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.i2g.rms.domain.model.ReportedLoss;
 import com.i2g.rms.domain.model.incident.Incident;
+import com.i2g.rms.rest.model.DeleteRO;
 import com.i2g.rms.rest.model.ReportedLossRO;
 import com.i2g.rms.rest.model.ReportedLossWrapper;
 
@@ -28,9 +29,9 @@ public interface ReportedLossRestService {
 
 	public List<ReportedLossRO> updateReportedLosses(final ReportedLossWrapper reportedLossWrapper);
 	
-	public void deleteReportedLoss(final Long id);
+	public void deleteReportedLoss(final Long reportedLossId);
 
-	public void deleteReportedLosses(final Long[] ids);
+	public void deleteReportedLosses(final DeleteRO deleteRO);
 
 	public ReportedLoss constructNewReportedLoss(final Incident incident, final ReportedLossRO reportedLossRO);
 

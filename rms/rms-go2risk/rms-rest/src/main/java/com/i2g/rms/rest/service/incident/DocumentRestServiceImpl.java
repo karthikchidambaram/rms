@@ -24,6 +24,7 @@ import com.i2g.rms.domain.model.Document;
 import com.i2g.rms.domain.model.DocumentView;
 import com.i2g.rms.domain.model.StatusFlag;
 import com.i2g.rms.domain.model.incident.Incident;
+import com.i2g.rms.rest.model.DeleteRO;
 import com.i2g.rms.rest.model.DocumentRO;
 import com.i2g.rms.rest.model.DocumentViewRO;
 import com.i2g.rms.rest.model.StatusFlagRO;
@@ -192,7 +193,9 @@ public class DocumentRestServiceImpl extends AbstractRestService implements Docu
 	@Override
 	@PreAuthorize("hasAnyAuthority('ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
 	@Transactional
-	public void deleteDocuments(final Long[] ids) {
+	public void deleteDocuments(final DeleteRO deleteRO) {
+		validateObject(deleteRO);
+		final Long[] ids = deleteRO.getIds();
 		if (ids == null || ids.length <= 0) {
 			throw new ResourceNotValidException(_messageBuilder.build(RestMessage.NOTHING_TO_DELETE));
 		}

@@ -18,6 +18,7 @@ import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeatureDetail;
 import com.i2g.rms.domain.model.tablemaintenance.ExternalAgency;
 import com.i2g.rms.domain.model.tablemaintenance.WeaponType;
 import com.i2g.rms.rest.model.AddressRO;
+import com.i2g.rms.rest.model.DeleteRO;
 import com.i2g.rms.rest.model.ReportedLossRO;
 import com.i2g.rms.rest.model.SuspectRO;
 import com.i2g.rms.rest.model.SuspectWrapper;
@@ -68,6 +69,9 @@ public interface IncidentRestService {
 	
 	public IncidentRO removeSuspectFromIncident(final String uniqueIncidentId, final Long suspectId);
 	public IncidentRO removeSuspectsFromIncident(final SuspectWrapper suspectWrapper);
+	
+	public IncidentRO removeEmployeeSuspectFromIncident(final String uniqueIncidentId, final Long userId);
+	public IncidentRO removeEmployeeSuspectsFromIncident(final String uniqueIncidentId, final DeleteRO deleteRO);
 	
 	/** Methods exposed to other services */
 	public void validateAnyWitness(final YesNoType anyWitness, 

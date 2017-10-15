@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.i2g.rms.rest.model.DeleteRO;
 import com.i2g.rms.rest.model.DocumentRO;
 import com.i2g.rms.rest.model.DocumentViewRO;
 
@@ -38,7 +39,7 @@ public interface DocumentRestService {
 
 	public void deleteDocument(final Long id);
 	
-	public void deleteDocuments(final Long[] ids);
+	public void deleteDocuments(final DeleteRO deleteRO);
 	
 	public void exceptionDuringFileDownload(final String exceptionType);
 

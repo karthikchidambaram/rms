@@ -64,13 +64,13 @@ public class ReportedLossController extends AbstractRestController {
 	
 	@RequestMapping(value = RequestMappingConstants.DELETE_REPORTED_LOSS, method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deleteReportedLoss(final @PathVariable Long id) {
-		_reportedLossRestService.deleteReportedLoss(id);
+	public void deleteReportedLoss(final @PathVariable Long reportedLossId) {
+		_reportedLossRestService.deleteReportedLoss(reportedLossId);
 	}
 	
 	@RequestMapping(value = RequestMappingConstants.DELETE_REPORTED_LOSSES, method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteReportedLosses(final @Valid @RequestBody DeleteRO deleteRO) {
-		_reportedLossRestService.deleteReportedLosses(deleteRO.getIds());
+		_reportedLossRestService.deleteReportedLosses(deleteRO);
 	}
 }

@@ -49,6 +49,7 @@ import com.i2g.rms.rest.model.ClaimHistoryRO;
 import com.i2g.rms.rest.model.ClaimRO;
 import com.i2g.rms.rest.model.CrimeRO;
 import com.i2g.rms.rest.model.CrimeSuspectRO;
+import com.i2g.rms.rest.model.DeleteRO;
 import com.i2g.rms.rest.model.EquipmentRO;
 import com.i2g.rms.rest.model.InjuredPersonRO;
 import com.i2g.rms.rest.model.InvestigationRO;
@@ -977,6 +978,58 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 		} else {
 			throw new ResourceNotRemovedException(_messageBuilder.build(RestMessage.DELETE_OPERATION_FAILED));
 		}
+	}
+	
+	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
+	@Transactional
+	public IncidentRO removeEmployeeSuspectFromIncident(final String uniqueIncidentId, final Long userId) {
+		validateUniqueIncidentId(uniqueIncidentId);
+		if (userId == null || userId <= 0) {
+			throw new ResourceNotValidException(_messageBuilder.build(RestMessage.INVALID_KEY_PASSED_FOR_DELETE));
+		}
+		Incident incident = _incidentService.getIncidentByUniqueIncidentId(uniqueIncidentId);
+		validateGenericObject(incident);
+		final User employeeSuspect = _userService.get(userId);
+		validateGenericObject(employeeSuspect);
+		incident.getEmployeeSuspects().remove(employeeSuspect);
+		final Incident updatedIncident = _incidentService.updateIncident(incident);
+		if (updatedIncident != null) {
+			return _mapperService.map(updatedIncident, IncidentRO.class);
+		} else {
+			throw new ResourceNotRemovedException(_messageBuilder.build(RestMessage.DELETE_OPERATION_FAILED));	
+		}		
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
+	@Transactional
+	public IncidentRO removeEmployeeSuspectsFromIncident(final String uniqueIncidentId, final DeleteRO deleteRO) {
+		validateUniqueIncidentId(uniqueIncidentId);
+		validateObject(deleteRO);
+		final Long[] ids = deleteRO.getIds();
+		if (ids == null || ids.length <= 0) {
+			throw new ResourceNotValidException(_messageBuilder.build(RestMessage.NOTHING_TO_DELETE));
+		}
+		Incident incident = _incidentService.getIncidentByUniqueIncidentId(uniqueIncidentId);
+		Set<User> employeeSuspects = new HashSet<User>(0);
+		for (int i = 0; i < ids.length; i++) {
+			User employeeSuspect = _userService.get(ids[i]);
+			if (employeeSuspect != null) {
+				employeeSuspects.add(employeeSuspect);
+			}
+		}
+		if (employeeSuspects != null && !employeeSuspects.isEmpty()) {
+			incident.getEmployeeSuspects().removeAll(employeeSuspects);
+			final Incident updatedIncident = _incidentService.updateIncident(incident);
+			if (updatedIncident != null) {
+				return _mapperService.map(updatedIncident, IncidentRO.class);
+			} else {
+				throw new ResourceNotRemovedException(_messageBuilder.build(RestMessage.DELETE_OPERATION_FAILED));	
+			}
+		} else {
+			return _mapperService.map(incident, IncidentRO.class);
+		}		
 	}
 
 	private Set<Suspect> constructNewSuspects(final Set<SuspectRO> suspectROs) {
@@ -2159,5 +2212,5 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 				throw new ResourceNotValidException(_messageBuilder.build(RestMessage.WITNESS_FLAG_MUST_BE_YES));
 			}
 		}
-	}		
+	}			
 }
