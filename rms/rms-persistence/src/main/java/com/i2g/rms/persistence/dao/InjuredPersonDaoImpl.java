@@ -15,6 +15,8 @@ import org.springframework.stereotype.Repository;
 
 import com.i2g.rms.domain.model.InjuredPerson;
 import com.i2g.rms.domain.model.StatusFlag;
+import com.i2g.rms.domain.model.tablemaintenance.BodyPart;
+import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeatureDetail;
 import com.i2g.rms.persistence.hibernate.AbstractHibernateDao;
 
 /**
@@ -63,17 +65,80 @@ public class InjuredPersonDaoImpl extends AbstractHibernateDao<Long, InjuredPers
 		criteria.add(Restrictions.eq("statusFlag", StatusFlag.ACTIVE));
 		return (InjuredPerson) criteria.uniqueResult();
 	}
+	
+	@Override
+	public InjuredPerson createInjuredPerson(final InjuredPerson injuredPerson) {
+		validateObject(injuredPerson);
+		final Long id = save(injuredPerson);
+		if (id != null) {
+			return get(id);
+		} else {
+			return null;
+		}
+	}
 
 	@Override
-	public Set<InjuredPerson> createNewInjuredPersons(final Set<InjuredPerson> injuredPersons) {
+	public Set<InjuredPerson> createInjuredPersons(final Set<InjuredPerson> injuredPersons) {
 		validateCollectionObject(injuredPersons);
 		final Set<InjuredPerson> newInjuredPersons = new HashSet<InjuredPerson>(0);
 		for (InjuredPerson injuredPerson : injuredPersons) {
-			final Long id = save(injuredPerson);
-			if (id != null) {
-				newInjuredPersons.add(get(id));
+			if (injuredPerson != null) {
+				final Long id = save(injuredPerson);
+				if (id != null) {
+					newInjuredPersons.add(get(id));
+				}
 			}
 		}
 		return newInjuredPersons;
 	}
+
+	@Override
+	public InjuredPerson updateInjuredPerson(final InjuredPerson injuredPerson) {
+		validateObject(injuredPerson);
+		final Long id = save(injuredPerson);
+		if (id != null) {
+			return get(id);
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public Set<InjuredPerson> updateInjuredPersons(final Set<InjuredPerson> injuredPersons) {
+		validateCollectionObject(injuredPersons);
+		final Set<InjuredPerson> newInjuredPersons = new HashSet<InjuredPerson>(0);
+		for (InjuredPerson injuredPerson : injuredPersons) {
+			if (injuredPerson != null) {
+				final Long id = save(injuredPerson);
+				if (id != null) {
+					newInjuredPersons.add(get(id));
+				}
+			}
+		}
+		return newInjuredPersons;
+	}
+
+	@Override
+	public void removeDistinguishingFeatureDetailsFromInjuredPerson(final InjuredPerson injuredPerson, final Set<DistinguishingFeatureDetail> distinguishingFeatureDetails) {
+		validateObject(injuredPerson);
+		validateCollectionObject(distinguishingFeatureDetails);
+		for (DistinguishingFeatureDetail distinguishingFeatureDetail : distinguishingFeatureDetails) {
+			if (distinguishingFeatureDetail != null) {
+				injuredPerson.getDistinguishingFeatureDetails().remove(distinguishingFeatureDetail);				
+			}
+		}
+		save(injuredPerson);
+	}
+
+	@Override
+	public void removeBodyPartsFromInjuredPerson(final InjuredPerson injuredPerson, final Set<BodyPart> bodyParts) {
+		validateObject(injuredPerson);
+		validateCollectionObject(bodyParts);
+		for (BodyPart bodyPart : bodyParts) {
+			if (bodyPart != null) {
+				injuredPerson.getBodyParts().remove(bodyPart);				
+			}
+		}
+		save(injuredPerson);
+	}	
 }

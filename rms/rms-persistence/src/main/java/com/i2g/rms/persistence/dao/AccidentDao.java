@@ -19,4 +19,6 @@ public interface AccidentDao {
 	
 	public Accident create(final Accident accident);
 	
+	public Accident updateAccident(final Accident accident);
+	
 }

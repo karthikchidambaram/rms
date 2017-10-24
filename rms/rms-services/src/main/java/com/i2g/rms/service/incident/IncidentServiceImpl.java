@@ -29,6 +29,11 @@ public class IncidentServiceImpl extends AbstractService implements IncidentServ
 	public List<Incident> get() {
 		return _incidentDao.get();
 	}
+	
+	@Override
+	public Incident get(final long id) {
+		return _incidentDao.get(id);
+	}
 
 	@Override
 	public Incident getIncidentByUniqueIncidentId(final String uniqueIncidentId) {
@@ -43,5 +48,5 @@ public class IncidentServiceImpl extends AbstractService implements IncidentServ
 	@Override
 	public Incident updateIncident(final Incident incident) {
 		return _incidentDao.updateIncident(incident);
-	}
+	}	
 }

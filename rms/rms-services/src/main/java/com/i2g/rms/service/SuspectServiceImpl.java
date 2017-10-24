@@ -57,7 +57,7 @@ public class SuspectServiceImpl extends AbstractService implements SuspectServic
 	}
 
 	@Override
-	public void removeDistinguishingFeatureDetailsFromSuspect(Suspect suspect, Set<DistinguishingFeatureDetail> distinguishingFeatureDetails) {
+	public void removeDistinguishingFeatureDetailsFromSuspect(final Suspect suspect, final Set<DistinguishingFeatureDetail> distinguishingFeatureDetails) {
 		_suspectDao.removeDistinguishingFeatureDetailsFromSuspect(suspect, distinguishingFeatureDetails);		
-	}		
+	}	
 }

@@ -2,6 +2,7 @@ package com.i2g.rms.persistence.dao;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.i2g.rms.domain.model.Address;
 import com.i2g.rms.domain.model.StatusFlag;
 import com.i2g.rms.domain.model.User;
 import com.i2g.rms.persistence.hibernate.AbstractHibernateDao;
@@ -96,5 +98,17 @@ public class UserDaoImpl extends AbstractHibernateDao<Long, User> implements Use
 		} else {
 			return null;
 		}
+	}
+
+	@Override
+	public void deleteAddresses(final User user, final Set<Address> addresses) {		
+		validateObject(user);
+		validateCollectionObject(addresses);
+		for (Address address : addresses) {
+			if (address != null) {
+				user.getAddresses().remove(address);
+				save(user);
+			}
+		}		
 	}
 }

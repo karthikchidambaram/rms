@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.i2g.rms.domain.model.ReportedLoss;
 import com.i2g.rms.rest.constants.RequestMappingConstants;
 import com.i2g.rms.rest.model.DeleteRO;
 import com.i2g.rms.rest.model.ReportedLossRO;
-import com.i2g.rms.rest.model.ReportedLossWrapper;
+import com.i2g.rms.rest.model.wrapper.ReportedLossWrapper;
+import com.i2g.rms.rest.search.Searchable;
 import com.i2g.rms.rest.service.ReportedLossRestService;
 
 /**
@@ -33,18 +35,19 @@ public class ReportedLossController extends AbstractRestController {
 	private ReportedLossRestService _reportedLossRestService;
 	
 	@RequestMapping(value = RequestMappingConstants.GET_ALL_REPORTED_LOSSES, method = RequestMethod.GET)
+	@Searchable(sourceType = ReportedLossRO.class, value = ReportedLoss.class)
 	public List<ReportedLossRO> get() {
 		return _reportedLossRestService.get();
 	}
 	
 	@RequestMapping(value = RequestMappingConstants.GET_REPORTED_LOSS_BY_REPORTED_LOSS_ID, method = RequestMethod.GET)
-	public ReportedLossRO get(@PathVariable final Long id) {
-		return _reportedLossRestService.get(id);
+	public ReportedLossRO get(@PathVariable final Long reportedLossId) {
+		return _reportedLossRestService.get(reportedLossId);
 	}
 	
 	@RequestMapping(value = RequestMappingConstants.CREATE_REPORTED_LOSS, method = RequestMethod.POST)
-	public ReportedLossRO createReportedLoss(@PathVariable final String uniqueIncidentId, @Valid @RequestBody final ReportedLossRO reportedLossRO) {
-		return _reportedLossRestService.createReportedLoss(uniqueIncidentId, reportedLossRO);
+	public ReportedLossRO createReportedLoss(@Valid @RequestBody final ReportedLossRO reportedLossRO) {
+		return _reportedLossRestService.createReportedLoss(reportedLossRO);
 	}
 	
 	@RequestMapping(value = RequestMappingConstants.CREATE_REPORTED_LOSSES, method = RequestMethod.POST)

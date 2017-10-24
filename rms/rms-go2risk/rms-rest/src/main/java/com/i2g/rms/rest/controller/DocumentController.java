@@ -18,10 +18,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.i2g.rms.domain.model.DocumentView;
 import com.i2g.rms.rest.constants.RequestMappingConstants;
 import com.i2g.rms.rest.model.DeleteRO;
 import com.i2g.rms.rest.model.DocumentRO;
 import com.i2g.rms.rest.model.DocumentViewRO;
+import com.i2g.rms.rest.search.Searchable;
 import com.i2g.rms.rest.service.incident.DocumentRestService;
 
 /**
@@ -38,6 +40,7 @@ public class DocumentController extends AbstractRestController {
 	private DocumentRestService _documentRestService;
 	
 	@RequestMapping(value = RequestMappingConstants.GET_ALL_DOCUMENTS, method = RequestMethod.GET)
+	@Searchable(sourceType = DocumentViewRO.class, value = DocumentView.class)
 	public List<DocumentViewRO> get() {
 		return _documentRestService.get();
 	}

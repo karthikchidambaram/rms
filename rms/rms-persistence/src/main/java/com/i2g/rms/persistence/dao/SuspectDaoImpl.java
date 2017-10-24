@@ -99,10 +99,10 @@ public class SuspectDaoImpl extends AbstractHibernateDao<Long, Suspect> implemen
 		validateCollectionObject(distinguishingFeatureDetails);
 		for (DistinguishingFeatureDetail distinguishingFeatureDetail : distinguishingFeatureDetails) {
 			if (distinguishingFeatureDetail != null) {
-				suspect.getDistinguishingFeatureDetails().remove(distinguishingFeatureDetail);
-				save(suspect);
+				suspect.getDistinguishingFeatureDetails().remove(distinguishingFeatureDetail);				
 			}
-		}		
+		}
+		save(suspect);
 	}
 
 	@Override
@@ -127,5 +127,5 @@ public class SuspectDaoImpl extends AbstractHibernateDao<Long, Suspect> implemen
 			}
 		}
 		return newSuspects;
-	}
+	}	
 }

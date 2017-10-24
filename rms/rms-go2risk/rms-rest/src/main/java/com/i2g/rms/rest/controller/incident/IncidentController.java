@@ -19,7 +19,6 @@ import com.i2g.rms.rest.controller.AbstractRestController;
 import com.i2g.rms.rest.model.DeleteRO;
 import com.i2g.rms.rest.model.DocumentViewRO;
 import com.i2g.rms.rest.model.SuspectRO;
-import com.i2g.rms.rest.model.SuspectWrapper;
 import com.i2g.rms.rest.model.UserRO;
 import com.i2g.rms.rest.model.incident.AccidentDetailRO;
 import com.i2g.rms.rest.model.incident.AssetDetailRO;
@@ -29,6 +28,7 @@ import com.i2g.rms.rest.model.incident.IncidentDetailRO;
 import com.i2g.rms.rest.model.incident.IncidentRO;
 import com.i2g.rms.rest.model.incident.InvestigationDetailRO;
 import com.i2g.rms.rest.model.incident.LogIncidentRO;
+import com.i2g.rms.rest.model.wrapper.SuspectWrapper;
 import com.i2g.rms.rest.search.Searchable;
 import com.i2g.rms.rest.service.incident.DocumentRestService;
 import com.i2g.rms.rest.service.incident.IncidentRestService;
@@ -48,6 +48,7 @@ public class IncidentController extends AbstractRestController {
 	@Autowired
 	private DocumentRestService _documentRestService;
 	
+	/** Get flows */
 	@RequestMapping(value = RequestMappingConstants.GET_INCIDENTS, method = RequestMethod.GET)
 	@Searchable(sourceType = IncidentRO.class, value = Incident.class)
 	public List<IncidentRO> get() {
@@ -120,30 +121,51 @@ public class IncidentController extends AbstractRestController {
 		return _incidentRestService.updateLogIncident(logIncidentRO);
 	}
 	
-	@RequestMapping(value = RequestMappingConstants.UPDATE_INCIDENT_DETAILS, method = RequestMethod.POST)
-	public IncidentRO updateIncidentDetail(final @Valid @RequestBody IncidentDetailRO incidentDetailRO) {
-		return _incidentRestService.updateIncidentDetail(incidentDetailRO);
-	}
-	
 	/** add or update flows */
 	@RequestMapping(value = RequestMappingConstants.ADD_OR_UPDATE_LOG_INCIDENT, method = RequestMethod.POST)
 	public IncidentRO addOrUpdateLogIncident(final @Valid @RequestBody LogIncidentRO logIncidentRO) {
 		return _incidentRestService.addOrUpdateLogIncident(logIncidentRO);
 	}
 	
-	@RequestMapping(value = RequestMappingConstants.ADD_OR_UPDATE_INCIDENT_DETAILS, method = RequestMethod.POST)
-	public IncidentRO addOrUpdateIncidentDetail(final @Valid @RequestBody IncidentDetailRO incidentDetailRO) {
-		return _incidentRestService.addOrUpdateIncidentDetail(incidentDetailRO);
+	/** alternate flows */
+	@RequestMapping(value = RequestMappingConstants.ADD_SUSPECT_FOR_INCIDENT, method = RequestMethod.PUT)
+	public IncidentRO addSuspectForIncident(@PathVariable final String uniqueIncidentId, @Valid @RequestBody final SuspectRO suspectRO) {
+		return _incidentRestService.addSuspectForIncident(uniqueIncidentId, suspectRO);
 	}
 	
-	@RequestMapping(value = RequestMappingConstants.CREATE_SUSPECT_FOR_INCIDENT, method = RequestMethod.PUT)
-	public IncidentRO createSuspectForIncident(@PathVariable final String uniqueIncidentId, @Valid @RequestBody final SuspectRO suspectRO) {
-		return _incidentRestService.createSuspectForIncident(uniqueIncidentId, suspectRO);
+	@RequestMapping(value = RequestMappingConstants.ADD_SUSPECTS_FOR_INCIDENT, method = RequestMethod.PUT)
+	public IncidentRO addSuspectsForIncident(@Valid @RequestBody final SuspectWrapper suspectWrapper) {
+		return _incidentRestService.addSuspectsForIncident(suspectWrapper);
 	}
 	
-	@RequestMapping(value = RequestMappingConstants.CREATE_SUSPECTS_FOR_INCIDENT, method = RequestMethod.PUT)
-	public IncidentRO createSuspectsForIncident(@Valid @RequestBody final SuspectWrapper suspectWrapper) {
-		return _incidentRestService.createSuspectsForIncident(suspectWrapper);
+	@RequestMapping(value = RequestMappingConstants.ADD_EXISTING_SUSPECT_FOR_INCIDENT, method = RequestMethod.PUT)
+	public IncidentRO addExistingSuspectForIncident(@PathVariable final String uniqueIncidentId, @PathVariable final Long suspectId) {
+		return _incidentRestService.addExistingSuspectForIncident(uniqueIncidentId, suspectId);
+	}
+	
+	@RequestMapping(value = RequestMappingConstants.ADD_EXISTING_SUSPECTS_FOR_INCIDENT, method = RequestMethod.PUT)
+	public IncidentRO addExistingSuspectsForIncident(@Valid @RequestBody final SuspectWrapper suspectWrapper) {
+		return _incidentRestService.addExistingSuspectsForIncident(suspectWrapper);
+	}
+	
+	@RequestMapping(value = RequestMappingConstants.ADD_EMPLOYEE_SUSPECT_FOR_INCIDENT_BY_ID, method = RequestMethod.PUT)
+	public IncidentRO addEmployeeSuspectForIncidentById(@PathVariable final String uniqueIncidentId, @PathVariable final Long employeeId) {
+		return _incidentRestService.addEmployeeSuspectForIncidentById(uniqueIncidentId, employeeId);
+	}
+	
+	@RequestMapping(value = RequestMappingConstants.ADD_EMPLOYEE_SUSPECT_FOR_INCIDENT_BY_LOGIN_ID, method = RequestMethod.PUT)
+	public IncidentRO addEmployeeSuspectForIncidentByLoginId(@PathVariable final String uniqueIncidentId, @PathVariable final String employeeLoginId) {
+		return _incidentRestService.addEmployeeSuspectForIncidentByLoginId(uniqueIncidentId, employeeLoginId);
+	}
+	
+	@RequestMapping(value = RequestMappingConstants.ADD_EMPLOYEE_SUSPECTS_FOR_INCIDENT_BY_IDS, method = RequestMethod.PUT)
+	public IncidentRO addEmployeeSuspectsForIncidentByIds(@Valid @RequestBody final SuspectWrapper suspectWrapper) {
+		return _incidentRestService.addEmployeeSuspectsForIncidentByIds(suspectWrapper);
+	}
+	
+	@RequestMapping(value = RequestMappingConstants.ADD_EMPLOYEE_SUSPECTS_FOR_INCIDENT_BY_LOGIN_IDS, method = RequestMethod.PUT)
+	public IncidentRO addEmployeeSuspectsForIncidentByLoginIds(@Valid @RequestBody final SuspectWrapper suspectWrapper) {
+		return _incidentRestService.addEmployeeSuspectsForIncidentByLoginIds(suspectWrapper);
 	}
 	
 	@RequestMapping(value = RequestMappingConstants.REMOVE_SUSPECT_FROM_INCIDENT, method = RequestMethod.DELETE)

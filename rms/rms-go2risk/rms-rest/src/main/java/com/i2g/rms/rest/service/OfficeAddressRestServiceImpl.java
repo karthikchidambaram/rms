@@ -73,10 +73,8 @@ public class OfficeAddressRestServiceImpl extends AbstractRestService implements
 
 		// Set if the address is for an organization
 		if (officeAddressRO.getOrganization() != null) {
-			if (officeAddressRO.getOrganization().getId() != null
-					&& !officeAddressRO.getOrganization().getId().trim().isEmpty()) {
-				officeAddress.setOrganization(_tableMaintenanceService
-						.getOrganizationByCode(officeAddressRO.getOrganization().getId().trim()));
+			if (officeAddressRO.getOrganization().getId() != null && !officeAddressRO.getOrganization().getId().trim().isEmpty()) {
+				officeAddress.setOrganization(_tableMaintenanceService.getOrganizationByCode(officeAddressRO.getOrganization().getId().trim()));
 			}
 		}
 		// Set other fields if necessary

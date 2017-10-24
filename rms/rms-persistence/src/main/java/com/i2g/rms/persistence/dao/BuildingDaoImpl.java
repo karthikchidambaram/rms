@@ -12,30 +12,31 @@ import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.i2g.rms.domain.model.Asset;
+import com.i2g.rms.domain.model.Building;
 import com.i2g.rms.domain.model.StatusFlag;
 import com.i2g.rms.persistence.hibernate.AbstractHibernateDao;
 
 /**
- * Implementation class for AccidentDao
+ * Implementation class for BuildingDao
  * 
  * @since 1.0.0
  * @author Karthikeyan Chidambaram
  *
  */
 @Repository
-public class AssetDaoImpl extends AbstractHibernateDao<Long, Asset> implements AssetDao {
+public class BuildingDaoImpl extends AbstractHibernateDao<Long, Building> implements BuildingDao {
 
 	@SuppressWarnings("unused")
-	private final Logger _logger = LoggerFactory.getLogger(AssetDaoImpl.class);
+	private final Logger _logger = LoggerFactory.getLogger(BuildingDaoImpl.class);
 
 	@Autowired
 	private HibernateTemplate _hibernateTemplate;
 
 	/**
-	 * Creates a new instance of {@link AssetDaoImpl}.
+	 * Creates a new instance of {@link BuildingDaoImpl}.
 	 */
-	private AssetDaoImpl() {
-		super(Asset.class);
+	private BuildingDaoImpl() {
+		super(Building.class);
 	}
 
 	public HibernateTemplate getHibernateTemplate() {
@@ -46,29 +47,29 @@ public class AssetDaoImpl extends AbstractHibernateDao<Long, Asset> implements A
 		_hibernateTemplate = hibernateTemplate;
 	}
 
-	// Method to return all Asset details
+	// Method to return all Building details
 	@SuppressWarnings({ "deprecation", "unchecked" })
 	@Override
-	public List<Asset> get() {
+	public List<Building> get() {
 		final Criteria criteria = getSession().createCriteria(_modelType);
 		criteria.add(Restrictions.eq("statusFlag", StatusFlag.ACTIVE));
-		return (List<Asset>) applySearch(criteria).list();
+		return (List<Building>) applySearch(criteria).list();
 	}
 
-	// Method to return Asset identified by id.
+	// Method to return Building identified by id.
 	@SuppressWarnings("deprecation")
 	@Override
-	public Asset get(final long id) {
+	public Building get(final long id) {
 		final Criteria criteria = getSession().createCriteria(_modelType);
-		criteria.add(Restrictions.eq("id", Objects.requireNonNull(id, "Asset ID cannot be null or empty.")));
+		criteria.add(Restrictions.eq("id", Objects.requireNonNull(id, "Building ID cannot be null or empty.")));
 		criteria.add(Restrictions.eq("statusFlag", StatusFlag.ACTIVE));
-		return (Asset) criteria.uniqueResult();
+		return (Building) criteria.uniqueResult();
 	}
 
 	@Override
-	public Asset create(final Asset asset) {
-		validateObject(asset);
-		final Long id = save(asset);
+	public Building create(final Building building) {
+		validateObject(building);
+		final Long id = save(building);
 		if (id != null) {
 			return get(id);
 		} else {

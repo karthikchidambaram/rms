@@ -13,17 +13,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.i2g.rms.domain.model.Address;
+import com.i2g.rms.domain.model.Building;
+import com.i2g.rms.domain.model.CrimeSuspect;
+import com.i2g.rms.domain.model.InjuredPerson;
 import com.i2g.rms.domain.model.StatusFlag;
 import com.i2g.rms.domain.model.Suspect;
+import com.i2g.rms.domain.model.User;
+import com.i2g.rms.domain.model.Witness;
 import com.i2g.rms.domain.model.YesNoType;
 import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeatureDetail;
-import com.i2g.rms.domain.model.tablemaintenance.GenderType;
 import com.i2g.rms.domain.model.tablemaintenance.WeaponType;
 import com.i2g.rms.rest.model.AddressRO;
-import com.i2g.rms.rest.model.DistinguishingFeatureDetailWrapper;
 import com.i2g.rms.rest.model.SuspectRO;
-import com.i2g.rms.rest.model.SuspectWrapper;
 import com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeatureDetailRO;
+import com.i2g.rms.rest.model.wrapper.DistinguishingFeatureDetailWrapper;
+import com.i2g.rms.rest.model.wrapper.SuspectWrapper;
 import com.i2g.rms.rest.service.incident.IncidentRestService;
 import com.i2g.rms.service.AddressService;
 import com.i2g.rms.service.SuspectService;
@@ -68,9 +72,9 @@ public class SuspectRestServiceImpl extends AbstractRestService implements Suspe
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
 	@Transactional(readOnly = true)
-	public SuspectRO get(final long id) {
-		if (id > 0) {
-			final Suspect suspect = _suspectService.get(id);
+	public SuspectRO get(final long suspectId) {
+		if (suspectId > 0) {
+			final Suspect suspect = _suspectService.get(suspectId);
 			validateGenericObject(suspect);
 			return _mapperService.map(suspect, SuspectRO.class);
 		} else {
@@ -84,7 +88,7 @@ public class SuspectRestServiceImpl extends AbstractRestService implements Suspe
 	public SuspectRO createSuspect(final SuspectRO suspectRO) {
 		validateObject(suspectRO);
 		final Suspect suspect = constructNewSuspect(suspectRO);
-		validateGenericObject(suspect);
+		validateGenericObject(suspect);		
 		final Suspect newSuspect = _suspectService.createNewSuspect(suspect);
 		if (newSuspect != null) {
 			return _mapperService.map(newSuspect, SuspectRO.class);
@@ -103,7 +107,10 @@ public class SuspectRestServiceImpl extends AbstractRestService implements Suspe
 		if (suspectWrapper.getSuspects() != null && !suspectWrapper.getSuspects().isEmpty()) {
 			for (SuspectRO suspectRO : suspectWrapper.getSuspects()) {
 				if (suspectRO != null) {
-					suspects.add(constructNewSuspect(suspectRO));
+					final Suspect suspect = constructNewSuspect(suspectRO);
+					if (suspect != null) {
+						suspects.add(suspect);
+					}
 				}
 			}
 		}
@@ -112,7 +119,7 @@ public class SuspectRestServiceImpl extends AbstractRestService implements Suspe
 			return _mapperService.map(newSuspects, SuspectRO.class);
 		} else {
 			throw new ResourceNotCreatedException(_messageBuilder.build(RestMessage.UNABLE_TO_CREATE_RECORD));
-		}		
+		}
 	}
 
 	@Override
@@ -123,7 +130,7 @@ public class SuspectRestServiceImpl extends AbstractRestService implements Suspe
 		if (suspectRO.getId() <= 0 ) {
 			throw new ResourceNotValidException(_messageBuilder.build(RestMessage.RECORD_FETCH_FAILED_FOR_UPDATE));
 		}
-		final Suspect suspect = constructSuspectForUpdate(suspectRO);
+		final Suspect suspect = constructSuspect(suspectRO);
 		validateGenericObject(suspect);
 		final Suspect updatedSuspect = _suspectService.updateSuspect(suspect);
 		if (updatedSuspect != null) {
@@ -141,7 +148,10 @@ public class SuspectRestServiceImpl extends AbstractRestService implements Suspe
 		Set<Suspect> suspects = new HashSet<Suspect>(0);
 		for (SuspectRO suspectRO : suspectWrapper.getSuspects()) {
 			if (suspectRO != null) {
-				suspects.add(constructSuspectForUpdate(suspectRO));
+				final Suspect suspect = constructSuspect(suspectRO);
+				if (suspect != null) {
+					suspects.add(suspect);
+				}
 			}
 		}
 		final List<Suspect> updatedSuspects = _suspectService.updateSuspects(suspects);		
@@ -150,7 +160,7 @@ public class SuspectRestServiceImpl extends AbstractRestService implements Suspe
 		} else {
 			throw new ResourceNotUpdatedException(_messageBuilder.build(RestMessage.UNABLE_TO_UPDATE_RECORD));
 		}
-	}	
+	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
@@ -181,260 +191,219 @@ public class SuspectRestServiceImpl extends AbstractRestService implements Suspe
 	public Suspect constructNewSuspect(final SuspectRO suspectRO) {
 		validateObject(suspectRO);
 		// Construction of new suspects
-		Suspect suspect = new Suspect.Builder().setStatusFlag(StatusFlag.ACTIVE).build();
+		final Suspect suspect = new Suspect.Builder().setStatusFlag(StatusFlag.ACTIVE).build();
+		validateGenericObject(suspect);
 		// Set other values
-		if (suspectRO.getTitle() != null && !suspectRO.getTitle().trim().isEmpty()) {
-			suspect.setTitle(suspectRO.getTitle().trim());
-		}
-		if (suspectRO.getFirstName() != null && !suspectRO.getFirstName().trim().isEmpty()) {
-			suspect.setFirstName(suspectRO.getFirstName().trim());
-		}
-		if (suspectRO.getMiddleName() != null && !suspectRO.getMiddleName().trim().isEmpty()) {
-			suspect.setMiddleName(suspectRO.getMiddleName().trim());
-		}
-		if (suspectRO.getLastName() != null && !suspectRO.getLastName().trim().isEmpty()) {
-			suspect.setLastName(suspectRO.getLastName().trim());
-		}
-		if (suspectRO.getNameSuffix() != null && !suspectRO.getNameSuffix().trim().isEmpty()) {
-			suspect.setNameSuffix(suspectRO.getNameSuffix().trim());
-		}
-		if (suspectRO.getPhone() != null && !suspectRO.getPhone().trim().isEmpty()) {
-			suspect.setPhone(suspectRO.getPhone().trim());
-		}
-		if (suspectRO.getFax() != null && !suspectRO.getFax().trim().isEmpty()) {
-			suspect.setFax(suspectRO.getFax().trim());
-		}
-		if (suspectRO.getAlternatePhone() != null && !suspectRO.getAlternatePhone().trim().isEmpty()) {
-			suspect.setAlternatePhone(suspectRO.getAlternatePhone().trim());
-		}
-		if (suspectRO.getEmail() != null && !suspectRO.getEmail().trim().isEmpty()) {
-			suspect.setEmail(suspectRO.getEmail().trim());
-		}
-		if (suspectRO.getWebsite() != null && !suspectRO.getWebsite().trim().isEmpty()) {
-			suspect.setWebsite(suspectRO.getWebsite().trim());
-		}
-		// Gender type
-		if (suspectRO.getGenderType() != null) {
-			if (suspectRO.getGenderType().getId() != null && !suspectRO.getGenderType().getId().trim().isEmpty()) {
-				suspect.setGenderType(_tableMaintenanceService.getGenderTypeByCode(suspectRO.getGenderType().getId().trim()));
-			}
-		}
-		// gender type other
-		if (suspectRO.getGenderTypeOther() != null && !suspectRO.getGenderTypeOther().trim().isEmpty()) {
-			suspect.setGenderTypeOther(suspectRO.getGenderTypeOther().trim());
-		}
-		if (suspectRO.getAge() != null && suspectRO.getAge() > 0) {
-			suspect.setAge(suspectRO.getAge());
-		}
-		if (suspectRO.getDateOfBirth() != null) {
-			suspect.setDateOfBirth(suspectRO.getDateOfBirth());
-		}
-		// Was there a weapon involved?
-		YesNoType weaponInvolved = YesNoType.N;
-		if (suspectRO.getWeaponInvolved() != null && suspectRO.getWeaponInvolved().name().equals("Y")) {
-			weaponInvolved = YesNoType.Y;
-		}
-		// Weapon type
-		WeaponType weaponType = null;
-		if (suspectRO.getWeaponType() != null) {
-			if (suspectRO.getWeaponType().getId() != null && !suspectRO.getWeaponType().getId().trim().isEmpty()) {
-				weaponType = _tableMaintenanceService.getWeaponTypeByCode(suspectRO.getWeaponType().getId().trim());
-			}
-		}
-		_incidentRestService.validateWeaponInvolvedAndType(weaponInvolved, weaponType);
-		suspect.setWeaponInvolved(weaponInvolved);
-		suspect.setWeaponType(weaponType);
-		// weapon type other
-		if (suspectRO.getWeaponTypeOther() != null && !suspectRO.getWeaponTypeOther().trim().isEmpty()) {
-			suspect.setWeaponTypeOther(suspectRO.getWeaponTypeOther().trim());
-		}
-		// Suspect Type
-		if (suspectRO.getSuspectType() != null) {
-			if (suspectRO.getSuspectType().getId() != null && !suspectRO.getSuspectType().getId().trim().isEmpty()) {
-				suspect.setSuspectType(_tableMaintenanceService.getSuspectTypeByCode(suspectRO.getSuspectType().getId().trim()));
-			}
-		}
-		// suspect addresses if any
-		if (suspectRO.getAddresses() != null && !suspectRO.getAddresses().isEmpty()) {
-			suspect.setAddresses(_incidentRestService.constructAddresses(suspectRO.getAddresses(), null, suspect, null, null, null, null));
-		}
-		// other comments for suspect type
-		if (suspectRO.getSuspectTypeOther() != null && !suspectRO.getSuspectTypeOther().trim().isEmpty()) {
-			suspect.setSuspectTypeOther(suspectRO.getSuspectTypeOther().trim());
-		}
-		// construct and set distinguishing feature details
-		if (suspectRO.getDistinguishingFeatureDetails() != null && !suspectRO.getDistinguishingFeatureDetails().isEmpty()) {
-			suspect.setDistinguishingFeatureDetails(_incidentRestService.constructDistinguishingFeatureDetails(suspectRO.getDistinguishingFeatureDetails()));
-		}
-		// other comments for distinguishing feature
-		if (suspectRO.getDistinguishingFeatureOther() != null && !suspectRO.getDistinguishingFeatureOther().trim().isEmpty()) {
-			suspect.setDistinguishingFeatureOther(suspectRO.getDistinguishingFeatureOther().trim());
-		}			
-		return suspect;
+		return setOtherFieldsForSuspect(suspect, suspectRO);
 	}
 	
 	@Override
-	public Suspect constructSuspectForUpdate(final SuspectRO suspectRO) {
+	public Suspect constructSuspect(final SuspectRO suspectRO) {
 		validateObject(suspectRO);
 		if (suspectRO.getId() <= 0 ) {
 			throw new ResourceNotValidException(_messageBuilder.build(RestMessage.RECORD_FETCH_FAILED_FOR_UPDATE));
 		}
-		Suspect suspect = _suspectService.get(suspectRO.getId());
+		final Suspect suspect = _suspectService.get(suspectRO.getId());
 		validateGenericObject(suspect);
-		//set the new values
-		//title
-		if (suspectRO.getTitle() != null && !suspectRO.getTitle().trim().isEmpty()) {
-			suspect.setTitle(suspectRO.getTitle().trim());
-		}
-		//first name
-		if (suspectRO.getFirstName() != null && !suspectRO.getFirstName().trim().isEmpty()) {
-			suspect.setFirstName(suspectRO.getFirstName().trim());
-		}
-		//middle name
-		if (suspectRO.getMiddleName() != null && !suspectRO.getMiddleName().trim().isEmpty()) {
-			suspect.setMiddleName(suspectRO.getMiddleName().trim());
-		}
-		//last name
-		if (suspectRO.getLastName() != null && !suspectRO.getLastName().trim().isEmpty()) {
-			suspect.setLastName(suspectRO.getLastName().trim());
-		}
-		//name suffix
-		if (suspectRO.getNameSuffix() != null && !suspectRO.getNameSuffix().trim().isEmpty()) {
-			suspect.setNameSuffix(suspectRO.getNameSuffix().trim());
-		}
-		//gender type
-		if (suspectRO.getGenderType() != null) {
-			if (suspectRO.getGenderType().getId() != null && !suspectRO.getGenderType().getId().trim().isEmpty()) {
-				final GenderType genderType = _tableMaintenanceService.getGenderTypeByCode(suspectRO.getGenderType().getId().trim());
-				if (genderType != null) {
-					suspect.setGenderType(genderType);
-				}
-			}
-		}
-		//gender type other
-		if (suspectRO.getGenderTypeOther() != null && !suspectRO.getGenderTypeOther().trim().isEmpty()) {
-			suspect.setGenderTypeOther(suspectRO.getGenderTypeOther());
-		}
-		//phone
-		if (suspectRO.getPhone() != null && !suspectRO.getPhone().trim().isEmpty()) {
-			suspect.setPhone(suspectRO.getPhone().trim());
-		}
-		//fax
-		if (suspectRO.getFax() != null && !suspectRO.getFax().trim().isEmpty()) {
-			suspect.setFax(suspectRO.getFax().trim());
-		}
-		//alternate phone
-		if (suspectRO.getAlternatePhone() != null && !suspectRO.getAlternatePhone().trim().isEmpty()) {
-			suspect.setAlternatePhone(suspectRO.getAlternatePhone().trim());
-		}
-		//email
-		if (suspectRO.getEmail() != null && !suspectRO.getEmail().trim().isEmpty()) {
-			suspect.setEmail(suspectRO.getEmail().trim());
-		}
-		//website
-		if (suspectRO.getWebsite() != null && !suspectRO.getWebsite().trim().isEmpty()) {
-			suspect.setWebsite(suspectRO.getWebsite().trim());
-		}
-		//age
-		if (suspectRO.getAge() != null && suspectRO.getAge() > 0) {
-			suspect.setAge(suspectRO.getAge());
-		}
-		//date of birth
-		if (suspectRO.getDateOfBirth() != null) {
-			suspect.setDateOfBirth(suspectRO.getDateOfBirth());
-		}
-		// Was there a weapon involved?
-		YesNoType weaponInvolved = YesNoType.N;
-		if (suspectRO.getWeaponInvolved() != null && suspectRO.getWeaponInvolved().name().equals("Y")) {
-			weaponInvolved = YesNoType.Y;
-		}
-		// Weapon type
-		WeaponType weaponType = null;
-		if (suspectRO.getWeaponType() != null) {
-			if (suspectRO.getWeaponType().getId() != null && !suspectRO.getWeaponType().getId().trim().isEmpty()) {
-				weaponType = _tableMaintenanceService.getWeaponTypeByCode(suspectRO.getWeaponType().getId().trim());
-			}
-		}
-		_incidentRestService.validateWeaponInvolvedAndType(weaponInvolved, weaponType);
-		suspect.setWeaponInvolved(weaponInvolved);
-		suspect.setWeaponType(weaponType);
-		// weapon type other
-		if (suspectRO.getWeaponTypeOther() != null && !suspectRO.getWeaponTypeOther().trim().isEmpty()) {
-			suspect.setWeaponTypeOther(suspectRO.getWeaponTypeOther().trim());
-		}
-		// Suspect Type
-		if (suspectRO.getSuspectType() != null) {
-			if (suspectRO.getSuspectType().getId() != null && !suspectRO.getSuspectType().getId().trim().isEmpty()) {
-				suspect.setSuspectType(_tableMaintenanceService.getSuspectTypeByCode(suspectRO.getSuspectType().getId().trim()));
-			}
-		}
-		// suspect addresses if any
-		if (suspectRO.getAddresses() != null && !suspectRO.getAddresses().isEmpty()) {
-			suspect.setAddresses(updateAddresses(suspectRO.getAddresses()));
-		}
-		// other comments for suspect type
-		if (suspectRO.getSuspectTypeOther() != null && !suspectRO.getSuspectTypeOther().trim().isEmpty()) {
-			suspect.setSuspectTypeOther(suspectRO.getSuspectTypeOther().trim());
-		}
-		// construct and set distinguishing feature details
-		if (suspectRO.getDistinguishingFeatureDetails() != null && !suspectRO.getDistinguishingFeatureDetails().isEmpty()) {
-			suspect.setDistinguishingFeatureDetails(_incidentRestService.constructDistinguishingFeatureDetails(suspectRO.getDistinguishingFeatureDetails()));
-		}
-		// other comments for distinguishing feature
-		if (suspectRO.getDistinguishingFeatureOther() != null && !suspectRO.getDistinguishingFeatureOther().trim().isEmpty()) {
-			suspect.setDistinguishingFeatureOther(suspectRO.getDistinguishingFeatureOther().trim());
-		}
-		return suspect;
+		return setOtherFieldsForSuspect(suspect, suspectRO);
 	}
 	
 	@Override
-	public Set<Address> updateAddresses(final Set<AddressRO> addressROs) {		
-		final Set<Address> updatedAddresses = new HashSet<Address>(0);		
+	public Suspect setOtherFieldsForSuspect(final Suspect suspect, final SuspectRO suspectRO) {
+		// Set other values for suspect
+		if (suspect != null && suspectRO != null) {
+			if (suspectRO.getTitle() != null && !suspectRO.getTitle().trim().isEmpty()) {
+				suspect.setTitle(suspectRO.getTitle().trim());
+			}
+			if (suspectRO.getFirstName() != null && !suspectRO.getFirstName().trim().isEmpty()) {
+				suspect.setFirstName(suspectRO.getFirstName().trim());
+			}
+			if (suspectRO.getMiddleName() != null && !suspectRO.getMiddleName().trim().isEmpty()) {
+				suspect.setMiddleName(suspectRO.getMiddleName().trim());
+			}
+			if (suspectRO.getLastName() != null && !suspectRO.getLastName().trim().isEmpty()) {
+				suspect.setLastName(suspectRO.getLastName().trim());
+			}
+			if (suspectRO.getNameSuffix() != null && !suspectRO.getNameSuffix().trim().isEmpty()) {
+				suspect.setNameSuffix(suspectRO.getNameSuffix().trim());
+			}
+			if (suspectRO.getPhone() != null && !suspectRO.getPhone().trim().isEmpty()) {
+				suspect.setPhone(suspectRO.getPhone().trim());
+			}
+			if (suspectRO.getFax() != null && !suspectRO.getFax().trim().isEmpty()) {
+				suspect.setFax(suspectRO.getFax().trim());
+			}
+			if (suspectRO.getAlternatePhone() != null && !suspectRO.getAlternatePhone().trim().isEmpty()) {
+				suspect.setAlternatePhone(suspectRO.getAlternatePhone().trim());
+			}
+			if (suspectRO.getEmail() != null && !suspectRO.getEmail().trim().isEmpty()) {
+				suspect.setEmail(suspectRO.getEmail().trim());
+			}
+			if (suspectRO.getWebsite() != null && !suspectRO.getWebsite().trim().isEmpty()) {
+				suspect.setWebsite(suspectRO.getWebsite().trim());
+			}
+			// Gender type
+			if (suspectRO.getGenderType() != null) {
+				if (suspectRO.getGenderType().getId() != null && !suspectRO.getGenderType().getId().trim().isEmpty()) {
+					suspect.setGenderType(_tableMaintenanceService.getGenderTypeByCode(suspectRO.getGenderType().getId().trim()));
+				}
+			}
+			// gender type other
+			if (suspectRO.getGenderTypeOther() != null && !suspectRO.getGenderTypeOther().trim().isEmpty()) {
+				suspect.setGenderTypeOther(suspectRO.getGenderTypeOther().trim());
+			}
+			if (suspectRO.getAge() != null && suspectRO.getAge() > 0) {
+				suspect.setAge(suspectRO.getAge());
+			}
+			if (suspectRO.getDateOfBirth() != null) {
+				suspect.setDateOfBirth(suspectRO.getDateOfBirth());
+			}
+			// Was there a weapon involved?
+			YesNoType weaponInvolved = YesNoType.N;
+			if (suspectRO.getWeaponInvolved() != null && suspectRO.getWeaponInvolved().name().equals("Y")) {
+				weaponInvolved = YesNoType.Y;
+			}
+			// Weapon type
+			WeaponType weaponType = null;
+			if (suspectRO.getWeaponType() != null) {
+				if (suspectRO.getWeaponType().getId() != null && !suspectRO.getWeaponType().getId().trim().isEmpty()) {
+					weaponType = _tableMaintenanceService.getWeaponTypeByCode(suspectRO.getWeaponType().getId().trim());
+				}
+			}
+			_incidentRestService.validateWeaponInvolvedAndType(weaponInvolved, weaponType);
+			suspect.setWeaponInvolved(weaponInvolved);
+			suspect.setWeaponType(weaponType);
+			// weapon type other
+			if (suspectRO.getWeaponTypeOther() != null && !suspectRO.getWeaponTypeOther().trim().isEmpty()) {
+				suspect.setWeaponTypeOther(suspectRO.getWeaponTypeOther().trim());
+			}
+			// Suspect Type
+			if (suspectRO.getSuspectType() != null) {
+				if (suspectRO.getSuspectType().getId() != null && !suspectRO.getSuspectType().getId().trim().isEmpty()) {
+					suspect.setSuspectType(_tableMaintenanceService.getSuspectTypeByCode(suspectRO.getSuspectType().getId().trim()));
+				}
+			}
+			// suspect addresses if any
+			if (suspectRO.getAddresses() != null && !suspectRO.getAddresses().isEmpty()) {
+				suspect.setAddresses(createOrUpdateAddresses(suspectRO.getAddresses(), null, suspect, null, null, null, null));
+			}
+			// other comments for suspect type
+			if (suspectRO.getSuspectTypeOther() != null && !suspectRO.getSuspectTypeOther().trim().isEmpty()) {
+				suspect.setSuspectTypeOther(suspectRO.getSuspectTypeOther().trim());
+			}
+			// construct and set distinguishing feature details
+			if (suspectRO.getDistinguishingFeatureDetails() != null && !suspectRO.getDistinguishingFeatureDetails().isEmpty()) {
+				suspect.setDistinguishingFeatureDetails(_incidentRestService.constructDistinguishingFeatureDetails(suspectRO.getDistinguishingFeatureDetails()));
+			}
+			// other comments for distinguishing feature
+			if (suspectRO.getDistinguishingFeatureOther() != null && !suspectRO.getDistinguishingFeatureOther().trim().isEmpty()) {
+				suspect.setDistinguishingFeatureOther(suspectRO.getDistinguishingFeatureOther().trim());
+			}			
+			return suspect;
+		} else {
+			return null;
+		}
+	}
+	
+	@Override
+	public Set<Address> createOrUpdateAddresses(final Set<AddressRO> addressROs,
+												final User user, 
+												final Suspect suspect,
+												final InjuredPerson injuredPerson, 
+												final Witness witness, 
+												final CrimeSuspect crimeSuspect,
+												final Building building) {
+		final Set<Address> addresses = new HashSet<Address>(0);
 		if (addressROs != null && !addressROs.isEmpty()) {
-			for (AddressRO addressRO : addressROs) {	
-				Address address = _addressService.get(addressRO.getId());
-				if (address != null) {
-					// other address fields
-					if (addressRO.getOrganizationName() != null && !addressRO.getOrganizationName().trim().isEmpty()) {
-						address.setOrganizationName(addressRO.getOrganizationName().trim());
+			for (AddressRO addressRO : addressROs) {
+				if (addressRO != null) {
+					final Address address = getAddress(addressRO, user, suspect, injuredPerson, witness, crimeSuspect, building);
+					if (address != null) {
+						addresses.add(address);
 					}
-					if (addressRO.getBuildingName() != null && !addressRO.getBuildingName().trim().isEmpty()) {
-						address.setBuildingName(addressRO.getBuildingName().trim());
-					}
-					if (addressRO.getStreetName() != null && !addressRO.getStreetName().trim().isEmpty()) {
-						address.setStreetName(addressRO.getStreetName().trim());
-					}
-					if (addressRO.getLocalityName() != null && !addressRO.getLocalityName().trim().isEmpty()) {
-						address.setLocalityName(addressRO.getLocalityName().trim());
-					}
-					if (addressRO.getPostTown() != null && !addressRO.getPostTown().trim().isEmpty()) {
-						address.setPostTown(addressRO.getPostTown().trim());
-					}
-					if (addressRO.getCounty() != null && !addressRO.getCounty().trim().isEmpty()) {
-						address.setCounty(addressRO.getCounty().trim());
-					}
-					if (addressRO.getCity() != null && !addressRO.getCity().trim().isEmpty()) {
-						address.setCity(addressRO.getCity().trim());
-					}
-					if (addressRO.getPostcode() != null && !addressRO.getPostcode().trim().isEmpty()) {
-						address.setPostcode(addressRO.getPostcode().trim());
-					}
-					if (addressRO.getCountry() != null && !addressRO.getCountry().trim().isEmpty()) {
-						address.setCountry(addressRO.getCountry().trim());
-					}
-					if (addressRO.getDoorNumber() != null && !addressRO.getDoorNumber().trim().isEmpty()) {
-						address.setDoorNumber(addressRO.getDoorNumber().trim());
-					}
-					if (addressRO.getBlockNumber() != null && !addressRO.getBlockNumber().trim().isEmpty()) {
-						address.setBlockNumber(addressRO.getBlockNumber().trim());
-					}
-					if (addressRO.getApartmentNumber() != null && !addressRO.getApartmentNumber().trim().isEmpty()) {
-						address.setApartmentNumber(addressRO.getApartmentNumber().trim());
-					}
-					updatedAddresses.add(address); 
 				}
 			}
 		}
-		return updatedAddresses;
+		return addresses;
+	}
+	
+	@Override
+	public Address getAddress(final AddressRO addressRO,
+								final User user, 
+								final Suspect suspect,
+								final InjuredPerson injuredPerson, 
+								final Witness witness, 
+								final CrimeSuspect crimeSuspect,
+								final Building building) {
+		Address address = null;
+		if (addressRO != null) {
+			if (addressRO.getId() > 0) {
+				address = _addressService.get(addressRO.getId());
+			} else {
+				address = new Address.Builder().setStatusFlag(StatusFlag.ACTIVE).build();
+				// This step determines to which entity the addresses are
+				// constructed. It can be suspect, injured person, witness etc.
+				if (user != null) {
+					address.setUser(user);
+				} else if (suspect != null) {
+					address.setSuspect(suspect);
+				} else if (injuredPerson != null) {
+					address.setInjuredPerson(injuredPerson);
+				} else if (witness != null) {
+					address.setWitness(witness);
+				} else if (crimeSuspect != null) {
+					address.setCrimeSuspect(crimeSuspect);
+				} else if (building != null) {
+					address.setBuilding(building);
+				}
+			}
+		}
+		return setOtherFieldsForAddress(address, addressRO);
+	}
+	
+	@Override
+	public Address setOtherFieldsForAddress(final Address address, final AddressRO addressRO) {
+		if (address != null && addressRO != null) {
+			// other address fields
+			if (addressRO.getOrganizationName() != null && !addressRO.getOrganizationName().trim().isEmpty()) {
+				address.setOrganizationName(addressRO.getOrganizationName().trim());
+			}
+			if (addressRO.getBuildingName() != null && !addressRO.getBuildingName().trim().isEmpty()) {
+				address.setBuildingName(addressRO.getBuildingName().trim());
+			}
+			if (addressRO.getStreetName() != null && !addressRO.getStreetName().trim().isEmpty()) {
+				address.setStreetName(addressRO.getStreetName().trim());
+			}
+			if (addressRO.getLocalityName() != null && !addressRO.getLocalityName().trim().isEmpty()) {
+				address.setLocalityName(addressRO.getLocalityName().trim());
+			}
+			if (addressRO.getPostTown() != null && !addressRO.getPostTown().trim().isEmpty()) {
+				address.setPostTown(addressRO.getPostTown().trim());
+			}
+			if (addressRO.getCounty() != null && !addressRO.getCounty().trim().isEmpty()) {
+				address.setCounty(addressRO.getCounty().trim());
+			}
+			if (addressRO.getCity() != null && !addressRO.getCity().trim().isEmpty()) {
+				address.setCity(addressRO.getCity().trim());
+			}
+			if (addressRO.getPostcode() != null && !addressRO.getPostcode().trim().isEmpty()) {
+				address.setPostcode(addressRO.getPostcode().trim());
+			}
+			if (addressRO.getCountry() != null && !addressRO.getCountry().trim().isEmpty()) {
+				address.setCountry(addressRO.getCountry().trim());
+			}
+			if (addressRO.getDoorNumber() != null && !addressRO.getDoorNumber().trim().isEmpty()) {
+				address.setDoorNumber(addressRO.getDoorNumber().trim());
+			}
+			if (addressRO.getBlockNumber() != null && !addressRO.getBlockNumber().trim().isEmpty()) {
+				address.setBlockNumber(addressRO.getBlockNumber().trim());
+			}
+			if (addressRO.getApartmentNumber() != null && !addressRO.getApartmentNumber().trim().isEmpty()) {
+				address.setApartmentNumber(addressRO.getApartmentNumber().trim());
+			}
+			return address;
+		} else {
+			return null;
+		}		
 	}
 }

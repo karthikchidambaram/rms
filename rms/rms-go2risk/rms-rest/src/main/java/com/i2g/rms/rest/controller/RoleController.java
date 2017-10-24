@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.i2g.rms.domain.model.Role;
 import com.i2g.rms.rest.constants.RequestMappingConstants;
 import com.i2g.rms.rest.model.RoleRO;
+import com.i2g.rms.rest.search.Searchable;
 import com.i2g.rms.rest.service.RoleRestService;
 
 /**
@@ -27,6 +29,7 @@ public class RoleController extends AbstractRestController {
 	private RoleRestService _roleRestService;
 	
 	@RequestMapping(value = RequestMappingConstants.GET_ALL_ROLES, method = RequestMethod.GET)
+	@Searchable(sourceType = RoleRO.class, value = Role.class)
 	public List<RoleRO> getRoles() {
 		return _roleRestService.getRoles();
 	}

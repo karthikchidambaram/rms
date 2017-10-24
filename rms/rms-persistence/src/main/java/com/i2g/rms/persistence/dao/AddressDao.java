@@ -32,7 +32,13 @@ public interface AddressDao {
 	
 	public Address create(final Address address);
 	
+	public List<Address> createAddresses(final List<Address> addresses);
+	
 	public Address updateAddress(final Address address);
 	
 	public List<Address> updateAddresses(final List<Address> addresses);
+	
+	public void deleteAddress(final Address address);
+	
+	public void deleteAddresses(final List<Address> addresses);
 }

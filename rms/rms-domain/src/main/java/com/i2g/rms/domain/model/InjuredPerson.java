@@ -400,7 +400,7 @@ public class InjuredPerson extends AbstractDataModel<Long> implements Serializab
 	/**
 	 * @return the accidents
 	 */
-	@ManyToMany(mappedBy = "injuredPersons")
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "injuredPersons")
 	public Set<Accident> getAccidents() {
 		return _accidents;
 	}

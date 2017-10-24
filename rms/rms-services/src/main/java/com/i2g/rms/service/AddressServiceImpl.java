@@ -44,6 +44,11 @@ public class AddressServiceImpl extends AbstractService implements AddressServic
 	public Address create(final Address address) {
 		return _addressDao.create(address);
 	}
+	
+	@Override
+	public List<Address> createAddresses(final List<Address> addresses) {
+		return _addressDao.createAddresses(addresses);
+	}
 
 	@Override
 	public Address updateAddress(final Address address) {
@@ -84,4 +89,15 @@ public class AddressServiceImpl extends AbstractService implements AddressServic
 	public List<Address> get(final CrimeSuspect crimeSuspect) {
 		return _addressDao.get(crimeSuspect);
 	}
+
+	@Override
+	public void deleteAddress(final Address address) {
+		_addressDao.deleteAddress(address);
+		
+	}
+
+	@Override
+	public void deleteAddresses(final List<Address> addresses) {
+		_addressDao.deleteAddresses(addresses);		
+	}	
 }

@@ -37,8 +37,8 @@ public class OfficeAddressController extends AbstractRestController {
 	}
 
 	@RequestMapping(value = RequestMappingConstants.GET_OFFICE_ADDRESS, method = RequestMethod.GET)
-	public OfficeAddressRO get(final @PathVariable long id) {
-		return _officeAddressRestService.get(id);
+	public OfficeAddressRO get(final @PathVariable long officeAddressId) {
+		return _officeAddressRestService.get(officeAddressId);
 	}
 
 	@RequestMapping(value = RequestMappingConstants.CREATE_OFFICE_ADDRESS, method = RequestMethod.POST)

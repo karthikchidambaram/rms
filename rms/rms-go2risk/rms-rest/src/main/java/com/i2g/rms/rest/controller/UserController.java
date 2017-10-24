@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.i2g.rms.domain.model.User;
 import com.i2g.rms.rest.constants.RequestMappingConstants;
 import com.i2g.rms.rest.model.UserRO;
+import com.i2g.rms.rest.search.Searchable;
 import com.i2g.rms.rest.service.UserRestService;
 
 /**
@@ -26,6 +28,7 @@ public class UserController extends AbstractRestController {
 	private UserRestService _userRestService;
 
 	@RequestMapping(value = RequestMappingConstants.GET_ALL_USERS, method = RequestMethod.GET)
+	@Searchable(sourceType = UserRO.class, value = User.class)
 	public List<UserRO> getUsers() {
 		return _userRestService.getUsers();
 	}

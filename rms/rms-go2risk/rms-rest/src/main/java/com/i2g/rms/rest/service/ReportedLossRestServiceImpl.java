@@ -20,11 +20,10 @@ import com.i2g.rms.domain.model.incident.Incident;
 import com.i2g.rms.domain.model.tablemaintenance.ExternalAgency;
 import com.i2g.rms.rest.model.DeleteRO;
 import com.i2g.rms.rest.model.ReportedLossRO;
-import com.i2g.rms.rest.model.ReportedLossWrapper;
+import com.i2g.rms.rest.model.wrapper.ReportedLossWrapper;
 import com.i2g.rms.rest.service.incident.IncidentRestService;
 import com.i2g.rms.service.ReportedLossService;
 import com.i2g.rms.service.exception.ResourceNotCreatedException;
-import com.i2g.rms.service.exception.ResourceNotFoundException;
 import com.i2g.rms.service.exception.ResourceNotUpdatedException;
 import com.i2g.rms.service.exception.ResourceNotValidException;
 import com.i2g.rms.service.incident.IncidentService;
@@ -63,9 +62,9 @@ public class ReportedLossRestServiceImpl extends AbstractRestService implements 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
 	@Transactional(readOnly = true)
-	public ReportedLossRO get(final long id) {
-		if (id > 0) {
-			final ReportedLoss reportedLoss = _reportedLossService.get(id);
+	public ReportedLossRO get(final long reportedLossId) {
+		if (reportedLossId > 0) {
+			final ReportedLoss reportedLoss = _reportedLossService.get(reportedLossId);
 			validateGenericObject(reportedLoss);
 			return _mapperService.map(reportedLoss, ReportedLossRO.class);
 		} else {
@@ -76,10 +75,9 @@ public class ReportedLossRestServiceImpl extends AbstractRestService implements 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
 	@Transactional
-	public ReportedLossRO createReportedLoss(final String uniqueIncidentId, final ReportedLossRO reportedLossRO) {
-		validateUniqueIncidentId(uniqueIncidentId);
+	public ReportedLossRO createReportedLoss(final ReportedLossRO reportedLossRO) {
 		validateObject(reportedLossRO);
-		final Incident incident = _incidentService.getIncidentByUniqueIncidentId(uniqueIncidentId);
+		final Incident incident = getIncident(reportedLossRO);
 		validateGenericObject(incident);
 		final ReportedLoss reportedLoss = constructNewReportedLoss(incident, reportedLossRO);
 		validateGenericObject(reportedLoss);
@@ -98,7 +96,7 @@ public class ReportedLossRestServiceImpl extends AbstractRestService implements 
 		validateObject(reportedLossWrapper);
 		validateUniqueIncidentId(reportedLossWrapper.getUniqueIncidentId());
 		validateCollectionObject(reportedLossWrapper.getReportedLosses());
-		final Incident incident = _incidentService.getIncidentByUniqueIncidentId(reportedLossWrapper.getUniqueIncidentId());
+		final Incident incident = _incidentService.getIncidentByUniqueIncidentId(reportedLossWrapper.getUniqueIncidentId().trim());
 		validateGenericObject(incident);
 		final Set<ReportedLoss> reportedLosses = _incidentRestService.constructReportedLosses(new HashSet<ReportedLossRO>(reportedLossWrapper.getReportedLosses()), incident);
 		if (reportedLosses == null || reportedLosses.isEmpty()) {
@@ -118,9 +116,9 @@ public class ReportedLossRestServiceImpl extends AbstractRestService implements 
 	public ReportedLossRO updateReportedLoss(final ReportedLossRO reportedLossRO) {
 		validateObject(reportedLossRO);
 		if (reportedLossRO.getId() <= 0) {
-			throw new ResourceNotFoundException(_messageBuilder.build(RestMessage.GENERIC_FETCH_FAILED_MESSAGE));
+			throw new ResourceNotValidException(_messageBuilder.build(RestMessage.GENERIC_FETCH_FAILED_MESSAGE));
 		}
-		final ReportedLoss reportedLoss = constructReportedLossForUpdate(reportedLossRO);
+		final ReportedLoss reportedLoss = constructReportedLoss(reportedLossRO);
 		validateGenericObject(reportedLoss);
 		final ReportedLoss udpatedReportedLoss = _reportedLossService.updateReportedLoss(reportedLoss);
 		if (udpatedReportedLoss != null) {
@@ -139,7 +137,7 @@ public class ReportedLossRestServiceImpl extends AbstractRestService implements 
 		final Set<ReportedLoss> reportedLosses = new HashSet<ReportedLoss>(0);
 		for (ReportedLossRO reportedLossRO : reportedLossWrapper.getReportedLosses()) {
 			if (reportedLossRO != null) {
-				reportedLosses.add(constructReportedLossForUpdate(reportedLossRO));
+				reportedLosses.add(constructReportedLoss(reportedLossRO));
 			}
 		}
 		final List<ReportedLoss> updatedReportedLosses = _reportedLossService.updateReportedLosses(reportedLosses);
@@ -173,7 +171,8 @@ public class ReportedLossRestServiceImpl extends AbstractRestService implements 
 		}
 		Set<ReportedLoss> reportedLosses = new HashSet<ReportedLoss>(0);
 		for (int i = 0; i < ids.length; i++) {
-			final ReportedLoss reportedLoss = _reportedLossService.get(ids[i]);
+			final Long id = (ids[i] == null) ? 0l : ids[i];
+			final ReportedLoss reportedLoss = _reportedLossService.get(id);
 			if (reportedLoss != null) {
 				reportedLosses.add(reportedLoss);
 			}
@@ -186,106 +185,83 @@ public class ReportedLossRestServiceImpl extends AbstractRestService implements 
 		validateObject(incident);
 		validateObject(reportedLossRO);
 		ReportedLoss reportedLoss = new ReportedLoss.Builder().setStatusFlag(StatusFlag.ACTIVE).setIncident(incident).build();
-		//Set other values
-		// Loss type
-		if (reportedLossRO.getLossType() != null) {
-			if (reportedLossRO.getLossType().getId() != null && !reportedLossRO.getLossType().getId().trim().isEmpty()) {
-				reportedLoss.setLossType(_tableMaintenanceService.getLossTypeByCode(reportedLossRO.getLossType().getId().trim()));
-			}
-		}
-		// loss type other
-		if (reportedLossRO.getLossTypeOther() != null && !reportedLossRO.getLossTypeOther().trim().isEmpty()) {
-			reportedLoss.setLossTypeOther(reportedLossRO.getLossTypeOther().trim());
-		}
-		// Loss value
-		if (reportedLossRO.getLossValue() != null) {
-			reportedLoss.setLossValue(reportedLossRO.getLossValue());
-		}
-		// External agency contacted flag
-		YesNoType externalAgencyContacted = YesNoType.N;
-		if (reportedLossRO.getExternalAgencyContacted() != null && reportedLossRO.getExternalAgencyContacted().name().equals("Y")) {
-			externalAgencyContacted = YesNoType.Y;
-		}
-		// External agency
-		ExternalAgency externalAgency = null;
-		if (reportedLossRO.getExternalAgency() != null) {
-			if (reportedLossRO.getExternalAgency().getId() != null && !reportedLossRO.getExternalAgency().getId().trim().isEmpty()) {
-				externalAgency = _tableMaintenanceService.getExternalAgencyByCode(reportedLossRO.getExternalAgency().getId().trim());
-			}
-		}
-		// external agency other
-		if (reportedLossRO.getExternalAgencyTypeOther() != null && !reportedLossRO.getExternalAgencyTypeOther().trim().isEmpty()) {
-			reportedLoss.setExternalAgencyTypeOther(reportedLossRO.getExternalAgencyTypeOther().trim());
-		}
-		// Date-time contacted
-		LocalDateTime dateTimeContacted = null;
-		if (reportedLossRO.getDateTimeContacted() != null) {
-			dateTimeContacted = reportedLossRO.getDateTimeContacted();
-		}
-		_incidentRestService.validateExternalAgencyAndType(externalAgencyContacted, externalAgency, dateTimeContacted);
-		reportedLoss.setExternalAgencyContacted(externalAgencyContacted);
-		reportedLoss.setExternalAgency(externalAgency);
-		reportedLoss.setDateTimeContacted(dateTimeContacted);
-
-		// Cost estimation
-		if (reportedLossRO.getCostEstimation() != null) {
-			reportedLoss.setCostEstimation(reportedLossRO.getCostEstimation());
-		}
-		return reportedLoss;
+		return setOtherFieldsForReportedLoss(reportedLoss, reportedLossRO);
 	}
 
 	@Override
-	public ReportedLoss constructReportedLossForUpdate(final ReportedLossRO reportedLossRO) {
+	public ReportedLoss constructReportedLoss(final ReportedLossRO reportedLossRO) {
 		validateObject(reportedLossRO);
 		if (reportedLossRO.getId() <= 0) {
 			throw new ResourceNotValidException(_messageBuilder.build(RestMessage.RECORD_FETCH_FAILED_FOR_UPDATE));
 		}
 		ReportedLoss reportedLoss = _reportedLossService.get(reportedLossRO.getId());
-		//Set other values
-		// Loss type
-		if (reportedLossRO.getLossType() != null) {
-			if (reportedLossRO.getLossType().getId() != null && !reportedLossRO.getLossType().getId().trim().isEmpty()) {
-				reportedLoss.setLossType(_tableMaintenanceService.getLossTypeByCode(reportedLossRO.getLossType().getId().trim()));
+		return setOtherFieldsForReportedLoss(reportedLoss, reportedLossRO);
+	}
+	
+	@Override
+	public ReportedLoss setOtherFieldsForReportedLoss(final ReportedLoss reportedLoss, final ReportedLossRO reportedLossRO) {
+		if (reportedLoss != null && reportedLossRO != null) {
+			//Set other values
+			// Loss type
+			if (reportedLossRO.getLossType() != null) {
+				if (reportedLossRO.getLossType().getId() != null && !reportedLossRO.getLossType().getId().trim().isEmpty()) {
+					reportedLoss.setLossType(_tableMaintenanceService.getLossTypeByCode(reportedLossRO.getLossType().getId().trim()));
+				}
 			}
-		}
-		// loss type other
-		if (reportedLossRO.getLossTypeOther() != null && !reportedLossRO.getLossTypeOther().trim().isEmpty()) {
-			reportedLoss.setLossTypeOther(reportedLossRO.getLossTypeOther().trim());
-		}
-		// Loss value
-		if (reportedLossRO.getLossValue() != null) {
-			reportedLoss.setLossValue(reportedLossRO.getLossValue());
-		}
-		// External agency contacted flag
-		YesNoType externalAgencyContacted = YesNoType.N;
-		if (reportedLossRO.getExternalAgencyContacted() != null && reportedLossRO.getExternalAgencyContacted().name().equals("Y")) {
-			externalAgencyContacted = YesNoType.Y;
-		}
-		// External agency
-		ExternalAgency externalAgency = null;
-		if (reportedLossRO.getExternalAgency() != null) {
-			if (reportedLossRO.getExternalAgency().getId() != null && !reportedLossRO.getExternalAgency().getId().trim().isEmpty()) {
-				externalAgency = _tableMaintenanceService.getExternalAgencyByCode(reportedLossRO.getExternalAgency().getId().trim());
+			// loss type other
+			if (reportedLossRO.getLossTypeOther() != null && !reportedLossRO.getLossTypeOther().trim().isEmpty()) {
+				reportedLoss.setLossTypeOther(reportedLossRO.getLossTypeOther().trim());
 			}
-		}
-		// external agency other
-		if (reportedLossRO.getExternalAgencyTypeOther() != null && !reportedLossRO.getExternalAgencyTypeOther().trim().isEmpty()) {
-			reportedLoss.setExternalAgencyTypeOther(reportedLossRO.getExternalAgencyTypeOther().trim());
-		}
-		// Date-time contacted
-		LocalDateTime dateTimeContacted = null;
-		if (reportedLossRO.getDateTimeContacted() != null) {
-			dateTimeContacted = reportedLossRO.getDateTimeContacted();
-		}
-		_incidentRestService.validateExternalAgencyAndType(externalAgencyContacted, externalAgency, dateTimeContacted);
-		reportedLoss.setExternalAgencyContacted(externalAgencyContacted);
-		reportedLoss.setExternalAgency(externalAgency);
-		reportedLoss.setDateTimeContacted(dateTimeContacted);
+			// Loss value
+			if (reportedLossRO.getLossValue() != null) {
+				reportedLoss.setLossValue(reportedLossRO.getLossValue());
+			}
+			// External agency contacted flag
+			YesNoType externalAgencyContacted = YesNoType.N;
+			if (reportedLossRO.getExternalAgencyContacted() != null && reportedLossRO.getExternalAgencyContacted().name().equals("Y")) {
+				externalAgencyContacted = YesNoType.Y;
+			}
+			// External agency
+			ExternalAgency externalAgency = null;
+			if (reportedLossRO.getExternalAgency() != null) {
+				if (reportedLossRO.getExternalAgency().getId() != null && !reportedLossRO.getExternalAgency().getId().trim().isEmpty()) {
+					externalAgency = _tableMaintenanceService.getExternalAgencyByCode(reportedLossRO.getExternalAgency().getId().trim());
+				}
+			}
+			// external agency other
+			if (reportedLossRO.getExternalAgencyTypeOther() != null && !reportedLossRO.getExternalAgencyTypeOther().trim().isEmpty()) {
+				reportedLoss.setExternalAgencyTypeOther(reportedLossRO.getExternalAgencyTypeOther().trim());
+			}
+			// Date-time contacted
+			LocalDateTime dateTimeContacted = null;
+			if (reportedLossRO.getDateTimeContacted() != null) {
+				dateTimeContacted = reportedLossRO.getDateTimeContacted();
+			}
+			_incidentRestService.validateExternalAgencyAndType(externalAgencyContacted, externalAgency, dateTimeContacted);
+			reportedLoss.setExternalAgencyContacted(externalAgencyContacted);
+			reportedLoss.setExternalAgency(externalAgency);
+			reportedLoss.setDateTimeContacted(dateTimeContacted);
 
-		// Cost estimation
-		if (reportedLossRO.getCostEstimation() != null) {
-			reportedLoss.setCostEstimation(reportedLossRO.getCostEstimation());
+			// Cost estimation
+			if (reportedLossRO.getCostEstimation() != null) {
+				reportedLoss.setCostEstimation(reportedLossRO.getCostEstimation());
+			}
+			
+			return reportedLoss;
+		} else {
+			return null;
+		}		
+	}
+	
+	private Incident getIncident(final ReportedLossRO reportedLossRO) {
+		Incident incident = null;
+		if (reportedLossRO != null) {
+			if (reportedLossRO.getIncident().getId() > 0) {
+				incident = _incidentService.get(reportedLossRO.getIncident().getId());
+			} else if (reportedLossRO.getIncident().getUniqueIncidentId() != null && !reportedLossRO.getIncident().getUniqueIncidentId().trim().isEmpty()) {
+				incident = _incidentService.getIncidentByUniqueIncidentId(reportedLossRO.getIncident().getUniqueIncidentId().trim());
+			}
 		}
-		return reportedLoss;
-	}	
+		return incident;
+	}
 }

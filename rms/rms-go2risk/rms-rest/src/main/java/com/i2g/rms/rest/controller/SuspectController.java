@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.i2g.rms.domain.model.Suspect;
 import com.i2g.rms.rest.constants.RequestMappingConstants;
-import com.i2g.rms.rest.model.DistinguishingFeatureDetailWrapper;
 import com.i2g.rms.rest.model.SuspectRO;
-import com.i2g.rms.rest.model.SuspectWrapper;
+import com.i2g.rms.rest.model.wrapper.DistinguishingFeatureDetailWrapper;
+import com.i2g.rms.rest.model.wrapper.SuspectWrapper;
+import com.i2g.rms.rest.search.Searchable;
 import com.i2g.rms.rest.service.SuspectRestService;
 
 /**
@@ -33,13 +35,14 @@ public class SuspectController extends AbstractRestController {
 	private SuspectRestService _suspectRestService;
 	
 	@RequestMapping(value = RequestMappingConstants.GET_ALL_SUSPECTS, method = RequestMethod.GET)
+	@Searchable(sourceType = SuspectRO.class, value = Suspect.class)
 	public List<SuspectRO> get() {
 		return _suspectRestService.get();
 	}
 	
 	@RequestMapping(value = RequestMappingConstants.GET_SUSPECT_BY_SUSPECT_ID, method = RequestMethod.GET)
-	public SuspectRO get(@PathVariable final Long id) {
-		return _suspectRestService.get(id);
+	public SuspectRO get(@PathVariable final Long suspectId) {
+		return _suspectRestService.get(suspectId);
 	}
 	
 	@RequestMapping(value = RequestMappingConstants.CREATE_SUSPECT, method = RequestMethod.POST)
@@ -53,18 +56,18 @@ public class SuspectController extends AbstractRestController {
 	}
 	
 	@RequestMapping(value = RequestMappingConstants.UPDATE_SUSPECT, method = RequestMethod.PUT)
-	public SuspectRO updateSuspect(final @Valid @RequestBody SuspectRO suspectRO) {
+	public SuspectRO updateSuspect(@Valid @RequestBody final SuspectRO suspectRO) {
 		return _suspectRestService.udpateSuspect(suspectRO);
 	}
 	
 	@RequestMapping(value = RequestMappingConstants.UPDATE_SUSPECTS, method = RequestMethod.PUT)
-	public List<SuspectRO> updateSuspects(final @Valid @RequestBody SuspectWrapper suspectWrapper) {
+	public List<SuspectRO> updateSuspects(@Valid @RequestBody final SuspectWrapper suspectWrapper) {
 		return _suspectRestService.udpateSuspects(suspectWrapper);
 	}
 	
 	@RequestMapping(value = RequestMappingConstants.REMOVE_DISTINGUISHING_FEATURE_DETAILS_FROM_SUSPECT, method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void removeDistinguishingFeatureDetailsFromSuspect(final @Valid @RequestBody DistinguishingFeatureDetailWrapper distinguishingFeatureDetailWrapper) {
+	public void removeDistinguishingFeatureDetailsFromSuspect(@Valid @RequestBody final DistinguishingFeatureDetailWrapper distinguishingFeatureDetailWrapper) {
 		_suspectRestService.removeDistinguishingFeatureDetailsFromSuspect(distinguishingFeatureDetailWrapper);
-	}
+	}	
 }

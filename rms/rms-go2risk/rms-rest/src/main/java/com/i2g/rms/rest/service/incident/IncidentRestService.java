@@ -14,6 +14,7 @@ import com.i2g.rms.domain.model.User;
 import com.i2g.rms.domain.model.Witness;
 import com.i2g.rms.domain.model.YesNoType;
 import com.i2g.rms.domain.model.incident.Incident;
+import com.i2g.rms.domain.model.tablemaintenance.BodyPart;
 import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeatureDetail;
 import com.i2g.rms.domain.model.tablemaintenance.ExternalAgency;
 import com.i2g.rms.domain.model.tablemaintenance.WeaponType;
@@ -21,7 +22,6 @@ import com.i2g.rms.rest.model.AddressRO;
 import com.i2g.rms.rest.model.DeleteRO;
 import com.i2g.rms.rest.model.ReportedLossRO;
 import com.i2g.rms.rest.model.SuspectRO;
-import com.i2g.rms.rest.model.SuspectWrapper;
 import com.i2g.rms.rest.model.UserRO;
 import com.i2g.rms.rest.model.incident.AccidentDetailRO;
 import com.i2g.rms.rest.model.incident.AssetDetailRO;
@@ -31,7 +31,9 @@ import com.i2g.rms.rest.model.incident.IncidentDetailRO;
 import com.i2g.rms.rest.model.incident.IncidentRO;
 import com.i2g.rms.rest.model.incident.InvestigationDetailRO;
 import com.i2g.rms.rest.model.incident.LogIncidentRO;
+import com.i2g.rms.rest.model.tablemaintenance.BodyPartRO;
 import com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeatureDetailRO;
+import com.i2g.rms.rest.model.wrapper.SuspectWrapper;
 
 /**
  * Rest Service for password history rest services.
@@ -42,9 +44,11 @@ import com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeatureDetailRO;
  */
 public interface IncidentRestService {
 	
-	/** add flows */
+	/** get flows */
 	public List<IncidentRO> get();
 	public IncidentRO getIncidentByUniqueIncidentId(final String uniqueIncidentId);
+	
+	/** add flows */
 	public UserRO addIncident();
 	public IncidentRO logIncident(final LogIncidentRO logIncidentRO);
 	public IncidentRO addIncidentDetail(final IncidentDetailRO incidentDetailRO);
@@ -57,15 +61,21 @@ public interface IncidentRestService {
 	
 	/** Update Flow */
 	public IncidentRO updateLogIncident(final LogIncidentRO logIncidentRO);
-	public IncidentRO updateIncidentDetail(final IncidentDetailRO incidentDetailRO);
 	
 	/** Add or Update Flow */
 	public IncidentRO addOrUpdateLogIncident(final LogIncidentRO logIncidentRO);
-	public IncidentRO addOrUpdateIncidentDetail(final IncidentDetailRO incidentDetailRO);
-	
+		
 	/** alternate flows */
-	public IncidentRO createSuspectForIncident(final String uniqueIncidentId, final SuspectRO suspectRO);
-	public IncidentRO createSuspectsForIncident(final SuspectWrapper suspectWrapper);	
+	public IncidentRO addSuspectForIncident(final String uniqueIncidentId, final SuspectRO suspectRO);
+	public IncidentRO addSuspectsForIncident(final SuspectWrapper suspectWrapper);
+	
+	public IncidentRO addExistingSuspectForIncident(final String uniqueIncidentId, final Long suspectId);
+	public IncidentRO addExistingSuspectsForIncident(final SuspectWrapper suspectWrapper);
+	
+	public IncidentRO addEmployeeSuspectForIncidentById(final String uniqueIncidentId, final Long employeeId);
+	public IncidentRO addEmployeeSuspectForIncidentByLoginId(final String uniqueIncidentId, final String employeeLoginId);
+	public IncidentRO addEmployeeSuspectsForIncidentByIds(final SuspectWrapper suspectWrapper);
+	public IncidentRO addEmployeeSuspectsForIncidentByLoginIds(final SuspectWrapper suspectWrapper);
 	
 	public IncidentRO removeSuspectFromIncident(final String uniqueIncidentId, final Long suspectId);
 	public IncidentRO removeSuspectsFromIncident(final SuspectWrapper suspectWrapper);
@@ -98,4 +108,6 @@ public interface IncidentRestService {
 	public Set<Suspect> getSuspects(final Set<SuspectRO> suspectROs);
 	
 	public Set<ReportedLoss> constructReportedLosses(final Set<ReportedLossRO> reportedLossROs, final Incident incident);
+	
+	public Set<BodyPart> constructBodyParts(final Set<BodyPartRO> bodyPartROs);
 }

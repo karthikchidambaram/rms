@@ -360,6 +360,7 @@ public interface RequestMappingConstants {
 	String INCIDENT 									= SECURED + "/incident";
 	String GET_INCIDENTS								= INCIDENT + "/incidents";
 	String GET_INCIDENT_BY_UNIQUE_INCIDENT_ID 			= INCIDENT + "/{uniqueIncidentId}";
+	
 	String ADD_INCIDENT 								= INCIDENT + "/add-incident";
 	String LOG_INCIDENT 								= INCIDENT + "/log-incident";
 	String ADD_INCIDENT_DETAILS							= INCIDENT + "/add-incident-details";
@@ -370,41 +371,50 @@ public interface RequestMappingConstants {
 	String ADD_INVESTIGATION_DETAILS					= INCIDENT + "/add-investigation-details";
 	String ADD_OR_UPDATE_INVESTIGATION_DETAILS			= INCIDENT + "/add-or-update-investigation-details";
 	String ADD_SUPPORTING_DOCUMENTS						= INCIDENT + "/add-supporting-documents";
-	String CREATE_SUSPECTS_FOR_INCIDENT					= INCIDENT + "/create-suspects";
-	String CREATE_SUSPECT_FOR_INCIDENT					= INCIDENT + "/create-suspect/uniqueIncidentId/{uniqueIncidentId}";
+	
+	String ADD_SUSPECTS_FOR_INCIDENT					= INCIDENT + "/add-suspects";
+	String ADD_SUSPECT_FOR_INCIDENT						= INCIDENT + "/add-suspect/uniqueIncidentId/{uniqueIncidentId}";
+	
+	String ADD_EMPLOYEE_SUSPECTS_FOR_INCIDENT_BY_IDS		= INCIDENT + "/add-emp-suspects-by-ids";
+	String ADD_EMPLOYEE_SUSPECTS_FOR_INCIDENT_BY_LOGIN_IDS	= INCIDENT + "/add-emp-suspects-by-login-ids";
+	String ADD_EMPLOYEE_SUSPECT_FOR_INCIDENT_BY_ID			= INCIDENT + "/add-employee-suspect/uniqueIncidentId/{uniqueIncidentId}/employeeId/{employeeId}";
+	String ADD_EMPLOYEE_SUSPECT_FOR_INCIDENT_BY_LOGIN_ID	= INCIDENT + "/add-employee-suspect/uniqueIncidentId/{uniqueIncidentId}/employeeLoginId/{employeeLoginId}";
+	
+	String ADD_EXISTING_SUSPECT_FOR_INCIDENT				= INCIDENT + "/add-existing-suspect/uniqueIncidentId/{uniqueIncidentId}/suspectId/{suspectId}";
+	String ADD_EXISTING_SUSPECTS_FOR_INCIDENT				= INCIDENT + "/add-existing-suspects";
+	
 	String REMOVE_SUSPECTS_FROM_INCIDENT				= INCIDENT + "/remove-suspects";
 	String REMOVE_SUSPECT_FROM_INCIDENT					= INCIDENT + "/remove-suspect/uniqueIncidentId/{uniqueIncidentId}/suspectId/{suspectId}";
+	
 	String REMOVE_EMPLOYEE_SUSPECTS_FROM_INCIDENT		= INCIDENT + "/remove-employee-suspects/uniqueIncidentId/{uniqueIncidentId}";
 	String REMOVE_EMPLOYEE_SUSPECT_FROM_INCIDENT		= INCIDENT + "/remove-employee-suspect/uniqueIncidentId/{uniqueIncidentId}/userId/{userId}";
 	
 	/** Update flow - Incidents */
 	String UPDATE_LOG_INCIDENT 							= INCIDENT + "/update-log-incident";
-	String UPDATE_INCIDENT_DETAILS						= INCIDENT + "/update-incident-details";
-	
+		
 	/** Add or update incident flows */
 	String ADD_OR_UPDATE_LOG_INCIDENT 					= INCIDENT + "/add-or-update-log-incident";
-	String ADD_OR_UPDATE_INCIDENT_DETAILS 				= INCIDENT + "/add-or-update-incident-details";
-			
+				
 	/** Suspect operations */
 	String SUSPECT 												= SECURED + "/suspect";
 	String GET_ALL_SUSPECTS										= SUSPECT + "/suspects";
-	String GET_SUSPECT_BY_SUSPECT_ID							= SUSPECT + "/{id}";
-	String CREATE_SUSPECTS										= SUSPECT + "/create-suspects";
+	String GET_SUSPECT_BY_SUSPECT_ID							= SUSPECT + "/suspectId/{suspectId}";
 	String CREATE_SUSPECT										= SUSPECT + "/create-suspect";
-	String UPDATE_SUSPECTS										= SUSPECT + "/update-suspects";
+	String CREATE_SUSPECTS										= SUSPECT + "/create-suspects";
 	String UPDATE_SUSPECT										= SUSPECT + "/update-suspect";
-	String REMOVE_DISTINGUISHING_FEATURE_DETAILS_FROM_SUSPECT 	= SUSPECT + "/remove-dist-fea-details";
+	String UPDATE_SUSPECTS										= SUSPECT + "/update-suspects";
+	String REMOVE_DISTINGUISHING_FEATURE_DETAILS_FROM_SUSPECT 	= SUSPECT + "/remove-dist-fea-details";	
 	
 	/** Reported Loss flows */
 	String REPORTED_LOSS 												= SECURED + "/reported-loss";
 	String GET_ALL_REPORTED_LOSSES										= REPORTED_LOSS + "/reported-losses";
-	String GET_REPORTED_LOSS_BY_REPORTED_LOSS_ID						= REPORTED_LOSS + "/{id}";
+	String GET_REPORTED_LOSS_BY_REPORTED_LOSS_ID						= REPORTED_LOSS + "/reportedLossId/{reportedLossId}";
+	String CREATE_REPORTED_LOSS											= REPORTED_LOSS + "/create-reported-loss";
 	String CREATE_REPORTED_LOSSES										= REPORTED_LOSS + "/create-reported-losses";
-	String CREATE_REPORTED_LOSS											= REPORTED_LOSS + "/create-reported-loss/uniqueIncidentId/{uniqueIncidentId}";
-	String UPDATE_REPORTED_LOSSES										= REPORTED_LOSS + "/update-reported-losses";
 	String UPDATE_REPORTED_LOSS											= REPORTED_LOSS + "/update-reported-loss";
-	String DELETE_REPORTED_LOSSES										= REPORTED_LOSS + "/delete-reported-losses";
+	String UPDATE_REPORTED_LOSSES										= REPORTED_LOSS + "/update-reported-losses";
 	String DELETE_REPORTED_LOSS											= REPORTED_LOSS + "/delete-reported-loss/reportedLossId/{reportedLossId}";
+	String DELETE_REPORTED_LOSSES										= REPORTED_LOSS + "/delete-reported-losses";
 	
 	/** Search Incidents */
 	String SEARCH_INCIDENT						= SECURED + "/search-incident";	
@@ -420,12 +430,36 @@ public interface RequestMappingConstants {
 	/** Address */
 	String ADDRESS 								= SECURED + "/address";
 	String GET_ADDRESSES						= ADDRESS + "/addresses";
-	String GET_ADDRESS							= ADDRESS + "/{id}";
+	String GET_ADDRESSES_FOR_USER_ID			= ADDRESS + "/addresses/userId/{userId}";
+	String GET_ADDRESSES_FOR_USER_LOGIN_ID		= ADDRESS + "/addresses/userLoginId/{userLoginId}";
+	String GET_ADDRESSES_FOR_BUILDING_ID		= ADDRESS + "/addresses/buildingId/{buildingId}";
+	String GET_ADDRESSES_FOR_WITNESS_ID			= ADDRESS + "/addresses/witnessId/{witnessId}";
+	String GET_ADDRESSES_FOR_SUSPECT_ID			= ADDRESS + "/addresses/suspectId/{suspectId}";
+	String GET_ADDRESSES_FOR_CRIME_SUSPECT_ID	= ADDRESS + "/addresses/crimeSuspectId/{crimeSuspectId}";
+	String GET_ADDRESSES_FOR_INJURED_PERSON_ID	= ADDRESS + "/addresses/injuredPersonId/{injuredPersonId}";
+	String GET_ADDRESS							= ADDRESS + "/addressId/{addressId}";
 	String CREATE_ADDRESS						= ADDRESS + "/create-address";
+	String CREATE_ADDRESSES						= ADDRESS + "/create-addresses";
+	String UPDATE_ADDRESS						= ADDRESS + "/update-address";
+	String UPDATE_ADDRESSES						= ADDRESS + "/update-addresses";
+	String DELETE_ADDRESS						= ADDRESS + "/delete-address/addressId/{addressId}";
+	String DELETE_ADDRESSES						= ADDRESS + "/delete-addresses";		
 	
 	/** Office Address */
 	String OFFICE_ADDRESS 								= SECURED + "/office-address";
 	String GET_OFFICE_ADDRESSES							= OFFICE_ADDRESS + "/office-addresses";
-	String GET_OFFICE_ADDRESS							= OFFICE_ADDRESS + "/{id}";
+	String GET_OFFICE_ADDRESS							= OFFICE_ADDRESS + "/officeAddressId/{officeAddressId}";
 	String CREATE_OFFICE_ADDRESS						= OFFICE_ADDRESS + "/create-office-address";
+	
+	/** Injured Person flows */
+	String INJURED_PERSON 												= SECURED + "/injured-person";
+	String GET_INJURED_PERSONS											= INJURED_PERSON + "/injured-persons";
+	String GET_INJURED_PERSON_BY_INJURED_PERSON_ID						= INJURED_PERSON + "/injuredPersonId/{injuredPersonId}";
+	String CREATE_INJURED_PERSON										= INJURED_PERSON + "/create-injured-person";
+	String CREATE_INJURED_PERSONS										= INJURED_PERSON + "/create-injured-persons";
+	String UPDATE_INJURED_PERSON										= INJURED_PERSON + "/update-injured-person";
+	String UPDATE_INJURED_PERSONS										= INJURED_PERSON + "/update-injured-persons";
+	String REMOVE_DISTINGUISHING_FEATURE_DETAILS_FROM_INJURED_PERSON 	= INJURED_PERSON + "/remove-dist-fea-details";
+	String REMOVE_BODY_PARTS_FROM_INJURED_PERSON 						= INJURED_PERSON + "/remove-body-parts";
+
 }

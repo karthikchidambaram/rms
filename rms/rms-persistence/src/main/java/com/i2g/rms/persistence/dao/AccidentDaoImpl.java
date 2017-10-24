@@ -68,7 +68,18 @@ public class AccidentDaoImpl extends AbstractHibernateDao<Long, Accident> implem
 	@Override
 	public Accident create(final Accident accident) {
 		validateObject(accident);
-		Long id = save(accident);
+		final Long id = save(accident);
+		if (id != null) {
+			return get(id);
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public Accident updateAccident(Accident accident) {
+		validateObject(accident);
+		final Long id = save(accident);
 		if (id != null) {
 			return get(id);
 		} else {

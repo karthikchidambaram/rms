@@ -82,6 +82,21 @@ public class AddressDaoImpl extends AbstractHibernateDao<Long, Address> implemen
 			return null;
 		}
 	}
+	
+	@Override
+	public List<Address> createAddresses(final List<Address> addresses) {
+		validateCollectionObject(addresses);
+		List<Address> newAddresses = new ArrayList<Address>(0);
+		for (Address address : addresses) {
+			if (address != null) {
+				final Long id = save(address);
+				if (id != null) {
+					newAddresses.add(get(id));
+				}
+			}
+		}
+		return newAddresses;
+	}
 
 	@Override
 	public Address updateAddress(final Address address) {
@@ -155,5 +170,21 @@ public class AddressDaoImpl extends AbstractHibernateDao<Long, Address> implemen
 		criteria.add(Restrictions.eq("crimeSuspect", Objects.requireNonNull(crimeSuspect, "Crime suspect id (object) cannot be null or empty.")));
 		criteria.add(Restrictions.eq("statusFlag", StatusFlag.ACTIVE));
 		return (List<Address>) applySearch(criteria).list();
+	}
+	
+	@Override
+	public void deleteAddress(final Address address) {
+		validateObject(address);
+		delete(address);
+	}
+	
+	@Override
+	public void deleteAddresses(final List<Address> addresses) {
+		validateCollectionObject(addresses);
+		for (Address address : addresses) {
+			if (address != null) {
+				delete(address);	
+			}
+		}
 	}
 }

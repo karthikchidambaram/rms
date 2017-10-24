@@ -18,22 +18,33 @@ import com.i2g.rms.domain.model.Witness;
  *
  */
 public interface AddressService {
-	
+
 	public List<Address> get();
-	
+
 	public Address get(final long id);
-	
+
 	public Address create(final Address address);
-	
+
+	public List<Address> createAddresses(final List<Address> addresses);
+
 	public Address updateAddress(final Address address);
-	
+
 	public List<Address> updateAddresses(final List<Address> addresses);
-	
+
+	public void deleteAddress(final Address address);
+
+	public void deleteAddresses(final List<Address> addresses);
+
 	public List<Address> get(final User user);
+
 	public List<Address> get(final Building building);
+
 	public List<Address> get(final Witness witness);
+
 	public List<Address> get(final InjuredPerson injuredPerson);
+
 	public List<Address> get(final Suspect suspect);
+
 	public List<Address> get(final CrimeSuspect crimeSuspect);
-	
+
 }

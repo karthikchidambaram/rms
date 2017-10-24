@@ -1,11 +1,13 @@
 package com.i2g.rms.service;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.i2g.rms.domain.model.Address;
 import com.i2g.rms.domain.model.User;
 import com.i2g.rms.persistence.dao.UserDao;
 
@@ -56,5 +58,10 @@ public class UserServiceImpl extends AbstractService implements UserService {
 	@Override
 	public User updateUser(final User user) {
 		return _userDao.updateUser(user);
+	}
+
+	@Override
+	public void deleteAddresses(final User user, final Set<Address> addresses) {		
+		_userDao.deleteAddresses(user, addresses);
 	}
 }

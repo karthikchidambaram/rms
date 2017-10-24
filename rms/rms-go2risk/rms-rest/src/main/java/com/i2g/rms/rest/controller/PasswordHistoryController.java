@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.i2g.rms.domain.model.PasswordHistory;
 import com.i2g.rms.rest.constants.RequestMappingConstants;
 import com.i2g.rms.rest.model.PasswordHistoryRO;
+import com.i2g.rms.rest.search.Searchable;
 import com.i2g.rms.rest.service.PasswordHistoryRestService;
 
 /**
@@ -25,6 +27,7 @@ public class PasswordHistoryController extends AbstractRestController {
 	private PasswordHistoryRestService _passwordHistoryRestService;
 
 	@RequestMapping(value = RequestMappingConstants.GET_ALL_PASSWORD_HISTORIES, method = RequestMethod.GET)
+	@Searchable(sourceType = PasswordHistoryRO.class, value = PasswordHistory.class)
 	public List<PasswordHistoryRO> getPasswordHistory() {
 		return _passwordHistoryRestService.getPasswordHistory();
 	}

@@ -1,9 +1,10 @@
-package com.i2g.rms.rest.model;
+package com.i2g.rms.rest.model.wrapper;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.i2g.rms.rest.model.ReportedLossRO;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ReportedLossWrapper {
