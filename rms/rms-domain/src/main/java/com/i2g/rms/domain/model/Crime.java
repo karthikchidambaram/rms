@@ -198,7 +198,7 @@ public class Crime extends AbstractDataModel<Long> implements Serializable {
 			inverseJoinColumns = @JoinColumn(name = "CRME_SUSPT_ID")
 	)
 	public Set<CrimeSuspect> getCrimeSuspects() {
-		return _crimeSuspects;
+		return _crimeSuspects;		
 	}
 
 	/**
@@ -219,7 +219,7 @@ public class Crime extends AbstractDataModel<Long> implements Serializable {
 			inverseJoinColumns = @JoinColumn(name = "USR_ID")
 	)
 	public Set<User> getEmployeeCrimeSuspects() {
-		return _employeeCrimeSuspects;
+		return _employeeCrimeSuspects;		
 	}
 
 	/**
@@ -240,7 +240,7 @@ public class Crime extends AbstractDataModel<Long> implements Serializable {
 			inverseJoinColumns = @JoinColumn(name = "WITNS_ID")
 	)
 	public Set<Witness> getWitnesses() {
-		return _witnesses;
+		return _witnesses;		
 	}
 
 	/**
@@ -261,7 +261,7 @@ public class Crime extends AbstractDataModel<Long> implements Serializable {
 			inverseJoinColumns = @JoinColumn(name = "USR_ID")
 	)
 	public Set<User> getEmployeeWitnesses() {
-		return _employeeWitnesses;
+		return _employeeWitnesses;		
 	}
 
 	/**

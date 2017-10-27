@@ -171,10 +171,12 @@ public class ReportedLossRestServiceImpl extends AbstractRestService implements 
 		}
 		Set<ReportedLoss> reportedLosses = new HashSet<ReportedLoss>(0);
 		for (int i = 0; i < ids.length; i++) {
-			final Long id = (ids[i] == null) ? 0l : ids[i];
-			final ReportedLoss reportedLoss = _reportedLossService.get(id);
-			if (reportedLoss != null) {
-				reportedLosses.add(reportedLoss);
+			final Long id = ids[i];
+			if (id != null && id > 0) {
+				final ReportedLoss reportedLoss = _reportedLossService.get(id);
+				if (reportedLoss != null) {
+					reportedLosses.add(reportedLoss);
+				}
 			}
 		}
 		_reportedLossService.deleteReportedLosses(reportedLosses);

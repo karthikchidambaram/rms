@@ -169,8 +169,8 @@
 		<class-a>com.i2g.rms.domain.model.Building</class-a>
 		<class-b>com.i2g.rms.rest.model.BuildingRO</class-b>
 		<field-exclude>
-			<a>asset</a>
-			<b>asset</b>
+			<a>assets</a>
+			<b>assets</b>
 		</field-exclude>
 	</mapping>
 
@@ -178,8 +178,8 @@
 		<class-a>com.i2g.rms.domain.model.Vehicle</class-a>
 		<class-b>com.i2g.rms.rest.model.VehicleRO</class-b>
 		<field-exclude>
-			<a>asset</a>
-			<b>asset</b>
+			<a>assets</a>
+			<b>assets</b>
 		</field-exclude>
 	</mapping>
 
@@ -187,8 +187,8 @@
 		<class-a>com.i2g.rms.domain.model.Equipment</class-a>
 		<class-b>com.i2g.rms.rest.model.EquipmentRO</class-b>
 		<field-exclude>
-			<a>asset</a>
-			<b>asset</b>
+			<a>assets</a>
+			<b>assets</b>
 		</field-exclude>
 	</mapping>
 

@@ -23,7 +23,7 @@ public interface AddressService {
 
 	public Address get(final long id);
 
-	public Address create(final Address address);
+	public Address createAddress(final Address address);
 
 	public List<Address> createAddresses(final List<Address> addresses);
 

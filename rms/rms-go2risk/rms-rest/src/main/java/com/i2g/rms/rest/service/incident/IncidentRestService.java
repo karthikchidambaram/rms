@@ -68,10 +68,8 @@ public interface IncidentRestService {
 	/** alternate flows */
 	public IncidentRO addSuspectForIncident(final String uniqueIncidentId, final SuspectRO suspectRO);
 	public IncidentRO addSuspectsForIncident(final SuspectWrapper suspectWrapper);
-	
 	public IncidentRO addExistingSuspectForIncident(final String uniqueIncidentId, final Long suspectId);
 	public IncidentRO addExistingSuspectsForIncident(final SuspectWrapper suspectWrapper);
-	
 	public IncidentRO addEmployeeSuspectForIncidentById(final String uniqueIncidentId, final Long employeeId);
 	public IncidentRO addEmployeeSuspectForIncidentByLoginId(final String uniqueIncidentId, final String employeeLoginId);
 	public IncidentRO addEmployeeSuspectsForIncidentByIds(final SuspectWrapper suspectWrapper);
@@ -79,9 +77,10 @@ public interface IncidentRestService {
 	
 	public IncidentRO removeSuspectFromIncident(final String uniqueIncidentId, final Long suspectId);
 	public IncidentRO removeSuspectsFromIncident(final SuspectWrapper suspectWrapper);
-	
-	public IncidentRO removeEmployeeSuspectFromIncident(final String uniqueIncidentId, final Long userId);
-	public IncidentRO removeEmployeeSuspectsFromIncident(final String uniqueIncidentId, final DeleteRO deleteRO);
+	public IncidentRO removeEmployeeSuspectFromIncidentById(final String uniqueIncidentId, final Long employeeId);
+	public IncidentRO removeEmployeeSuspectFromIncidentByLoginId(final String uniqueIncidentId, final String employeeLoginId);
+	public IncidentRO removeEmployeeSuspectsFromIncidentByIds(final SuspectWrapper suspectWrapper);
+	public IncidentRO removeEmployeeSuspectsFromIncidentByLoginIds(final SuspectWrapper suspectWrapper);
 	
 	/** Methods exposed to other services */
 	public void validateAnyWitness(final YesNoType anyWitness, 

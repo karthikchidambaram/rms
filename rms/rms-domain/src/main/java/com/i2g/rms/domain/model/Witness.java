@@ -70,8 +70,7 @@ public class Witness extends AbstractDataModel<Long> implements Serializable {
 	private Set<Address> _addresses = new HashSet<Address>(0);
 	private WitnessType _witnessType;
 	private String _distinguishingFeatureOther;
-	private Set<DistinguishingFeatureDetail> _distinguishingFeatureDetails = new HashSet<DistinguishingFeatureDetail>(
-			0);
+	private Set<DistinguishingFeatureDetail> _distinguishingFeatureDetails = new HashSet<DistinguishingFeatureDetail>(0);
 	private String _witnessTypeOther;
 	private String _genderTypeOther;
 
@@ -357,7 +356,7 @@ public class Witness extends AbstractDataModel<Long> implements Serializable {
 	 */
 	@ManyToMany(mappedBy = "witnesses")
 	public Set<Accident> getAccidents() {
-		return _accidents;
+		return _accidents;		
 	}
 
 	/**
@@ -374,7 +373,7 @@ public class Witness extends AbstractDataModel<Long> implements Serializable {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "witness")
 	@Fetch(FetchMode.SUBSELECT)
 	public Set<Address> getAddresses() {
-		return _addresses;
+		return _addresses;		
 	}
 
 	/**
@@ -407,7 +406,7 @@ public class Witness extends AbstractDataModel<Long> implements Serializable {
 	 */
 	@ManyToMany(mappedBy = "witnesses")
 	public Set<Crime> getCrimes() {
-		return _crimes;
+		return _crimes;		
 	}
 
 	/**
@@ -442,7 +441,7 @@ public class Witness extends AbstractDataModel<Long> implements Serializable {
 		joinColumns = @JoinColumn(name = "WITNS_ID"), 
 		inverseJoinColumns = @JoinColumn(name = "DIST_FEA_CHLD_CDE"))
 	public Set<DistinguishingFeatureDetail> getDistinguishingFeatureDetails() {
-		return _distinguishingFeatureDetails;
+		return _distinguishingFeatureDetails;		
 	}
 
 	/**

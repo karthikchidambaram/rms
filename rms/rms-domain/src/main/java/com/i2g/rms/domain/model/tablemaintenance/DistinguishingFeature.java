@@ -1,6 +1,7 @@
 package com.i2g.rms.domain.model.tablemaintenance;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -130,7 +131,7 @@ public class DistinguishingFeature extends AbstractDataModel<String> implements 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "distinguishingFeature")
 	@JsonIgnoreProperties("distinguishingFeature")
 	public Set<DistinguishingFeatureDetail> getDistinguishingFeatureDetails() {
-		return _distinguishingFeatureDetails;
+		return _distinguishingFeatureDetails;		
 	}
 
 	public void setDistinguishingFeatureDetails(final Set<DistinguishingFeatureDetail> distinguishingFeatureDetails) {

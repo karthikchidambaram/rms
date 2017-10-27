@@ -1,7 +1,9 @@
 package com.i2g.rms.persistence.dao;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
@@ -11,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.i2g.rms.domain.model.Asset;
 import com.i2g.rms.domain.model.Building;
 import com.i2g.rms.domain.model.StatusFlag;
 import com.i2g.rms.persistence.hibernate.AbstractHibernateDao;
@@ -65,9 +66,17 @@ public class BuildingDaoImpl extends AbstractHibernateDao<Long, Building> implem
 		criteria.add(Restrictions.eq("statusFlag", StatusFlag.ACTIVE));
 		return (Building) criteria.uniqueResult();
 	}
+	
+	@Override
+	public Building get(final String buildingId) {
+		final Criteria criteria = getSession().createCriteria(_modelType);
+		criteria.add(Restrictions.eq("buildingId", Objects.requireNonNull(buildingId, "Unique building (reference) id cannot be null or empty.")));
+		criteria.add(Restrictions.eq("statusFlag", StatusFlag.ACTIVE));
+		return (Building) criteria.uniqueResult();
+	}
 
 	@Override
-	public Building create(final Building building) {
+	public Building createBuilding(final Building building) {
 		validateObject(building);
 		final Long id = save(building);
 		if (id != null) {
@@ -76,4 +85,45 @@ public class BuildingDaoImpl extends AbstractHibernateDao<Long, Building> implem
 			return null;
 		}
 	}
+	
+	@Override
+	public Set<Building> createBuildings(final Set<Building> buildings) {
+		validateCollectionObject(buildings);
+		Set<Building> newBuildings = new HashSet<Building>(0);
+		for (Building building : buildings) {
+			if (building != null) {
+				final Long id = save(building);
+				if (id != null) {
+					newBuildings.add(get(id));
+				}
+			}
+		}
+		return newBuildings;
+	}
+	
+	@Override
+	public Building updateBuilding(final Building building) {
+		validateObject(building);
+		final Long id = save(building);
+		if (id != null) {
+			return get(id);
+		} else {
+			return null;
+		}
+	}
+	
+	@Override
+	public Set<Building> updateBuildings(final Set<Building> buildings) {
+		validateCollectionObject(buildings);
+		Set<Building> newBuildings = new HashSet<Building>(0);
+		for (Building building : buildings) {
+			if (building != null) {
+				final Long id = save(building);
+				if (id != null) {
+					newBuildings.add(get(id));
+				}
+			}
+		}
+		return newBuildings;
+	}	
 }

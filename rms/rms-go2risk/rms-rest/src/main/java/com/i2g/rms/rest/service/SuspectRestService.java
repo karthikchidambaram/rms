@@ -16,7 +16,7 @@ import com.i2g.rms.rest.model.wrapper.DistinguishingFeatureDetailWrapper;
 import com.i2g.rms.rest.model.wrapper.SuspectWrapper;
 
 /**
- * Rest Service Interface for role rest services.
+ * Rest Service Interface for suspect rest services.
  * 
  * @since 1.0.0
  * @author Karthikeyan Chidambaram
@@ -32,9 +32,9 @@ public interface SuspectRestService {
 
 	public List<SuspectRO> createSuspects(final SuspectWrapper suspectWrapper);
 
-	public SuspectRO udpateSuspect(final SuspectRO suspectRO);
+	public SuspectRO updateSuspect(final SuspectRO suspectRO);
 
-	public List<SuspectRO> udpateSuspects(final SuspectWrapper suspectWrapper);
+	public List<SuspectRO> updateSuspects(final SuspectWrapper suspectWrapper);
 
 	public void removeDistinguishingFeatureDetailsFromSuspect(final DistinguishingFeatureDetailWrapper distinguishingFeatureDetailWrapper);
 

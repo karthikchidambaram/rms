@@ -2,6 +2,7 @@ package com.i2g.rms.domain.model.incident;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -277,7 +278,7 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 			joinColumns = @JoinColumn(name = "INC_ID"),
 			inverseJoinColumns = @JoinColumn(name = "SUSPT_ID")
 	)
-	public Set<Suspect> getSuspects() {		
+	public Set<Suspect> getSuspects() {
 		return _suspects;		
 	}
 
@@ -298,7 +299,7 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 			inverseJoinColumns = @JoinColumn(name = "USR_ID")
 	)
 	public Set<User> getEmployeeSuspects() {
-		return _employeeSuspects;
+		return _employeeSuspects;		
 	}
 
 	/**
@@ -362,7 +363,7 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "incident")
 	@Fetch(FetchMode.SUBSELECT)
 	public Set<ReportedLoss> getReportedLosses() {
-		return _reportedLosses;
+		return _reportedLosses;		
 	}
 
 	public void setReportedLosses(final Set<ReportedLoss> reportedLosses) {
@@ -536,7 +537,7 @@ public class Incident extends AbstractDataModel<Long> implements Serializable {
 	@OneToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name = "INC_ID")
 	public Set<DocumentView> getDocuments() {
-		return _documents;
+		return _documents;		
 	}
 
 	public void setDocuments(final Set<DocumentView> documents) {

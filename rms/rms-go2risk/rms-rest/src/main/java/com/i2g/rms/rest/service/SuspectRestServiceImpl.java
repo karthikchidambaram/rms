@@ -38,7 +38,7 @@ import com.i2g.rms.service.incident.IncidentService;
 import com.i2g.rms.service.tablemaintenance.TableMaintenanceService;
 
 /**
- * Rest services for role rest controller.
+ * Rest services for suspect rest controller.
  * 
  * @since 1.0.0
  * @author Karthikeyan Chidambaram
@@ -47,6 +47,7 @@ import com.i2g.rms.service.tablemaintenance.TableMaintenanceService;
 @Service
 public class SuspectRestServiceImpl extends AbstractRestService implements SuspectRestService {
 	
+	@SuppressWarnings("unused")
 	private final Logger _logger = LoggerFactory.getLogger(SuspectRestServiceImpl.class);
 	
 	@Autowired
@@ -125,7 +126,7 @@ public class SuspectRestServiceImpl extends AbstractRestService implements Suspe
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
 	@Transactional
-	public SuspectRO udpateSuspect(final SuspectRO suspectRO) {
+	public SuspectRO updateSuspect(final SuspectRO suspectRO) {
 		validateObject(suspectRO);
 		if (suspectRO.getId() <= 0 ) {
 			throw new ResourceNotValidException(_messageBuilder.build(RestMessage.RECORD_FETCH_FAILED_FOR_UPDATE));
@@ -143,7 +144,7 @@ public class SuspectRestServiceImpl extends AbstractRestService implements Suspe
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
 	@Transactional
-	public List<SuspectRO> udpateSuspects(final SuspectWrapper suspectWrapper) {
+	public List<SuspectRO> updateSuspects(final SuspectWrapper suspectWrapper) {
 		validateObject(suspectWrapper);
 		Set<Suspect> suspects = new HashSet<Suspect>(0);
 		for (SuspectRO suspectRO : suspectWrapper.getSuspects()) {

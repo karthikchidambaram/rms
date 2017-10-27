@@ -275,7 +275,7 @@ public class OfficeAddress extends AbstractDataModel<Long> implements Serializab
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "officeAddress")
 	@Fetch(FetchMode.SUBSELECT)
 	public Set<Incident> getIncidents() {
-		return _incidents;
+		return _incidents;		
 	}
 
 	public void setIncidents(final Set<Incident> incidents) {
@@ -311,7 +311,7 @@ public class OfficeAddress extends AbstractDataModel<Long> implements Serializab
 	
 	@OneToMany(mappedBy = "officeAddress")
 	public Set<User> getUsers() {
-		return _users;
+		return _users;		
 	}
 
 	public void setUsers(final Set<User> users) {

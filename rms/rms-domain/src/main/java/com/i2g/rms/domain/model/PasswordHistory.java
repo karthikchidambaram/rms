@@ -17,7 +17,6 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Immutable;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

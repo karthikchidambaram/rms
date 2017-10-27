@@ -2,7 +2,9 @@ package com.i2g.rms.domain.model;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -12,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -30,7 +33,7 @@ import com.i2g.rms.domain.model.tablemaintenance.VehicleDamageType;
  */
 @Entity
 @Table(name = "RMS_VEHCL")
-@JsonIgnoreProperties({"asset"})
+@JsonIgnoreProperties({"assets"})
 public class Vehicle extends AbstractDataModel<Long> implements Serializable {
 	
 	/**
@@ -40,7 +43,7 @@ public class Vehicle extends AbstractDataModel<Long> implements Serializable {
 	
 	/** Primary surrogate key ID */
 	private long _id;
-	private Asset _asset;
+	private Set<Asset> _assets;
 	private StatusFlag _statusFlag;
 	private String _vehicleRegistrationId;
 	private String _engineNumber;
@@ -64,7 +67,6 @@ public class Vehicle extends AbstractDataModel<Long> implements Serializable {
 	 * @param builder
 	 */
 	private Vehicle(final Builder builder) {
-		_asset = Objects.requireNonNull(builder._asset, "Asset object cannot be null while creating a vehicle.");
 		_statusFlag = Objects.requireNonNull(builder._statusFlag, "Status flag cannot be null.");		
 	}
 	
@@ -115,19 +117,18 @@ public class Vehicle extends AbstractDataModel<Long> implements Serializable {
 	}
 	
 	/**
-	 * @return the asset
+	 * @return the assets
 	 */
-	@ManyToOne
-	@JoinColumn(name = "ASST_ID")
-	public Asset getAsset() {
-		return _asset;
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "vehicles")
+	public Set<Asset> getAssets() {
+		return _assets;
 	}
 
 	/**
-	 * @param asset the asset to set
+	 * @param assets the assets to set
 	 */
-	public void setAsset(final Asset asset) {
-		_asset = asset;
+	public void setAssets(final Set<Asset> assets) {
+		_assets = assets;
 	}
 	
 	/**
@@ -258,7 +259,6 @@ public class Vehicle extends AbstractDataModel<Long> implements Serializable {
 	 */
 	public final static class Builder {
 		
-		private Asset _asset;
 		private StatusFlag _statusFlag;		
 
 		/**
@@ -268,11 +268,6 @@ public class Vehicle extends AbstractDataModel<Long> implements Serializable {
 		 */
 		public Vehicle build() {
 			return new Vehicle(this);
-		}
-		
-		public Builder setAsset(final Asset asset) {
-			_asset = asset;
-			return this;
 		}
 		
 		public Builder setStatusFlag(final StatusFlag statusFlag) {

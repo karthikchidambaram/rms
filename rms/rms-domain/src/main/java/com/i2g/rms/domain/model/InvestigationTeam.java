@@ -116,7 +116,7 @@ public class InvestigationTeam extends AbstractDataModel<Long> implements Serial
 		joinColumns = @JoinColumn(name = "INVST_TEAM_ID"), 
 		inverseJoinColumns = @JoinColumn(name = "USR_ID"))
 	public Set<User> getTeamLeads() {
-		return _teamLeads;
+		return _teamLeads;		
 	}
 
 	public void setTeamLeads(final Set<User> teamLeads) {

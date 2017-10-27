@@ -409,7 +409,7 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "suspect")
 	@Fetch(FetchMode.SUBSELECT)
 	public Set<Address> getAddresses() {
-		return _addresses;
+		return _addresses;		
 	}
 
 	public void setAddresses(final Set<Address> addresses) {
@@ -418,7 +418,7 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "suspects")
 	public Set<Incident> getIncidents() {
-		return _incidents;
+		return _incidents;		
 	}
 
 	public void setIncidents(final Set<Incident> incidents) {
@@ -449,7 +449,7 @@ public class Suspect extends AbstractDataModel<Long> implements Serializable {
 		joinColumns = @JoinColumn(name = "SUSPT_ID"), 
 		inverseJoinColumns = @JoinColumn(name = "DIST_FEA_CHLD_CDE"))
 	public Set<DistinguishingFeatureDetail> getDistinguishingFeatureDetails() {
-		return _distinguishingFeatureDetails;
+		return _distinguishingFeatureDetails;		
 	}
 
 	/**

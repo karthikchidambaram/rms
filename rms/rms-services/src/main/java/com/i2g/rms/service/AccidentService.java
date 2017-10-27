@@ -3,6 +3,7 @@ package com.i2g.rms.service;
 import java.util.List;
 
 import com.i2g.rms.domain.model.Accident;
+import com.i2g.rms.domain.model.incident.Incident;
 
 /**
  * Service interface for all Accident related operations.
@@ -17,6 +18,10 @@ public interface AccidentService {
 	
 	public Accident get(final long id);
 	
-	public Accident create(final Accident accident);
+	public Accident get(final Incident incident);
+	
+	public Accident createAccident(final Accident accident);
+	
+	public Accident updateAccident(final Accident accident);
 	
 }

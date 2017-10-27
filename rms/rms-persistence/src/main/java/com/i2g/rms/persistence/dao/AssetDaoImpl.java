@@ -66,7 +66,18 @@ public class AssetDaoImpl extends AbstractHibernateDao<Long, Asset> implements A
 	}
 
 	@Override
-	public Asset create(final Asset asset) {
+	public Asset createAsset(final Asset asset) {
+		validateObject(asset);
+		final Long id = save(asset);
+		if (id != null) {
+			return get(id);
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public Asset updateAsset(Asset asset) {
 		validateObject(asset);
 		final Long id = save(asset);
 		if (id != null) {

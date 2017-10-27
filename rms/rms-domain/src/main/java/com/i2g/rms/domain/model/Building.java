@@ -15,6 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
@@ -36,7 +37,7 @@ import com.i2g.rms.domain.model.tablemaintenance.AssetCategory;
  */
 @Entity
 @Table(name = "RMS_BLDNG")
-@JsonIgnoreProperties({"asset"})
+@JsonIgnoreProperties({"assets"})
 public class Building extends AbstractDataModel<Long> implements Serializable {
 	
 	/**
@@ -46,7 +47,7 @@ public class Building extends AbstractDataModel<Long> implements Serializable {
 	
 	/** Primary surrogate key ID */
 	private long _id;
-	private Asset _asset;
+	private Set<Asset> _assets;
 	private StatusFlag _statusFlag;
 	private String _buildingId;
 	private String _buildingDescription;
@@ -67,7 +68,6 @@ public class Building extends AbstractDataModel<Long> implements Serializable {
 	 * @param builder
 	 */
 	private Building(final Builder builder) {
-		_asset = Objects.requireNonNull(builder._asset, "Asset object cannot be null while creating a buiding.");
 		_statusFlag = Objects.requireNonNull(builder._statusFlag, "Status flag cannot be null.");		
 	}
 	
@@ -118,19 +118,18 @@ public class Building extends AbstractDataModel<Long> implements Serializable {
 	}
 	
 	/**
-	 * @return the asset
+	 * @return the assets
 	 */
-	@ManyToOne
-	@JoinColumn(name = "ASST_ID")
-	public Asset getAsset() {
-		return _asset;
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "buildings")
+	public Set<Asset> getAssets() {
+		return _assets;
 	}
 
 	/**
-	 * @param asset the asset to set
+	 * @param assets the assets to set
 	 */
-	public void setAsset(final Asset asset) {
-		_asset = asset;
+	public void setAssets(final Set<Asset> assets) {
+		_assets = assets;
 	}
 
 	/**
@@ -200,7 +199,7 @@ public class Building extends AbstractDataModel<Long> implements Serializable {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "building")
 	@Fetch(FetchMode.SUBSELECT)
 	public Set<Address> getAddresses() {
-		return _addresses;
+		return _addresses;		
 	}
 
 	/**
@@ -216,7 +215,6 @@ public class Building extends AbstractDataModel<Long> implements Serializable {
 	 */
 	public final static class Builder {
 		
-		private Asset _asset;
 		private StatusFlag _statusFlag;
 		
 		/**
@@ -226,11 +224,6 @@ public class Building extends AbstractDataModel<Long> implements Serializable {
 		 */
 		public Building build() {
 			return new Building(this);
-		}
-		
-		public Builder setAsset(final Asset asset) {
-			_asset = asset;
-			return this;
 		}
 		
 		public Builder setStatusFlag(final StatusFlag statusFlag) {

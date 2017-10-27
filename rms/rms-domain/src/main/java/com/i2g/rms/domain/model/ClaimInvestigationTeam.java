@@ -118,7 +118,7 @@ public class ClaimInvestigationTeam extends AbstractDataModel<Long> implements S
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinTable(name = "RMS_CLIM_INVST_TEAM_LEAD", joinColumns = @JoinColumn(name = "CLIM_INVST_TEAM_ID"), inverseJoinColumns = @JoinColumn(name = "USR_ID"))
 	public Set<User> getClaimInvestigationTeamLeads() {
-		return _claimInvestigationTeamLeads;
+		return _claimInvestigationTeamLeads;		
 	}
 
 	public void setClaimInvestigationTeamLeads(final Set<User> claimInvestigationTeamLeads) {
@@ -128,14 +128,12 @@ public class ClaimInvestigationTeam extends AbstractDataModel<Long> implements S
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinTable(name = "RMS_CLIM_HNDLRS", joinColumns = @JoinColumn(name = "CLIM_INVST_TEAM_ID"), inverseJoinColumns = @JoinColumn(name = "USR_ID"))
 	public Set<User> getClaimHandlers() {
-		return _claimHandlers;
+		return _claimHandlers;		
 	}
 
 	public void setClaimHandlers(final Set<User> claimHandlers) {
 		_claimHandlers = claimHandlers;
 	}
-
-
 
 	/**
 	 * Builder pattern for constructing immutable instances of

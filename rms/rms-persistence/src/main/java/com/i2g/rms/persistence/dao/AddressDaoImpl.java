@@ -73,7 +73,7 @@ public class AddressDaoImpl extends AbstractHibernateDao<Long, Address> implemen
 	}
 
 	@Override
-	public Address create(final Address address) {
+	public Address createAddress(final Address address) {
 		validateObject(address);
 		final Long id = save(address);
 		if (id != null) {

@@ -1,6 +1,7 @@
 package com.i2g.rms.domain.model.tablemaintenance;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -128,7 +129,7 @@ public class InjuryType extends AbstractDataModel<String> implements Serializabl
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "injuryType")
 	@JsonIgnoreProperties("injuryType")
 	public Set<InjuryTypeDetail> getInjuryTypeDetails() {
-		return _injuryTypeDetails;
+		return _injuryTypeDetails;		
 	}
 
 	public void setInjuryTypeDetails(final Set<InjuryTypeDetail> injuryTypeDetails) {

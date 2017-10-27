@@ -49,7 +49,6 @@ import com.i2g.rms.rest.model.ClaimHistoryRO;
 import com.i2g.rms.rest.model.ClaimRO;
 import com.i2g.rms.rest.model.CrimeRO;
 import com.i2g.rms.rest.model.CrimeSuspectRO;
-import com.i2g.rms.rest.model.DeleteRO;
 import com.i2g.rms.rest.model.EquipmentRO;
 import com.i2g.rms.rest.model.InjuredPersonRO;
 import com.i2g.rms.rest.model.InvestigationRO;
@@ -74,15 +73,18 @@ import com.i2g.rms.rest.service.RestMessage;
 import com.i2g.rms.rest.service.SuspectRestService;
 import com.i2g.rms.service.AccidentService;
 import com.i2g.rms.service.AssetService;
+import com.i2g.rms.service.BuildingService;
 import com.i2g.rms.service.ClaimService;
 import com.i2g.rms.service.CrimeService;
 import com.i2g.rms.service.CrimeSuspectService;
+import com.i2g.rms.service.EquipmentService;
 import com.i2g.rms.service.InjuredPersonService;
 import com.i2g.rms.service.InvestigationService;
 import com.i2g.rms.service.OfficeAddressService;
 import com.i2g.rms.service.ReportedLossService;
 import com.i2g.rms.service.SuspectService;
 import com.i2g.rms.service.UserService;
+import com.i2g.rms.service.VehicleService;
 import com.i2g.rms.service.WitnessService;
 import com.i2g.rms.service.exception.ResourceNotCreatedException;
 import com.i2g.rms.service.exception.ResourceNotFoundException;
@@ -136,6 +138,12 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 	private ClaimService _claimService;
 	@Autowired
 	private InvestigationService _investigationService;
+	@Autowired
+	private BuildingService _buildingService;
+	@Autowired
+	private EquipmentService _equipmentService;
+	@Autowired
+	private VehicleService _vehicleService;
 	
 	/** get flows */
 	
@@ -458,7 +466,7 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 		// end of construction of witnesses
 
 		// Create the accident record
-		final Accident newAccident = _accidentService.create(accident);
+		final Accident newAccident = _accidentService.createAccident(accident);
 		// Throw exception if unable to create
 		if (newAccident == null) {
 			throw new ResourceNotCreatedException(_messageBuilder.build(RestMessage.UNABLE_TO_CREATE_RECORD));
@@ -482,29 +490,103 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 		validateUniqueIncidentId(assetDetailRO.getUniqueIncidentId());
 
 		// Construct the incident object for update
-		Incident incident = _incidentService.getIncidentByUniqueIncidentId(assetDetailRO.getUniqueIncidentId().trim());
+		final Incident incident = _incidentService.getIncidentByUniqueIncidentId(assetDetailRO.getUniqueIncidentId().trim());
 		validateGenericObject(incident);
 
 		// Instantiate the asset object
-		Asset asset = constructAsset(assetDetailRO.getAsset(), incident);
+		final Asset asset = constructAsset(assetDetailRO.getAsset(), incident);
 		validateGenericObject(asset);
-
-		// Construct buildings, equipments and vehicles if any..
-		asset.setBuildings(constructBuilding(assetDetailRO.getBuildings(), asset));
-		asset.setEquipments(constructEquipment(assetDetailRO.getEquipments(), asset));
-		asset.setVehicles(constructVehicle(assetDetailRO.getVehicles(), asset));
+		
+		final Set<Building> newBuildings = constructBuildings(assetDetailRO.getBuildings());
+		final Set<Building> existingBuildings = new HashSet<Building>(0);
+		final Set<Equipment> newEquipments = constructEquipments(assetDetailRO.getEquipments());
+		final Set<Equipment> existingEquipments = new HashSet<Equipment>(0);
+		final Set<Vehicle> newVehicles = constructVehicles(assetDetailRO.getVehicles());
+		final Set<Vehicle> existingVehicles = new HashSet<Vehicle>(0);
+		
+		//Create new buildings if any
+		if (newBuildings != null && !newBuildings.isEmpty()) {
+			final Set<Building> newlyCreatedBuildings = new HashSet<Building>(0);
+			newlyCreatedBuildings.addAll(_buildingService.createBuildings(newBuildings));
+			if (newlyCreatedBuildings != null && !newlyCreatedBuildings.isEmpty()) {
+				// Add newly created suspects to main incident
+				asset.getBuildings().addAll(newlyCreatedBuildings);
+			}
+		}
+		//Add existing buildings if any
+		if (assetDetailRO.getExistingBuildings() != null && !assetDetailRO.getExistingBuildings().isEmpty()) {
+			for (BuildingRO buildingRO : assetDetailRO.getExistingBuildings()) {
+				if (buildingRO != null) {
+					if (buildingRO.getId() > 0) {
+						existingBuildings.add(_buildingService.get(buildingRO.getId()));
+					}
+				}
+			}
+			// Add existing buildings to main asset
+			if (existingBuildings != null && !existingBuildings.isEmpty()) {
+				asset.getBuildings().addAll(existingBuildings);
+			}
+		}
+		
+		//Create new equipments if any
+		if (newEquipments != null && !newEquipments.isEmpty()) {
+			final Set<Equipment> newlyCreatedEquipments = new HashSet<Equipment>(0);
+			newlyCreatedEquipments.addAll(_equipmentService.createEquipments(newEquipments));
+			if (newlyCreatedEquipments != null && !newlyCreatedEquipments.isEmpty()) {
+				// Add newly created suspects to main incident
+				asset.getEquipments().addAll(newlyCreatedEquipments);
+			}
+		}
+		//Add existing equipments if any
+		if (assetDetailRO.getExistingEquipments() != null && !assetDetailRO.getExistingEquipments().isEmpty()) {
+			for (EquipmentRO equipmentRO : assetDetailRO.getExistingEquipments()) {
+				if (equipmentRO != null) {
+					if (equipmentRO.getId() > 0) {
+						existingEquipments.add(_equipmentService.get(equipmentRO.getId()));
+					}
+				}
+			}
+			// Add existing equipments to main asset
+			if (existingEquipments != null && !existingEquipments.isEmpty()) {
+				asset.getEquipments().addAll(existingEquipments);
+			}
+		}
+		
+		//Create new vehicles if any
+		if (newVehicles != null && !newVehicles.isEmpty()) {
+			final Set<Vehicle> newlyCreatedVehicles = new HashSet<Vehicle>(0);
+			newlyCreatedVehicles.addAll(_vehicleService.createVehicles(newVehicles));
+			if (newlyCreatedVehicles != null && !newlyCreatedVehicles.isEmpty()) {
+				// Add newly created suspects to main incident
+				asset.getVehicles().addAll(newlyCreatedVehicles);
+			}
+		}
+		//Add existing vehicles if any
+		if (assetDetailRO.getExistingVehicles() != null && !assetDetailRO.getExistingVehicles().isEmpty()) {
+			for (VehicleRO vehicleRO : assetDetailRO.getExistingVehicles()) {
+				if (vehicleRO != null) {
+					if (vehicleRO.getId() > 0) {
+						existingVehicles.add(_vehicleService.get(vehicleRO.getId()));
+					}
+				}
+			}
+			// Add existing vehicles to main asset
+			if (existingVehicles != null && !existingVehicles.isEmpty()) {
+				asset.getVehicles().addAll(existingVehicles);
+			}
+		}
 
 		// create the asset record
-		final Asset newAsset = _assetService.create(asset);
-		// Throw exception if unable to create
-		if (newAsset == null) {
-			throw new ResourceNotCreatedException(_messageBuilder.build(RestMessage.UNABLE_TO_CREATE_RECORD));
-		} else {
+		final Asset newAsset = _assetService.createAsset(asset);
+		if (newAsset != null) {
 			// Set the accident to incident.
 			incident.setAsset(asset);
-		}
-		// Throw the incident back with the newly created accident details
-		return _mapperService.map(incident, IncidentRO.class);
+			// Throw the incident back with the newly created asset details
+			return _mapperService.map(incident, IncidentRO.class);
+		} else {
+			// Throw exception if unable to create
+			throw new ResourceNotCreatedException(_messageBuilder.build(RestMessage.UNABLE_TO_CREATE_RECORD));
+		}		
 	}
 
 	@Override
@@ -1124,14 +1206,14 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
 	@Transactional
-	public IncidentRO removeEmployeeSuspectFromIncident(final String uniqueIncidentId, final Long userId) {
+	public IncidentRO removeEmployeeSuspectFromIncidentById(final String uniqueIncidentId, final Long employeeId) {
 		validateUniqueIncidentId(uniqueIncidentId);
-		if (userId == null || userId <= 0) {
+		if (employeeId == null || employeeId <= 0) {
 			throw new ResourceNotValidException(_messageBuilder.build(RestMessage.INVALID_KEY_PASSED_FOR_DELETE));
 		}
 		final Incident incident = _incidentService.getIncidentByUniqueIncidentId(uniqueIncidentId.trim());
 		validateGenericObject(incident);
-		final User employeeSuspect = _userService.get(userId);
+		final User employeeSuspect = _userService.get(employeeId);
 		validateGenericObject(employeeSuspect);
 		incident.getEmployeeSuspects().remove(employeeSuspect);
 		final Incident updatedIncident = _incidentService.updateIncident(incident);
@@ -1141,24 +1223,81 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 			throw new ResourceNotRemovedException(_messageBuilder.build(RestMessage.DELETE_OPERATION_FAILED));	
 		}		
 	}
+	
+	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
+	@Transactional
+	public IncidentRO removeEmployeeSuspectFromIncidentByLoginId(final String uniqueIncidentId, final String employeeLoginId) {
+		validateUniqueIncidentId(uniqueIncidentId);
+		validateUsername(employeeLoginId);
+		final Incident incident = _incidentService.getIncidentByUniqueIncidentId(uniqueIncidentId.trim());
+		validateGenericObject(incident);
+		final User employeeSuspect = _userService.getUserByUserLoginId(employeeLoginId);
+		validateGenericObject(employeeSuspect);
+		incident.getEmployeeSuspects().remove(employeeSuspect);
+		final Incident updatedIncident = _incidentService.updateIncident(incident);
+		if (updatedIncident != null) {
+			return _mapperService.map(updatedIncident, IncidentRO.class);
+		} else {
+			throw new ResourceNotRemovedException(_messageBuilder.build(RestMessage.DELETE_OPERATION_FAILED));	
+		}
+	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
 	@Transactional
-	public IncidentRO removeEmployeeSuspectsFromIncident(final String uniqueIncidentId, final DeleteRO deleteRO) {
-		validateUniqueIncidentId(uniqueIncidentId);
-		validateObject(deleteRO);
-		final Long[] ids = deleteRO.getIds();
-		if (ids == null || ids.length <= 0) {
+	public IncidentRO removeEmployeeSuspectsFromIncidentByIds(final SuspectWrapper suspectWrapper) {
+		validateObject(suspectWrapper);
+		validateUniqueIncidentId(suspectWrapper.getUniqueIncidentId());
+		final Long[] employeeIds = suspectWrapper.getEmployeeIds();
+		if (employeeIds == null || employeeIds.length <= 0) {
 			throw new ResourceNotValidException(_messageBuilder.build(RestMessage.NOTHING_TO_DELETE));
 		}
-		final Incident incident = _incidentService.getIncidentByUniqueIncidentId(uniqueIncidentId.trim());
+		final Incident incident = _incidentService.getIncidentByUniqueIncidentId(suspectWrapper.getUniqueIncidentId().trim());
 		validateGenericObject(incident);
 		Set<User> employeeSuspects = new HashSet<User>(0);
-		for (int i = 0; i < ids.length; i++) {
-			User employeeSuspect = _userService.get(ids[i]);
-			if (employeeSuspect != null) {
-				employeeSuspects.add(employeeSuspect);
+		for (int i = 0; i < employeeIds.length; i++) {
+			final Long employeeId = employeeIds[i];
+			if (employeeId != null && employeeId > 0) {
+				final User employeeSuspect = _userService.get(employeeId);
+				if (employeeSuspect != null) {
+					employeeSuspects.add(employeeSuspect);
+				}
+			}
+		}
+		if (employeeSuspects != null && !employeeSuspects.isEmpty()) {
+			incident.getEmployeeSuspects().removeAll(employeeSuspects);
+			final Incident updatedIncident = _incidentService.updateIncident(incident);
+			if (updatedIncident != null) {
+				return _mapperService.map(updatedIncident, IncidentRO.class);
+			} else {
+				throw new ResourceNotRemovedException(_messageBuilder.build(RestMessage.DELETE_OPERATION_FAILED));	
+			}
+		} else {
+			throw new ResourceNotRemovedException(_messageBuilder.build(RestMessage.NO_RECORDS_WERE_DELETED));
+		}
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
+	@Transactional
+	public IncidentRO removeEmployeeSuspectsFromIncidentByLoginIds(final SuspectWrapper suspectWrapper) {
+		validateObject(suspectWrapper);
+		validateUniqueIncidentId(suspectWrapper.getUniqueIncidentId());
+		final String[] employeeLoginIds = suspectWrapper.getEmployeeLoginIds();
+		if (employeeLoginIds == null || employeeLoginIds.length <= 0) {
+			throw new ResourceNotValidException(_messageBuilder.build(RestMessage.NOTHING_TO_DELETE));
+		}
+		final Incident incident = _incidentService.getIncidentByUniqueIncidentId(suspectWrapper.getUniqueIncidentId().trim());
+		validateGenericObject(incident);
+		Set<User> employeeSuspects = new HashSet<User>(0);
+		for (int i = 0; i < employeeLoginIds.length; i++) {
+			final String employeeLoginId = employeeLoginIds[i];
+			if (employeeLoginId != null) {
+				final User employeeSuspect = _userService.getUserByUserLoginId(employeeLoginId);
+				if (employeeSuspect != null) {
+					employeeSuspects.add(employeeSuspect);
+				}
 			}
 		}
 		if (employeeSuspects != null && !employeeSuspects.isEmpty()) {
@@ -1726,11 +1865,11 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 		return asset;
 	}
 
-	private Set<Building> constructBuilding(final List<BuildingRO> buildingROs, final Asset asset) {
+	private Set<Building> constructBuildings(final List<BuildingRO> buildingROs) {
 		final Set<Building> buildings = new HashSet<Building>(0);
 		if (buildingROs != null && !buildingROs.isEmpty()) {
 			for (BuildingRO buildingRO : buildingROs) {
-				final Building building = new Building.Builder().setStatusFlag(StatusFlag.ACTIVE).setAsset(asset).build();
+				final Building building = new Building.Builder().setStatusFlag(StatusFlag.ACTIVE).build();
 				// building id
 				if (buildingRO.getBuildingId() != null && !buildingRO.getBuildingId().trim().isEmpty()) {
 					building.setBuildingId(buildingRO.getBuildingId().trim());
@@ -1759,12 +1898,11 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 		return buildings;
 	}
 
-	private Set<Equipment> constructEquipment(final List<EquipmentRO> equipmentROs, final Asset asset) {
+	private Set<Equipment> constructEquipments(final List<EquipmentRO> equipmentROs) {
 		final Set<Equipment> equipments = new HashSet<Equipment>(0);
 		if (equipmentROs != null && !equipmentROs.isEmpty()) {
 			for (EquipmentRO equipmentRO : equipmentROs) {
-				final Equipment equipment = new Equipment.Builder().setStatusFlag(StatusFlag.ACTIVE).setAsset(asset)
-						.build();
+				final Equipment equipment = new Equipment.Builder().setStatusFlag(StatusFlag.ACTIVE).build();
 				// equipment id
 				if (equipmentRO.getEquipmentId() != null && !equipmentRO.getEquipmentId().trim().isEmpty()) {
 					equipment.setEquipmentId(equipmentRO.getEquipmentId().trim());
@@ -1779,10 +1917,8 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 				}
 				// asset category
 				if (equipmentRO.getAssetCategory() != null) {
-					if (equipmentRO.getAssetCategory().getId() != null
-							&& !equipmentRO.getAssetCategory().getId().trim().isEmpty()) {
-						equipment.setAssetCategory(_tableMaintenanceService
-								.getAssetCategoryByCode(equipmentRO.getAssetCategory().getId().trim()));
+					if (equipmentRO.getAssetCategory().getId() != null && !equipmentRO.getAssetCategory().getId().trim().isEmpty()) {
+						equipment.setAssetCategory(_tableMaintenanceService.getAssetCategoryByCode(equipmentRO.getAssetCategory().getId().trim()));
 					}
 				}
 				equipments.add(equipment);
@@ -1791,11 +1927,11 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 		return equipments;
 	}
 
-	private Set<Vehicle> constructVehicle(final List<VehicleRO> vehicleROs, final Asset asset) {
+	private Set<Vehicle> constructVehicles(final List<VehicleRO> vehicleROs) {
 		final Set<Vehicle> vehicles = new HashSet<Vehicle>(0);
 		if (vehicleROs != null && !vehicleROs.isEmpty()) {
 			for (VehicleRO vehicleRO : vehicleROs) {
-				final Vehicle vehicle = new Vehicle.Builder().setStatusFlag(StatusFlag.ACTIVE).setAsset(asset).build();
+				final Vehicle vehicle = new Vehicle.Builder().setStatusFlag(StatusFlag.ACTIVE).build();
 				// vehicle registration id
 				if (nullOrEmptySafeCheck(vehicleRO.getVehicleRegistrationId())) {
 					vehicle.setVehicleRegistrationId(stringTrimmer(vehicleRO.getVehicleRegistrationId()));
@@ -1823,15 +1959,13 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 				// Vehicle damage type
 				if (vehicleRO.getVehicleDamageType() != null) {
 					if (nullOrEmptySafeCheck(vehicleRO.getVehicleDamageType().getId())) {
-						vehicle.setVehicleDamageType(_tableMaintenanceService
-								.getVehicleDamageTypeByCode(stringTrimmer(vehicleRO.getVehicleDamageType().getId())));
+						vehicle.setVehicleDamageType(_tableMaintenanceService.getVehicleDamageTypeByCode(stringTrimmer(vehicleRO.getVehicleDamageType().getId())));
 					}
 				}
 				// asset category
 				if (vehicleRO.getAssetCategory() != null) {
 					if (nullOrEmptySafeCheck(vehicleRO.getAssetCategory().getId())) {
-						vehicle.setAssetCategory(_tableMaintenanceService
-								.getAssetCategoryByCode(stringTrimmer(vehicleRO.getAssetCategory().getId().trim())));
+						vehicle.setAssetCategory(_tableMaintenanceService.getAssetCategoryByCode(stringTrimmer(vehicleRO.getAssetCategory().getId().trim())));
 					}
 				}
 				vehicles.add(vehicle);
@@ -2359,5 +2493,5 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 				throw new ResourceNotValidException(_messageBuilder.build(RestMessage.WITNESS_FLAG_MUST_BE_YES));
 			}
 		}
-	}
+	}	
 }

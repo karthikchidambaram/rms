@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import com.i2g.rms.domain.model.Accident;
 import com.i2g.rms.domain.model.StatusFlag;
+import com.i2g.rms.domain.model.incident.Incident;
 import com.i2g.rms.persistence.hibernate.AbstractHibernateDao;
 
 /**
@@ -66,7 +67,7 @@ public class AccidentDaoImpl extends AbstractHibernateDao<Long, Accident> implem
 	}
 
 	@Override
-	public Accident create(final Accident accident) {
+	public Accident createAccident(final Accident accident) {
 		validateObject(accident);
 		final Long id = save(accident);
 		if (id != null) {
@@ -85,5 +86,13 @@ public class AccidentDaoImpl extends AbstractHibernateDao<Long, Accident> implem
 		} else {
 			return null;
 		}
+	}
+
+	@Override
+	public Accident get(final Incident incident) {
+		final Criteria criteria = getSession().createCriteria(_modelType);
+		criteria.add(Restrictions.eq("incident", Objects.requireNonNull(incident, "Incident id (object) cannot be null or empty.")));
+		criteria.add(Restrictions.eq("statusFlag", StatusFlag.ACTIVE));
+		return (Accident) criteria.uniqueResult();
 	}
 }

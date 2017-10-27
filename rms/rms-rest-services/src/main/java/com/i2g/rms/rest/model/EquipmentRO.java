@@ -1,5 +1,7 @@
 package com.i2g.rms.rest.model;
 
+import java.util.Set;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.i2g.rms.rest.model.tablemaintenance.AssetCategoryRO;
 
@@ -14,7 +16,7 @@ import com.i2g.rms.rest.model.tablemaintenance.AssetCategoryRO;
 public class EquipmentRO extends AbstractEntityRO {
 
 	private long _id;
-	private AssetRO _asset;
+	private Set<AssetRO> _assets;
 	private StatusFlagRO _statusFlag;
 	private String _equipmentId;
 	private String _equipmentDetails;
@@ -37,18 +39,18 @@ public class EquipmentRO extends AbstractEntityRO {
 	}
 
 	/**
-	 * @return the asset
+	 * @return the assets
 	 */
-	public AssetRO getAsset() {
-		return _asset;
+	public Set<AssetRO> getAssets() {
+		return _assets;
 	}
 
 	/**
-	 * @param asset
-	 *            the asset to set
+	 * @param assets
+	 *            the assets to set
 	 */
-	public void setAsset(final AssetRO asset) {
-		_asset = asset;
+	public void setAssets(final Set<AssetRO> assets) {
+		_assets = assets;
 	}
 
 	/**

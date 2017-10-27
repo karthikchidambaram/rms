@@ -178,13 +178,23 @@ public class IncidentController extends AbstractRestController {
 		return _incidentRestService.removeSuspectsFromIncident(suspectWrapper);
 	}
 	
-	@RequestMapping(value = RequestMappingConstants.REMOVE_EMPLOYEE_SUSPECT_FROM_INCIDENT, method = RequestMethod.DELETE)
-	public IncidentRO removeEmployeeSuspectFromIncident(@PathVariable final String uniqueIncidentId, @PathVariable final Long userId) {
-		return _incidentRestService.removeEmployeeSuspectFromIncident(uniqueIncidentId, userId);
+	@RequestMapping(value = RequestMappingConstants.REMOVE_EMPLOYEE_SUSPECT_FROM_INCIDENT_BY_ID, method = RequestMethod.DELETE)
+	public IncidentRO removeEmployeeSuspectFromIncidentById(@PathVariable final String uniqueIncidentId, @PathVariable final Long employeeId) {
+		return _incidentRestService.removeEmployeeSuspectFromIncidentById(uniqueIncidentId, employeeId);
 	}
 	
-	@RequestMapping(value = RequestMappingConstants.REMOVE_EMPLOYEE_SUSPECTS_FROM_INCIDENT, method = RequestMethod.DELETE)
-	public IncidentRO removeEmployeeSuspectsFromIncident(@PathVariable final String uniqueIncidentId, @Valid @RequestBody final DeleteRO deleteRO) {
-		return _incidentRestService.removeEmployeeSuspectsFromIncident(uniqueIncidentId, deleteRO);
+	@RequestMapping(value = RequestMappingConstants.REMOVE_EMPLOYEE_SUSPECT_FROM_INCIDENT_BY_LOGIN_ID, method = RequestMethod.DELETE)
+	public IncidentRO removeEmployeeSuspectFromIncidentByLoginId(@PathVariable final String uniqueIncidentId, @PathVariable final String employeeLoginId) {
+		return _incidentRestService.removeEmployeeSuspectFromIncidentByLoginId(uniqueIncidentId, employeeLoginId);
+	}
+	
+	@RequestMapping(value = RequestMappingConstants.REMOVE_EMPLOYEE_SUSPECTS_FROM_INCIDENT_BY_IDS, method = RequestMethod.DELETE)
+	public IncidentRO removeEmployeeSuspectsFromIncidentByIds(@Valid @RequestBody final SuspectWrapper suspectWrapper) {
+		return _incidentRestService.removeEmployeeSuspectsFromIncidentByIds(suspectWrapper);
+	}
+	
+	@RequestMapping(value = RequestMappingConstants.REMOVE_EMPLOYEE_SUSPECTS_FROM_INCIDENT_BY_LOGIN_IDS, method = RequestMethod.DELETE)
+	public IncidentRO removeEmployeeSuspectsFromIncidentByLoginIds(@Valid @RequestBody final SuspectWrapper suspectWrapper) {
+		return _incidentRestService.removeEmployeeSuspectsFromIncidentByLoginIds(suspectWrapper);
 	}
 }

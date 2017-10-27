@@ -30,14 +30,12 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.Immutable;
 import org.hibernate.annotations.Type;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -302,7 +300,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
 	@Fetch(FetchMode.SUBSELECT)
 	public Set<PasswordHistory> getPasswordHistory() {
-		return _passwordHistory;
+		return _passwordHistory;		
 	}
 
 	public void setPasswordHistory(final Set<PasswordHistory> passwordHistory) {
@@ -695,7 +693,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	 */
 	@OneToMany(mappedBy = "manager", fetch = FetchType.EAGER)
 	public Set<User> getSubordinates() {
-		return _subordinates;
+		return _subordinates;		
 	}
 
 	/**
@@ -708,11 +706,11 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
 	@Fetch(FetchMode.SUBSELECT)
 	public Set<Address> getAddresses() {
-		return _addresses;
+		return _addresses;		
 	}
 
-	public void setAddresses(final Set<Address> address) {
-		_addresses = address;
+	public void setAddresses(final Set<Address> addresses) {
+		_addresses = addresses;
 	}
 
 	/**
@@ -762,7 +760,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 			inverseJoinColumns = @JoinColumn(name = "INVST_TEAM_ID")
 	)
 	public Set<InvestigationTeam> getInvestigationTeams() {
-		return _investigationTeams;
+		return _investigationTeams;		
 	}
 
 	public void setInvestigationTeams(final Set<InvestigationTeam> investigationTeams) {

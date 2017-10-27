@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.i2g.rms.domain.model.Witness;
+import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeatureDetail;
 
 /**
  * Service interface for all Witness related operations.
@@ -18,6 +19,14 @@ public interface WitnessService {
 	
 	public Witness get(final long id);
 	
+	public Witness createNewWitness(final Witness witness);
+	
 	public Set<Witness> createNewWitnesses(final Set<Witness> witnesses);
+	
+	public Witness updateWitness(final Witness witness);
+
+	public Set<Witness> updateWitnesses(final Set<Witness> witnesses);
+
+	public void removeDistinguishingFeatureDetailsFromWitness(final Witness witness, final Set<DistinguishingFeatureDetail> distinguishingFeatureDetails);
 	
 }

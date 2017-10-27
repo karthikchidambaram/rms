@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.i2g.rms.domain.model.Accident;
+import com.i2g.rms.domain.model.incident.Incident;
 import com.i2g.rms.persistence.dao.AccidentDao;
 
 /**
@@ -35,7 +36,17 @@ public class AccidentServiceImpl extends AbstractService implements AccidentServ
 	}
 
 	@Override
-	public Accident create(final Accident accident) {
-		return _accidentDao.create(accident);
+	public Accident createAccident(final Accident accident) {
+		return _accidentDao.createAccident(accident);
+	}
+
+	@Override
+	public Accident updateAccident(final Accident accident) {
+		return _accidentDao.updateAccident(accident);
+	}
+
+	@Override
+	public Accident get(Incident incident) {
+		return _accidentDao.get(incident);
 	}
 }

@@ -372,23 +372,21 @@ public interface RequestMappingConstants {
 	String ADD_OR_UPDATE_INVESTIGATION_DETAILS			= INCIDENT + "/add-or-update-investigation-details";
 	String ADD_SUPPORTING_DOCUMENTS						= INCIDENT + "/add-supporting-documents";
 	
-	String ADD_SUSPECTS_FOR_INCIDENT					= INCIDENT + "/add-suspects";
-	String ADD_SUSPECT_FOR_INCIDENT						= INCIDENT + "/add-suspect/uniqueIncidentId/{uniqueIncidentId}";
-	
-	String ADD_EMPLOYEE_SUSPECTS_FOR_INCIDENT_BY_IDS		= INCIDENT + "/add-emp-suspects-by-ids";
-	String ADD_EMPLOYEE_SUSPECTS_FOR_INCIDENT_BY_LOGIN_IDS	= INCIDENT + "/add-emp-suspects-by-login-ids";
-	String ADD_EMPLOYEE_SUSPECT_FOR_INCIDENT_BY_ID			= INCIDENT + "/add-employee-suspect/uniqueIncidentId/{uniqueIncidentId}/employeeId/{employeeId}";
-	String ADD_EMPLOYEE_SUSPECT_FOR_INCIDENT_BY_LOGIN_ID	= INCIDENT + "/add-employee-suspect/uniqueIncidentId/{uniqueIncidentId}/employeeLoginId/{employeeLoginId}";
-	
+	String ADD_SUSPECT_FOR_INCIDENT							= INCIDENT + "/add-suspect/uniqueIncidentId/{uniqueIncidentId}";
+	String ADD_SUSPECTS_FOR_INCIDENT						= INCIDENT + "/add-suspects";
 	String ADD_EXISTING_SUSPECT_FOR_INCIDENT				= INCIDENT + "/add-existing-suspect/uniqueIncidentId/{uniqueIncidentId}/suspectId/{suspectId}";
 	String ADD_EXISTING_SUSPECTS_FOR_INCIDENT				= INCIDENT + "/add-existing-suspects";
-	
-	String REMOVE_SUSPECTS_FROM_INCIDENT				= INCIDENT + "/remove-suspects";
-	String REMOVE_SUSPECT_FROM_INCIDENT					= INCIDENT + "/remove-suspect/uniqueIncidentId/{uniqueIncidentId}/suspectId/{suspectId}";
-	
-	String REMOVE_EMPLOYEE_SUSPECTS_FROM_INCIDENT		= INCIDENT + "/remove-employee-suspects/uniqueIncidentId/{uniqueIncidentId}";
-	String REMOVE_EMPLOYEE_SUSPECT_FROM_INCIDENT		= INCIDENT + "/remove-employee-suspect/uniqueIncidentId/{uniqueIncidentId}/userId/{userId}";
-	
+	String ADD_EMPLOYEE_SUSPECT_FOR_INCIDENT_BY_ID			= INCIDENT + "/add-employee-suspect/uniqueIncidentId/{uniqueIncidentId}/employeeId/{employeeId}";
+	String ADD_EMPLOYEE_SUSPECT_FOR_INCIDENT_BY_LOGIN_ID	= INCIDENT + "/add-employee-suspect/uniqueIncidentId/{uniqueIncidentId}/employeeLoginId/{employeeLoginId}";
+	String ADD_EMPLOYEE_SUSPECTS_FOR_INCIDENT_BY_IDS		= INCIDENT + "/add-emp-suspects-by-ids";
+	String ADD_EMPLOYEE_SUSPECTS_FOR_INCIDENT_BY_LOGIN_IDS	= INCIDENT + "/add-emp-suspects-by-login-ids";
+	String REMOVE_SUSPECT_FROM_INCIDENT						= INCIDENT + "/remove-suspect/uniqueIncidentId/{uniqueIncidentId}/suspectId/{suspectId}";
+	String REMOVE_SUSPECTS_FROM_INCIDENT					= INCIDENT + "/remove-suspects";
+	String REMOVE_EMPLOYEE_SUSPECT_FROM_INCIDENT_BY_ID				= INCIDENT + "/remove-employee-suspect/uniqueIncidentId/{uniqueIncidentId}/employeeId/{employeeId}";
+	String REMOVE_EMPLOYEE_SUSPECT_FROM_INCIDENT_BY_LOGIN_ID		= INCIDENT + "/remove-employee-suspect/uniqueIncidentId/{uniqueIncidentId}/employeeLoginId/{employeeLoginId}";
+	String REMOVE_EMPLOYEE_SUSPECTS_FROM_INCIDENT_BY_IDS			= INCIDENT + "/remove-employee-suspects-by-ids";
+	String REMOVE_EMPLOYEE_SUSPECTS_FROM_INCIDENT_BY_LOGIN_IDS		= INCIDENT + "/remove-employee-suspects-by-login-ids";
+		
 	/** Update flow - Incidents */
 	String UPDATE_LOG_INCIDENT 							= INCIDENT + "/update-log-incident";
 		
@@ -404,6 +402,54 @@ public interface RequestMappingConstants {
 	String UPDATE_SUSPECT										= SUSPECT + "/update-suspect";
 	String UPDATE_SUSPECTS										= SUSPECT + "/update-suspects";
 	String REMOVE_DISTINGUISHING_FEATURE_DETAILS_FROM_SUSPECT 	= SUSPECT + "/remove-dist-fea-details";	
+	
+	/** Witness operations */
+	String WITNESS 												= SECURED + "/witness";
+	String GET_ALL_WITNESSES									= WITNESS + "/witnesses";
+	String GET_WITNESS_BY_WITNESS_ID							= WITNESS + "/witnessId/{witnessId}";
+	String CREATE_WITNESS										= WITNESS + "/create-witness";
+	String CREATE_WITNESSES										= WITNESS + "/create-witnesses";
+	String UPDATE_WITNESS										= WITNESS + "/update-witness";
+	String UPDATE_WITNESSES										= WITNESS + "/update-witnesses";
+	String REMOVE_DISTINGUISHING_FEATURE_DETAILS_FROM_WITNESS 	= WITNESS + "/remove-dist-fea-details";
+	
+	/** Accident operations */
+	String ACCIDENT												= SECURED + "/accident";
+	String GET_ALL_ACCIDENTS									= ACCIDENT + "/accidents";
+	String GET_ACCIDENT_BY_ACCIDENT_ID							= ACCIDENT + "/accidentId/{accidentId}";
+	String CREATE_ACCIDENT										= ACCIDENT + "/create-accident";
+	String UPDATE_ACCIDENT										= ACCIDENT + "/update-accident";
+	String ADD_OR_UPDATE_ACCIDENT								= ACCIDENT + "/add-or-update-accident";
+	
+	String ADD_INJURED_PERSON_TO_ACCIDENT								= ACCIDENT + "/add-injured-person/accidentId/{accidentId}";
+	String ADD_INJURED_PERSONS_TO_ACCIDENT								= ACCIDENT + "/add-injured-persons";
+	String ADD_EXISTING_INJURED_PERSON_TO_ACCIDENT						= ACCIDENT + "/add-existing-injured-person/accidentId/{accidentId}/injuredPersonId/{injuredPersonId}";
+	String ADD_EXISTING_INJURED_PERSONS_TO_ACCIDENT						= ACCIDENT + "/add-existing-injured-persons";
+	String ADD_EMPLOYEE_INJURED_PERSON_TO_ACCIDENT_BY_ID				= ACCIDENT + "/add-employee-injured-person/accidentId/{accidentId}/employeeId/{employeeId}";
+	String ADD_EMPLOYEE_INJURED_PERSON_TO_ACCIDENT_BY_LOGIN_ID			= ACCIDENT + "/add-employee-injured-person/accidentId/{accidentId}/employeeLoginId/{employeeLoginId}";
+	String ADD_EMPLOYEE_INJURED_PERSONS_TO_ACCIDENT_BY_IDS				= ACCIDENT + "/add-employee-injured-persons-by-ids";
+	String ADD_EMPLOYEE_INJURED_PERSONS_TO_ACCIDENT_BY_LOGIN_IDS		= ACCIDENT + "/add-employee-injured-persons-by-login-ids";
+	String REMOVE_INJURED_PERSON_FROM_ACCIDENT							= ACCIDENT + "/remove-injured-person/accidentId/{accidentId}/injuredPersonId/{injuredPersonId}";
+	String REMOVE_INJURED_PERSONS_FROM_ACCIDENT							= ACCIDENT + "/remove-injured-persons";
+	String REMOVE_EMPLOYEE_INJURED_PERSON_FROM_ACCIDENT_BY_ID			= ACCIDENT + "/remove-employee-injured-person/accidentId/{accidentId}/employeeId/{employeeId}";
+	String REMOVE_EMPLOYEE_INJURED_PERSON_FROM_ACCIDENT_BY_LOGIN_ID		= ACCIDENT + "/remove-employee-injured-person/accidentId/{accidentId}/employeeLoginId/{employeeLoginId}";
+	String REMOVE_EMPLOYEE_INJURED_PERSONS_FROM_ACCIDENT_BY_IDS			= ACCIDENT + "/remove-employee-injured-persons-by-ids";
+	String REMOVE_EMPLOYEE_INJURED_PERSONS_FROM_ACCIDENT_BY_LOGIN_IDS	= ACCIDENT + "/remove-employee-injured-persons-by-login-ids";
+	
+	String ADD_WITNESS_TO_ACCIDENT									= ACCIDENT + "/add-witness/accidentId/{accidentId}";
+	String ADD_WITNESSES_TO_ACCIDENT								= ACCIDENT + "/add-witnesses";
+	String ADD_EXISTING_WITNESS_TO_ACCIDENT							= ACCIDENT + "/add-existing-witness/accidentId/{accidentId}/witnessId/{witnessId}";
+	String ADD_EXISTING_WITNESSES_TO_ACCIDENT						= ACCIDENT + "/add-existing-witnesses";
+	String ADD_EMPLOYEE_WITNESS_TO_ACCIDENT_BY_ID					= ACCIDENT + "/add-employee-witness/accidentId/{accidentId}/employeeId/{employeeId}";
+	String ADD_EMPLOYEE_WITNESS_TO_ACCIDENT_BY_LOGIN_ID				= ACCIDENT + "/add-employee-witness/accidentId/{accidentId}/employeeLoginId/{employeeLoginId}";
+	String ADD_EMPLOYEE_WITNESSES_TO_ACCIDENT_BY_IDS				= ACCIDENT + "/add-employee-witnesses-by-ids";
+	String ADD_EMPLOYEE_WITNESSES_TO_ACCIDENT_BY_LOGIN_IDS			= ACCIDENT + "/add-employee-witnesses-by-login-ids";
+	String REMOVE_WITNESS_FROM_ACCIDENT								= ACCIDENT + "/remove-witness/accidentId/{accidentId}/witnessId/{witnessId}";
+	String REMOVE_WITNESSES_FROM_ACCIDENT							= ACCIDENT + "/remove-witnesses";
+	String REMOVE_EMPLOYEE_WITNESS_FROM_ACCIDENT_BY_ID				= ACCIDENT + "/remove-employee-witness/accidentId/{accidentId}/employeeId/{employeeId}";
+	String REMOVE_EMPLOYEE_WITNESS_FROM_ACCIDENT_BY_LOGIN_ID		= ACCIDENT + "/remove-employee-witness/accidentId/{accidentId}/employeeLoginId/{employeeLoginId}";
+	String REMOVE_EMPLOYEE_WITNESSES_FROM_ACCIDENT_BY_IDS			= ACCIDENT + "/remove-employee-witnesses-by-ids";
+	String REMOVE_EMPLOYEE_WITNESSES_FROM_ACCIDENT_BY_LOGIN_IDS		= ACCIDENT + "/remove-employee-witnesses-by-login-ids";
 	
 	/** Reported Loss flows */
 	String REPORTED_LOSS 												= SECURED + "/reported-loss";
@@ -461,5 +507,34 @@ public interface RequestMappingConstants {
 	String UPDATE_INJURED_PERSONS										= INJURED_PERSON + "/update-injured-persons";
 	String REMOVE_DISTINGUISHING_FEATURE_DETAILS_FROM_INJURED_PERSON 	= INJURED_PERSON + "/remove-dist-fea-details";
 	String REMOVE_BODY_PARTS_FROM_INJURED_PERSON 						= INJURED_PERSON + "/remove-body-parts";
-
+	
+	/** Building flows */
+	String BUILDING 										= SECURED + "/building";
+	String GET_BUILDINGS									= BUILDING + "/buildings";
+	String GET_BUILDING_BY_BUILDING_ID						= BUILDING + "/buildingId/{buildingId}";
+	String GET_BUILDING_BY_UNIQUE_BUILDING_ID				= BUILDING + "/uniqueBuildingId/{uniqueBuildingId}";
+	String CREATE_BUILDING									= BUILDING + "/create-building";
+	String CREATE_BUILDINGS									= BUILDING + "/create-buildings";
+	String UPDATE_BUILDING									= BUILDING + "/update-building";
+	String UPDATE_BUILDINGS									= BUILDING + "/update-buildings";
+	
+	/** Equipment flows */
+	String EQUIPMENT 										= SECURED + "/equipment";
+	String GET_EQUIPMENTS									= EQUIPMENT + "/equipments";
+	String GET_EQUIPMENT_BY_EQUIPMENT_ID					= EQUIPMENT + "/equipmentId/{equipmentId}";
+	String GET_EQUIPMENT_BY_UNIQUE_EQUIPMENT_ID				= EQUIPMENT + "/uniqueEquipmentId/{uniqueEquipmentId}";
+	String CREATE_EQUIPMENT									= EQUIPMENT + "/create-equipment";
+	String CREATE_EQUIPMENTS								= EQUIPMENT + "/create-equipments";
+	String UPDATE_EQUIPMENT									= EQUIPMENT + "/update-equipment";
+	String UPDATE_EQUIPMENTS								= EQUIPMENT + "/update-equipments";
+	
+	/** Vehicle flows */
+	String VEHICLE 										= SECURED + "/vehicle";
+	String GET_VEHICLES									= VEHICLE + "/vehicles";
+	String GET_VEHICLE_BY_VEHICLE_ID					= VEHICLE + "/vehicleId/{vehicleId}";
+	String GET_VEHICLE_BY_VEHICLE_REGISTRATION_ID		= VEHICLE + "/vehicleRegistrationId/{vehicleRegistrationId}";
+	String CREATE_VEHICLE								= VEHICLE + "/create-vehicle";
+	String CREATE_VEHICLES								= VEHICLE + "/create-vehicles";
+	String UPDATE_VEHICLE								= VEHICLE + "/update-vehicle";
+	String UPDATE_VEHICLES								= VEHICLE + "/update-vehicles";
 }

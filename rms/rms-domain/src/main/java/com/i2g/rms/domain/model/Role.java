@@ -132,7 +132,7 @@ public class Role extends AbstractDataModel<Long> implements Serializable {
 	)
 	@Fetch(FetchMode.SUBSELECT)
 	public Set<Permission> getPermissions() {
-		return _permissions;
+		return _permissions;		
 	}
 	
 	/**
@@ -154,7 +154,7 @@ public class Role extends AbstractDataModel<Long> implements Serializable {
 	 */
 	@ManyToMany(mappedBy = "roles")
 	public Set<User> getUsers() {
-		return _users;
+		return _users;		
 	}
 
 	/**
@@ -163,8 +163,6 @@ public class Role extends AbstractDataModel<Long> implements Serializable {
 	public void setUsers(final Set<User> users) {
 		_users = users;
 	}
-
-
 
 	/**
 	 * Builder pattern for constructing immutable instances of {@link Role}.

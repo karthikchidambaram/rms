@@ -1,6 +1,7 @@
 package com.i2g.rms.domain.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -25,10 +26,14 @@ public class MultiFileBucket {
 	}
 
 	public List<FileBucket> getFiles() {
-		return _files;
+		if (_files != null) {
+			return _files;
+		} else {
+			return Collections.emptyList();
+		}
 	}
 
 	public void setFiles(final List<FileBucket> files) {
-		_files = files;
+		getFiles().addAll(files);
 	}
 }

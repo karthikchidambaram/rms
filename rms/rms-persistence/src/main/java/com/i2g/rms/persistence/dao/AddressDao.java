@@ -30,7 +30,7 @@ public interface AddressDao {
 	public List<Address> get(final Suspect suspect);
 	public List<Address> get(final CrimeSuspect crimeSuspect);
 	
-	public Address create(final Address address);
+	public Address createAddress(final Address address);
 	
 	public List<Address> createAddresses(final List<Address> addresses);
 	

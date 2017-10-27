@@ -93,7 +93,7 @@ public class AddressRestServiceImpl extends AbstractRestService implements Addre
 		final Address address = constructNewAddress(addressRO);
 		validateGenericObject(address);
 		//Save
-		final Address newAddress = _addressService.create(address);		
+		final Address newAddress = _addressService.createAddress(address);		
 		if (newAddress != null) {
 			return _mapperService.map(newAddress, AddressRO.class);
 		} else {
@@ -188,9 +188,12 @@ public class AddressRestServiceImpl extends AbstractRestService implements Addre
 		}
 		final Set<Address> addresses = new HashSet<Address>(0);
 		for (int i = 0; i < ids.length; i++) {
-			final Address address = _addressService.get(ids[i]);
-			if (address != null) {
-				addresses.add(address);
+			final Long id = ids[i];
+			if (id != null && id > 0) {
+				final Address address = _addressService.get(id);
+				if (address != null) {
+					addresses.add(address);
+				}
 			}
 		}
 		_addressService.deleteAddresses(new ArrayList<Address>(addresses));

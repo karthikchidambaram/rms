@@ -116,7 +116,7 @@ public class Permission extends AbstractDataModel<Long> implements Serializable 
 	 */
 	@ManyToMany(mappedBy = "permissions")
 	public Set<Role> getRoles() {
-		return _roles;
+		return _roles;		
 	}
 
 	/**
@@ -125,8 +125,6 @@ public class Permission extends AbstractDataModel<Long> implements Serializable 
 	public void setRoles(final Set<Role> roles) {
 		_roles = roles;
 	}
-
-
 
 	/**
 	 * Builder pattern for constructing immutable instances of

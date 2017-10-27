@@ -201,9 +201,12 @@ public class DocumentRestServiceImpl extends AbstractRestService implements Docu
 		}
 		Set<Document> documents = new HashSet<Document>(0);
 		for (int i = 0; i < ids.length; i++) {
-			final Document document = _documentService.get(ids[i]);
-			if (document != null) {
-				documents.add(document);
+			final Long id = ids[i];
+			if (id != null && id > 0) {
+				final Document document = _documentService.get(id);
+				if (document != null) {
+					documents.add(document);
+				}
 			}
 		}
 		_documentService.deleteDocuments(documents);

@@ -57,12 +57,12 @@ public class SuspectController extends AbstractRestController {
 	
 	@RequestMapping(value = RequestMappingConstants.UPDATE_SUSPECT, method = RequestMethod.PUT)
 	public SuspectRO updateSuspect(@Valid @RequestBody final SuspectRO suspectRO) {
-		return _suspectRestService.udpateSuspect(suspectRO);
+		return _suspectRestService.updateSuspect(suspectRO);
 	}
 	
 	@RequestMapping(value = RequestMappingConstants.UPDATE_SUSPECTS, method = RequestMethod.PUT)
 	public List<SuspectRO> updateSuspects(@Valid @RequestBody final SuspectWrapper suspectWrapper) {
-		return _suspectRestService.udpateSuspects(suspectWrapper);
+		return _suspectRestService.updateSuspects(suspectWrapper);
 	}
 	
 	@RequestMapping(value = RequestMappingConstants.REMOVE_DISTINGUISHING_FEATURE_DETAILS_FROM_SUSPECT, method = RequestMethod.DELETE)

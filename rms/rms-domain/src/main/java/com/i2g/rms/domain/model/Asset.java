@@ -15,14 +15,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.i2g.rms.domain.model.incident.Incident;
@@ -167,10 +165,14 @@ public class Asset extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the equipments
 	 */
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "asset")
-	@Fetch(FetchMode.SUBSELECT)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(
+			name = "RMS_ASST_EQPMT",
+			joinColumns = @JoinColumn(name = "ASST_ID"),
+			inverseJoinColumns = @JoinColumn(name = "EQPMT_ID")
+	)
 	public Set<Equipment> getEquipments() {
-		return _equipments;
+		return _equipments;		
 	}
 
 	/**
@@ -183,10 +185,14 @@ public class Asset extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the buildings
 	 */
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "asset")
-	@Fetch(FetchMode.SUBSELECT)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(
+			name = "RMS_ASST_BLDNG",
+			joinColumns = @JoinColumn(name = "ASST_ID"),
+			inverseJoinColumns = @JoinColumn(name = "BLDNG_ID")
+	)
 	public Set<Building> getBuildings() {
-		return _buildings;
+		return _buildings;		
 	}
 
 	/**
@@ -199,10 +205,14 @@ public class Asset extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * @return the vehicles
 	 */
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "asset")
-	@Fetch(FetchMode.SUBSELECT)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(
+			name = "RMS_ASST_VEHCL",
+			joinColumns = @JoinColumn(name = "ASST_ID"),
+			inverseJoinColumns = @JoinColumn(name = "VEHCL_ID")
+	)
 	public Set<Vehicle> getVehicles() {
-		return _vehicles;
+		return _vehicles;		
 	}
 
 	/**

@@ -1,6 +1,7 @@
 package com.i2g.rms.domain.model.tablemaintenance;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -130,7 +131,7 @@ public class IncidentLocation extends AbstractDataModel<String> implements Seria
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "incidentLocation")
 	@JsonIgnoreProperties("incidentLocation")
 	public Set<IncidentLocationDetail> getIncidentLocationDetails() {
-		return _incidentLocationDetails;
+		return _incidentLocationDetails;		
 	}
 
 	public void setIncidentLocationDetails(final Set<IncidentLocationDetail> incidentLocationDetails) {

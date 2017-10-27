@@ -24,8 +24,11 @@ public class AssetDetailRO extends AbstractEntityRO {
 	private String _uniqueIncidentId;
 	private AssetRO _asset;
 	private List<EquipmentRO> _equipments = new ArrayList<EquipmentRO>(0);
+	private List<EquipmentRO> _existingEquipments = new ArrayList<EquipmentRO>(0);
 	private List<BuildingRO> _buildings = new ArrayList<BuildingRO>(0);
+	private List<BuildingRO> _existingBuildings = new ArrayList<BuildingRO>(0);
 	private List<VehicleRO> _vehicles = new ArrayList<VehicleRO>(0);
+	private List<VehicleRO> _existingVehicles = new ArrayList<VehicleRO>(0);
 
 	public long getIncidentId() {
 		return _incidentId;
@@ -102,4 +105,28 @@ public class AssetDetailRO extends AbstractEntityRO {
 	public void setVehicles(final List<VehicleRO> vehicles) {
 		_vehicles = vehicles;
 	}
+
+	public List<EquipmentRO> getExistingEquipments() {
+		return _existingEquipments;
+	}
+
+	public void setExistingEquipments(final List<EquipmentRO> existingEquipments) {
+		_existingEquipments = existingEquipments;
+	}
+
+	public List<BuildingRO> getExistingBuildings() {
+		return _existingBuildings;
+	}
+
+	public void setExistingBuildings(final List<BuildingRO> existingBuildings) {
+		_existingBuildings = existingBuildings;
+	}
+
+	public List<VehicleRO> getExistingVehicles() {
+		return _existingVehicles;
+	}
+
+	public void setExistingVehicles(final List<VehicleRO> existingVehicles) {
+		_existingVehicles = existingVehicles;
+	}	
 }

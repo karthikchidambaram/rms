@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import com.i2g.rms.domain.model.StatusFlag;
 import com.i2g.rms.domain.model.Witness;
+import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeatureDetail;
 import com.i2g.rms.persistence.hibernate.AbstractHibernateDao;
 
 /**
@@ -63,17 +64,68 @@ public class WitnessDaoImpl extends AbstractHibernateDao<Long, Witness> implemen
 		criteria.add(Restrictions.eq("statusFlag", StatusFlag.ACTIVE));
 		return (Witness) criteria.uniqueResult();
 	}
+	
+	@Override
+	public Witness createNewWitness(final Witness witness) {
+		validateObject(witness);
+		final Long id = save(witness);
+		if (id != null) {
+			return get(id);
+		} else {
+			return null;
+		}
+	}
 
 	@Override
 	public Set<Witness> createNewWitnesses(final Set<Witness> witnesses) {
 		validateCollectionObject(witnesses);
 		final Set<Witness> newWitnesses = new HashSet<Witness>(0);
 		for (Witness witness : witnesses) {
-			final Long id = save(witness);
-			if (id != null) {
-				newWitnesses.add(get(id));
+			if (witness != null) {
+				final Long id = save(witness);
+				if (id != null) {
+					newWitnesses.add(get(id));
+				}
 			}
 		}
 		return newWitnesses;
-	}	
+	}
+
+	@Override
+	public Witness updateWitness(final Witness witness) {
+		validateObject(witness);
+		final Long id = save(witness);
+		if (id != null) {
+			return get(id);
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public Set<Witness> updateWitnesses(final Set<Witness> witnesses) {
+		validateCollectionObject(witnesses);
+		final Set<Witness> updatedWitnesses = new HashSet<Witness>(0);
+		for (Witness witness : witnesses) {
+			if (witness != null) {
+				final Long id = save(witness);
+				if (id != null) {
+					updatedWitnesses.add(get(id));
+				}
+			}
+		}
+		return updatedWitnesses;
+	}
+	
+	@Override
+	public void removeDistinguishingFeatureDetailsFromWitness(final Witness witness, final Set<DistinguishingFeatureDetail> distinguishingFeatureDetails) {
+		validateObject(witness);
+		validateCollectionObject(distinguishingFeatureDetails);
+		for (DistinguishingFeatureDetail distinguishingFeatureDetail : distinguishingFeatureDetails) {
+			if (distinguishingFeatureDetail != null) {
+				witness.getDistinguishingFeatureDetails().remove(distinguishingFeatureDetail);	
+			}
+		}
+		save(witness);
+	}
 }

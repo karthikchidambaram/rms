@@ -357,7 +357,7 @@ public class CrimeSuspect extends AbstractDataModel<Long> implements Serializabl
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "crimeSuspect")
 	@Fetch(FetchMode.SUBSELECT)
 	public Set<Address> getAddresses() {
-		return _addresses;
+		return _addresses;		
 	}
 
 	/**
@@ -409,7 +409,7 @@ public class CrimeSuspect extends AbstractDataModel<Long> implements Serializabl
 			joinColumns = @JoinColumn(name = "CRME_SUSPT_ID"),
 			inverseJoinColumns = @JoinColumn(name = "DIST_FEA_CHLD_CDE"))
 	public Set<DistinguishingFeatureDetail> getDistinguishingFeatureDetails() {
-		return _distinguishingFeatureDetails;
+		return _distinguishingFeatureDetails;		
 	}
 
 	/**

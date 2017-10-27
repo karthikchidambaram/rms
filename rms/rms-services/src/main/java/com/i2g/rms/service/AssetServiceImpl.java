@@ -35,7 +35,12 @@ public class AssetServiceImpl extends AbstractService implements AssetService {
 	}
 
 	@Override
-	public Asset create(final Asset asset) {
-		return _assetDao.create(asset);
+	public Asset createAsset(final Asset asset) {
+		return _assetDao.createAsset(asset);
 	}
+
+	@Override
+	public Asset updateAsset(final Asset asset) {
+		return _assetDao.updateAsset(asset);
+	}	
 }

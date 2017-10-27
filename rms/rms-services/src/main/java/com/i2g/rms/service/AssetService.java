@@ -12,11 +12,13 @@ import com.i2g.rms.domain.model.Asset;
  *
  */
 public interface AssetService {
-	
+
 	public List<Asset> get();
-	
+
 	public Asset get(final long id);
-	
-	public Asset create(final Asset asset);
-	
+
+	public Asset createAsset(final Asset asset);
+
+	public Asset updateAsset(final Asset asset);
+
 }

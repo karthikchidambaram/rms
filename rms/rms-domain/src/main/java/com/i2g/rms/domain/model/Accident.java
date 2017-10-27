@@ -223,7 +223,7 @@ public class Accident extends AbstractDataModel<Long> implements Serializable {
 			inverseJoinColumns = @JoinColumn(name = "INJRD_PRSN_ID")
 	)
 	public Set<InjuredPerson> getInjuredPersons() {
-		return _injuredPersons;
+		return _injuredPersons;		
 	}
 
 	/**
@@ -231,7 +231,7 @@ public class Accident extends AbstractDataModel<Long> implements Serializable {
 	 *            the injuredPersons to set
 	 */
 	public void setInjuredPersons(final Set<InjuredPerson> injuredPersons) {
-		this._injuredPersons = injuredPersons;
+		_injuredPersons = injuredPersons;		
 	}
 
 	/**
@@ -244,7 +244,7 @@ public class Accident extends AbstractDataModel<Long> implements Serializable {
 			inverseJoinColumns = @JoinColumn(name = "USR_ID")
 	)
 	public Set<User> getEmployeeInjuredPersons() {
-		return _employeeInjuredPersons;
+		return _employeeInjuredPersons;		
 	}
 
 	/**
@@ -252,7 +252,7 @@ public class Accident extends AbstractDataModel<Long> implements Serializable {
 	 *            the employeeInjuredPersons to set
 	 */
 	public void setEmployeeInjuredPersons(final Set<User> employeeInjuredPersons) {
-		this._employeeInjuredPersons = employeeInjuredPersons;
+		_employeeInjuredPersons = employeeInjuredPersons;
 	}
 
 	/**
@@ -265,7 +265,7 @@ public class Accident extends AbstractDataModel<Long> implements Serializable {
 			inverseJoinColumns = @JoinColumn(name = "WITNS_ID")
 	)
 	public Set<Witness> getWitnesses() {
-		return _witnesses;
+		return _witnesses;		
 	}
 
 	/**
@@ -273,7 +273,7 @@ public class Accident extends AbstractDataModel<Long> implements Serializable {
 	 *            the witnesses to set
 	 */
 	public void setWitnesses(final Set<Witness> witnesses) {
-		this._witnesses = witnesses;
+		_witnesses = witnesses;
 	}
 	
 	/**
@@ -286,7 +286,7 @@ public class Accident extends AbstractDataModel<Long> implements Serializable {
 			inverseJoinColumns = @JoinColumn(name = "USR_ID")
 	)
 	public Set<User> getEmployeeWitnesses() {
-		return _employeeWitnesses;
+		return _employeeWitnesses;		
 	}
 
 	/**

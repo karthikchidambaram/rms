@@ -41,8 +41,8 @@ public class AddressServiceImpl extends AbstractService implements AddressServic
 	}
 
 	@Override
-	public Address create(final Address address) {
-		return _addressDao.create(address);
+	public Address createAddress(final Address address) {
+		return _addressDao.createAddress(address);
 	}
 	
 	@Override

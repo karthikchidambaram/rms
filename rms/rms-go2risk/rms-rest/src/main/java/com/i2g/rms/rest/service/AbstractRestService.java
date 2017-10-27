@@ -16,7 +16,10 @@ import com.i2g.rms.domain.model.User;
 import com.i2g.rms.rest.constants.RequestConstants;
 import com.i2g.rms.rest.mapping.MapperService;
 import com.i2g.rms.rest.security.stateless.UserAuthentication;
+import com.i2g.rms.service.exception.ResourceNotCreatedException;
 import com.i2g.rms.service.exception.ResourceNotFoundException;
+import com.i2g.rms.service.exception.ResourceNotRemovedException;
+import com.i2g.rms.service.exception.ResourceNotUpdatedException;
 import com.i2g.rms.service.exception.ResourceNotValidException;
 import com.i2g.rms.service.message.MessageBuilder;
 
@@ -176,6 +179,34 @@ public abstract class AbstractRestService {
 		}
 	}
 	
+	protected void validateKeyId(final Long id) {
+		if (id == null || id <= 0) {
+			throw new ResourceNotValidException(_messageBuilder.build(RestMessage.GENERIC_FETCH_FAILED_MESSAGE));
+		}
+	}
+	
+	protected void exceptionWhileRecordFetch() {
+		throw new ResourceNotFoundException(_messageBuilder.build(RestMessage.GENERIC_FETCH_FAILED_MESSAGE));
+	}
+
+	protected void exceptionWhileRecordCreation() {
+		throw new ResourceNotCreatedException(_messageBuilder.build(RestMessage.UNABLE_TO_CREATE_RECORD));
+	}
+	
+	protected void exceptionWhileRecordUpdate() {
+		throw new ResourceNotUpdatedException(_messageBuilder.build(RestMessage.UNABLE_TO_UPDATE_RECORD));
+	}
+	
+	protected void exceptionWhileRecordDelete() {
+		throw new ResourceNotRemovedException(_messageBuilder.build(RestMessage.DELETE_OPERATION_FAILED));
+	}
+
+	protected void validateKeyId(final long id) {
+		if (id <= 0) {
+			throw new ResourceNotValidException(_messageBuilder.build(RestMessage.GENERIC_FETCH_FAILED_MESSAGE));
+		}
+	}
+	
 	protected void validateStringObject(final String object) {
 		if (object == null || object.trim().isEmpty()) {
 			throw new ResourceNotValidException(_messageBuilder.build(RestMessage.INPUT_STRING_NULL_OR_EMPTY));
@@ -330,5 +361,5 @@ public abstract class AbstractRestService {
 		if (collectionObject == null || collectionObject.isEmpty()) {
 			throw new ResourceNotValidException(_messageBuilder.build(RestMessage.INPUT_OBJECT_NULL_OR_EMPTY));
 		}
-	}
+	}	
 }

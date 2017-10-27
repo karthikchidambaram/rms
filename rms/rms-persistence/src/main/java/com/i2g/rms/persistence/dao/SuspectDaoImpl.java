@@ -64,6 +64,17 @@ public class SuspectDaoImpl extends AbstractHibernateDao<Long, Suspect> implemen
 		criteria.add(Restrictions.eq("statusFlag", StatusFlag.ACTIVE));
 		return (Suspect) criteria.uniqueResult();
 	}
+	
+	@Override
+	public Suspect createNewSuspect(final Suspect suspect) {
+		validateObject(suspect);
+		final Long id = save(suspect);
+		if (id != null) {
+			return get(id);
+		} else {
+			return null;
+		}
+	}
 
 	@Override
 	/**
@@ -74,9 +85,11 @@ public class SuspectDaoImpl extends AbstractHibernateDao<Long, Suspect> implemen
 		validateCollectionObject(suspects);
 		final List<Suspect> newSuspects = new ArrayList<Suspect>(0);
 		for (Suspect suspect : suspects) {
-			final Long id = save(suspect);
-			if (id != null) {
-				newSuspects.add(get(id));
+			if (suspect != null) {
+				final Long id = save(suspect);
+				if (id != null) {
+					newSuspects.add(get(id));
+				}
 			}
 		}
 		return newSuspects;
@@ -92,6 +105,21 @@ public class SuspectDaoImpl extends AbstractHibernateDao<Long, Suspect> implemen
 			return null;
 		}
 	}
+	
+	@Override
+	public List<Suspect> updateSuspects(final Set<Suspect> suspects) {
+		validateCollectionObject(suspects);
+		final List<Suspect> updatedSuspects = new ArrayList<Suspect>(0);
+		for (Suspect suspect : suspects) {
+			if (suspect != null) {
+				final Long id = save(suspect);
+				if (id != null) {
+					updatedSuspects.add(get(id));
+				}
+			}
+		}
+		return updatedSuspects;
+	}
 
 	@Override
 	public void removeDistinguishingFeatureDetailsFromSuspect(final Suspect suspect, final Set<DistinguishingFeatureDetail> distinguishingFeatureDetails) {
@@ -103,29 +131,5 @@ public class SuspectDaoImpl extends AbstractHibernateDao<Long, Suspect> implemen
 			}
 		}
 		save(suspect);
-	}
-
-	@Override
-	public Suspect createNewSuspect(final Suspect suspect) {
-		validateObject(suspect);
-		final Long id = save(suspect);
-		if (id != null) {
-			return get(id);
-		} else {
-			return null;
-		}
-	}
-
-	@Override
-	public List<Suspect> updateSuspects(final Set<Suspect> suspects) {
-		validateCollectionObject(suspects);
-		final List<Suspect> newSuspects = new ArrayList<Suspect>(0);
-		for (Suspect suspect : suspects) {
-			final Long id = save(suspect);
-			if (id != null) {
-				newSuspects.add(get(id));
-			}
-		}
-		return newSuspects;
-	}	
+	}		
 }
