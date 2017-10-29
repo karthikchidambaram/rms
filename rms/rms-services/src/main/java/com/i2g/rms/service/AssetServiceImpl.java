@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.i2g.rms.domain.model.Asset;
+import com.i2g.rms.domain.model.incident.Incident;
 import com.i2g.rms.persistence.dao.AssetDao;
 
 /**
@@ -33,6 +34,11 @@ public class AssetServiceImpl extends AbstractService implements AssetService {
 	public Asset get(final long id) {
 		return _assetDao.get(id);
 	}
+	
+	@Override
+	public Asset get(final Incident incident) {
+		return _assetDao.get(incident);
+	}	
 
 	@Override
 	public Asset createAsset(final Asset asset) {

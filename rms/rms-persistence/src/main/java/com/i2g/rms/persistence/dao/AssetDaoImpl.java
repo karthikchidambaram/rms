@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import com.i2g.rms.domain.model.Asset;
 import com.i2g.rms.domain.model.StatusFlag;
+import com.i2g.rms.domain.model.incident.Incident;
 import com.i2g.rms.persistence.hibernate.AbstractHibernateDao;
 
 /**
@@ -64,6 +65,14 @@ public class AssetDaoImpl extends AbstractHibernateDao<Long, Asset> implements A
 		criteria.add(Restrictions.eq("statusFlag", StatusFlag.ACTIVE));
 		return (Asset) criteria.uniqueResult();
 	}
+	
+	@Override
+	public Asset get(final Incident incident) {
+		final Criteria criteria = getSession().createCriteria(_modelType);
+		criteria.add(Restrictions.eq("incident", Objects.requireNonNull(incident, "Incident ID cannot be null or empty.")));
+		criteria.add(Restrictions.eq("statusFlag", StatusFlag.ACTIVE));
+		return (Asset) criteria.uniqueResult();
+	}
 
 	@Override
 	public Asset createAsset(final Asset asset) {
@@ -85,5 +94,5 @@ public class AssetDaoImpl extends AbstractHibernateDao<Long, Asset> implements A
 		} else {
 			return null;
 		}
-	}
+	}	
 }

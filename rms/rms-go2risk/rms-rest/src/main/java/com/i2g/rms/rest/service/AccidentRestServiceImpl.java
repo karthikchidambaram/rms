@@ -30,6 +30,7 @@ import com.i2g.rms.service.UserService;
 import com.i2g.rms.service.WitnessService;
 import com.i2g.rms.service.exception.ResourceConflictException;
 import com.i2g.rms.service.exception.ResourceNotCreatedException;
+import com.i2g.rms.service.exception.ResourceNotFoundException;
 import com.i2g.rms.service.exception.ResourceNotUpdatedException;
 import com.i2g.rms.service.exception.ResourceNotValidException;
 import com.i2g.rms.service.incident.IncidentService;
@@ -78,14 +79,42 @@ public class AccidentRestServiceImpl extends AbstractRestService implements Acci
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
 	@Transactional(readOnly = true)
 	public AccidentRO get(final Long accidentId) {
-		if (accidentId == null || accidentId <= 0) {
-			throw new ResourceNotValidException(_messageBuilder.build(RestMessage.GENERIC_FETCH_FAILED_MESSAGE));
-		}
+		validateKeyId(accidentId);
 		final Accident accident = _accidentService.get(accidentId);
 		if (accident != null) {
 			return _mapperService.map(accident, AccidentRO.class);
 		} else {
-			return null;
+			throw new ResourceNotFoundException(_messageBuilder.build(RestMessage.GENERIC_FETCH_FAILED_MESSAGE));			
+		}
+	}
+	
+	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
+	@Transactional(readOnly = true)
+	public AccidentRO getAccidentByIncidentId(final Long incidentId) {
+		validateKeyId(incidentId);
+		final Incident incident = _incidentService.get(incidentId);
+		validateGenericObject(incident);
+		final Accident accident = _accidentService.get(incident);
+		if (accident != null) {
+			return _mapperService.map(accident, AccidentRO.class);
+		} else {
+			throw new ResourceNotFoundException(_messageBuilder.build(RestMessage.GENERIC_FETCH_FAILED_MESSAGE));
+		}		
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
+	@Transactional(readOnly = true)
+	public AccidentRO getAccidentByUniqueIncidentId(final String uniqueIncidentId) {
+		validateUniqueIncidentId(uniqueIncidentId);
+		final Incident incident = _incidentService.getIncidentByUniqueIncidentId(uniqueIncidentId);
+		validateGenericObject(incident);
+		final Accident accident = _accidentService.get(incident);
+		if (accident != null) {
+			return _mapperService.map(accident, AccidentRO.class);
+		} else {
+			throw new ResourceNotFoundException(_messageBuilder.build(RestMessage.GENERIC_FETCH_FAILED_MESSAGE));
 		}
 	}
 
@@ -875,5 +904,5 @@ public class AccidentRestServiceImpl extends AbstractRestService implements Acci
 		} else {
 			return null;
 		}
-	}	
+	}
 }

@@ -21,6 +21,10 @@ public interface AccidentRestService {
 
 	public AccidentRO get(final Long accidentId);
 	
+	public AccidentRO getAccidentByIncidentId(final Long incidentId);
+	
+	public AccidentRO getAccidentByUniqueIncidentId(final String uniqueIncidentId);
+	
 	public AccidentRO createAccident(final AccidentRO accidentRO);
 	
 	public AccidentRO updateAccident(final AccidentRO accidentRO);

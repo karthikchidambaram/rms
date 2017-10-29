@@ -417,6 +417,8 @@ public interface RequestMappingConstants {
 	String ACCIDENT												= SECURED + "/accident";
 	String GET_ALL_ACCIDENTS									= ACCIDENT + "/accidents";
 	String GET_ACCIDENT_BY_ACCIDENT_ID							= ACCIDENT + "/accidentId/{accidentId}";
+	String GET_ACCIDENT_BY_INCIDENT_ID							= ACCIDENT + "/incidentId/{incidentId}";
+	String GET_ACCIDENT_BY_UNIQUE_INCIDENT_ID					= ACCIDENT + "/uniqueIncidentId/{uniqueIncidentId}";
 	String CREATE_ACCIDENT										= ACCIDENT + "/create-accident";
 	String UPDATE_ACCIDENT										= ACCIDENT + "/update-accident";
 	String ADD_OR_UPDATE_ACCIDENT								= ACCIDENT + "/add-or-update-accident";
@@ -537,4 +539,38 @@ public interface RequestMappingConstants {
 	String CREATE_VEHICLES								= VEHICLE + "/create-vehicles";
 	String UPDATE_VEHICLE								= VEHICLE + "/update-vehicle";
 	String UPDATE_VEHICLES								= VEHICLE + "/update-vehicles";
+	
+	/** Asset operations */
+	String ASSET											= SECURED + "/asset";
+	String GET_ALL_ASSETS									= ASSET + "/assets";
+	String GET_ASSET_BY_ASSET_ID							= ASSET + "/assetId/{assetId}";
+	String GET_ASSET_BY_INCIDENT_ID							= ASSET + "/incidentId/{incidentId}";
+	String GET_ASSET_BY_UNIQUE_INCIDENT_ID					= ASSET + "/uniqueIncidentId/{uniqueIncidentId}";
+	String CREATE_ASSET										= ASSET + "/create-asset";
+	String UPDATE_ASSET										= ASSET + "/update-asset";
+	String ADD_OR_UPDATE_ASSET								= ASSET + "/add-or-update-asset";
+	
+	/** Attach building to asset */
+	String ADD_BUILDING_TO_ASSET							= ASSET + "/add-building/assetId/{assetId}";
+	String ADD_BUILDINGS_TO_ASSET							= ASSET + "/add-buildings";
+	String ADD_EXISTING_BUILDING_TO_ASSET					= ASSET + "/add-existing-building/assetId/{assetId}/buildingId/{buildingId}";
+	String ADD_EXISTING_BUILDINGS_TO_ASSET					= ASSET + "/add-existing-buildings";
+	String REMOVE_BUILDING_FROM_ASSET						= ASSET + "/remove-building/assetId/{assetId}/buildingId/{buildingId}";
+	String REMOVE_BUILDINGS_FROM_ASSET						= ASSET + "/remove-buildings";
+	
+	/** Attach equipment to asset */
+	String ADD_EQUIPMENT_TO_ASSET							= ASSET + "/add-equipment/assetId/{assetId}";
+	String ADD_EQUIPMENTS_TO_ASSET							= ASSET + "/add-equipments";
+	String ADD_EXISTING_EQUIPMENT_TO_ASSET					= ASSET + "/add-existing-equipment/assetId/{assetId}/equipmentId/{equipmentId}";
+	String ADD_EXISTING_EQUIPMENTS_TO_ASSET					= ASSET + "/add-existing-equipments";
+	String REMOVE_EQUIPMENT_FROM_ASSET						= ASSET + "/remove-equipment/assetId/{assetId}/equipmentId/{equipmentId}";
+	String REMOVE_EQUIPMENTS_FROM_ASSET						= ASSET + "/remove-equipments";
+	
+	/** Attach vehicle to asset */
+	String ADD_VEHICLE_TO_ASSET								= ASSET + "/add-vehicle/assetId/{assetId}";
+	String ADD_VEHICLES_TO_ASSET							= ASSET + "/add-vehicles";
+	String ADD_EXISTING_VEHICLE_TO_ASSET					= ASSET + "/add-existing-vehicle/assetId/{assetId}/vehicleId/{vehicleId}";
+	String ADD_EXISTING_VEHICLES_TO_ASSET					= ASSET + "/add-existing-vehicles";
+	String REMOVE_VEHICLE_FROM_ASSET						= ASSET + "/remove-vehicle/assetId/{assetId}/vehicleId/{vehicleId}";
+	String REMOVE_VEHICLES_FROM_ASSET						= ASSET + "/remove-vehicles";
 }

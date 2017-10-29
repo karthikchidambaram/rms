@@ -45,6 +45,16 @@ public class AccidentController extends AbstractRestController {
 		return _accidentRestService.get(accidentId);
 	}
 	
+	@RequestMapping(value = RequestMappingConstants.GET_ACCIDENT_BY_INCIDENT_ID, method = RequestMethod.GET)
+	public AccidentRO getAccidentByIncidentId(@PathVariable final Long incidentId) {
+		return _accidentRestService.getAccidentByIncidentId(incidentId);
+	}
+	
+	@RequestMapping(value = RequestMappingConstants.GET_ACCIDENT_BY_UNIQUE_INCIDENT_ID, method = RequestMethod.GET)
+	public AccidentRO getAccidentByUniqueIncidentId(@PathVariable final String uniqueIncidentId) {
+		return _accidentRestService.getAccidentByUniqueIncidentId(uniqueIncidentId);
+	}
+	
 	@RequestMapping(value = RequestMappingConstants.CREATE_ACCIDENT, method = RequestMethod.POST)
 	public AccidentRO createAccident(@Valid @RequestBody final AccidentRO accidentRO) {
 		return _accidentRestService.createAccident(accidentRO);
