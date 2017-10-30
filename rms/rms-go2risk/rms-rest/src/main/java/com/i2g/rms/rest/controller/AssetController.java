@@ -163,5 +163,5 @@ public class AssetController extends AbstractRestController {
 	@RequestMapping(value = RequestMappingConstants.REMOVE_VEHICLES_FROM_ASSET, method = RequestMethod.DELETE)
 	public AssetRO removeVehiclesFromAsset(@Valid @RequestBody final VehicleWrapper vehicleWrapper) {
 		return _assetRestService.removeVehiclesFromAsset(vehicleWrapper);
-	}
+	}	
 }

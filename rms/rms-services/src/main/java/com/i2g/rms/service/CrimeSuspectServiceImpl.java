@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.i2g.rms.domain.model.CrimeSuspect;
+import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeatureDetail;
 import com.i2g.rms.persistence.dao.CrimeSuspectDao;
 
 /**
@@ -34,9 +35,29 @@ public class CrimeSuspectServiceImpl extends AbstractService implements CrimeSus
 	public CrimeSuspect get(final long id) {
 		return _crimeSuspectDao.get(id);
 	}
+	
+	@Override
+	public CrimeSuspect createNewCrimeSuspect(final CrimeSuspect crimeSuspect) {
+		return _crimeSuspectDao.createNewCrimeSuspect(crimeSuspect);
+	}
 
 	@Override
 	public Set<CrimeSuspect> createNewCrimeSuspects(final Set<CrimeSuspect> crimeSuspects) {
 		return _crimeSuspectDao.createNewCrimeSuspects(crimeSuspects);
+	}
+
+	@Override
+	public CrimeSuspect updateCrimeSuspect(final CrimeSuspect crimeSuspect) {
+		return _crimeSuspectDao.updateCrimeSuspect(crimeSuspect);
+	}
+
+	@Override
+	public Set<CrimeSuspect> updateCrimeSuspects(final Set<CrimeSuspect> crimeSuspects) {
+		return _crimeSuspectDao.updateCrimeSuspects(crimeSuspects);		
+	}
+
+	@Override
+	public void removeDistinguishingFeatureDetailsFromCrimeSuspect(final CrimeSuspect crimeSuspect, final Set<DistinguishingFeatureDetail> distinguishingFeatureDetails) {
+		_crimeSuspectDao.removeDistinguishingFeatureDetailsFromCrimeSuspect(crimeSuspect, distinguishingFeatureDetails);
 	}
 }

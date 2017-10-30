@@ -73,8 +73,8 @@ public class SuspectRestServiceImpl extends AbstractRestService implements Suspe
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
 	@Transactional(readOnly = true)
-	public SuspectRO get(final long suspectId) {
-		if (suspectId > 0) {
+	public SuspectRO get(final Long suspectId) {
+		if (suspectId != null && suspectId > 0) {
 			final Suspect suspect = _suspectService.get(suspectId);
 			validateGenericObject(suspect);
 			return _mapperService.map(suspect, SuspectRO.class);
@@ -172,7 +172,7 @@ public class SuspectRestServiceImpl extends AbstractRestService implements Suspe
 		if (distinguishingFeatureDetailWrapper.getSuspectId() == null || distinguishingFeatureDetailWrapper.getSuspectId() <= 0) {
 			throw new ResourceNotValidException(_messageBuilder.build(RestMessage.GENERIC_FETCH_FAILED_MESSAGE));
 		}
-		Suspect suspect = _suspectService.get(distinguishingFeatureDetailWrapper.getSuspectId());
+		final Suspect suspect = _suspectService.get(distinguishingFeatureDetailWrapper.getSuspectId());
 		validateGenericObject(suspect);
 		Set<DistinguishingFeatureDetail> distinguishingFeatureDetails = new HashSet<DistinguishingFeatureDetail>(0);
 		for (DistinguishingFeatureDetailRO distinguishingFeatureDetailRO : distinguishingFeatureDetailWrapper.getDistinguishingFeatureDetails()) {

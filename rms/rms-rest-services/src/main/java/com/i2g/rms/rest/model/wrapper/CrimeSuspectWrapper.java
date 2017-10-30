@@ -4,34 +4,22 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.i2g.rms.rest.model.InjuredPersonRO;
+import com.i2g.rms.rest.model.CrimeSuspectRO;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class InjuredPersonWrapper {
-
-	private Long accidentId;
+public class CrimeSuspectWrapper {
+	
+	private Long crimeId;
 	private Long[] employeeIds;
 	private String[] employeeLoginIds;
-	private Set<InjuredPersonRO> injuredPersons = new HashSet<InjuredPersonRO>(0);
-
-	public Long getAccidentId() {
-		return accidentId;
+	private Set<CrimeSuspectRO> crimeSuspects = new HashSet<CrimeSuspectRO>(0);
+	
+	public Set<CrimeSuspectRO> getCrimeSuspects() {
+		return crimeSuspects;
 	}
 
-	public void setAccidentId(final Long accidentId) {
-		if (accidentId != null) {
-			this.accidentId = accidentId;
-		} else {
-			this.accidentId = 0l;
-		}
-	}
-
-	public Set<InjuredPersonRO> getInjuredPersons() {
-		return injuredPersons;
-	}
-
-	public void setInjuredPersons(final Set<InjuredPersonRO> injuredPersons) {
-		this.injuredPersons = injuredPersons;
+	public void setCrimeSuspects(final Set<CrimeSuspectRO> crimeSuspects) {
+		this.crimeSuspects = crimeSuspects;
 	}
 
 	public Long[] getEmployeeIds() {
@@ -49,4 +37,16 @@ public class InjuredPersonWrapper {
 	public void setEmployeeLoginIds(final String[] employeeLoginIds) {
 		this.employeeLoginIds = employeeLoginIds;
 	}
+
+	public Long getCrimeId() {
+		return crimeId;
+	}
+
+	public void setCrimeId(final Long crimeId) {
+		if (crimeId != null) {
+			this.crimeId = crimeId;
+		} else {
+			this.crimeId = 0l;
+		}
+	}	
 }

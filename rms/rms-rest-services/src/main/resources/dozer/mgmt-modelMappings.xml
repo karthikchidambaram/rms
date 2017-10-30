@@ -160,8 +160,8 @@
 		<class-a>com.i2g.rms.domain.model.CrimeSuspect</class-a>
 		<class-b>com.i2g.rms.rest.model.CrimeSuspectRO</class-b>
 		<field-exclude>
-			<a>crime</a>
-			<b>crime</b>
+			<a>crimes</a>
+			<b>crimes</b>
 		</field-exclude>
 	</mapping>
 

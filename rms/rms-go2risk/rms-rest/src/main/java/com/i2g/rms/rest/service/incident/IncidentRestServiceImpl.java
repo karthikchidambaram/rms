@@ -604,7 +604,7 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 		validateGenericObject(incident);
 
 		// Construct and create the crime object.
-		Crime crime = constructCrime(crimeDetailRO.getCrime(), incident);
+		final Crime crime = constructCrime(crimeDetailRO.getCrime(), incident);
 		validateGenericObject(crime);
 		// At this point the crime object is created in the database.
 
@@ -622,7 +622,7 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 			crime.setEmployeeWitnesses(new HashSet<User>(0));
 		}
 
-		final Set<CrimeSuspect> newCrimeSuspects = constructNewCrimeSuspects(crimeDetailRO.getNewCrimeSuspects(), crime);
+		final Set<CrimeSuspect> newCrimeSuspects = constructNewCrimeSuspects(crimeDetailRO.getNewCrimeSuspects());
 		final Set<CrimeSuspect> existingCrimeSuspects = new HashSet<CrimeSuspect>(0);
 		final Set<User> employeeCrimeSuspects = new HashSet<User>(0);
 
@@ -630,8 +630,7 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 		final Set<Witness> existingWitnesses = new HashSet<Witness>(0);
 		final Set<User> employeeWitnesses = new HashSet<User>(0);
 
-		// Save new crime suspects to database and assign them to accident
-		// record.
+		// Save new crime suspects to database and assign them to accident record.
 		if (newCrimeSuspects != null && !newCrimeSuspects.isEmpty()) {
 			Set<CrimeSuspect> newlyCreatedCrimeSuspects = _crimeSuspectService.createNewCrimeSuspects(newCrimeSuspects);
 			if (newlyCreatedCrimeSuspects != null && !newlyCreatedCrimeSuspects.isEmpty()) {
@@ -688,17 +687,16 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 			}
 		}
 
-		// Update the crime record
-		final Crime updatedCrime = _crimeService.updateCrime(crime);
-		// Throw exception if unable to update record
-		if (updatedCrime == null) {
-			throw new ResourceNotCreatedException(_messageBuilder.build(RestMessage.UNABLE_TO_UPDATE_RECORD));
-		} else {
+		// Create the new crime record
+		final Crime newCrime = _crimeService.createCrime(crime);
+		if (newCrime != null) {
 			// Set the updated crime to incident.
-			incident.setCrime(updatedCrime);
+			incident.setCrime(newCrime);
+			return _mapperService.map(incident, IncidentRO.class);
+		} else {
+			// Throw exception if unable to update record
+			throw new ResourceNotCreatedException(_messageBuilder.build(RestMessage.UNABLE_TO_CREATE_RECORD));
 		}
-		// Throw the incident back with the newly created crime details
-		return _mapperService.map(incident, IncidentRO.class);
 	}
 	
 	@Override
@@ -967,10 +965,8 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 	@Transactional
 	public IncidentRO addSuspectsForIncident(final SuspectWrapper suspectWrapper) {
 		validateObject(suspectWrapper);
-		validateUniqueIncidentId(suspectWrapper.getUniqueIncidentId());
 		validateCollectionObject(suspectWrapper.getSuspects());
-		
-		final Incident incident = _incidentService.getIncidentByUniqueIncidentId(suspectWrapper.getUniqueIncidentId().trim());
+		final Incident incident = getIncident(suspectWrapper);
 		validateGenericObject(incident);
 		
 		final Set<Suspect> suspects = constructNewSuspects(new HashSet<SuspectRO>(suspectWrapper.getSuspects()));
@@ -1018,10 +1014,8 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 	@Transactional
 	public IncidentRO addExistingSuspectsForIncident(final SuspectWrapper suspectWrapper) {
 		validateObject(suspectWrapper);
-		validateUniqueIncidentId(suspectWrapper.getUniqueIncidentId());
 		validateCollectionObject(suspectWrapper.getSuspects());
-		
-		final Incident incident = _incidentService.getIncidentByUniqueIncidentId(suspectWrapper.getUniqueIncidentId().trim());
+		final Incident incident = getIncident(suspectWrapper);
 		validateGenericObject(incident);
 		
 		final Set<Suspect> suspects = new HashSet<Suspect>(0);
@@ -1103,10 +1097,12 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 		validateGenericObject(incident);
 		final Set<User> employeeSuspects = new HashSet<User>(0);
 		for (int i = 0; i < employeeIds.length; i++) {
-			final Long employeeId = (employeeIds[i] == null) ? 0l : employeeIds[i];
-			final User employeeSuspect = _userService.get(employeeId);
-			if (employeeSuspect != null) {
-				employeeSuspects.add(employeeSuspect);
+			final Long employeeId = employeeIds[i];
+			if (employeeId != null && employeeId > 0) {
+				final User employeeSuspect = _userService.get(employeeId);
+				if (employeeSuspect != null) {
+					employeeSuspects.add(employeeSuspect);
+				}
 			}
 		}
 		if (employeeSuspects != null && !employeeSuspects.isEmpty()) {
@@ -1136,10 +1132,12 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 		validateGenericObject(incident);
 		final Set<User> employeeSuspects = new HashSet<User>(0);
 		for (int i = 0; i < employeeLoginIds.length; i++) {
-			final String employeeLoginId = (employeeLoginIds[i] == null) ? "DUMMY_EMP_LOGIN_ID" : employeeLoginIds[i].trim();
-			final User employeeSuspect = _userService.getUserByUserLoginId(employeeLoginId);
-			if (employeeSuspect != null) {
-				employeeSuspects.add(employeeSuspect);
+			final String employeeLoginId = employeeLoginIds[i];
+			if (employeeLoginId != null && !employeeLoginId.trim().isEmpty()) {
+				final User employeeSuspect = _userService.getUserByUserLoginId(employeeLoginId.trim());
+				if (employeeSuspect != null) {
+					employeeSuspects.add(employeeSuspect);
+				}
 			}
 		}
 		if (employeeSuspects != null && !employeeSuspects.isEmpty()) {
@@ -1999,7 +1997,7 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 		}
 		// crime description
 		if (crimeRO.getCrimeDescription() != null && !crimeRO.getCrimeDescription().trim().isEmpty()) {
-			crimeRO.setCrimeDescription(crimeRO.getCrimeDescription().trim());
+			crime.setCrimeDescription(crimeRO.getCrimeDescription().trim());
 		}
 		//
 		YesNoType anyWitness = YesNoType.N;
@@ -2007,15 +2005,7 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 			anyWitness = YesNoType.Y;
 		}
 		crime.setAnyWitness(anyWitness);
-
-		// Create the crime record
-		final Crime newCrime = _crimeService.createCrime(crime);
-		// Throw exception if unable to create record
-		if (newCrime == null) {
-			throw new ResourceNotCreatedException(_messageBuilder.build(RestMessage.UNABLE_TO_CREATE_RECORD));
-		}
-
-		return newCrime;
+		return crime;
 	}
 	
 	private Claim constructClaim(final ClaimRO claimRO, final Incident incident) {
@@ -2289,12 +2279,11 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 		return investigation;
 	}
 
-	private Set<CrimeSuspect> constructNewCrimeSuspects(final Set<CrimeSuspectRO> crimeSuspectROs, final Crime crime) {
+	private Set<CrimeSuspect> constructNewCrimeSuspects(final Set<CrimeSuspectRO> crimeSuspectROs) {
 		final Set<CrimeSuspect> crimeSuspects = new HashSet<CrimeSuspect>(0);
 		if (crimeSuspectROs != null && !crimeSuspectROs.isEmpty()) {
 			for (CrimeSuspectRO crimeSuspectRO : crimeSuspectROs) {
-				final CrimeSuspect crimeSuspect = new CrimeSuspect.Builder().setStatusFlag(StatusFlag.ACTIVE)
-						.setCrime(crime).build();
+				final CrimeSuspect crimeSuspect = new CrimeSuspect.Builder().setStatusFlag(StatusFlag.ACTIVE).build();
 				// title
 				if (nullOrEmptySafeCheck(crimeSuspectRO.getTitle())) {
 					crimeSuspect.setTitle(stringTrimmer(crimeSuspectRO.getTitle()));
@@ -2318,26 +2307,21 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 				// gender type
 				if (crimeSuspectRO.getGenderType() != null) {
 					if (nullOrEmptySafeCheck(crimeSuspectRO.getGenderType().getId())) {
-						crimeSuspect.setGenderType(_tableMaintenanceService
-								.getGenderTypeByCode(stringTrimmer(crimeSuspectRO.getGenderType().getId())));
+						crimeSuspect.setGenderType(_tableMaintenanceService.getGenderTypeByCode(stringTrimmer(crimeSuspectRO.getGenderType().getId())));
 					}
 				}
 				// gender type other
-				if (crimeSuspectRO.getGenderTypeOther() != null
-						&& !crimeSuspectRO.getGenderTypeOther().trim().isEmpty()) {
+				if (crimeSuspectRO.getGenderTypeOther() != null && !crimeSuspectRO.getGenderTypeOther().trim().isEmpty()) {
 					crimeSuspect.setGenderTypeOther(crimeSuspectRO.getGenderTypeOther().trim());
 				}
 				// Crime Suspect Type
 				if (crimeSuspectRO.getCrimeSuspectType() != null) {
-					if (crimeSuspectRO.getCrimeSuspectType().getId() != null
-							&& !crimeSuspectRO.getCrimeSuspectType().getId().trim().isEmpty()) {
-						crimeSuspect.setCrimeSuspectType(_tableMaintenanceService
-								.getSuspectTypeByCode(crimeSuspectRO.getCrimeSuspectType().getId().trim()));
+					if (crimeSuspectRO.getCrimeSuspectType().getId() != null && !crimeSuspectRO.getCrimeSuspectType().getId().trim().isEmpty()) {
+						crimeSuspect.setCrimeSuspectType(_tableMaintenanceService.getSuspectTypeByCode(crimeSuspectRO.getCrimeSuspectType().getId().trim()));
 					}
 				}
 				// other comments for crime suspect type
-				if (crimeSuspectRO.getCrimeSuspectTypeOther() != null
-						&& !crimeSuspectRO.getCrimeSuspectTypeOther().trim().isEmpty()) {
+				if (crimeSuspectRO.getCrimeSuspectTypeOther() != null && !crimeSuspectRO.getCrimeSuspectTypeOther().trim().isEmpty()) {
 					crimeSuspect.setCrimeSuspectTypeOther(crimeSuspectRO.getCrimeSuspectTypeOther().trim());
 				}
 				// date of birth
@@ -2366,19 +2350,15 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 				}
 				// crime addresses if any
 				if (crimeSuspectRO.getAddresses() != null) {
-					crimeSuspect.setAddresses(constructAddresses(crimeSuspectRO.getAddresses(), null, null, null, null,
-							crimeSuspect, null));
+					crimeSuspect.setAddresses(constructAddresses(crimeSuspectRO.getAddresses(), null, null, null, null, crimeSuspect, null));
 				}
 				// construct and set distinguishing feature details
-				if (crimeSuspect.getDistinguishingFeatureDetails() == null
-						|| crimeSuspect.getDistinguishingFeatureDetails().isEmpty()) {
+				if (crimeSuspect.getDistinguishingFeatureDetails() == null || crimeSuspect.getDistinguishingFeatureDetails().isEmpty()) {
 					crimeSuspect.setDistinguishingFeatureDetails(new HashSet<DistinguishingFeatureDetail>(0));
 				}
-				crimeSuspect.getDistinguishingFeatureDetails().addAll(
-						constructDistinguishingFeatureDetails(crimeSuspectRO.getDistinguishingFeatureDetails()));
+				crimeSuspect.getDistinguishingFeatureDetails().addAll(constructDistinguishingFeatureDetails(crimeSuspectRO.getDistinguishingFeatureDetails()));
 				// other comments for distinguishing feature
-				if (crimeSuspectRO.getDistinguishingFeatureOther() != null
-						&& !crimeSuspectRO.getDistinguishingFeatureOther().trim().isEmpty()) {
+				if (crimeSuspectRO.getDistinguishingFeatureOther() != null && !crimeSuspectRO.getDistinguishingFeatureOther().trim().isEmpty()) {
 					crimeSuspect.setDistinguishingFeatureOther(crimeSuspectRO.getDistinguishingFeatureOther().trim());
 				}
 				crimeSuspects.add(crimeSuspect);
@@ -2493,5 +2473,17 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 				throw new ResourceNotValidException(_messageBuilder.build(RestMessage.WITNESS_FLAG_MUST_BE_YES));
 			}
 		}
-	}	
+	}
+	
+	private Incident getIncident(final SuspectWrapper suspectWrapper) {
+		Incident incident = null;
+		if (suspectWrapper != null) {
+			if (suspectWrapper.getIncidentId() != null && suspectWrapper.getIncidentId() > 0) {
+				incident = _incidentService.get(suspectWrapper.getIncidentId());
+			} else if (suspectWrapper.getUniqueIncidentId() != null && !suspectWrapper.getUniqueIncidentId().trim().isEmpty()) {
+				incident = _incidentService.getIncidentByUniqueIncidentId(suspectWrapper.getUniqueIncidentId().trim());
+			}
+		}
+		return incident;
+	}
 }

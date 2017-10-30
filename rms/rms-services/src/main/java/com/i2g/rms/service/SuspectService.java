@@ -25,7 +25,7 @@ public interface SuspectService {
 	
 	public Suspect updateSuspect(final Suspect suspect);
 	
-	public List<Suspect> updateSuspects(final Set<Suspect> suspect);
+	public List<Suspect> updateSuspects(final Set<Suspect> suspects);
 	
 	public void removeDistinguishingFeatureDetailsFromSuspect(final Suspect suspect, final Set<DistinguishingFeatureDetail> distinguishingFeatureDetails);
 	

@@ -1,7 +1,7 @@
 package com.i2g.rms.rest.model.wrapper;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeatureDetailRO;
@@ -13,14 +13,13 @@ public class DistinguishingFeatureDetailWrapper {
 	private Long witnessId;
 	private Long crimeSuspectId;
 	private Long injuredPersonId;
+	private Set<DistinguishingFeatureDetailRO> distinguishingFeatureDetails = new HashSet<DistinguishingFeatureDetailRO>(0);
 
-	private List<DistinguishingFeatureDetailRO> distinguishingFeatureDetails = new ArrayList<DistinguishingFeatureDetailRO>(0);
-
-	public List<DistinguishingFeatureDetailRO> getDistinguishingFeatureDetails() {
+	public Set<DistinguishingFeatureDetailRO> getDistinguishingFeatureDetails() {
 		return distinguishingFeatureDetails;
 	}
 
-	public void setDistinguishingFeatureDetails(final List<DistinguishingFeatureDetailRO> distinguishingFeatureDetails) {
+	public void setDistinguishingFeatureDetails(final Set<DistinguishingFeatureDetailRO> distinguishingFeatureDetails) {
 		this.distinguishingFeatureDetails = distinguishingFeatureDetails;
 	}
 

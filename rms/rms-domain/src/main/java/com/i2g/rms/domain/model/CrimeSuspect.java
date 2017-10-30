@@ -42,7 +42,7 @@ import com.i2g.rms.domain.model.tablemaintenance.SuspectType;
  */
 @Entity
 @Table(name = "RMS_CRME_SUSPT")
-@JsonIgnoreProperties({ "crime" })
+@JsonIgnoreProperties({ "crimes" })
 public class CrimeSuspect extends AbstractDataModel<Long> implements Serializable {
 
 	/**
@@ -66,7 +66,7 @@ public class CrimeSuspect extends AbstractDataModel<Long> implements Serializabl
 	private String _email;
 	private String _website;
 	private Set<Address> _addresses = new HashSet<Address>(0);
-	private Crime _crime;
+	private Set<Crime> _crimes = new HashSet<Crime>(0);
 	private String _distinguishingFeatureOther;
 	private Set<DistinguishingFeatureDetail> _distinguishingFeatureDetails = new HashSet<DistinguishingFeatureDetail>(0);
 	private String _crimeSuspectTypeOther;
@@ -86,7 +86,6 @@ public class CrimeSuspect extends AbstractDataModel<Long> implements Serializabl
 	 * @param builder
 	 */
 	private CrimeSuspect(final Builder builder) {
-		_crime = Objects.requireNonNull(builder._crime, "Crime object cannot be null for a crime suspect record.");
 		_statusFlag = Objects.requireNonNull(builder._statusFlag, "Status flag cannot be null.");
 	}
 
@@ -369,20 +368,19 @@ public class CrimeSuspect extends AbstractDataModel<Long> implements Serializabl
 	}
 
 	/**
-	 * @return the crime
+	 * @return the crimes
 	 */
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "CRME_ID")
-	public Crime getCrime() {
-		return _crime;
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "crimeSuspects")
+	public Set<Crime> getCrimes() {
+		return _crimes;
 	}
 
 	/**
-	 * @param crime
-	 *            the crime to set
+	 * @param crimes
+	 *            the crimes to set
 	 */
-	public void setCrime(final Crime crime) {
-		_crime = crime;
+	public void setCrimes(final Set<Crime> crimes) {
+		_crimes = crimes;
 	}
 	
 	/**
@@ -471,7 +469,6 @@ public class CrimeSuspect extends AbstractDataModel<Long> implements Serializabl
 	 */
 	public final static class Builder {
 
-		private Crime _crime;
 		private StatusFlag _statusFlag;
 
 		/**
@@ -481,11 +478,6 @@ public class CrimeSuspect extends AbstractDataModel<Long> implements Serializabl
 		 */
 		public CrimeSuspect build() {
 			return new CrimeSuspect(this);
-		}
-
-		public Builder setCrime(final Crime crime) {
-			_crime = crime;
-			return this;
 		}
 
 		public Builder setStatusFlag(final StatusFlag statusFlag) {

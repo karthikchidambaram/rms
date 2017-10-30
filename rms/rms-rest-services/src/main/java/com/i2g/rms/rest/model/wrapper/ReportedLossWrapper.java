@@ -1,7 +1,7 @@
 package com.i2g.rms.rest.model.wrapper;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.i2g.rms.rest.model.ReportedLossRO;
@@ -10,8 +10,7 @@ import com.i2g.rms.rest.model.ReportedLossRO;
 public class ReportedLossWrapper {
 
 	private String uniqueIncidentId;
-
-	private List<ReportedLossRO> reportedLosses = new ArrayList<ReportedLossRO>(0);
+	private Set<ReportedLossRO> reportedLosses = new HashSet<ReportedLossRO>(0);
 
 	public String getUniqueIncidentId() {
 		return uniqueIncidentId;
@@ -21,11 +20,11 @@ public class ReportedLossWrapper {
 		this.uniqueIncidentId = uniqueIncidentId;
 	}
 
-	public List<ReportedLossRO> getReportedLosses() {
+	public Set<ReportedLossRO> getReportedLosses() {
 		return reportedLosses;
 	}
 
-	public void setReportedLosses(final List<ReportedLossRO> reportedLosses) {
+	public void setReportedLosses(final Set<ReportedLossRO> reportedLosses) {
 		this.reportedLosses = reportedLosses;
 	}
 }

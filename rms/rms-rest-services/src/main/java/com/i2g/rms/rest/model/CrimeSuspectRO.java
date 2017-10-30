@@ -35,7 +35,7 @@ public class CrimeSuspectRO extends AbstractEntityRO {
 	private String _email;
 	private String _website;
 	private Set<AddressRO> _addresses = new HashSet<AddressRO>(0);
-	private CrimeRO _crime;
+	private Set<CrimeRO> _crimes = new HashSet<CrimeRO>(0);
 	private String _distinguishingFeatureOther;
 	private Set<DistinguishingFeatureDetailRO> _distinguishingFeatureDetails = new HashSet<DistinguishingFeatureDetailRO>(0);
 	private String _crimeSuspectTypeOther;
@@ -283,18 +283,18 @@ public class CrimeSuspectRO extends AbstractEntityRO {
 	}
 
 	/**
-	 * @return the crime
+	 * @return the crimes
 	 */
-	public CrimeRO getCrime() {
-		return _crime;
+	public Set<CrimeRO> getCrimes() {
+		return _crimes;
 	}
 
 	/**
-	 * @param crime
-	 *            the crime to set
+	 * @param crimes
+	 *            the crimes to set
 	 */
-	public void setCrime(final CrimeRO crime) {
-		_crime = crime;
+	public void setCrime(final Set<CrimeRO> crimes) {
+		_crimes = crimes;
 	}
 	
 	/**

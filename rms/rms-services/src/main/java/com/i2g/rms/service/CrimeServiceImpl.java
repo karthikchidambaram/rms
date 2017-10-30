@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.i2g.rms.domain.model.Crime;
+import com.i2g.rms.domain.model.incident.Incident;
 import com.i2g.rms.persistence.dao.CrimeDao;
 
 /**
@@ -33,6 +34,11 @@ public class CrimeServiceImpl extends AbstractService implements CrimeService {
 	public Crime get(final long id) {
 		return _crimeDao.get(id);
 	}
+	
+	@Override
+	public Crime get(final Incident incident) {
+		return _crimeDao.get(incident);
+	}
 
 	@Override
 	public Crime createCrime(final Crime crime) {
@@ -42,5 +48,5 @@ public class CrimeServiceImpl extends AbstractService implements CrimeService {
 	@Override
 	public Crime updateCrime(final Crime crime) {
 		return _crimeDao.updateCrime(crime);
-	}
+	}	
 }

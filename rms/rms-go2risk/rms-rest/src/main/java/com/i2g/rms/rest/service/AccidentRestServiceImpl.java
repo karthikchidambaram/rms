@@ -187,9 +187,7 @@ public class AccidentRestServiceImpl extends AbstractRestService implements Acci
 		validateGenericObject(injuredPerson);
 		final InjuredPerson newInjuredPerson = _injuredPersonService.createInjuredPerson(injuredPerson);
 		if (newInjuredPerson != null) {
-			final Set<InjuredPerson> injuredPersons = new HashSet<InjuredPerson>(0);
-			injuredPersons.add(newInjuredPerson);
-			accident.getInjuredPersons().addAll(injuredPersons);
+			accident.getInjuredPersons().add(newInjuredPerson);
 			final Accident updatedAccident = _accidentService.updateAccident(accident);
 			if (updatedAccident != null) {
 				return _mapperService.map(updatedAccident, AccidentRO.class);
@@ -238,9 +236,7 @@ public class AccidentRestServiceImpl extends AbstractRestService implements Acci
 		validateGenericObject(accident);
 		final InjuredPerson injuredPerson = _injuredPersonService.get(injuredPersonId);
 		validateGenericObject(injuredPerson);
-		final Set<InjuredPerson> injuredPersons = new HashSet<InjuredPerson>(0);
-		injuredPersons.add(injuredPerson);
-		accident.getInjuredPersons().addAll(injuredPersons);
+		accident.getInjuredPersons().add(injuredPerson);
 		final Accident updatedAccident = _accidentService.updateAccident(accident);
 		validateGenericObject(updatedAccident);
 		return _mapperService.map(updatedAccident, AccidentRO.class);
@@ -283,9 +279,7 @@ public class AccidentRestServiceImpl extends AbstractRestService implements Acci
 		validateGenericObject(accident);
 		final User employeeInjuredPerson = _userService.get(employeeId);
 		validateGenericObject(employeeInjuredPerson);
-		final Set<User> employeeInjuredPersons = new HashSet<User>(0);
-		employeeInjuredPersons.add(employeeInjuredPerson);
-		accident.getEmployeeInjuredPersons().addAll(employeeInjuredPersons);
+		accident.getEmployeeInjuredPersons().add(employeeInjuredPerson);
 		final Accident updatedAccident = _accidentService.updateAccident(accident);
 		validateGenericObject(updatedAccident);
 		return _mapperService.map(updatedAccident, AccidentRO.class);		
@@ -299,11 +293,9 @@ public class AccidentRestServiceImpl extends AbstractRestService implements Acci
 		validateUsername(employeeLoginId);
 		final Accident accident = _accidentService.get(accidentId);
 		validateGenericObject(accident);
-		final User employeeInjuredPerson = _userService.getUserByUserLoginId(employeeLoginId);
+		final User employeeInjuredPerson = _userService.getUserByUserLoginId(employeeLoginId.trim());
 		validateGenericObject(employeeInjuredPerson);
-		final Set<User> employeeInjuredPersons = new HashSet<User>(0);
-		employeeInjuredPersons.add(employeeInjuredPerson);
-		accident.getEmployeeInjuredPersons().addAll(employeeInjuredPersons);
+		accident.getEmployeeInjuredPersons().add(employeeInjuredPerson);
 		final Accident updatedAccident = _accidentService.updateAccident(accident);
 		validateGenericObject(updatedAccident);
 		return _mapperService.map(updatedAccident, AccidentRO.class);
@@ -353,8 +345,8 @@ public class AccidentRestServiceImpl extends AbstractRestService implements Acci
 		final Set<User> employeeInjuredPersons = new HashSet<User>(0);
 		for (int i = 0; i < employeeLoginIds.length; i++) {
 			final String employeeLoginId = employeeLoginIds[i];
-			if (employeeLoginId != null) {
-				final User employeeInjuredPerson = _userService.getUserByUserLoginId(employeeLoginId);
+			if (employeeLoginId != null && !employeeLoginId.trim().isEmpty()) {
+				final User employeeInjuredPerson = _userService.getUserByUserLoginId(employeeLoginId.trim());
 				if (employeeInjuredPerson != null) {
 					employeeInjuredPersons.add(employeeInjuredPerson);
 				}
@@ -434,7 +426,7 @@ public class AccidentRestServiceImpl extends AbstractRestService implements Acci
 		validateUsername(employeeLoginId);
 		final Accident accident = _accidentService.get(accidentId);
 		validateGenericObject(accident);
-		final User employeeInjuredPerson = _userService.getUserByUserLoginId(employeeLoginId);
+		final User employeeInjuredPerson = _userService.getUserByUserLoginId(employeeLoginId.trim());
 		validateGenericObject(employeeInjuredPerson);
 		accident.getEmployeeInjuredPersons().remove(employeeInjuredPerson);
 		final Accident updatedAccident = _accidentService.updateAccident(accident);
@@ -486,7 +478,7 @@ public class AccidentRestServiceImpl extends AbstractRestService implements Acci
 		final Set<User> employeeInjuredPersons = new HashSet<User>(0);
 		for (int i = 0; i < employeeLoginIds.length; i++) {
 			final String employeeLoginId = employeeLoginIds[i];
-			if (employeeLoginId != null) {
+			if (employeeLoginId != null && !employeeLoginId.trim().isEmpty()) {
 				final User employeeInjuredPerson = _userService.getUserByUserLoginId(employeeLoginId);
 				if (employeeInjuredPerson != null) {
 					employeeInjuredPersons.add(employeeInjuredPerson);
@@ -512,9 +504,7 @@ public class AccidentRestServiceImpl extends AbstractRestService implements Acci
 		validateGenericObject(witness);
 		final Witness newWitness = _witnessService.createNewWitness(witness);
 		if (newWitness != null) {
-			final Set<Witness> witnesses = new HashSet<Witness>(0);
-			witnesses.add(newWitness);
-			accident.getWitnesses().addAll(witnesses);
+			accident.getWitnesses().add(newWitness);
 			final Accident updatedAccident = _accidentService.updateAccident(accident);
 			if (updatedAccident != null) {
 				return _mapperService.map(updatedAccident, AccidentRO.class);
@@ -563,9 +553,7 @@ public class AccidentRestServiceImpl extends AbstractRestService implements Acci
 		validateGenericObject(accident);
 		final Witness witness = _witnessService.get(witnessId);
 		validateGenericObject(witness);
-		final Set<Witness> witnesses = new HashSet<Witness>(0);
-		witnesses.add(witness);
-		accident.getWitnesses().addAll(witnesses);
+		accident.getWitnesses().add(witness);
 		final Accident updatedAccident = _accidentService.updateAccident(accident);
 		validateGenericObject(updatedAccident);
 		return _mapperService.map(updatedAccident, AccidentRO.class);
@@ -608,9 +596,7 @@ public class AccidentRestServiceImpl extends AbstractRestService implements Acci
 		validateGenericObject(accident);
 		final User employeeWitness = _userService.get(employeeId);
 		validateGenericObject(employeeWitness);
-		final Set<User> employeeWitnesses = new HashSet<User>(0);
-		employeeWitnesses.add(employeeWitness);
-		accident.getEmployeeWitnesses().addAll(employeeWitnesses);
+		accident.getEmployeeWitnesses().add(employeeWitness);
 		final Accident updatedAccident = _accidentService.updateAccident(accident);
 		validateGenericObject(updatedAccident);
 		return _mapperService.map(updatedAccident, AccidentRO.class);		
@@ -626,9 +612,7 @@ public class AccidentRestServiceImpl extends AbstractRestService implements Acci
 		validateGenericObject(accident);
 		final User employeeWitness = _userService.getUserByUserLoginId(employeeLoginId);
 		validateGenericObject(employeeWitness);
-		final Set<User> employeeWitnesses = new HashSet<User>(0);
-		employeeWitnesses.add(employeeWitness);
-		accident.getEmployeeWitnesses().addAll(employeeWitnesses);
+		accident.getEmployeeWitnesses().add(employeeWitness);
 		final Accident updatedAccident = _accidentService.updateAccident(accident);
 		validateGenericObject(updatedAccident);
 		return _mapperService.map(updatedAccident, AccidentRO.class);
@@ -678,8 +662,8 @@ public class AccidentRestServiceImpl extends AbstractRestService implements Acci
 		final Set<User> employeeWitnesses = new HashSet<User>(0);
 		for (int i = 0; i < employeeLoginIds.length; i++) {
 			final String employeeLoginId = employeeLoginIds[i];
-			if (employeeLoginId != null) {
-				final User employeeWitness = _userService.getUserByUserLoginId(employeeLoginId);
+			if (employeeLoginId != null && !employeeLoginId.trim().isEmpty()) {
+				final User employeeWitness = _userService.getUserByUserLoginId(employeeLoginId.trim());
 				if (employeeWitness != null) {
 					employeeWitnesses.add(employeeWitness);
 				}
@@ -759,7 +743,7 @@ public class AccidentRestServiceImpl extends AbstractRestService implements Acci
 		validateUsername(employeeLoginId);
 		final Accident accident = _accidentService.get(accidentId);
 		validateGenericObject(accident);
-		final User employeeWitness = _userService.getUserByUserLoginId(employeeLoginId);
+		final User employeeWitness = _userService.getUserByUserLoginId(employeeLoginId.trim());
 		validateGenericObject(employeeWitness);
 		accident.getEmployeeWitnesses().remove(employeeWitness);
 		final Accident updatedAccident = _accidentService.updateAccident(accident);
@@ -811,8 +795,8 @@ public class AccidentRestServiceImpl extends AbstractRestService implements Acci
 		final Set<User> employeeWitnesses = new HashSet<User>(0);
 		for (int i = 0; i < employeeLoginIds.length; i++) {
 			final String employeeLoginId = employeeLoginIds[i];
-			if (employeeLoginId != null) {
-				final User employeeWitness = _userService.getUserByUserLoginId(employeeLoginId);
+			if (employeeLoginId != null && !employeeLoginId.trim().isEmpty()) {
+				final User employeeWitness = _userService.getUserByUserLoginId(employeeLoginId.trim());
 				if (employeeWitness != null) {
 					employeeWitnesses.add(employeeWitness);
 				}

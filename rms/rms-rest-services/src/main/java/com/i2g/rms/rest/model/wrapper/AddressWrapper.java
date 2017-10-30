@@ -1,7 +1,7 @@
 package com.i2g.rms.rest.model.wrapper;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.i2g.rms.rest.model.AddressRO;
@@ -15,7 +15,7 @@ public class AddressWrapper {
 	private Long injuredPersonId;
 	private Long userId;
 	private Long buildingId;
-	private List<AddressRO> addresses = new ArrayList<AddressRO>(0);
+	private Set<AddressRO> addresses = new HashSet<AddressRO>(0);
 
 	public Long getSuspectId() {
 		return suspectId;
@@ -89,11 +89,11 @@ public class AddressWrapper {
 		}
 	}
 
-	public List<AddressRO> getAddresses() {
+	public Set<AddressRO> getAddresses() {
 		return addresses;
 	}
 
-	public void setAddresses(final List<AddressRO> addresses) {
+	public void setAddresses(final Set<AddressRO> addresses) {
 		this.addresses = addresses;
 	}
 }

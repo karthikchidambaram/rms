@@ -7,7 +7,7 @@ package com.i2g.rms.service.exception;
  * @author Karthikeyan Chidambaram
  * @author RMS Development Team
  */
-public class ResourceNotUpdatedException extends ServiceException {
+public class ResourceNotUpdatedException extends RuntimeException {
 	
 	/**
 	 * 

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import com.i2g.rms.domain.model.CrimeSuspect;
 import com.i2g.rms.domain.model.StatusFlag;
+import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeatureDetail;
 import com.i2g.rms.persistence.hibernate.AbstractHibernateDao;
 
 /**
@@ -63,17 +64,68 @@ public class CrimeSuspectDaoImpl extends AbstractHibernateDao<Long, CrimeSuspect
 		criteria.add(Restrictions.eq("statusFlag", StatusFlag.ACTIVE));
 		return (CrimeSuspect) criteria.uniqueResult();
 	}
+	
+	@Override
+	public CrimeSuspect createNewCrimeSuspect(final CrimeSuspect crimeSuspect) {
+		validateObject(crimeSuspect);
+		final Long id = save(crimeSuspect);
+		if (id != null) {
+			return get(id);
+		} else {
+			return null;
+		}
+	}
 
 	@Override
 	public Set<CrimeSuspect> createNewCrimeSuspects(final Set<CrimeSuspect> crimeSuspects) {
 		validateCollectionObject(crimeSuspects);
 		final Set<CrimeSuspect> newCrimeSuspects = new HashSet<CrimeSuspect>(0);
 		for (CrimeSuspect crimeSuspect : crimeSuspects) {
-			final Long id = save(crimeSuspect);
-			if (id != null) {
-				newCrimeSuspects.add(get(id));
+			if (crimeSuspect != null) {
+				final Long id = save(crimeSuspect);
+				if (id != null) {
+					newCrimeSuspects.add(get(id));
+				}
 			}
 		}
 		return newCrimeSuspects;
+	}	
+
+	@Override
+	public CrimeSuspect updateCrimeSuspect(final CrimeSuspect crimeSuspect) {
+		validateObject(crimeSuspect);
+		final Long id = save(crimeSuspect);
+		if (id != null) {
+			return get(id);
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public Set<CrimeSuspect> updateCrimeSuspects(final Set<CrimeSuspect> crimeSuspects) {
+		validateCollectionObject(crimeSuspects);
+		final Set<CrimeSuspect> updatedCrimeSuspects = new HashSet<CrimeSuspect>(0);
+		for (CrimeSuspect crimeSuspect : crimeSuspects) {
+			if (crimeSuspect != null) {
+				final Long id = save(crimeSuspect);
+				if (id != null) {
+					updatedCrimeSuspects.add(get(id));
+				}
+			}
+		}
+		return updatedCrimeSuspects;
+	}
+
+	@Override
+	public void removeDistinguishingFeatureDetailsFromCrimeSuspect(final CrimeSuspect crimeSuspect, final Set<DistinguishingFeatureDetail> distinguishingFeatureDetails) {
+		validateObject(crimeSuspect);
+		validateCollectionObject(distinguishingFeatureDetails);
+		for (DistinguishingFeatureDetail distinguishingFeatureDetail : distinguishingFeatureDetails) {
+			if (distinguishingFeatureDetail != null) {
+				crimeSuspect.getDistinguishingFeatureDetails().remove(distinguishingFeatureDetail);				
+			}
+		}
+		save(crimeSuspect);		
 	}	
 }

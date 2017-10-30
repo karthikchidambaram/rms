@@ -190,9 +190,7 @@ public class AssetRestServiceImpl extends AbstractRestService implements AssetRe
 		validateGenericObject(building);
 		final Building newBuilding = _buildingService.createBuilding(building);
 		if (newBuilding != null) {
-			final Set<Building> buildings = new HashSet<Building>(0);
-			buildings.add(newBuilding);
-			asset.getBuildings().addAll(buildings);
+			asset.getBuildings().add(newBuilding);
 			final Asset updatedAsset = _assetService.updateAsset(asset);
 			if (updatedAsset != null) {
 				return _mapperService.map(updatedAsset, AssetRO.class);
@@ -241,9 +239,7 @@ public class AssetRestServiceImpl extends AbstractRestService implements AssetRe
 		validateGenericObject(asset);
 		final Building building = _buildingService.get(buildingId);
 		validateGenericObject(building);
-		final Set<Building> buildings = new HashSet<Building>(0);
-		buildings.add(building);
-		asset.getBuildings().addAll(buildings);
+		asset.getBuildings().add(building);
 		final Asset updatedAsset = _assetService.updateAsset(asset);
 		validateGenericObject(updatedAsset);
 		return _mapperService.map(updatedAsset, AssetRO.class);
@@ -332,9 +328,7 @@ public class AssetRestServiceImpl extends AbstractRestService implements AssetRe
 		validateGenericObject(equipment);
 		final Equipment newEquipment = _equipmentService.createEquipment(equipment);
 		if (newEquipment != null) {
-			final Set<Equipment> equipments = new HashSet<Equipment>(0);
-			equipments.add(newEquipment);
-			asset.getEquipments().addAll(equipments);
+			asset.getEquipments().add(newEquipment);
 			final Asset updatedAsset = _assetService.updateAsset(asset);
 			if (updatedAsset != null) {
 				return _mapperService.map(updatedAsset, AssetRO.class);
@@ -383,9 +377,7 @@ public class AssetRestServiceImpl extends AbstractRestService implements AssetRe
 		validateGenericObject(asset);
 		final Equipment equipment = _equipmentService.get(equipmentId);
 		validateGenericObject(equipment);
-		final Set<Equipment> equipments = new HashSet<Equipment>(0);
-		equipments.add(equipment);
-		asset.getEquipments().addAll(equipments);
+		asset.getEquipments().add(equipment);
 		final Asset updatedAsset = _assetService.updateAsset(asset);
 		validateGenericObject(updatedAsset);
 		return _mapperService.map(updatedAsset, AssetRO.class);
@@ -474,9 +466,7 @@ public class AssetRestServiceImpl extends AbstractRestService implements AssetRe
 		validateGenericObject(vehicle);
 		final Vehicle newVehicle = _vehicleService.createVehicle(vehicle);
 		if (newVehicle != null) {
-			final Set<Vehicle> vehicles = new HashSet<Vehicle>(0);
-			vehicles.add(newVehicle);
-			asset.getVehicles().addAll(vehicles);
+			asset.getVehicles().add(newVehicle);
 			final Asset updatedAsset = _assetService.updateAsset(asset);
 			if (updatedAsset != null) {
 				return _mapperService.map(updatedAsset, AssetRO.class);
@@ -525,9 +515,7 @@ public class AssetRestServiceImpl extends AbstractRestService implements AssetRe
 		validateGenericObject(asset);
 		final Vehicle vehicle = _vehicleService.get(vehicleId);
 		validateGenericObject(vehicle);
-		final Set<Vehicle> vehicles = new HashSet<Vehicle>(0);
-		vehicles.add(vehicle);
-		asset.getVehicles().addAll(vehicles);
+		asset.getVehicles().add(vehicle);
 		final Asset updatedAsset = _assetService.updateAsset(asset);
 		validateGenericObject(updatedAsset);
 		return _mapperService.map(updatedAsset, AssetRO.class);

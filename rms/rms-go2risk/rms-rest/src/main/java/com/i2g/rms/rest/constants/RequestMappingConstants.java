@@ -573,4 +573,56 @@ public interface RequestMappingConstants {
 	String ADD_EXISTING_VEHICLES_TO_ASSET					= ASSET + "/add-existing-vehicles";
 	String REMOVE_VEHICLE_FROM_ASSET						= ASSET + "/remove-vehicle/assetId/{assetId}/vehicleId/{vehicleId}";
 	String REMOVE_VEHICLES_FROM_ASSET						= ASSET + "/remove-vehicles";
+	
+	/** Crime operations */
+	String CRIME											= SECURED + "/crime";
+	String GET_ALL_CRIMES									= CRIME + "/crimes";
+	String GET_CRIME_BY_CRIME_ID							= CRIME + "/crimeId/{crimeId}";
+	String GET_CRIME_BY_INCIDENT_ID							= CRIME + "/incidentId/{incidentId}";
+	String GET_CRIME_BY_UNIQUE_INCIDENT_ID					= CRIME + "/uniqueIncidentId/{uniqueIncidentId}";
+	String CREATE_CRIME										= CRIME + "/create-crime";
+	String UPDATE_CRIME										= CRIME + "/update-crime";
+	String ADD_OR_UPDATE_CRIME								= CRIME + "/add-or-update-crime";
+	
+	/** adding and removing crimes suspects to a crime flows */
+	String ADD_CRIME_SUSPECT_FOR_CRIME								= CRIME + "/add-crime-suspect/crimeId/{crimeId}";
+	String ADD_CRIME_SUSPECTS_FOR_CRIME								= CRIME + "/add-crime-suspects";
+	String ADD_EXISTING_CRIME_SUSPECT_FOR_CRIME						= CRIME + "/add-existing-crime-suspect/crimeId/{crimeId}/crimeSuspectId/{crimeSuspectId}";
+	String ADD_EXISTING_CRIME_SUSPECTS_FOR_CRIME					= CRIME + "/add-existing-crime-suspects";
+	String ADD_EMPLOYEE_CRIME_SUSPECT_FOR_CRIME_BY_ID				= CRIME + "/add-employee-crime-suspect/crimeId/{crimeId}/employeeId/{employeeId}";
+	String ADD_EMPLOYEE_CRIME_SUSPECT_FOR_CRIME_BY_LOGIN_ID			= CRIME + "/add-employee-crime-suspect/crimeId/{crimeId}/employeeLoginId/{employeeLoginId}";
+	String ADD_EMPLOYEE_CRIME_SUSPECTS_FOR_CRIME_BY_IDS				= CRIME + "/add-emp-crime-suspects-by-ids";
+	String ADD_EMPLOYEE_CRIME_SUSPECTS_FOR_CRIME_BY_LOGIN_IDS		= CRIME + "/add-emp-crime-suspects-by-login-ids";
+	String REMOVE_CRIME_SUSPECT_FROM_CRIME							= CRIME + "/remove-crime-suspect/crimeId/{crimeId}/crimeSuspectId/{crimeSuspectId}";
+	String REMOVE_CRIME_SUSPECTS_FROM_CRIME							= CRIME + "/remove-crime-suspects";
+	String REMOVE_EMPLOYEE_CRIME_SUSPECT_FROM_CRIME_BY_ID			= CRIME + "/remove-employee-crime-suspect/crimeId/{crimeId}/employeeId/{employeeId}";
+	String REMOVE_EMPLOYEE_CRIME_SUSPECT_FROM_CRIME_BY_LOGIN_ID		= CRIME + "/remove-employee-crime-suspect/crimeId/{crimeId}/employeeLoginId/{employeeLoginId}";
+	String REMOVE_EMPLOYEE_CRIME_SUSPECTS_FROM_CRIME_BY_IDS			= CRIME + "/remove-employee-crime-suspects-by-ids";
+	String REMOVE_EMPLOYEE_CRIME_SUSPECTS_FROM_CRIME_BY_LOGIN_IDS	= CRIME + "/remove-employee-crime-suspects-by-login-ids";
+	
+	/** adding and removing witness to crime */
+	String ADD_WITNESS_TO_CRIME									= CRIME + "/add-witness/crimeId/{crimeId}";
+	String ADD_WITNESSES_TO_CRIME								= CRIME + "/add-witnesses";
+	String ADD_EXISTING_WITNESS_TO_CRIME						= CRIME + "/add-existing-witness/crimeId/{crimeId}/witnessId/{witnessId}";
+	String ADD_EXISTING_WITNESSES_TO_CRIME						= CRIME + "/add-existing-witnesses";
+	String ADD_EMPLOYEE_WITNESS_TO_CRIME_BY_ID					= CRIME + "/add-employee-witness/crimeId/{crimeId}/employeeId/{employeeId}";
+	String ADD_EMPLOYEE_WITNESS_TO_CRIME_BY_LOGIN_ID			= CRIME + "/add-employee-witness/crimeId/{crimeId}/employeeLoginId/{employeeLoginId}";
+	String ADD_EMPLOYEE_WITNESSES_TO_CRIME_BY_IDS				= CRIME + "/add-employee-witnesses-by-ids";
+	String ADD_EMPLOYEE_WITNESSES_TO_CRIME_BY_LOGIN_IDS			= CRIME + "/add-employee-witnesses-by-login-ids";
+	String REMOVE_WITNESS_FROM_CRIME							= CRIME + "/remove-witness/crimeId/{crimeId}/witnessId/{witnessId}";
+	String REMOVE_WITNESSES_FROM_CRIME							= CRIME + "/remove-witnesses";
+	String REMOVE_EMPLOYEE_WITNESS_FROM_CRIME_BY_ID				= CRIME + "/remove-employee-witness/crimeId/{crimeId}/employeeId/{employeeId}";
+	String REMOVE_EMPLOYEE_WITNESS_FROM_CRIME_BY_LOGIN_ID		= CRIME + "/remove-employee-witness/crimeId/{crimeId}/employeeLoginId/{employeeLoginId}";
+	String REMOVE_EMPLOYEE_WITNESSES_FROM_CRIME_BY_IDS			= CRIME + "/remove-employee-witnesses-by-ids";
+	String REMOVE_EMPLOYEE_WITNESSES_FROM_CRIME_BY_LOGIN_IDS	= CRIME + "/remove-employee-witnesses-by-login-ids";
+	
+	/** Crime Suspect operations */
+	String CRIME_SUSPECT 											= SECURED + "/crime-suspect";
+	String GET_ALL_CRIME_SUSPECTS									= CRIME_SUSPECT + "/crime-suspects";
+	String GET_CRIME_SUSPECT_BY_CRIME_SUSPECT_ID					= CRIME_SUSPECT + "/crimeSuspectId/{crimeSuspectId}";
+	String CREATE_CRIME_SUSPECT										= CRIME_SUSPECT + "/create-crime-suspect";
+	String CREATE_CRIME_SUSPECTS									= CRIME_SUSPECT + "/create-crime-suspects";
+	String UPDATE_CRIME_SUSPECT										= CRIME_SUSPECT + "/update-crime-suspect";
+	String UPDATE_CRIME_SUSPECTS									= CRIME_SUSPECT + "/update-crime-suspects";
+	String REMOVE_DISTINGUISHING_FEATURE_DETAILS_FROM_CRIME_SUSPECT = CRIME_SUSPECT + "/remove-dist-fea-details";
 }

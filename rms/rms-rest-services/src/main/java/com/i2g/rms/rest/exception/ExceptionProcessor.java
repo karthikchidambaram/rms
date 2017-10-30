@@ -28,7 +28,10 @@ import com.i2g.rms.rest.model.error.ErrorRO;
 import com.i2g.rms.service.exception.ResourceAlreadyExistsException;
 import com.i2g.rms.service.exception.ResourceConflictException;
 import com.i2g.rms.service.exception.ResourceLockedException;
+import com.i2g.rms.service.exception.ResourceNotCreatedException;
 import com.i2g.rms.service.exception.ResourceNotFoundException;
+import com.i2g.rms.service.exception.ResourceNotRemovedException;
+import com.i2g.rms.service.exception.ResourceNotUpdatedException;
 import com.i2g.rms.service.exception.ResourceNotValidException;
 import com.i2g.rms.service.message.MessageBuilder;
 
@@ -131,7 +134,10 @@ public class ExceptionProcessor {
 		TypeMismatchException.class, 
 		HttpMessageNotReadableException.class,
 		ResourceNotValidException.class,
-		NumberFormatException.class
+		NumberFormatException.class,
+		ResourceNotCreatedException.class,
+		ResourceNotUpdatedException.class,
+		ResourceNotRemovedException.class
 	})
 	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
 	public @ResponseBody ErrorRO badRequest(final HttpServletRequest request, final Exception ex) {

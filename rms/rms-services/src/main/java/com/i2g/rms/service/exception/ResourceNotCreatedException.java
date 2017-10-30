@@ -7,7 +7,7 @@ package com.i2g.rms.service.exception;
  * @author Karthikeyan Chidambaram
  * @author RMS Development Team
  */
-public class ResourceNotCreatedException extends ServiceException {
+public class ResourceNotCreatedException extends RuntimeException {
 	
 	/**
 	 * 

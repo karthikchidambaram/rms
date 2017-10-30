@@ -26,7 +26,7 @@ public interface SuspectRestService {
 
 	public List<SuspectRO> get();
 
-	public SuspectRO get(final long suspectId);
+	public SuspectRO get(final Long suspectId);
 
 	public SuspectRO createSuspect(final SuspectRO suspectRO);
 

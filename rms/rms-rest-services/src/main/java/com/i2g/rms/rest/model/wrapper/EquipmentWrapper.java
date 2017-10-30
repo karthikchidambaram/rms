@@ -1,7 +1,7 @@
 package com.i2g.rms.rest.model.wrapper;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.i2g.rms.rest.model.EquipmentRO;
@@ -12,14 +12,18 @@ public class EquipmentWrapper {
 	private Long assetId;
 	private Long[] equipmentIds;
 	private String[] uniqueEquipmentIds;
-	private List<EquipmentRO> equipments = new ArrayList<EquipmentRO>(0);
+	private Set<EquipmentRO> equipments = new HashSet<EquipmentRO>(0);
 
 	public Long getAssetId() {
 		return assetId;
 	}
 
 	public void setAssetId(final Long assetId) {
-		this.assetId = assetId;
+		if (assetId != null) {
+			this.assetId = assetId;
+		} else {
+			this.assetId = 0l;
+		}
 	}
 
 	public Long[] getEquipmentIds() {
@@ -38,11 +42,11 @@ public class EquipmentWrapper {
 		this.uniqueEquipmentIds = uniqueEquipmentIds;
 	}
 
-	public List<EquipmentRO> getEquipments() {
+	public Set<EquipmentRO> getEquipments() {
 		return equipments;
 	}
 
-	public void setEquipments(final List<EquipmentRO> equipments) {
+	public void setEquipments(final Set<EquipmentRO> equipments) {
 		this.equipments = equipments;
 	}
 }
