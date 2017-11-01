@@ -9,7 +9,7 @@ import com.i2g.rms.rest.model.ReportedLossRO;
 import com.i2g.rms.rest.model.wrapper.ReportedLossWrapper;
 
 /**
- * Rest Service Interface for role rest services.
+ * Rest Service Interface for reported loss rest services.
  * 
  * @since 1.0.0
  * @author Karthikeyan Chidambaram

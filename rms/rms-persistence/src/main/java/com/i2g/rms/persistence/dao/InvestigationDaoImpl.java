@@ -2,6 +2,7 @@ package com.i2g.rms.persistence.dao;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import com.i2g.rms.domain.model.Investigation;
 import com.i2g.rms.domain.model.StatusFlag;
+import com.i2g.rms.domain.model.User;
 import com.i2g.rms.domain.model.incident.Incident;
 import com.i2g.rms.persistence.hibernate.AbstractHibernateDao;
 
@@ -65,11 +67,27 @@ public class InvestigationDaoImpl extends AbstractHibernateDao<Long, Investigati
 		criteria.add(Restrictions.eq("statusFlag", StatusFlag.ACTIVE));
 		return (Investigation) criteria.uniqueResult();
 	}
+	
+	@Override
+	public Investigation get(final Incident incident) {
+		final Criteria criteria = getSession().createCriteria(_modelType);
+		criteria.add(Restrictions.eq("incident", Objects.requireNonNull(incident, "Incident object cannot be null or empty.")));
+		criteria.add(Restrictions.eq("statusFlag", StatusFlag.ACTIVE));
+		return (Investigation) criteria.uniqueResult();
+	}
+	
+	@Override
+	public List<Investigation> get(final User investigator) {
+		final Criteria criteria = getSession().createCriteria(_modelType);
+		criteria.add(Restrictions.eq("statusFlag", StatusFlag.ACTIVE));
+		criteria.add(Restrictions.eq("investigator", Objects.requireNonNull(investigator, "Investigator cannot be null or empty.")));
+		return (List<Investigation>) applySearch(criteria).list();
+	}
 
 	@Override
-	public Investigation create(final Investigation investigation) {
+	public Investigation createInvestigation(final Investigation investigation) {
 		validateObject(investigation);
-		Long id = save(investigation);
+		final Long id = save(investigation);
 		if (id != null) {
 			return get(id);
 		} else {
@@ -80,20 +98,28 @@ public class InvestigationDaoImpl extends AbstractHibernateDao<Long, Investigati
 	@Override
 	public Investigation updateInvestigation(final Investigation investigation) {
 		validateObject(investigation);
-		Long id = save(investigation);
+		final Long id = save(investigation);
 		if (id != null) {
 			return get(id);
 		} else {
 			return null;
 		}
 	}
-
+	
 	@Override
-	public Investigation get(final Incident incident) {
-		final Criteria criteria = getSession().createCriteria(_modelType);
-		criteria.add(Restrictions.eq("incident", Objects.requireNonNull(incident, "Incident object cannot be null or empty.")));
-		criteria.add(Restrictions.eq("statusFlag", StatusFlag.ACTIVE));
-		return (Investigation) criteria.uniqueResult();
+	public void deleteInvestigation(final Investigation investigation) {
+		validateObject(investigation);
+		super.delete(investigation);		
+	}
+	
+	@Override
+	public void deleteInvestigations(final Set<Investigation> investigations) {
+		validateCollectionObject(investigations);
+		for (Investigation investigation : investigations) {
+			if (investigation != null) {
+				super.delete(investigation);
+			}
+		}		
 	}
 
 	@Override
@@ -103,5 +129,5 @@ public class InvestigationDaoImpl extends AbstractHibernateDao<Long, Investigati
 		} else {
 			return false;
 		}
-	}
+	}	
 }

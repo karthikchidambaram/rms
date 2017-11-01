@@ -33,7 +33,7 @@ public class UserRestServiceImpl extends AbstractRestService implements UserRest
 	@Transactional(readOnly = true)
 	public List<UserRO> getUsers() {
 		List<User> users = _userService.getUsers();
-		List<UserRO> userROs = users.isEmpty() ? Collections.emptyList() : _mapperService.map(users, UserRO.class);
+		List<UserRO> userROs = (users == null || users.isEmpty()) ? Collections.emptyList() : _mapperService.map(users, UserRO.class);
 		return userROs;
 	}
 

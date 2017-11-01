@@ -57,7 +57,7 @@ public class InjuredPersonRestServiceImpl extends AbstractRestService implements
 	@Transactional(readOnly = true)
 	public List<InjuredPersonRO> get() {
 		List<InjuredPerson> injuredPersons = _injuredPersonService.get();
-		List<InjuredPersonRO> injuredPersonROs = injuredPersons.isEmpty() ? Collections.emptyList() : _mapperService.map(injuredPersons, InjuredPersonRO.class);
+		List<InjuredPersonRO> injuredPersonROs = (injuredPersons == null || injuredPersons.isEmpty()) ? Collections.emptyList() : _mapperService.map(injuredPersons, InjuredPersonRO.class);
 		return injuredPersonROs;
 	}
 
@@ -343,10 +343,8 @@ public class InjuredPersonRestServiceImpl extends AbstractRestService implements
 			//add address of the injured person if any
 			if (injuredPersonRO.getAddresses() != null && !injuredPersonRO.getAddresses().isEmpty()) {
 				injuredPerson.setAddresses(_suspectRestService.createOrUpdateAddresses(injuredPersonRO.getAddresses(), null, null, injuredPerson, null, null, null));
-			}
-			return injuredPerson;
-		} else {
-			return null;
+			}			
 		}
+		return injuredPerson;
 	}
 }

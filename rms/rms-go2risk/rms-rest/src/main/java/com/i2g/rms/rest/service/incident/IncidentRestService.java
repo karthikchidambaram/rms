@@ -19,12 +19,12 @@ import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeatureDetail;
 import com.i2g.rms.domain.model.tablemaintenance.ExternalAgency;
 import com.i2g.rms.domain.model.tablemaintenance.WeaponType;
 import com.i2g.rms.rest.model.AddressRO;
-import com.i2g.rms.rest.model.DeleteRO;
 import com.i2g.rms.rest.model.ReportedLossRO;
 import com.i2g.rms.rest.model.SuspectRO;
 import com.i2g.rms.rest.model.UserRO;
 import com.i2g.rms.rest.model.incident.AccidentDetailRO;
 import com.i2g.rms.rest.model.incident.AssetDetailRO;
+import com.i2g.rms.rest.model.incident.BaseIncidentDetailRO;
 import com.i2g.rms.rest.model.incident.ClaimDetailRO;
 import com.i2g.rms.rest.model.incident.CrimeDetailRO;
 import com.i2g.rms.rest.model.incident.IncidentDetailRO;
@@ -33,6 +33,7 @@ import com.i2g.rms.rest.model.incident.InvestigationDetailRO;
 import com.i2g.rms.rest.model.incident.LogIncidentRO;
 import com.i2g.rms.rest.model.tablemaintenance.BodyPartRO;
 import com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeatureDetailRO;
+import com.i2g.rms.rest.model.wrapper.IncidentWrapper;
 import com.i2g.rms.rest.model.wrapper.SuspectWrapper;
 
 /**
@@ -46,26 +47,25 @@ public interface IncidentRestService {
 	
 	/** get flows */
 	public List<IncidentRO> get();
+	public IncidentRO getIncidentByIncidentId(final Long incidentId);
 	public IncidentRO getIncidentByUniqueIncidentId(final String uniqueIncidentId);
 	
-	/** add flows */
+	/** add or update incident */
 	public UserRO addIncident();
 	public IncidentRO logIncident(final LogIncidentRO logIncidentRO);
+	public IncidentRO updateLogIncident(final LogIncidentRO logIncidentRO);
+	public IncidentRO addOrUpdateLogIncident(final LogIncidentRO logIncidentRO);
+	
+	/** add additional details to incident record */
 	public IncidentRO addIncidentDetail(final IncidentDetailRO incidentDetailRO);
 	public IncidentRO addAccidentDetail(final AccidentDetailRO accidentDetailRO);
 	public IncidentRO addAssetDetail(final AssetDetailRO assetDetailRO);
 	public IncidentRO addCrimeDetail(final CrimeDetailRO crimeDetailRO);
 	public IncidentRO addClaimDetail(final ClaimDetailRO claimDetailRO);
 	public IncidentRO addInvestigationDetail(final InvestigationDetailRO investigationDetailRO);
-	public IncidentRO addOrUpdateInvestigationDetail(final InvestigationDetailRO investigationDetailRO);
+	public IncidentRO submitIncident(final IncidentWrapper incidentWrapper);
 	
-	/** Update Flow */
-	public IncidentRO updateLogIncident(final LogIncidentRO logIncidentRO);
-	
-	/** Add or Update Flow */
-	public IncidentRO addOrUpdateLogIncident(final LogIncidentRO logIncidentRO);
-		
-	/** alternate flows */
+	/** add or remove suspects to an incident */
 	public IncidentRO addSuspectForIncident(final String uniqueIncidentId, final SuspectRO suspectRO);
 	public IncidentRO addSuspectsForIncident(final SuspectWrapper suspectWrapper);
 	public IncidentRO addExistingSuspectForIncident(final String uniqueIncidentId, final Long suspectId);
@@ -109,4 +109,6 @@ public interface IncidentRestService {
 	public Set<ReportedLoss> constructReportedLosses(final Set<ReportedLossRO> reportedLossROs, final Incident incident);
 	
 	public Set<BodyPart> constructBodyParts(final Set<BodyPartRO> bodyPartROs);
+	
+	public Incident getIncident(final BaseIncidentDetailRO baseIncidentDetailRO);
 }

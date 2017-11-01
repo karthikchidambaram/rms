@@ -54,7 +54,7 @@ public class WitnessDaoImpl extends AbstractHibernateDao<Long, Witness> implemen
 	public List<Witness> get() {
 		final Criteria criteria = getSession().createCriteria(_modelType);
 		criteria.add(Restrictions.eq("statusFlag", StatusFlag.ACTIVE));
-		return (List<Witness>) criteria.list();
+		return (List<Witness>) applySearch(criteria).list();
 	}
 	
 	@Override

@@ -31,7 +31,7 @@ public class PasswordHistoryRestServiceImpl extends AbstractRestService implemen
 	@Transactional(readOnly = true)
 	public List<PasswordHistoryRO> getPasswordHistory() {
 		List<PasswordHistory> passwordHistory = _passwordHistoryService.getPasswordHistory();
-		List<PasswordHistoryRO> passwordHistoryROs = passwordHistory.isEmpty() ? Collections.emptyList() : _mapperService.map(passwordHistory, PasswordHistoryRO.class);
+		List<PasswordHistoryRO> passwordHistoryROs = (passwordHistory == null || passwordHistory.isEmpty()) ? Collections.emptyList() : _mapperService.map(passwordHistory, PasswordHistoryRO.class);
 		return passwordHistoryROs;
 	}
 }

@@ -16,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.i2g.rms.domain.model.incident.Incident;
 import com.i2g.rms.rest.constants.RequestMappingConstants;
 import com.i2g.rms.rest.controller.AbstractRestController;
-import com.i2g.rms.rest.model.DeleteRO;
 import com.i2g.rms.rest.model.DocumentViewRO;
 import com.i2g.rms.rest.model.SuspectRO;
 import com.i2g.rms.rest.model.UserRO;
@@ -28,6 +27,7 @@ import com.i2g.rms.rest.model.incident.IncidentDetailRO;
 import com.i2g.rms.rest.model.incident.IncidentRO;
 import com.i2g.rms.rest.model.incident.InvestigationDetailRO;
 import com.i2g.rms.rest.model.incident.LogIncidentRO;
+import com.i2g.rms.rest.model.wrapper.IncidentWrapper;
 import com.i2g.rms.rest.model.wrapper.SuspectWrapper;
 import com.i2g.rms.rest.search.Searchable;
 import com.i2g.rms.rest.service.incident.DocumentRestService;
@@ -55,22 +55,41 @@ public class IncidentController extends AbstractRestController {
 		return _incidentRestService.get();
 	}
 	
+	@RequestMapping(value = RequestMappingConstants.GET_INCIDENT_BY_INCIDENT_ID, method = RequestMethod.GET)
+	public IncidentRO getIncidentByIncidentId(@PathVariable final Long incidentId) {
+		return _incidentRestService.getIncidentByIncidentId(incidentId);
+	}
+	
 	@RequestMapping(value = RequestMappingConstants.GET_INCIDENT_BY_UNIQUE_INCIDENT_ID, method = RequestMethod.GET)
 	public IncidentRO getIncidentByUniqueIncidentId(@PathVariable final String uniqueIncidentId) {
 		return _incidentRestService.getIncidentByUniqueIncidentId(uniqueIncidentId);
 	}
 	
-	/** Add flows */
+	/** Add incident selected in UI */
 	@RequestMapping(value = RequestMappingConstants.ADD_INCIDENT, method = RequestMethod.GET)
 	public UserRO addIncident() {
 		return _incidentRestService.addIncident();
 	}
 	
+	/** create incident */
 	@RequestMapping(value = RequestMappingConstants.LOG_INCIDENT, method = RequestMethod.POST)
 	public IncidentRO logIncident(final @Valid @RequestBody LogIncidentRO logIncidentRO) {
 		return _incidentRestService.logIncident(logIncidentRO);
 	}
 	
+	/** update incident */
+	@RequestMapping(value = RequestMappingConstants.UPDATE_LOG_INCIDENT, method = RequestMethod.POST)
+	public IncidentRO updateLogIncident(final @Valid @RequestBody LogIncidentRO logIncidentRO) {
+		return _incidentRestService.updateLogIncident(logIncidentRO);
+	}
+	
+	/** add or update incident */
+	@RequestMapping(value = RequestMappingConstants.ADD_OR_UPDATE_LOG_INCIDENT, method = RequestMethod.POST)
+	public IncidentRO addOrUpdateLogIncident(final @Valid @RequestBody LogIncidentRO logIncidentRO) {
+		return _incidentRestService.addOrUpdateLogIncident(logIncidentRO);
+	}
+	
+	/** add incident details */
 	@RequestMapping(value = RequestMappingConstants.ADD_INCIDENT_DETAILS, method = RequestMethod.POST)
 	public IncidentRO addIncidentDetail(final @Valid @RequestBody IncidentDetailRO incidentDetailRO) {
 		return _incidentRestService.addIncidentDetail(incidentDetailRO);
@@ -101,33 +120,20 @@ public class IncidentController extends AbstractRestController {
 		return _incidentRestService.addInvestigationDetail(investigationDetailRO);
 	}
 	
-	@RequestMapping(value = RequestMappingConstants.ADD_OR_UPDATE_INVESTIGATION_DETAILS, method = RequestMethod.POST)
-	public IncidentRO addOrUpdateInvestigationDetail(final @Valid @RequestBody InvestigationDetailRO investigationDetailRO) {
-		return _incidentRestService.addOrUpdateInvestigationDetail(investigationDetailRO);
-	}
-	
 	@RequestMapping(value = RequestMappingConstants.ADD_SUPPORTING_DOCUMENTS, method = RequestMethod.POST)
 	public List<DocumentViewRO> addSupportingDocuments(
 				@RequestParam("uniqueIncidentId") final String uniqueIncidentId,
 				@RequestParam("fileDescription") final String[] fileDescriptions,
-				@RequestParam("file") final MultipartFile[] files
-				) {
+				@RequestParam("file") final MultipartFile[] files) {
 		return _documentRestService.saveDocuments(uniqueIncidentId, fileDescriptions, files);
 	}
 	
-	/** update flows */
-	@RequestMapping(value = RequestMappingConstants.UPDATE_LOG_INCIDENT, method = RequestMethod.POST)
-	public IncidentRO updateLogIncident(final @Valid @RequestBody LogIncidentRO logIncidentRO) {
-		return _incidentRestService.updateLogIncident(logIncidentRO);
+	@RequestMapping(value = RequestMappingConstants.SUBMIT_INCIDENT, method = RequestMethod.POST)
+	public IncidentRO submitIncident(@Valid @RequestBody final IncidentWrapper incidentWrapper) {
+		return _incidentRestService.submitIncident(incidentWrapper);
 	}
 	
-	/** add or update flows */
-	@RequestMapping(value = RequestMappingConstants.ADD_OR_UPDATE_LOG_INCIDENT, method = RequestMethod.POST)
-	public IncidentRO addOrUpdateLogIncident(final @Valid @RequestBody LogIncidentRO logIncidentRO) {
-		return _incidentRestService.addOrUpdateLogIncident(logIncidentRO);
-	}
-	
-	/** alternate flows */
+	/** add or remove suspects to incident */
 	@RequestMapping(value = RequestMappingConstants.ADD_SUSPECT_FOR_INCIDENT, method = RequestMethod.PUT)
 	public IncidentRO addSuspectForIncident(@PathVariable final String uniqueIncidentId, @Valid @RequestBody final SuspectRO suspectRO) {
 		return _incidentRestService.addSuspectForIncident(uniqueIncidentId, suspectRO);

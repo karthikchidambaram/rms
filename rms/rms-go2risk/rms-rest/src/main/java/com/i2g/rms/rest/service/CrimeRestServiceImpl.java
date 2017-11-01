@@ -68,7 +68,7 @@ public class CrimeRestServiceImpl extends AbstractRestService implements CrimeRe
 	@Transactional(readOnly = true)
 	public List<CrimeRO> get() {
 		List<Crime> crimes = _crimeService.get();
-		List<CrimeRO> crimeROs = crimes.isEmpty() ? Collections.emptyList() : _mapperService.map(crimes, CrimeRO.class);
+		List<CrimeRO> crimeROs = (crimes == null || crimes.isEmpty()) ? Collections.emptyList() : _mapperService.map(crimes, CrimeRO.class);
 		return crimeROs;
 	}
 	
@@ -954,10 +954,8 @@ public class CrimeRestServiceImpl extends AbstractRestService implements CrimeRe
 			if (crimeRO.getAnyWitness() != null && crimeRO.getAnyWitness().name().equals("Y")) {
 				anyWitness = YesNoType.Y;
 			}
-			crime.setAnyWitness(anyWitness);
-			return crime;
-		} else {
-			return null;
+			crime.setAnyWitness(anyWitness);			
 		}
+		return crime;
 	}	
 }

@@ -62,7 +62,7 @@ public class CrimeSuspectRestServiceImpl extends AbstractRestService implements 
 	@Transactional(readOnly = true)
 	public List<CrimeSuspectRO> get() {
 		List<CrimeSuspect> crimeSuspects = _crimeSuspectService.get();
-		List<CrimeSuspectRO> crimeSuspectROs = crimeSuspects.isEmpty() ? Collections.emptyList() : _mapperService.map(crimeSuspects, CrimeSuspectRO.class);
+		List<CrimeSuspectRO> crimeSuspectROs = (crimeSuspects == null || crimeSuspects.isEmpty()) ? Collections.emptyList() : _mapperService.map(crimeSuspects, CrimeSuspectRO.class);
 		return crimeSuspectROs;
 	}
 
@@ -286,9 +286,7 @@ public class CrimeSuspectRestServiceImpl extends AbstractRestService implements 
 			if (crimeSuspectRO.getDistinguishingFeatureOther() != null && !crimeSuspectRO.getDistinguishingFeatureOther().trim().isEmpty()) {
 				crimeSuspect.setDistinguishingFeatureOther(crimeSuspectRO.getDistinguishingFeatureOther().trim());
 			}			
-			return crimeSuspect;
-		} else {
-			return null;
 		}
+		return crimeSuspect;
 	}	
 }

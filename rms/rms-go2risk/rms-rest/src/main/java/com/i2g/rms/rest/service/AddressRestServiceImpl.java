@@ -67,7 +67,7 @@ public class AddressRestServiceImpl extends AbstractRestService implements Addre
 	@Transactional(readOnly = true)
 	public List<AddressRO> get() {
 		List<Address> addresses = _addressService.get();
-		List<AddressRO> addressesROs = addresses.isEmpty() ? Collections.emptyList() : _mapperService.map(addresses, AddressRO.class);
+		List<AddressRO> addressesROs = (addresses == null || addresses.isEmpty()) ? Collections.emptyList() : _mapperService.map(addresses, AddressRO.class);
 		return addressesROs;
 	}
 
@@ -378,7 +378,7 @@ public class AddressRestServiceImpl extends AbstractRestService implements Addre
 		final User user = _userService.get(userId);
 		validateGenericObject(user);
 		List<Address> addresses = _addressService.get(user);
-		List<AddressRO> addressesROs = addresses.isEmpty() ? Collections.emptyList() : _mapperService.map(addresses, AddressRO.class);
+		List<AddressRO> addressesROs = (addresses == null || addresses.isEmpty()) ? Collections.emptyList() : _mapperService.map(addresses, AddressRO.class);
 		return addressesROs;
 	}
 
@@ -392,7 +392,7 @@ public class AddressRestServiceImpl extends AbstractRestService implements Addre
 		final User user = _userService.getUserByUserLoginId(userLoginId);
 		validateGenericObject(user);
 		List<Address> addresses = _addressService.get(user);
-		List<AddressRO> addressesROs = addresses.isEmpty() ? Collections.emptyList() : _mapperService.map(addresses, AddressRO.class);
+		List<AddressRO> addressesROs = (addresses == null || addresses.isEmpty()) ? Collections.emptyList() : _mapperService.map(addresses, AddressRO.class);
 		return addressesROs;
 	}
 
@@ -406,7 +406,7 @@ public class AddressRestServiceImpl extends AbstractRestService implements Addre
 		final Building building = _buildingService.get(buildingId);
 		validateGenericObject(building);
 		List<Address> addresses = _addressService.get(building);
-		List<AddressRO> addressesROs = addresses.isEmpty() ? Collections.emptyList() : _mapperService.map(addresses, AddressRO.class);
+		List<AddressRO> addressesROs = (addresses == null || addresses.isEmpty()) ? Collections.emptyList() : _mapperService.map(addresses, AddressRO.class);
 		return addressesROs;
 	}
 
@@ -420,7 +420,7 @@ public class AddressRestServiceImpl extends AbstractRestService implements Addre
 		final InjuredPerson injuredPerson = _injuredPersonService.get(injuredPersonId);
 		validateGenericObject(injuredPerson);
 		List<Address> addresses = _addressService.get(injuredPerson);
-		List<AddressRO> addressesROs = addresses.isEmpty() ? Collections.emptyList() : _mapperService.map(addresses, AddressRO.class);
+		List<AddressRO> addressesROs = (addresses == null || addresses.isEmpty()) ? Collections.emptyList() : _mapperService.map(addresses, AddressRO.class);
 		return addressesROs;
 	}
 
@@ -434,7 +434,7 @@ public class AddressRestServiceImpl extends AbstractRestService implements Addre
 		final Suspect suspect = _suspectService.get(suspectId);
 		validateGenericObject(suspect);
 		List<Address> addresses = _addressService.get(suspect);
-		List<AddressRO> addressesROs = addresses.isEmpty() ? Collections.emptyList() : _mapperService.map(addresses, AddressRO.class);
+		List<AddressRO> addressesROs = (addresses == null || addresses.isEmpty()) ? Collections.emptyList() : _mapperService.map(addresses, AddressRO.class);
 		return addressesROs;
 	}
 
@@ -448,7 +448,7 @@ public class AddressRestServiceImpl extends AbstractRestService implements Addre
 		final CrimeSuspect crimeSuspect = _crimeSuspectService.get(crimeSuspectId);
 		validateGenericObject(crimeSuspect);
 		List<Address> addresses = _addressService.get(crimeSuspect);
-		List<AddressRO> addressesROs = addresses.isEmpty() ? Collections.emptyList() : _mapperService.map(addresses, AddressRO.class);
+		List<AddressRO> addressesROs = (addresses == null || addresses.isEmpty()) ? Collections.emptyList() : _mapperService.map(addresses, AddressRO.class);
 		return addressesROs;
 	}
 
@@ -462,7 +462,7 @@ public class AddressRestServiceImpl extends AbstractRestService implements Addre
 		final Witness witness = _witnessService.get(witnessId);
 		validateGenericObject(witness);
 		List<Address> addresses = _addressService.get(witness);
-		List<AddressRO> addressesROs = addresses.isEmpty() ? Collections.emptyList() : _mapperService.map(addresses, AddressRO.class);
+		List<AddressRO> addressesROs = (addresses == null || addresses.isEmpty()) ? Collections.emptyList() : _mapperService.map(addresses, AddressRO.class);
 		return addressesROs;
 	}		
 }

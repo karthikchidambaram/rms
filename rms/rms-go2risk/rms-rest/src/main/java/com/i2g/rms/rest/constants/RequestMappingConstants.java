@@ -359,7 +359,8 @@ public interface RequestMappingConstants {
 	/** Incidents */
 	String INCIDENT 									= SECURED + "/incident";
 	String GET_INCIDENTS								= INCIDENT + "/incidents";
-	String GET_INCIDENT_BY_UNIQUE_INCIDENT_ID 			= INCIDENT + "/{uniqueIncidentId}";
+	String GET_INCIDENT_BY_INCIDENT_ID 					= INCIDENT + "/incidentId/{incidentId}";
+	String GET_INCIDENT_BY_UNIQUE_INCIDENT_ID 			= INCIDENT + "/uniqueIncidentId/{uniqueIncidentId}";
 	
 	String ADD_INCIDENT 								= INCIDENT + "/add-incident";
 	String LOG_INCIDENT 								= INCIDENT + "/log-incident";
@@ -369,8 +370,8 @@ public interface RequestMappingConstants {
 	String ADD_CRIME_DETAILS							= INCIDENT + "/add-crime-details";
 	String ADD_CLAIM_DETAILS							= INCIDENT + "/add-claim-details";
 	String ADD_INVESTIGATION_DETAILS					= INCIDENT + "/add-investigation-details";
-	String ADD_OR_UPDATE_INVESTIGATION_DETAILS			= INCIDENT + "/add-or-update-investigation-details";
 	String ADD_SUPPORTING_DOCUMENTS						= INCIDENT + "/add-supporting-documents";
+	String SUBMIT_INCIDENT								= INCIDENT + "/submit-incident";
 	
 	String ADD_SUSPECT_FOR_INCIDENT							= INCIDENT + "/add-suspect/uniqueIncidentId/{uniqueIncidentId}";
 	String ADD_SUSPECTS_FOR_INCIDENT						= INCIDENT + "/add-suspects";
@@ -625,4 +626,30 @@ public interface RequestMappingConstants {
 	String UPDATE_CRIME_SUSPECT										= CRIME_SUSPECT + "/update-crime-suspect";
 	String UPDATE_CRIME_SUSPECTS									= CRIME_SUSPECT + "/update-crime-suspects";
 	String REMOVE_DISTINGUISHING_FEATURE_DETAILS_FROM_CRIME_SUSPECT = CRIME_SUSPECT + "/remove-dist-fea-details";
+	
+	/** Claim operations */
+	String CLAIM 												= SECURED + "/claim";
+	String GET_ALL_CLAIMS										= CLAIM + "/claims";
+	String GET_CLAIM_BY_CLAIM_ID								= CLAIM + "/claimId/{claimId}";
+	String GET_CLAIM_BY_INCIDENT_ID								= CLAIM + "/incidentId/{incidentId}";
+	String GET_CLAIM_BY_UNIQUE_INCIDENT_ID						= CLAIM + "/uniqueIncidentId/{uniqueIncidentId}";
+	String GET_CLAIMS_HANDLED_BY_CLAIM_HANDLER_LOGIN_ID			= CLAIM + "/claimHandlerLoginId/{claimHandlerLoginId}";
+	String CREATE_CLAIM											= CLAIM + "/create-claim";
+	String UPDATE_CLAIM											= CLAIM + "/update-claim";
+	String ADD_OR_UPDATE_CLAIM									= CLAIM + "/add-or-update-claim";
+	String DELETE_CLAIM											= CLAIM + "/delete-claim/claimId/{claimId}";
+	String DELETE_CLAIMS										= CLAIM + "/delete-claims";	
+	
+	/** Investigation operations */
+	String INVESTIGATION 												= SECURED + "/investigation";
+	String GET_ALL_INVESTIGATIONS										= INVESTIGATION + "/investigations";
+	String GET_INVESTIGATION_BY_INVESTIGATION_ID						= INVESTIGATION + "/investigationId/{investigationId}";
+	String GET_INVESTIGATION_BY_INCIDENT_ID								= INVESTIGATION + "/incidentId/{incidentId}";
+	String GET_INVESTIGATION_BY_UNIQUE_INCIDENT_ID						= INVESTIGATION + "/uniqueIncidentId/{uniqueIncidentId}";
+	String GET_INVESTIGATIONS_ASSIGNED_TO_INVESTIGATOR_LOGIN_ID			= INVESTIGATION + "/investigatorLoginId/{investigatorLoginId}";
+	String CREATE_INVESTIGATION											= INVESTIGATION + "/create-investigation";
+	String UPDATE_INVESTIGATION											= INVESTIGATION + "/update-investigation";
+	String ADD_OR_UPDATE_INVESTIGATION									= INVESTIGATION + "/add-or-update-investigation";
+	String DELETE_INVESTIGATION											= INVESTIGATION + "/delete-investigation/investigationId/{investigationId}";
+	String DELETE_INVESTIGATIONS										= INVESTIGATION + "/delete-investigations";
 }

@@ -71,7 +71,7 @@ public class AccidentRestServiceImpl extends AbstractRestService implements Acci
 	@Transactional(readOnly = true)
 	public List<AccidentRO> get() {
 		List<Accident> accidents = _accidentService.get();
-		List<AccidentRO> accidentROs = accidents.isEmpty() ? Collections.emptyList() : _mapperService.map(accidents, AccidentRO.class);
+		List<AccidentRO> accidentROs = (accidents == null || accidents.isEmpty()) ? Collections.emptyList() : _mapperService.map(accidents, AccidentRO.class);
 		return accidentROs;
 	}
 
@@ -883,10 +883,8 @@ public class AccidentRestServiceImpl extends AbstractRestService implements Acci
 			if (accidentRO.getAnyWitness() != null && accidentRO.getAnyWitness().name().equals("Y")) {
 				anyWitness = YesNoType.Y;
 			}
-			accident.setAnyWitness(anyWitness);
-			return accident;
-		} else {
-			return null;
+			accident.setAnyWitness(anyWitness);			
 		}
+		return accident;
 	}
 }

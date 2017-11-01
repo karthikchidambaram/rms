@@ -56,7 +56,7 @@ public class SearchIncidentRO extends AbstractEntityRO {
 	 *            the id to set
 	 */
 	public void setId(final long id) {
-		this.id = id;
+		this.id = id;		
 	}
 
 	/**

@@ -3,7 +3,6 @@ package com.i2g.rms.rest.model.incident;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.i2g.rms.rest.model.AbstractEntityRO;
 import com.i2g.rms.rest.model.OfficeAddressRO;
 import com.i2g.rms.rest.model.YesNoTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.EntryPointRO;
@@ -19,13 +18,9 @@ import com.i2g.rms.rest.model.tablemaintenance.IncidentTypeRO;
  *
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class LogIncidentRO extends AbstractEntityRO {
+public class LogIncidentRO extends BaseIncidentDetailRO {
 
-	private long incidentId;
-
-	private LocalDateTime incidentOpenedDateTime;
-
-	private String uniqueIncidentId;
+	private LocalDateTime incidentOpenedDateTime;	
 	private String placeOfIncident;
 	private String incidentDescription;
 
@@ -47,22 +42,6 @@ public class LogIncidentRO extends AbstractEntityRO {
 	private YesNoTypeRO notifyClaimsHandler;
 	private YesNoTypeRO showClaims;
 	private YesNoTypeRO showInvestigation;
-
-	public long getIncidentId() {
-		return incidentId;
-	}
-
-	public void setIncidentId(final long incidentId) {
-		this.incidentId = incidentId;
-	}
-
-	public String getUniqueIncidentId() {
-		return uniqueIncidentId;
-	}
-
-	public void setUniqueIncidentId(final String uniqueIncidentId) {
-		this.uniqueIncidentId = uniqueIncidentId;
-	}
 
 	public LocalDateTime getIncidentOpenedDateTime() {
 		return incidentOpenedDateTime;

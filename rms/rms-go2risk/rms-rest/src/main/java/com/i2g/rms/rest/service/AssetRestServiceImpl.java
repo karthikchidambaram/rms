@@ -73,7 +73,7 @@ public class AssetRestServiceImpl extends AbstractRestService implements AssetRe
 	@Transactional(readOnly = true)
 	public List<AssetRO> get() {
 		List<Asset> assets = _assetService.get();
-		List<AssetRO> assetROs = assets.isEmpty() ? Collections.emptyList() : _mapperService.map(assets, AssetRO.class);
+		List<AssetRO> assetROs = (assets == null || assets.isEmpty()) ? Collections.emptyList() : _mapperService.map(assets, AssetRO.class);
 		return assetROs;
 	}
 	
@@ -634,10 +634,8 @@ public class AssetRestServiceImpl extends AbstractRestService implements AssetRe
 			// other desc
 			if (assetRO.getOtherDescription() != null && !assetRO.getOtherDescription().trim().isEmpty()) {
 				asset.setOtherDescription(assetRO.getOtherDescription().trim());
-			}
-			return asset;
-		} else {
-			return null;
+			}			
 		}
+		return asset;
 	}
 }

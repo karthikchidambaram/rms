@@ -44,7 +44,7 @@ public class EquipmentRestServiceImpl extends AbstractRestService implements Equ
 	@Transactional(readOnly = true)
 	public List<EquipmentRO> get() {
 		List<Equipment> equipments = _equipmentService.get();
-		List<EquipmentRO> equipmentROs = equipments.isEmpty() ? Collections.emptyList() : _mapperService.map(equipments, EquipmentRO.class);
+		List<EquipmentRO> equipmentROs = (equipments == null || equipments.isEmpty()) ? Collections.emptyList() : _mapperService.map(equipments, EquipmentRO.class);
 		return equipmentROs;
 	}
 
@@ -193,10 +193,8 @@ public class EquipmentRestServiceImpl extends AbstractRestService implements Equ
 				if (equipmentRO.getAssetCategory().getId() != null && !equipmentRO.getAssetCategory().getId().trim().isEmpty()) {
 					equipment.setAssetCategory(_tableMaintenanceService.getAssetCategoryByCode(equipmentRO.getAssetCategory().getId().trim()));
 				}
-			}
-			return equipment;
-		} else {
-			return null;
+			}			
 		}
+		return equipment;
 	}	
 }

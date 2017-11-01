@@ -53,7 +53,7 @@ public class WitnessRestServiceImpl extends AbstractRestService implements Witne
 	@Transactional(readOnly = true)
 	public List<WitnessRO> get() {
 		List<Witness> witnesses = _witnessService.get();
-		List<WitnessRO> witnessROs = witnesses.isEmpty() ? Collections.emptyList() : _mapperService.map(witnesses, WitnessRO.class);
+		List<WitnessRO> witnessROs = (witnesses == null || witnesses.isEmpty()) ? Collections.emptyList() : _mapperService.map(witnesses, WitnessRO.class);
 		return witnessROs;
 	}
 
@@ -272,9 +272,7 @@ public class WitnessRestServiceImpl extends AbstractRestService implements Witne
 			if (witnessRO.getDistinguishingFeatureOther() != null && !witnessRO.getDistinguishingFeatureOther().trim().isEmpty()) {
 				witness.setDistinguishingFeatureOther(witnessRO.getDistinguishingFeatureOther().trim());
 			}			
-			return witness;
-		} else {
-			return null;
 		}
+		return witness;
 	}	
 }

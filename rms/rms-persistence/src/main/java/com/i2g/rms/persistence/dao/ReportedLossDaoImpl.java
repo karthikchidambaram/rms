@@ -53,7 +53,7 @@ public class ReportedLossDaoImpl extends AbstractHibernateDao<Long, ReportedLoss
 	public List<ReportedLoss> get() {
 		final Criteria criteria = getSession().createCriteria(_modelType);
 		criteria.add(Restrictions.eq("statusFlag", StatusFlag.ACTIVE));
-		return (List<ReportedLoss>) criteria.list();
+		return (List<ReportedLoss>) applySearch(criteria).list();
 	}
 	
 	@Override
@@ -115,7 +115,7 @@ public class ReportedLossDaoImpl extends AbstractHibernateDao<Long, ReportedLoss
 	@Override
 	public void deleteReportedLoss(final ReportedLoss reportedLoss) {
 		if (reportedLoss != null) {
-			delete(reportedLoss);
+			super.delete(reportedLoss);
 		}
 	}
 
@@ -124,7 +124,7 @@ public class ReportedLossDaoImpl extends AbstractHibernateDao<Long, ReportedLoss
 		if (reportedLosses != null && !reportedLosses.isEmpty()) {
 			for (ReportedLoss reportedLoss : reportedLosses) {
 				if (reportedLoss != null) {
-					deleteReportedLoss(reportedLoss);
+					super.delete(reportedLoss);
 				}
 			}
 		}

@@ -40,8 +40,7 @@ public class OfficeAddressRestServiceImpl extends AbstractRestService implements
 	@Transactional(readOnly = true)
 	public List<OfficeAddressRO> get() {
 		List<OfficeAddress> officeAddresses = _officeAddressService.get();
-		List<OfficeAddressRO> officeAddressROs = officeAddresses.isEmpty() ? Collections.emptyList()
-				: _mapperService.map(officeAddresses, OfficeAddressRO.class);
+		List<OfficeAddressRO> officeAddressROs = (officeAddresses == null || officeAddresses.isEmpty()) ? Collections.emptyList() : _mapperService.map(officeAddresses, OfficeAddressRO.class);
 		return officeAddressROs;
 	}
 

@@ -1,11 +1,13 @@
 package com.i2g.rms.service;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.i2g.rms.domain.model.Investigation;
+import com.i2g.rms.domain.model.User;
 import com.i2g.rms.domain.model.incident.Incident;
 import com.i2g.rms.persistence.dao.InvestigationDao;
 
@@ -34,10 +36,15 @@ public class InvestigationServiceImpl extends AbstractService implements Investi
 	public Investigation get(final long id) {
 		return _investigationDao.get(id);
 	}
+	
+	@Override
+	public List<Investigation> get(final User investigator) {
+		return _investigationDao.get(investigator);
+	}
 
 	@Override
-	public Investigation create(final Investigation investigation) {
-		return _investigationDao.create(investigation);
+	public Investigation createInvestigation(final Investigation investigation) {
+		return _investigationDao.createInvestigation(investigation);
 	}
 	
 	@Override
@@ -53,5 +60,15 @@ public class InvestigationServiceImpl extends AbstractService implements Investi
 	@Override
 	public boolean isInvestigatorAssigned(final long id) {
 		return _investigationDao.isInvestigatorAssigned(id);
+	}
+
+	@Override
+	public void deleteInvestigation(final Investigation investigation) {
+		_investigationDao.deleteInvestigation(investigation);	
+	}
+
+	@Override
+	public void deleteInvestigations(final Set<Investigation> investigations) {
+		_investigationDao.deleteInvestigations(investigations);
 	}	
 }

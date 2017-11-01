@@ -1,9 +1,10 @@
 package com.i2g.rms.domain.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Objects;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -19,6 +20,9 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Type;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.i2g.rms.domain.model.incident.Incident;
 import com.i2g.rms.domain.model.tablemaintenance.ClaimRequestRegistrationType;
 import com.i2g.rms.domain.model.tablemaintenance.ClaimStatus;
@@ -34,6 +38,7 @@ import com.i2g.rms.domain.model.tablemaintenance.PolicyType;
  */
 @Entity
 @Table(name = "RMS_CLIM")
+@JsonIgnoreProperties({ "incident" })
 public class Claim extends AbstractDataModel<Long> implements Serializable {
 
 	/**
@@ -55,8 +60,25 @@ public class Claim extends AbstractDataModel<Long> implements Serializable {
 	private PolicyType _policyType;
 	private YesNoType _securityRequested;
 	private YesNoType _trainingRequested;
-	private ClaimHistory _claimHistory;
-	private User claimHandler;
+	private User _claimHandler;
+	private BigDecimal _claimRequestedAmount;
+	private LocalDate _claimRequestedDate;
+	private String _claimRequestedBy;
+	private BigDecimal _claimApprovedAmount;
+	private LocalDate _claimApprovedDate;
+	private String _claimApprovedBy;
+	private BigDecimal _claimSettlementAmount;
+	private LocalDate _claimSettlementDate;
+	private String _claimSettlementBy;
+	private LocalDate _claimDeclinedDate;
+	private String _claimDeclinedBy;
+	private LocalDate _claimReopenedDate;
+	private String _claimReopenedBy;
+	private String _claimRequestedComments;
+	private String _claimApprovedComments;
+	private String _claimSettlementComments;
+	private String _claimDeclinedComments;
+	private String _claimReopenedComments;
 
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -71,8 +93,7 @@ public class Claim extends AbstractDataModel<Long> implements Serializable {
 	 * @param builder
 	 */
 	private Claim(final Builder builder) {
-		_incident = Objects.requireNonNull(builder._incident,
-				"Incident object cannot be null when creating a claim record.");
+		_incident = Objects.requireNonNull(builder._incident, "Incident object cannot be null when creating a claim record.");
 		_statusFlag = Objects.requireNonNull(builder._statusFlag, "Status flag cannot be null.");
 	}
 
@@ -306,22 +327,6 @@ public class Claim extends AbstractDataModel<Long> implements Serializable {
 	}
 
 	/**
-	 * @return the claimHistory
-	 */
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "claim")
-	public ClaimHistory getClaimHistory() {
-		return _claimHistory;
-	}
-
-	/**
-	 * @param claimHistory
-	 *            the claimHistory to set
-	 */
-	public void setClaimHistory(final ClaimHistory claimHistory) {
-		_claimHistory = claimHistory;
-	}
-
-	/**
 	 * @return the statusFlag
 	 */
 	@Column(name = "STS_FLG", nullable = false)
@@ -342,11 +347,276 @@ public class Claim extends AbstractDataModel<Long> implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "USR_ID")
 	public User getClaimHandler() {
-		return claimHandler;
+		return _claimHandler;
 	}
 
 	public void setClaimHandler(final User claimHandler) {
-		this.claimHandler = claimHandler;
+		_claimHandler = claimHandler;
+	}
+	
+	/**
+	 * @return the claimRequestedAmount
+	 */
+	@Column(name = "CLIM_REQ_AMT")
+	public BigDecimal getClaimRequestedAmount() {
+		return _claimRequestedAmount;
+	}
+
+	/**
+	 * @param claimRequestedAmount
+	 *            the claimRequestedAmount to set
+	 */
+	public void setClaimRequestedAmount(final BigDecimal claimRequestedAmount) {
+		_claimRequestedAmount = claimRequestedAmount;
+	}
+
+	/**
+	 * @return the claimRequestedDate
+	 */
+	@Column(name = "CLIM_REQ_DT")
+	@Type(type = "com.i2g.rms.domain.model.type.LocalDateType")
+	public LocalDate getClaimRequestedDate() {
+		return _claimRequestedDate;
+	}
+
+	/**
+	 * @param claimRequestedDate
+	 *            the claimRequestedDate to set
+	 */
+	public void setClaimRequestedDate(final LocalDate claimRequestedDate) {
+		_claimRequestedDate = claimRequestedDate;
+	}
+
+	/**
+	 * @return the claimRequestedBy
+	 */
+	@Column(name = "CLIM_REQ_BY", length = 128)
+	public String getClaimRequestedBy() {
+		return _claimRequestedBy;
+	}
+
+	/**
+	 * @param claimRequestedBy
+	 *            the claimRequestedBy to set
+	 */
+	public void setClaimRequestedBy(final String claimRequestedBy) {
+		_claimRequestedBy = claimRequestedBy;
+	}
+
+	/**
+	 * @return the claimApprovedAmount
+	 */
+	@Column(name = "CLIM_APR_AMT")
+	public BigDecimal getClaimApprovedAmount() {
+		return _claimApprovedAmount;
+	}
+
+	/**
+	 * @param claimApprovedAmount
+	 *            the claimApprovedAmount to set
+	 */
+	public void setClaimApprovedAmount(final BigDecimal claimApprovedAmount) {
+		_claimApprovedAmount = claimApprovedAmount;
+	}
+
+	/**
+	 * @return the claimApprovedDate
+	 */
+	@Column(name = "CLIM_APR_DT")
+	@Type(type = "com.i2g.rms.domain.model.type.LocalDateType")
+	public LocalDate getClaimApprovedDate() {
+		return _claimApprovedDate;
+	}
+
+	/**
+	 * @param claimApprovedDate
+	 *            the claimApprovedDate to set
+	 */
+	public void setClaimApprovedDate(final LocalDate claimApprovedDate) {
+		_claimApprovedDate = claimApprovedDate;
+	}
+
+	/**
+	 * @return the claimApprovedBy
+	 */
+	@Column(name = "CLIM_APR_BY", length = 128)
+	public String getClaimApprovedBy() {
+		return _claimApprovedBy;
+	}
+
+	/**
+	 * @param claimApprovedBy
+	 *            the claimApprovedBy to set
+	 */
+	public void setClaimApprovedBy(final String claimApprovedBy) {
+		_claimApprovedBy = claimApprovedBy;
+	}
+
+	/**
+	 * @return the claimSettlementAmount
+	 */
+	@Column(name = "CLIM_STLMT_AMT")
+	public BigDecimal getClaimSettlementAmount() {
+		return _claimSettlementAmount;
+	}
+
+	/**
+	 * @param claimSettlementAmount
+	 *            the claimSettlementAmount to set
+	 */
+	public void setClaimSettlementAmount(final BigDecimal claimSettlementAmount) {
+		_claimSettlementAmount = claimSettlementAmount;
+	}
+
+	/**
+	 * @return the claimSettlementDate
+	 */
+	@Column(name = "CLIM_STLMT_DT")
+	@Type(type = "com.i2g.rms.domain.model.type.LocalDateType")
+	public LocalDate getClaimSettlementDate() {
+		return _claimSettlementDate;
+	}
+
+	/**
+	 * @param claimSettlementDate
+	 *            the claimSettlementDate to set
+	 */
+	public void setClaimSettlementDate(final LocalDate claimSettlementDate) {
+		_claimSettlementDate = claimSettlementDate;
+	}
+
+	/**
+	 * @return the claimSettlementBy
+	 */
+	@Column(name = "CLIM_STLMT_BY", length = 128)
+	public String getClaimSettlementBy() {
+		return _claimSettlementBy;
+	}
+
+	/**
+	 * @param claimSettlementBy
+	 *            the claimSettlementBy to set
+	 */
+	public void setClaimSettlementBy(final String claimSettlementBy) {
+		_claimSettlementBy = claimSettlementBy;
+	}
+
+	/**
+	 * @return the claimDeclinedDate
+	 */
+	@Column(name = "CLIM_DEC_DT")
+	@Type(type = "com.i2g.rms.domain.model.type.LocalDateType")
+	public LocalDate getClaimDeclinedDate() {
+		return _claimDeclinedDate;
+	}
+
+	/**
+	 * @param claimDeclinedDate
+	 *            the claimDeclinedDate to set
+	 */
+	public void setClaimDeclinedDate(final LocalDate claimDeclinedDate) {
+		_claimDeclinedDate = claimDeclinedDate;
+	}
+
+	/**
+	 * @return the claimDeclinedBy
+	 */
+	@Column(name = "CLIM_DEC_BY", length = 128)
+	public String getClaimDeclinedBy() {
+		return _claimDeclinedBy;
+	}
+
+	/**
+	 * @param claimDeclinedBy
+	 *            the claimDeclinedBy to set
+	 */
+	public void setClaimDeclinedBy(final String claimDeclinedBy) {
+		_claimDeclinedBy = claimDeclinedBy;
+	}
+
+	/**
+	 * @return the claimReopenedDate
+	 */
+	@Column(name = "CLIM_REOPN_DT")
+	@Type(type = "com.i2g.rms.domain.model.type.LocalDateType")
+	public LocalDate getClaimReopenedDate() {
+		return _claimReopenedDate;
+	}
+
+	/**
+	 * @param claimReopenedDate
+	 *            the claimReopenedDate to set
+	 */
+	public void setClaimReopenedDate(final LocalDate claimReopenedDate) {
+		_claimReopenedDate = claimReopenedDate;
+	}
+
+	/**
+	 * @return the claimReopenedBy
+	 */
+	@Column(name = "CLIM_REOPN_BY", length = 128)
+	public String getClaimReopenedBy() {
+		return _claimReopenedBy;
+	}
+
+	/**
+	 * @param claimReopenedBy
+	 *            the claimReopenedBy to set
+	 */
+	public void setClaimReopenedBy(final String claimReopenedBy) {
+		_claimReopenedBy = claimReopenedBy;
+	}
+
+	/**
+	 * @return the claimRequestedComments
+	 */
+	@Column(name = "CLIM_REQ_CMNTS", length = 256)
+	public String getClaimRequestedComments() {
+		return _claimRequestedComments;
+	}
+
+	/**
+	 * @param claimRequestedComments
+	 *            the claimRequestedComments to set
+	 */
+	public void setClaimRequestedComments(final String claimRequestedComments) {
+		_claimRequestedComments = claimRequestedComments;
+	}
+	
+	@Column(name = "CLIM_APR_CMNTS", length = 256)
+	public String getClaimApprovedComments() {
+		return _claimApprovedComments;
+	}
+
+	public void setClaimApprovedComments(final String claimApprovedComments) {
+		_claimApprovedComments = claimApprovedComments;
+	}
+	
+	@Column(name = "CLIM_STLMT_CMNTS", length = 256)
+	public String getClaimSettlementComments() {
+		return _claimSettlementComments;
+	}
+
+	public void setClaimSettlementComments(final String claimSettlementComments) {
+		_claimSettlementComments = claimSettlementComments;
+	}
+	
+	@Column(name = "CLIM_DEC_CMNTS", length = 256)
+	public String getClaimDeclinedComments() {
+		return _claimDeclinedComments;
+	}
+
+	public void setClaimDeclinedComments(final String claimDeclinedComments) {
+		_claimDeclinedComments = claimDeclinedComments;
+	}
+	
+	@Column(name = "CLIM_REOPN_CMNTS", length = 256)
+	public String getClaimReopenedComments() {
+		return _claimReopenedComments;
+	}
+
+	public void setClaimReopenedComments(final String claimReopenedComments) {
+		_claimReopenedComments = claimReopenedComments;
 	}
 
 	/**

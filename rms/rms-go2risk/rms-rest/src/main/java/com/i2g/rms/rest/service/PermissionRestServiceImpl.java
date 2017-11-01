@@ -31,8 +31,7 @@ public class PermissionRestServiceImpl extends AbstractRestService implements Pe
 	@Transactional(readOnly = true)
 	public List<PermissionRO> getPermissions() {
 		List<Permission> permissions = _permissionService.getPermissions();
-		List<PermissionRO> permissionROs = permissions.isEmpty() ? Collections.emptyList()
-				: _mapperService.map(permissions, PermissionRO.class);
+		List<PermissionRO> permissionROs = (permissions == null || permissions.isEmpty()) ? Collections.emptyList() : _mapperService.map(permissions, PermissionRO.class);
 		return permissionROs;
 	}
 }

@@ -39,7 +39,7 @@ public class RoleRestServiceImpl extends AbstractRestService implements RoleRest
 	@Transactional(readOnly = true)
 	public List<RoleRO> getRoles() {
 		List<Role> roles = _roleService.getRoles();
-		List<RoleRO> roleROs = roles.isEmpty() ? Collections.emptyList() : _mapperService.map(roles, RoleRO.class);
+		List<RoleRO> roleROs = (roles == null || roles.isEmpty()) ? Collections.emptyList() : _mapperService.map(roles, RoleRO.class);
 		return roleROs;
 	}
 

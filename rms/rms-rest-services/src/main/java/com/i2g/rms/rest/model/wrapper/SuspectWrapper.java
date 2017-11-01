@@ -5,24 +5,15 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.i2g.rms.rest.model.SuspectRO;
+import com.i2g.rms.rest.model.incident.BaseIncidentDetailRO;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class SuspectWrapper {
+public class SuspectWrapper extends BaseIncidentDetailRO {
 	
-	private Long incidentId;
-	private String uniqueIncidentId;
 	private Long[] employeeIds;
 	private String[] employeeLoginIds;
 	private Set<SuspectRO> suspects = new HashSet<SuspectRO>(0);
 	
-	public String getUniqueIncidentId() {
-		return uniqueIncidentId;
-	}
-
-	public void setUniqueIncidentId(String uniqueIncidentId) {
-		this.uniqueIncidentId = uniqueIncidentId;
-	}
-
 	public Set<SuspectRO> getSuspects() {
 		return suspects;
 	}
@@ -45,17 +36,5 @@ public class SuspectWrapper {
 
 	public void setEmployeeLoginIds(final String[] employeeLoginIds) {
 		this.employeeLoginIds = employeeLoginIds;
-	}
-
-	public Long getIncidentId() {
-		return incidentId;
-	}
-
-	public void setIncidentId(final Long incidentId) {
-		if (incidentId != null) {
-			this.incidentId = incidentId;
-		} else {
-			this.incidentId = 0l;
-		}
-	}	
+	}		
 }

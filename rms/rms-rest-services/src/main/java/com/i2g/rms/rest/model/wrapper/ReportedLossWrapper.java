@@ -5,20 +5,12 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.i2g.rms.rest.model.ReportedLossRO;
+import com.i2g.rms.rest.model.incident.BaseIncidentDetailRO;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ReportedLossWrapper {
+public class ReportedLossWrapper extends BaseIncidentDetailRO {
 
-	private String uniqueIncidentId;
 	private Set<ReportedLossRO> reportedLosses = new HashSet<ReportedLossRO>(0);
-
-	public String getUniqueIncidentId() {
-		return uniqueIncidentId;
-	}
-
-	public void setUniqueIncidentId(final String uniqueIncidentId) {
-		this.uniqueIncidentId = uniqueIncidentId;
-	}
 
 	public Set<ReportedLossRO> getReportedLosses() {
 		return reportedLosses;

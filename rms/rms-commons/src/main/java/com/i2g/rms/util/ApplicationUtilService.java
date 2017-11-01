@@ -15,6 +15,11 @@ public class ApplicationUtilService extends ApplicationBaseUtilService {
 		return ApplicationConstants.INCIDENT_ID_PREFIX
 				+ new SimpleDateFormat(ApplicationConstants.TIMESTAMP_FORMAT).format(new Date());
 	}
+	
+	public static String getUniqueClaimId() {
+		return ApplicationConstants.CLAIM_ID_PREFIX
+				+ new SimpleDateFormat(ApplicationConstants.TIMESTAMP_FORMAT).format(new Date());
+	}
 
 	public static String getCurrentDateAsString() {
 		return new SimpleDateFormat(ApplicationConstants.DATE_FORMAT).format(new Date());

@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.i2g.rms.rest.model.AbstractEntityRO;
 import com.i2g.rms.rest.model.AccidentRO;
 import com.i2g.rms.rest.model.InjuredPersonRO;
 import com.i2g.rms.rest.model.UserRO;
@@ -18,10 +17,8 @@ import com.i2g.rms.rest.model.WitnessRO;
  *
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AccidentDetailRO extends AbstractEntityRO {
+public class AccidentDetailRO extends BaseIncidentDetailRO {
 
-	private long incidentId;
-	private String uniqueIncidentId;
 	private AccidentRO accident;
 	private Set<InjuredPersonRO> newInjuredPersons = new HashSet<InjuredPersonRO>(0);
 	private Set<InjuredPersonRO> existingInjuredPersons = new HashSet<InjuredPersonRO>(0);
@@ -29,22 +26,6 @@ public class AccidentDetailRO extends AbstractEntityRO {
 	private Set<WitnessRO> newWitnesses = new HashSet<WitnessRO>(0);
 	private Set<WitnessRO> existingWitnesses = new HashSet<WitnessRO>(0);
 	private Set<UserRO> employeeWitnesses = new HashSet<UserRO>(0);
-
-	public long getIncidentId() {
-		return incidentId;
-	}
-
-	public void setIncidentId(final long incidentId) {
-		this.incidentId = incidentId;
-	}
-
-	public String getUniqueIncidentId() {
-		return uniqueIncidentId;
-	}
-
-	public void setUniqueIncidentId(final String uniqueIncidentId) {
-		this.uniqueIncidentId = uniqueIncidentId;
-	}
 
 	/**
 	 * @return the accident

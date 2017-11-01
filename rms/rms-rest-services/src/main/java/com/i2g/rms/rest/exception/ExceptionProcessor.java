@@ -206,6 +206,7 @@ public class ExceptionProcessor {
 		ResourceConflictException.class,
 		IllegalArgumentException.class,
 		ConstraintViolationException.class,
+		org.hibernate.exception.ConstraintViolationException.class,
 		DataRetrievalFailureException.class, // TODO: Evaluate if this is the correct HTTP Status code to return for these errors
 		DataIntegrityViolationException.class
 	})

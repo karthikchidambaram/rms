@@ -54,7 +54,7 @@ public class DocumentDaoImpl extends AbstractHibernateDao<Long, Document> implem
 	public List<Document> get() {
 		final Criteria criteria = getSession().createCriteria(_modelType);
 		criteria.add(Restrictions.eq("statusFlag", StatusFlag.ACTIVE));
-		return (List<Document>) criteria.list();
+		return (List<Document>) applySearch(criteria).list();
 	}
 
 	@Override

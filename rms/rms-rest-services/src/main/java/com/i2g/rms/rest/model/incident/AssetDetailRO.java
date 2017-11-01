@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.i2g.rms.rest.model.AbstractEntityRO;
 import com.i2g.rms.rest.model.AssetRO;
 import com.i2g.rms.rest.model.BuildingRO;
 import com.i2g.rms.rest.model.EquipmentRO;
@@ -18,10 +17,8 @@ import com.i2g.rms.rest.model.VehicleRO;
  *
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AssetDetailRO extends AbstractEntityRO {
+public class AssetDetailRO extends BaseIncidentDetailRO {
 
-	private long _incidentId;
-	private String _uniqueIncidentId;
 	private AssetRO _asset;
 	private List<EquipmentRO> _equipments = new ArrayList<EquipmentRO>(0);
 	private List<EquipmentRO> _existingEquipments = new ArrayList<EquipmentRO>(0);
@@ -29,22 +26,6 @@ public class AssetDetailRO extends AbstractEntityRO {
 	private List<BuildingRO> _existingBuildings = new ArrayList<BuildingRO>(0);
 	private List<VehicleRO> _vehicles = new ArrayList<VehicleRO>(0);
 	private List<VehicleRO> _existingVehicles = new ArrayList<VehicleRO>(0);
-
-	public long getIncidentId() {
-		return _incidentId;
-	}
-
-	public void setIncidentId(final long incidentId) {
-		_incidentId = incidentId;
-	}
-
-	public String getUniqueIncidentId() {
-		return _uniqueIncidentId;
-	}
-
-	public void setUniqueIncidentId(final String uniqueIncidentId) {
-		_uniqueIncidentId = uniqueIncidentId;
-	}
 
 	/**
 	 * @return the asset

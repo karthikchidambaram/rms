@@ -46,7 +46,7 @@ public class BuildingRestServiceImpl extends AbstractRestService implements Buil
 	@Transactional(readOnly = true)
 	public List<BuildingRO> get() {
 		List<Building> buildings = _buildingService.get();
-		List<BuildingRO> buildingROs = buildings.isEmpty() ? Collections.emptyList() : _mapperService.map(buildings, BuildingRO.class);
+		List<BuildingRO> buildingROs = (buildings == null || buildings.isEmpty()) ? Collections.emptyList() : _mapperService.map(buildings, BuildingRO.class);
 		return buildingROs;
 	}
 
@@ -199,10 +199,8 @@ public class BuildingRestServiceImpl extends AbstractRestService implements Buil
 			// building address if any
 			if (buildingRO.getAddresses() != null) {
 				building.setAddresses(_suspectRestService.createOrUpdateAddresses(buildingRO.getAddresses(), null, null, null, null, null, building));
-			}
-			return building;
-		} else {
-			return null;
+			}			
 		}
+		return building;
 	}	
 }

@@ -31,8 +31,7 @@ public class InvestigationTeamRestServiceImpl extends AbstractRestService implem
 	@Transactional(readOnly = true)
 	public List<InvestigationTeamRO> getInvestigationTeams() {
 		List<InvestigationTeam> investigationTeams = _investigationTeamService.getInvestigationTeams();
-		List<InvestigationTeamRO> investigationTeamROs = investigationTeams.isEmpty() ? Collections.emptyList()
-				: _mapperService.map(investigationTeams, InvestigationTeamRO.class);
+		List<InvestigationTeamRO> investigationTeamROs = (investigationTeams == null || investigationTeams.isEmpty()) ? Collections.emptyList() : _mapperService.map(investigationTeams, InvestigationTeamRO.class);
 		return investigationTeamROs;
 	}
 }

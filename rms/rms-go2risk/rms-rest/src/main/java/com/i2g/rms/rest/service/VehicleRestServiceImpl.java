@@ -44,7 +44,7 @@ public class VehicleRestServiceImpl extends AbstractRestService implements Vehic
 	@Transactional(readOnly = true)
 	public List<VehicleRO> get() {
 		List<Vehicle> vehicles = _vehicleService.get();
-		List<VehicleRO> vehicleROs = vehicles.isEmpty() ? Collections.emptyList() : _mapperService.map(vehicles, VehicleRO.class);
+		List<VehicleRO> vehicleROs = (vehicles == null || vehicles.isEmpty()) ? Collections.emptyList() : _mapperService.map(vehicles, VehicleRO.class);
 		return vehicleROs;
 	}
 
@@ -211,10 +211,8 @@ public class VehicleRestServiceImpl extends AbstractRestService implements Vehic
 				if (nullOrEmptySafeCheck(vehicleRO.getAssetCategory().getId())) {
 					vehicle.setAssetCategory(_tableMaintenanceService.getAssetCategoryByCode(stringTrimmer(vehicleRO.getAssetCategory().getId().trim())));
 				}
-			}
-			return vehicle;
-		} else {
-			return null;
+			}			
 		}
+		return vehicle;
 	}	
 }

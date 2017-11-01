@@ -18,12 +18,12 @@ import com.i2g.rms.domain.model.Address;
 import com.i2g.rms.domain.model.Asset;
 import com.i2g.rms.domain.model.Building;
 import com.i2g.rms.domain.model.Claim;
-import com.i2g.rms.domain.model.ClaimHistory;
 import com.i2g.rms.domain.model.Crime;
 import com.i2g.rms.domain.model.CrimeSuspect;
 import com.i2g.rms.domain.model.Equipment;
 import com.i2g.rms.domain.model.InjuredPerson;
 import com.i2g.rms.domain.model.Investigation;
+import com.i2g.rms.domain.model.OfficeAddress;
 import com.i2g.rms.domain.model.ReportedLoss;
 import com.i2g.rms.domain.model.StatusFlag;
 import com.i2g.rms.domain.model.Suspect;
@@ -45,7 +45,6 @@ import com.i2g.rms.rest.model.AccidentRO;
 import com.i2g.rms.rest.model.AddressRO;
 import com.i2g.rms.rest.model.AssetRO;
 import com.i2g.rms.rest.model.BuildingRO;
-import com.i2g.rms.rest.model.ClaimHistoryRO;
 import com.i2g.rms.rest.model.ClaimRO;
 import com.i2g.rms.rest.model.CrimeRO;
 import com.i2g.rms.rest.model.CrimeSuspectRO;
@@ -59,6 +58,7 @@ import com.i2g.rms.rest.model.VehicleRO;
 import com.i2g.rms.rest.model.WitnessRO;
 import com.i2g.rms.rest.model.incident.AccidentDetailRO;
 import com.i2g.rms.rest.model.incident.AssetDetailRO;
+import com.i2g.rms.rest.model.incident.BaseIncidentDetailRO;
 import com.i2g.rms.rest.model.incident.ClaimDetailRO;
 import com.i2g.rms.rest.model.incident.CrimeDetailRO;
 import com.i2g.rms.rest.model.incident.IncidentDetailRO;
@@ -67,6 +67,7 @@ import com.i2g.rms.rest.model.incident.InvestigationDetailRO;
 import com.i2g.rms.rest.model.incident.LogIncidentRO;
 import com.i2g.rms.rest.model.tablemaintenance.BodyPartRO;
 import com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeatureDetailRO;
+import com.i2g.rms.rest.model.wrapper.IncidentWrapper;
 import com.i2g.rms.rest.model.wrapper.SuspectWrapper;
 import com.i2g.rms.rest.service.AbstractRestService;
 import com.i2g.rms.rest.service.RestMessage;
@@ -148,14 +149,26 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 	/** get flows */
 	
 	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
 	@Transactional(readOnly = true)
 	public List<IncidentRO> get() {
 		List<Incident> incidents = _incidentService.get();
 		List<IncidentRO> incidentROs = incidents.isEmpty() ? Collections.emptyList() : _mapperService.map(incidents, IncidentRO.class);
 		return incidentROs;
 	}
+	
+	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
+	@Transactional(readOnly = true)
+	public IncidentRO getIncidentByIncidentId(final Long incidentId) {
+		validateKeyId(incidentId);
+		final Incident incident = _incidentService.get(incidentId);
+		validateGenericObject(incident);
+		return _mapperService.map(incident, IncidentRO.class);
+	}
 
 	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
 	@Transactional(readOnly = true)
 	public IncidentRO getIncidentByUniqueIncidentId(final String uniqueIncidentId) {
 		validateUniqueIncidentId(uniqueIncidentId);
@@ -164,14 +177,14 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 		return _mapperService.map(incident, IncidentRO.class);
 	}
 	
-	/** add flows */
-	
+	/** add incident selected in UI */
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
 	public UserRO addIncident() {
 		return _mapperService.map(getUserFromContext(), UserRO.class);
 	}
-
+	
+	/** create incident */
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
 	@Transactional
@@ -212,87 +225,51 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 									.build();
 
 		// Validate the newly created object
-		validateGenericObject(incident);
-
-		// Set other values
-		if (logIncidentRO.getPlaceOfIncident() != null && !logIncidentRO.getPlaceOfIncident().trim().isEmpty()) {
-			incident.setPlaceOfIncident(logIncidentRO.getPlaceOfIncident());
-		}
-		if (logIncidentRO.getIncidentDescription() != null
-				&& !logIncidentRO.getIncidentDescription().trim().isEmpty()) {
-			incident.setIncidentDescription(logIncidentRO.getIncidentDescription());
-		}
-		// incident type
-		if (logIncidentRO.getIncidentType() != null) {
-			if (logIncidentRO.getIncidentType().getId() != null && !logIncidentRO.getIncidentType().getId().trim().isEmpty()) {
-				final IncidentType incidentType = _tableMaintenanceService.getIncidentTypeByCode(logIncidentRO.getIncidentType().getId().trim());
-				incident.setIncidentType(incidentType);
-			}
-		}
-		// incident type other
-		if (logIncidentRO.getIncidentTypeOther() != null && !logIncidentRO.getIncidentTypeOther().trim().isEmpty()) {
-			incident.setIncidentTypeOther(logIncidentRO.getIncidentTypeOther().trim());
-		}
-		// entry point
-		if (logIncidentRO.getEntryPoint() != null) {
-			if (logIncidentRO.getEntryPoint().getId() != null && !logIncidentRO.getEntryPoint().getId().trim().isEmpty()) {
-				final EntryPoint entryPoint = _tableMaintenanceService.getEntryPointByCode(logIncidentRO.getEntryPoint().getId().trim());
-				incident.setEntryPoint(entryPoint);
-			}
-		}
-		// entry point other
-		if (logIncidentRO.getEntryPointOther() != null && !logIncidentRO.getEntryPointOther().trim().isEmpty()) {
-			incident.setEntryPointOther(logIncidentRO.getEntryPointOther().trim());
-		}
-		// Incident location
-		if (logIncidentRO.getIncidentLocation() != null) {
-			if (logIncidentRO.getIncidentLocation().getId() != null && !logIncidentRO.getIncidentLocation().getId().trim().isEmpty()) {
-				final IncidentLocation incidentLocation = _tableMaintenanceService.getIncidentLocationByCode(logIncidentRO.getIncidentLocation().getId().trim());
-				incident.setIncidentLocation(incidentLocation);
-			}
-		}
-		// Incident location detail
-		if (logIncidentRO.getIncidentLocationDetail() != null) {
-			if (logIncidentRO.getIncidentLocationDetail().getId() != null && !logIncidentRO.getIncidentLocationDetail().getId().trim().isEmpty()) {
-				final IncidentLocationDetail incidentLocationDetail = _tableMaintenanceService .getIncidentLocationDetailByCode(logIncidentRO.getIncidentLocationDetail().getId().trim());
-				incident.setIncidentLocationDetail(incidentLocationDetail);
-			}
-		}
-		// incident location other
-		if (logIncidentRO.getIncidentLocationOther() != null && !logIncidentRO.getIncidentLocationOther().trim().isEmpty()) {
-			incident.setIncidentLocationOther(logIncidentRO.getIncidentLocationOther().trim());
-		}
-		// set office address (obtained from lookup)
-		if (logIncidentRO.getOfficeAddress() != null) {
-			if (logIncidentRO.getOfficeAddress().getId() > 0) {
-				incident.setOfficeAddress(_officeAddressService.get(logIncidentRO.getOfficeAddress().getId()));
-			}
-		}
-		YesNoType notifyClaimsHandler = YesNoType.N;
-		if (logIncidentRO.getNotifyClaimsHandler() != null && logIncidentRO.getNotifyClaimsHandler().name().equals("Y")) {
-			notifyClaimsHandler = YesNoType.Y;
-		}
-		incident.setNotifyClaimsHandler(notifyClaimsHandler);
-		
-		YesNoType showClaims = YesNoType.N;
-		if (logIncidentRO.getShowClaims() != null && logIncidentRO.getShowClaims().name().equals("Y")) {
-			showClaims = YesNoType.Y;
-		}
-		incident.setShowClaims(showClaims);
-		
-		YesNoType showInvestigation = YesNoType.N;
-		if (logIncidentRO.getShowInvestigation() != null && logIncidentRO.getShowInvestigation().name().equals("Y")) {
-			showInvestigation = YesNoType.Y;
-		}
-		incident.setShowInvestigation(showInvestigation);
+		validateGenericObject(incident);	
 		
 		// Save the newly constructed incident
-		final Incident newIncident = _incidentService.logIncident(incident);
-
+		final Incident newIncident = _incidentService.logIncident(setOtherValuesForIncident(incident, logIncidentRO));
+		
 		if (newIncident != null) {
 			return _mapperService.map(newIncident, IncidentRO.class);
 		} else {
 			throw new ResourceNotCreatedException(_messageBuilder.build(RestMessage.UNABLE_TO_CREATE_RECORD));
+		}
+	}
+	
+	/** update incident */
+	
+	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
+	@Transactional
+	public IncidentRO updateLogIncident(final LogIncidentRO logIncidentRO) {
+		// Validate input param (object)
+		validateObject(logIncidentRO);
+		final Incident incident = getIncident(logIncidentRO);
+		validateGenericObject(incident);
+		// Save the newly constructed incident
+		final Incident newIncident = _incidentService.updateIncident(setOtherValuesForIncident(incident, logIncidentRO));
+		if (newIncident != null) {
+			return _mapperService.map(newIncident, IncidentRO.class);
+		} else {
+			throw new ResourceNotCreatedException(_messageBuilder.build(RestMessage.UNABLE_TO_UPDATE_RECORD));
+		}
+	}
+	
+	/** Add or update incident */
+	
+	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
+	@Transactional
+	public IncidentRO addOrUpdateLogIncident(final LogIncidentRO logIncidentRO) {
+		// Validate input param (object)
+		validateObject(logIncidentRO);
+		if (addOrUpdateCheckForIncident(logIncidentRO)) {
+			//update incident
+			return updateLogIncident(logIncidentRO);
+		} else {
+			//add incident
+			return logIncident(logIncidentRO);
 		}
 	}
 
@@ -302,10 +279,8 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 	public IncidentRO addIncidentDetail(final IncidentDetailRO incidentDetailRO) {
 		// Validate input param (object)
 		validateObject(incidentDetailRO);
-		// Validate unique incident id
-		validateUniqueIncidentId(incidentDetailRO.getUniqueIncidentId());
 		// Construct the incident object for update
-		final Incident incident = _incidentService.getIncidentByUniqueIncidentId(incidentDetailRO.getUniqueIncidentId().trim());
+		final Incident incident = getIncident(incidentDetailRO);
 		validateGenericObject(incident);
 
 		// Construct suspects and reported losses, if any..
@@ -371,14 +346,11 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 		validateObject(accidentDetailRO);
 		// Validate input main object accident.
 		validateObject(accidentDetailRO.getAccident());
-		// Validate unique incident id
-		validateUniqueIncidentId(accidentDetailRO.getUniqueIncidentId());
-		// Construct the incident object for update
-		Incident incident = _incidentService.getIncidentByUniqueIncidentId(accidentDetailRO.getUniqueIncidentId().trim());
+		final Incident incident = getIncident(accidentDetailRO);
 		validateGenericObject(incident);
 
 		// Instantiate the accident object
-		Accident accident = constructAccident(accidentDetailRO.getAccident(), incident);
+		final Accident accident = constructAccident(accidentDetailRO.getAccident(), incident);
 		validateGenericObject(accident);
 
 		// Instantiate objects
@@ -412,8 +384,7 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 			}
 		}
 		// Construct and add existing injured persons if any..
-		if (accidentDetailRO.getExistingInjuredPersons() != null
-				&& !accidentDetailRO.getExistingInjuredPersons().isEmpty()) {
+		if (accidentDetailRO.getExistingInjuredPersons() != null && !accidentDetailRO.getExistingInjuredPersons().isEmpty()) {
 			for (InjuredPersonRO injuredPersonRO : accidentDetailRO.getExistingInjuredPersons()) {
 				if (injuredPersonRO.getId() > 0) {
 					existingInjuredPersons.add(_injuredPersonService.get(injuredPersonRO.getId()));
@@ -423,8 +394,7 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 			accident.getInjuredPersons().addAll(existingInjuredPersons);
 		}
 		// Construct employee injured persons and add to accident.
-		if (accidentDetailRO.getEmployeeInjuredPersons() != null
-				&& !accidentDetailRO.getEmployeeInjuredPersons().isEmpty()) {
+		if (accidentDetailRO.getEmployeeInjuredPersons() != null && !accidentDetailRO.getEmployeeInjuredPersons().isEmpty()) {
 			for (UserRO userRO : accidentDetailRO.getEmployeeInjuredPersons()) {
 				if (userRO.getLoginId() != null && !userRO.getLoginId().trim().isEmpty()) {
 					employeeInjuredPersons.add(_userService.getUserByUserLoginId(userRO.getLoginId().trim()));
@@ -486,11 +456,7 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 		validateObject(assetDetailRO);
 		// Validate input main object accident.
 		validateObject(assetDetailRO.getAsset());
-		// Validate unique incident id
-		validateUniqueIncidentId(assetDetailRO.getUniqueIncidentId());
-
-		// Construct the incident object for update
-		final Incident incident = _incidentService.getIncidentByUniqueIncidentId(assetDetailRO.getUniqueIncidentId().trim());
+		final Incident incident = getIncident(assetDetailRO);
 		validateGenericObject(incident);
 
 		// Instantiate the asset object
@@ -595,12 +561,10 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 	public IncidentRO addCrimeDetail(final CrimeDetailRO crimeDetailRO) {
 		// Validate input param (object)
 		validateObject(crimeDetailRO);
-		// Validate unique incident id
-		validateUniqueIncidentId(crimeDetailRO.getUniqueIncidentId());
 		// Validate crime object
 		validateObject(crimeDetailRO.getCrime());
 		// Construct the incident object for update
-		Incident incident = _incidentService.getIncidentByUniqueIncidentId(crimeDetailRO.getUniqueIncidentId().trim());
+		final Incident incident = getIncident(crimeDetailRO);
 		validateGenericObject(incident);
 
 		// Construct and create the crime object.
@@ -705,29 +669,27 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 	public IncidentRO addClaimDetail(final ClaimDetailRO claimDetailRO) {
 		// Validate input param (object)
 		validateObject(claimDetailRO);
-		// Validate unique incident id
-		validateUniqueIncidentId(claimDetailRO.getUniqueIncidentId());
 		// Validate claim object
 		validateObject(claimDetailRO.getClaim());
 		// Construct the incident object for update
-		Incident incident = _incidentService.getIncidentByUniqueIncidentId(claimDetailRO.getUniqueIncidentId().trim());
+		final Incident incident = getIncident(claimDetailRO);
 		validateGenericObject(incident);
 
 		// Construct and create the claim object.
-		Claim claim = constructClaim(claimDetailRO.getClaim(), incident);
+		final Claim claim = constructClaim(claimDetailRO.getClaim(), incident);
 		validateGenericObject(claim);
 		
 		// create the asset record
-		final Claim newClaim = _claimService.create(claim);
-		// Throw exception if unable to create
-		if (newClaim == null) {
-			throw new ResourceNotCreatedException(_messageBuilder.build(RestMessage.UNABLE_TO_CREATE_RECORD));
-		} else {
+		final Claim newClaim = _claimService.createClaim(claim);
+		if (newClaim != null) {
 			// Set the claim to incident.
 			incident.setClaim(newClaim);
+			// Throw the incident back with the newly created claim details
+			return _mapperService.map(incident, IncidentRO.class);
+		} else {
+			// Throw exception if unable to create
+			throw new ResourceNotCreatedException(_messageBuilder.build(RestMessage.UNABLE_TO_CREATE_RECORD));
 		}
-		// Throw the incident back with the newly created claim details
-		return _mapperService.map(incident, IncidentRO.class);
 	}
 	
 	@Override
@@ -736,19 +698,17 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 	public IncidentRO addInvestigationDetail(final InvestigationDetailRO investigationDetailRO) {
 		// Validate input param (object)
 		validateObject(investigationDetailRO);
-		// Validate unique incident id
-		validateUniqueIncidentId(investigationDetailRO.getUniqueIncidentId());
 		// Validate investigation object
 		validateObject(investigationDetailRO.getInvestigation());
 		// Construct the incident object for update
-		Incident incident = _incidentService.getIncidentByUniqueIncidentId(investigationDetailRO.getUniqueIncidentId().trim());
+		final Incident incident = getIncident(investigationDetailRO);
 		validateGenericObject(incident);
 
 		// Construct and create the investigation object.
-		Investigation investigation = constructInvestigation(investigationDetailRO.getInvestigation(), incident);
+		final Investigation investigation = constructNewInvestigation(investigationDetailRO.getInvestigation(), incident);
 		validateGenericObject(investigation);
 		// create the investigation record
-		final Investigation newInvestigation = _investigationService.create(investigation);
+		final Investigation newInvestigation = _investigationService.createInvestigation(investigation);
 		// Throw exception if unable to create
 		if (newInvestigation == null) {
 			throw new ResourceNotCreatedException(_messageBuilder.build(RestMessage.UNABLE_TO_CREATE_RECORD));
@@ -758,179 +718,24 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 		}
 		// Throw the incident back with the newly created investigation details
 		return _mapperService.map(incident, IncidentRO.class);		
-	}
-	
-	@Override
-	@PreAuthorize("hasAnyAuthority('ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR')")
-	@Transactional
-	public IncidentRO addOrUpdateInvestigationDetail(final InvestigationDetailRO investigationDetailRO) {
-		// Validate input param (object)
-		validateObject(investigationDetailRO);
-		// Validate unique incident id
-		validateUniqueIncidentId(investigationDetailRO.getUniqueIncidentId());
-		// Validate investigation object
-		validateObject(investigationDetailRO.getInvestigation());
-		// Construct the incident object for update
-		Incident incident = _incidentService.getIncidentByUniqueIncidentId(investigationDetailRO.getUniqueIncidentId().trim());
-		validateGenericObject(incident);
-		// Get investigation detail for the given incident
-		Investigation existingInvestigationRecord = _investigationService.get(incident);
-		// Update with new values
-		if (existingInvestigationRecord != null) {
-			Investigation updatedInvestigationRecord = _investigationService.updateInvestigation(constructInvestigationRecordForUpdate(investigationDetailRO.getInvestigation(), existingInvestigationRecord));
-			if (updatedInvestigationRecord == null) {
-				throw new ResourceNotCreatedException(_messageBuilder.build(RestMessage.UNABLE_TO_UPDATE_RECORD));
-			} else {
-				// Set the new investigation to incident.
-				incident.setInvestigation(updatedInvestigationRecord);
-			}			
-		} else {
-			// Construct and create the investigation object.
-			Investigation investigation = constructInvestigation(investigationDetailRO.getInvestigation(), incident);
-			validateGenericObject(investigation);
-			// create the investigation record
-			final Investigation newInvestigation = _investigationService.create(investigation);
-			// Throw exception if unable to create
-			if (newInvestigation == null) {
-				throw new ResourceNotCreatedException(_messageBuilder.build(RestMessage.UNABLE_TO_CREATE_RECORD));
-			} else {
-				// Set the new investigation to incident.
-				incident.setInvestigation(newInvestigation);
-			}
-		}
-		// Throw the incident back with the newly created investigation details
-		return _mapperService.map(incident, IncidentRO.class);
-	}
-	
-	/** update flows */
+	}	
 	
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
 	@Transactional
-	public IncidentRO updateLogIncident(final LogIncidentRO logIncidentRO) {
-		// Validate input param (object)
-		validateObject(logIncidentRO);
-		validateUniqueIncidentId(logIncidentRO.getUniqueIncidentId());
-		Incident incident = _incidentService.getIncidentByUniqueIncidentId(logIncidentRO.getUniqueIncidentId().trim());
+	public IncidentRO submitIncident(final IncidentWrapper incidentWrapper) {
+		validateObject(incidentWrapper);
+		final Incident incident = getIncident(incidentWrapper);
 		validateGenericObject(incident);
-		
-		// Set other values only if necessary for update
-		// Set yes or no type fields
-		//asset damage
-		YesNoType assetDamage = YesNoType.N; 
-		if (logIncidentRO.getAssetDamage() != null && logIncidentRO.getAssetDamage().name().equals("Y")) {
-			assetDamage = YesNoType.Y;
+		if (!incident.getIncidentStatus().name().equals("DRAFT")) {
+			throw new ResourceNotValidException(_messageBuilder.build(RestMessage.INCIDENT_ALREADY_SUBMITTED));
 		}
-		incident.setAssetDamage(assetDamage);
-		
-		//criminal attack
-		YesNoType criminalAttack = YesNoType.N;
-		if (logIncidentRO.getCriminalAttack() != null && logIncidentRO.getCriminalAttack().name().equals("Y")) {
-			criminalAttack = YesNoType.Y;
-		}
-		incident.setAssetDamage(criminalAttack);
-		
-		//accident damage
-		YesNoType accidentDamage = YesNoType.N;
-		if (logIncidentRO.getAccidentDamage() != null && logIncidentRO.getAccidentDamage().name().equals("Y")) {
-			accidentDamage = YesNoType.Y;
-		}
-		incident.setAssetDamage(accidentDamage);
-				
-		//place of incident
-		if (logIncidentRO.getPlaceOfIncident() != null && !logIncidentRO.getPlaceOfIncident().trim().isEmpty()) {
-			incident.setPlaceOfIncident(logIncidentRO.getPlaceOfIncident());						
-		}
-		//incident description
-		if (logIncidentRO.getIncidentDescription() != null && !logIncidentRO.getIncidentDescription().trim().isEmpty()) {
-			incident.setIncidentDescription(logIncidentRO.getIncidentDescription());			
-		}
-		// incident type
-		if (logIncidentRO.getIncidentType() != null) {
-			if (logIncidentRO.getIncidentType().getId() != null && !logIncidentRO.getIncidentType().getId().trim().isEmpty()) {
-				final IncidentType incidentTypeRO = _tableMaintenanceService.getIncidentTypeByCode(logIncidentRO.getIncidentType().getId().trim());
-				incident.setIncidentType(incidentTypeRO);
-			}
-		}
-		// incident type other
-		if (logIncidentRO.getIncidentTypeOther() != null && !logIncidentRO.getIncidentTypeOther().trim().isEmpty()) {
-			incident.setIncidentTypeOther(logIncidentRO.getIncidentTypeOther().trim());
-		}
-		// entry point
-		if (logIncidentRO.getEntryPoint() != null) {
-			if (logIncidentRO.getEntryPoint().getId() != null && !logIncidentRO.getEntryPoint().getId().trim().isEmpty()) {
-				final EntryPoint entryPoint = _tableMaintenanceService.getEntryPointByCode(logIncidentRO.getEntryPoint().getId().trim());
-				incident.setEntryPoint(entryPoint);
-			}
-		}
-		// entry point other
-		if (logIncidentRO.getEntryPointOther() != null && !logIncidentRO.getEntryPointOther().trim().isEmpty()) {
-			incident.setEntryPointOther(logIncidentRO.getEntryPointOther().trim());
-		}
-		// Incident location
-		if (logIncidentRO.getIncidentLocation() != null) {
-			if (logIncidentRO.getIncidentLocation().getId() != null && !logIncidentRO.getIncidentLocation().getId().trim().isEmpty()) {
-				final IncidentLocation incidentLocation = _tableMaintenanceService.getIncidentLocationByCode(logIncidentRO.getIncidentLocation().getId().trim());
-				incident.setIncidentLocation(incidentLocation);
-			}
-		}
-		// Incident location detail
-		if (logIncidentRO.getIncidentLocationDetail() != null) {
-			if (logIncidentRO.getIncidentLocationDetail().getId() != null && !logIncidentRO.getIncidentLocationDetail().getId().trim().isEmpty()) {
-				final IncidentLocationDetail incidentLocationDetail = _tableMaintenanceService .getIncidentLocationDetailByCode(logIncidentRO.getIncidentLocationDetail().getId().trim());
-				incident.setIncidentLocationDetail(incidentLocationDetail);
-			}
-		}
-		// incident location other
-		if (logIncidentRO.getIncidentLocationOther() != null && !logIncidentRO.getIncidentLocationOther().trim().isEmpty()) {
-			incident.setIncidentLocationOther(logIncidentRO.getIncidentLocationOther().trim());
-		}
-		// set office address (obtained from lookup)
-		if (logIncidentRO.getOfficeAddress() != null) {
-			if (logIncidentRO.getOfficeAddress().getId() > 0) {
-				incident.setOfficeAddress(_officeAddressService.get(logIncidentRO.getOfficeAddress().getId()));
-			}
-		}
-		YesNoType notifyClaimsHandler = YesNoType.N;
-		if (logIncidentRO.getNotifyClaimsHandler() != null && logIncidentRO.getNotifyClaimsHandler().name().equals("Y")) {
-			notifyClaimsHandler = YesNoType.Y;
-		}
-		incident.setNotifyClaimsHandler(notifyClaimsHandler);
-		
-		YesNoType showClaims = YesNoType.N;
-		if (logIncidentRO.getShowClaims() != null && logIncidentRO.getShowClaims().name().equals("Y")) {
-			showClaims = YesNoType.Y;
-		}
-		incident.setShowClaims(showClaims);
-		
-		YesNoType showInvestigation = YesNoType.N;
-		if (logIncidentRO.getShowInvestigation() != null && logIncidentRO.getShowInvestigation().name().equals("Y")) {
-			showInvestigation = YesNoType.Y;
-		}
-		incident.setShowInvestigation(showInvestigation);
-		
-		// Save the newly constructed incident
-		final Incident newIncident = _incidentService.updateIncident(incident);
-
-		if (newIncident != null) {
-			return _mapperService.map(newIncident, IncidentRO.class);
+		incident.setIncidentStatus(IncidentStatus.NEW);
+		final Incident updatedIncident = _incidentService.updateIncident(incident);
+		if (updatedIncident != null) {
+			return _mapperService.map(updatedIncident, IncidentRO.class);
 		} else {
-			throw new ResourceNotCreatedException(_messageBuilder.build(RestMessage.UNABLE_TO_UPDATE_RECORD));
-		}
-	}
-	
-	/** Add or update flows */
-	
-	@Override
-	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
-	@Transactional
-	public IncidentRO addOrUpdateLogIncident(final LogIncidentRO logIncidentRO) {
-		// Validate input param (object)
-		validateObject(logIncidentRO);
-		if (logIncidentRO.getUniqueIncidentId() == null || logIncidentRO.getUniqueIncidentId().trim().isEmpty()) {
-			return logIncident(logIncidentRO);
-		} else {
-			return updateLogIncident(logIncidentRO);
+			throw new ResourceNotUpdatedException(_messageBuilder.build(RestMessage.UNABLE_TO_UPDATE_RECORD));
 		}
 	}
 	
@@ -1551,14 +1356,12 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 		final Set<InjuredPerson> injuredPersons = new HashSet<InjuredPerson>(0);
 		if (injuredPersonROs != null && !injuredPersonROs.isEmpty()) {
 			for (InjuredPersonRO injuredPersonRO : injuredPersonROs) {
-				InjuredPerson injuredPerson = new InjuredPerson.Builder().setStatusFlag(StatusFlag.ACTIVE).build();
+				final InjuredPerson injuredPerson = new InjuredPerson.Builder().setStatusFlag(StatusFlag.ACTIVE).build();
 				// Set other values for (new) injured person(s)
 				// Injured person type
 				if (injuredPersonRO.getInjuredPersonType() != null) {
-					if (injuredPersonRO.getInjuredPersonType().getId() != null
-							&& !injuredPersonRO.getInjuredPersonType().getId().trim().isEmpty()) {
-						injuredPerson.setInjuredPersonType(_tableMaintenanceService
-								.getInjuredPersonTypeByCode(injuredPersonRO.getInjuredPersonType().getId().trim()));
+					if (injuredPersonRO.getInjuredPersonType().getId() != null && !injuredPersonRO.getInjuredPersonType().getId().trim().isEmpty()) {
+						injuredPerson.setInjuredPersonType(_tableMaintenanceService.getInjuredPersonTypeByCode(injuredPersonRO.getInjuredPersonType().getId().trim()));
 					}
 				}
 				if (injuredPersonRO.getTitle() != null && !injuredPersonRO.getTitle().trim().isEmpty()) {
@@ -1582,8 +1385,7 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 				if (injuredPersonRO.getFax() != null && !injuredPersonRO.getFax().trim().isEmpty()) {
 					injuredPerson.setFax(injuredPersonRO.getFax().trim());
 				}
-				if (injuredPersonRO.getAlternatePhone() != null
-						&& !injuredPersonRO.getAlternatePhone().trim().isEmpty()) {
+				if (injuredPersonRO.getAlternatePhone() != null && !injuredPersonRO.getAlternatePhone().trim().isEmpty()) {
 					injuredPerson.setAlternatePhone(injuredPersonRO.getAlternatePhone().trim());
 				}
 				if (injuredPersonRO.getEmail() != null && !injuredPersonRO.getEmail().trim().isEmpty()) {
@@ -1594,57 +1396,44 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 				}
 				// Gender type
 				if (injuredPersonRO.getGenderType() != null) {
-					if (injuredPersonRO.getGenderType().getId() != null
-							&& !injuredPersonRO.getGenderType().getId().trim().isEmpty()) {
-						injuredPerson.setGenderType(_tableMaintenanceService
-								.getGenderTypeByCode(injuredPersonRO.getGenderType().getId().trim()));
+					if (injuredPersonRO.getGenderType().getId() != null && !injuredPersonRO.getGenderType().getId().trim().isEmpty()) {
+						injuredPerson.setGenderType(_tableMaintenanceService.getGenderTypeByCode(injuredPersonRO.getGenderType().getId().trim()));
 					}
 				}
 				// gender type other
-				if (injuredPersonRO.getGenderTypeOther() != null
-						&& !injuredPersonRO.getGenderTypeOther().trim().isEmpty()) {
+				if (injuredPersonRO.getGenderTypeOther() != null && !injuredPersonRO.getGenderTypeOther().trim().isEmpty()) {
 					injuredPerson.setGenderTypeOther(injuredPersonRO.getGenderTypeOther().trim());
 				}
 				// Injury Cause
 				if (injuredPersonRO.getInjuryCause() != null) {
-					if (injuredPersonRO.getInjuryCause().getId() != null
-							&& !injuredPersonRO.getInjuryCause().getId().trim().isEmpty()) {
-						injuredPerson.setInjuryCause(_tableMaintenanceService
-								.getInjuryCauseByCode(injuredPersonRO.getInjuryCause().getId().trim()));
+					if (injuredPersonRO.getInjuryCause().getId() != null && !injuredPersonRO.getInjuryCause().getId().trim().isEmpty()) {
+						injuredPerson.setInjuryCause(_tableMaintenanceService.getInjuryCauseByCode(injuredPersonRO.getInjuryCause().getId().trim()));
 					}
 				}
 				// injury cause other
-				if (injuredPersonRO.getInjuryCauseOther() != null
-						&& injuredPersonRO.getInjuryCauseOther().trim().isEmpty()) {
+				if (injuredPersonRO.getInjuryCauseOther() != null && injuredPersonRO.getInjuryCauseOther().trim().isEmpty()) {
 					injuredPerson.setInjuryCauseOther(injuredPersonRO.getInjuryCauseOther());
 				}
 				// Injury type
 				if (injuredPersonRO.getInjuryType() != null) {
-					if (injuredPersonRO.getInjuryType().getId() != null
-							&& !injuredPersonRO.getInjuryType().getId().trim().isEmpty()) {
-						injuredPerson.setInjuryType(_tableMaintenanceService
-								.getInjuryTypeByCode(injuredPersonRO.getInjuryType().getId().trim()));
+					if (injuredPersonRO.getInjuryType().getId() != null && !injuredPersonRO.getInjuryType().getId().trim().isEmpty()) {
+						injuredPerson.setInjuryType(_tableMaintenanceService.getInjuryTypeByCode(injuredPersonRO.getInjuryType().getId().trim()));
 					}
 				}
 				// Injury type detail
 				if (injuredPersonRO.getInjuryTypeDetail() != null) {
-					if (injuredPersonRO.getInjuryTypeDetail().getId() != null
-							&& !injuredPersonRO.getInjuryTypeDetail().getId().trim().isEmpty()) {
-						injuredPerson.setInjuryTypeDetail(_tableMaintenanceService
-								.getInjuryTypeDetailByCode(injuredPersonRO.getInjuryTypeDetail().getId().trim()));
+					if (injuredPersonRO.getInjuryTypeDetail().getId() != null && !injuredPersonRO.getInjuryTypeDetail().getId().trim().isEmpty()) {
+						injuredPerson.setInjuryTypeDetail(_tableMaintenanceService.getInjuryTypeDetailByCode(injuredPersonRO.getInjuryTypeDetail().getId().trim()));
 					}
 				}
 				// Injury type detail spec
 				if (injuredPersonRO.getInjuryTypeDetailSpec() != null) {
-					if (injuredPersonRO.getInjuryTypeDetailSpec().getId() != null
-							&& !injuredPersonRO.getInjuryTypeDetailSpec().getId().trim().isEmpty()) {
-						injuredPerson.setInjuryTypeDetailSpec(_tableMaintenanceService.getInjuryTypeDetailSpecByCode(
-								injuredPersonRO.getInjuryTypeDetailSpec().getId().trim()));
+					if (injuredPersonRO.getInjuryTypeDetailSpec().getId() != null && !injuredPersonRO.getInjuryTypeDetailSpec().getId().trim().isEmpty()) {
+						injuredPerson.setInjuryTypeDetailSpec(_tableMaintenanceService.getInjuryTypeDetailSpecByCode(injuredPersonRO.getInjuryTypeDetailSpec().getId().trim()));
 					}
 				}
 				// injury type other
-				if (injuredPersonRO.getInjuryTypeOther() != null
-						&& !injuredPersonRO.getInjuryTypeOther().trim().isEmpty()) {
+				if (injuredPersonRO.getInjuryTypeOther() != null && !injuredPersonRO.getInjuryTypeOther().trim().isEmpty()) {
 					injuredPerson.setInjuryTypeOther(injuredPersonRO.getInjuryTypeOther().trim());
 				}
 				// Age
@@ -1664,28 +1453,23 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 				injuredPerson.setFirstAidGiven(firstAidGiven);
 				// add addresses of the injured person
 				if (injuredPersonRO.getAddresses() != null && !injuredPersonRO.getAddresses().isEmpty()) {
-					injuredPerson.setAddresses(constructAddresses(injuredPersonRO.getAddresses(), null, null,
-							injuredPerson, null, null, null));
+					injuredPerson.setAddresses(constructAddresses(injuredPersonRO.getAddresses(), null, null, injuredPerson, null, null, null));
 				}
 				// body parts
 				if (injuredPersonRO.getBodyParts() != null && !injuredPersonRO.getBodyParts().isEmpty()) {
 					injuredPerson.setBodyParts(constructBodyParts(injuredPersonRO.getBodyParts()));
 				}
 				// other comments for injured person type
-				if (injuredPersonRO.getInjuredPersonTypeOther() != null
-						&& !injuredPersonRO.getInjuredPersonTypeOther().trim().isEmpty()) {
+				if (injuredPersonRO.getInjuredPersonTypeOther() != null && !injuredPersonRO.getInjuredPersonTypeOther().trim().isEmpty()) {
 					injuredPerson.setInjuredPersonTypeOther(injuredPersonRO.getInjuredPersonTypeOther().trim());
 				}
 				// construct and set distinguishing feature details
-				if (injuredPerson.getDistinguishingFeatureDetails() == null
-						|| injuredPerson.getDistinguishingFeatureDetails().isEmpty()) {
+				if (injuredPerson.getDistinguishingFeatureDetails() == null || injuredPerson.getDistinguishingFeatureDetails().isEmpty()) {
 					injuredPerson.setDistinguishingFeatureDetails(new HashSet<DistinguishingFeatureDetail>(0));
 				}
-				injuredPerson.getDistinguishingFeatureDetails().addAll(
-						constructDistinguishingFeatureDetails(injuredPersonRO.getDistinguishingFeatureDetails()));
+				injuredPerson.getDistinguishingFeatureDetails().addAll(constructDistinguishingFeatureDetails(injuredPersonRO.getDistinguishingFeatureDetails()));
 				// other comments for distinguishing feature
-				if (injuredPersonRO.getDistinguishingFeatureOther() != null
-						&& !injuredPersonRO.getDistinguishingFeatureOther().trim().isEmpty()) {
+				if (injuredPersonRO.getDistinguishingFeatureOther() != null && !injuredPersonRO.getDistinguishingFeatureOther().trim().isEmpty()) {
 					injuredPerson.setDistinguishingFeatureOther(injuredPersonRO.getDistinguishingFeatureOther().trim());
 				}
 				//add address of the injured person if any
@@ -1717,31 +1501,24 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 			}
 			// Accident type
 			if (accidentRO.getAccidentType() != null) {
-				if (accidentRO.getAccidentType().getId() != null
-						&& !accidentRO.getAccidentType().getId().trim().isEmpty()) {
-					accident.setAccidentType(_tableMaintenanceService
-							.getAccidentTypeByCode(accidentRO.getAccidentType().getId().trim()));
+				if (accidentRO.getAccidentType().getId() != null && !accidentRO.getAccidentType().getId().trim().isEmpty()) {
+					accident.setAccidentType(_tableMaintenanceService.getAccidentTypeByCode(accidentRO.getAccidentType().getId().trim()));
 				}
 			}
 			// Set accident location
 			if (accidentRO.getAccidentLocation() != null) {
-				if (accidentRO.getAccidentLocation().getId() != null
-						&& !accidentRO.getAccidentLocation().getId().trim().isEmpty()) {
-					accident.setAccidentLocation(_tableMaintenanceService
-							.getAccidentLocationByCode(accidentRO.getAccidentLocation().getId().trim()));
+				if (accidentRO.getAccidentLocation().getId() != null && !accidentRO.getAccidentLocation().getId().trim().isEmpty()) {
+					accident.setAccidentLocation(_tableMaintenanceService.getAccidentLocationByCode(accidentRO.getAccidentLocation().getId().trim()));
 				}
 			}
 			// set accident location detail
 			if (accidentRO.getAccidentLocationDetails() != null) {
-				if (accidentRO.getAccidentLocationDetails().getId() != null
-						&& !accidentRO.getAccidentLocationDetails().getId().trim().isEmpty()) {
-					accident.setAccidentLocationDetails(_tableMaintenanceService
-							.getAccidentLocationDetailByCode(accidentRO.getAccidentLocationDetails().getId().trim()));
+				if (accidentRO.getAccidentLocationDetails().getId() != null && !accidentRO.getAccidentLocationDetails().getId().trim().isEmpty()) {
+					accident.setAccidentLocationDetails(_tableMaintenanceService.getAccidentLocationDetailByCode(accidentRO.getAccidentLocationDetails().getId().trim()));
 				}
 			}
 			// Set accident location other if any
-			if (accidentRO.getAccidentLocationOther() != null
-					&& !accidentRO.getAccidentLocationOther().trim().isEmpty()) {
+			if (accidentRO.getAccidentLocationOther() != null && !accidentRO.getAccidentLocationOther().trim().isEmpty()) {
 				accident.setAccidentLocationOther(accidentRO.getAccidentLocationOther().trim());
 			}
 			// Any witness to the accident?
@@ -1763,10 +1540,8 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 				// Set other values for (new) witnesses
 				// Witness type
 				if (witnessRO.getWitnessType() != null) {
-					if (witnessRO.getWitnessType().getId() != null
-							&& !witnessRO.getWitnessType().getId().trim().isEmpty()) {
-						witness.setWitnessType(_tableMaintenanceService
-								.getWitnessTypeByCode(witnessRO.getWitnessType().getId().trim()));
+					if (witnessRO.getWitnessType().getId() != null && !witnessRO.getWitnessType().getId().trim().isEmpty()) {
+						witness.setWitnessType(_tableMaintenanceService.getWitnessTypeByCode(witnessRO.getWitnessType().getId().trim()));
 					}
 				}
 				if (witnessRO.getTitle() != null && !witnessRO.getTitle().trim().isEmpty()) {
@@ -1801,10 +1576,8 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 				}
 				// Gender type
 				if (witnessRO.getGenderType() != null) {
-					if (witnessRO.getGenderType().getId() != null
-							&& !witnessRO.getGenderType().getId().trim().isEmpty()) {
-						witness.setGenderType(
-								_tableMaintenanceService.getGenderTypeByCode(witnessRO.getGenderType().getId().trim()));
+					if (witnessRO.getGenderType().getId() != null && !witnessRO.getGenderType().getId().trim().isEmpty()) {
+						witness.setGenderType(_tableMaintenanceService.getGenderTypeByCode(witnessRO.getGenderType().getId().trim()));
 					}
 				}
 				// gender type other
@@ -1821,23 +1594,19 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 				}
 				// Address of the witness person
 				if (witnessRO.getAddresses() != null && !witnessRO.getAddresses().isEmpty()) {
-					witness.setAddresses(
-							constructAddresses(witnessRO.getAddresses(), null, null, null, witness, null, null));
+					witness.setAddresses(constructAddresses(witnessRO.getAddresses(), null, null, null, witness, null, null));
 				}
 				// other comments for witness type
 				if (witnessRO.getWitnessTypeOther() != null && !witnessRO.getWitnessTypeOther().trim().isEmpty()) {
 					witness.setWitnessTypeOther(witnessRO.getWitnessTypeOther().trim());
 				}
 				// construct and set distinguishing feature details
-				if (witness.getDistinguishingFeatureDetails() == null
-						|| witness.getDistinguishingFeatureDetails().isEmpty()) {
+				if (witness.getDistinguishingFeatureDetails() == null || witness.getDistinguishingFeatureDetails().isEmpty()) {
 					witness.setDistinguishingFeatureDetails(new HashSet<DistinguishingFeatureDetail>(0));
 				}
-				witness.getDistinguishingFeatureDetails()
-						.addAll(constructDistinguishingFeatureDetails(witnessRO.getDistinguishingFeatureDetails()));
+				witness.getDistinguishingFeatureDetails().addAll(constructDistinguishingFeatureDetails(witnessRO.getDistinguishingFeatureDetails()));
 				// other comments for distinguishing feature
-				if (witnessRO.getDistinguishingFeatureOther() != null
-						&& !witnessRO.getDistinguishingFeatureOther().trim().isEmpty()) {
+				if (witnessRO.getDistinguishingFeatureOther() != null && !witnessRO.getDistinguishingFeatureOther().trim().isEmpty()) {
 					witness.setDistinguishingFeatureOther(witnessRO.getDistinguishingFeatureOther().trim());
 				}
 				witnesses.add(witness);
@@ -2010,7 +1779,7 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 	
 	private Claim constructClaim(final ClaimRO claimRO, final Incident incident) {
 		final Claim claim = new Claim.Builder().setStatusFlag(StatusFlag.ACTIVE).setIncident(incident).build();
-		if (claimRO != null) {
+		if (claim != null && claimRO != null) {
 			//claim status
 			if (claimRO.getClaimStatus() != null) {
 				if (claimRO.getClaimStatus().getId() != null && !claimRO.getClaimStatus().getId().trim().isEmpty()) {
@@ -2033,10 +1802,8 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 			if (claimRO.getClaimantName() != null && !claimRO.getClaimantName().trim().isEmpty()) {
 				claim.setClaimantName(claimRO.getClaimantName().trim());
 			}
-			//claim id
-			if (claimRO.getClaimId() != null && !claimRO.getClaimId().trim().isEmpty()) {
-				claim.setClaimId(claimRO.getClaimId().trim());
-			}
+			//claim id (auto generated)
+			claim.setClaimId(ApplicationUtilService.getUniqueClaimId());
 			//insured name
 			if (claimRO.getInsuredName() != null && !claimRO.getInsuredName().trim().isEmpty()) {
 				claim.setInsuredName(claimRO.getInsuredName().trim());
@@ -2067,82 +1834,73 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 				trainingRequested = YesNoType.Y;
 			}
 			claim.setTrainingRequested(trainingRequested);
-			//claim history
-			if (claimRO.getClaimHistory() != null) {
-				claim.setClaimHistory(constructClaimHistory(claimRO.getClaimHistory(), claim));
-			}
 			//claim handler is automatically assigned by the batch program.
-		}
-		return claim;
-	}
-	
-	private ClaimHistory constructClaimHistory(final ClaimHistoryRO claimHistoryRO, final Claim claim) {
-		final ClaimHistory claimHistory = new ClaimHistory.Builder().setStatusFlag(StatusFlag.ACTIVE).setClaim(claim).build();
-		if (claimHistoryRO != null) {
 			//set other values for claim history
 			//amount
-			if (claimHistoryRO.getClaimRequestedAmount() != null) {
-				claimHistory.setClaimRequestedAmount(claimHistoryRO.getClaimRequestedAmount());
+			if (claimRO.getClaimRequestedAmount() != null) {
+				claim.setClaimRequestedAmount(claimRO.getClaimRequestedAmount());
 			}
-			if (claimHistoryRO.getClaimApprovedAmount() != null) {
-				claimHistory.setClaimApprovedAmount(claimHistoryRO.getClaimApprovedAmount());
+			if (claimRO.getClaimApprovedAmount() != null) {
+				claim.setClaimApprovedAmount(claimRO.getClaimApprovedAmount());
 			}
-			if (claimHistoryRO.getClaimSettlementAmount() != null) {
-				claimHistory.setClaimSettlementAmount(claimHistoryRO.getClaimSettlementAmount());
+			if (claimRO.getClaimSettlementAmount() != null) {
+				claim.setClaimSettlementAmount(claimRO.getClaimSettlementAmount());
 			}
 			//date
-			if (claimHistoryRO.getClaimRequestedDate() != null) {
-				claimHistory.setClaimRequestedDate(claimHistoryRO.getClaimRequestedDate());
+			if (claimRO.getClaimRequestedDate() != null) {
+				claim.setClaimRequestedDate(claimRO.getClaimRequestedDate());
 			}
-			if (claimHistoryRO.getClaimApprovedDate() != null) {
-				claimHistory.setClaimApprovedDate(claimHistoryRO.getClaimApprovedDate());
+			if (claimRO.getClaimApprovedDate() != null) {
+				claim.setClaimApprovedDate(claimRO.getClaimApprovedDate());
 			}
-			if (claimHistoryRO.getClaimSettlementDate() != null) {
-				claimHistory.setClaimSettlementDate(claimHistoryRO.getClaimSettlementDate());
+			if (claimRO.getClaimSettlementDate() != null) {
+				claim.setClaimSettlementDate(claimRO.getClaimSettlementDate());
 			}
-			if (claimHistoryRO.getClaimDeclinedDate() != null) {
-				claimHistory.setClaimDeclinedDate(claimHistoryRO.getClaimDeclinedDate());
+			if (claimRO.getClaimDeclinedDate() != null) {
+				claim.setClaimDeclinedDate(claimRO.getClaimDeclinedDate());
 			}
-			if (claimHistoryRO.getClaimReopenedDate() != null) {
-				claimHistory.setClaimReopenedDate(claimHistoryRO.getClaimReopenedDate());
+			if (claimRO.getClaimReopenedDate() != null) {
+				claim.setClaimReopenedDate(claimRO.getClaimReopenedDate());
 			}
 			//requested by
-			if (claimHistoryRO.getClaimRequestedBy() != null && !claimHistoryRO.getClaimRequestedBy().trim().isEmpty()) {
-				claimHistory.setClaimRequestedBy(claimHistoryRO.getClaimRequestedBy().trim());
+			if (claimRO.getClaimRequestedBy() != null && !claimRO.getClaimRequestedBy().trim().isEmpty()) {
+				claim.setClaimRequestedBy(claimRO.getClaimRequestedBy().trim());
 			}			
-			if (claimHistoryRO.getClaimApprovedBy() != null && !claimHistoryRO.getClaimApprovedBy().trim().isEmpty()) {
-				claimHistory.setClaimApprovedBy(claimHistoryRO.getClaimApprovedBy().trim());
+			if (claimRO.getClaimApprovedBy() != null && !claimRO.getClaimApprovedBy().trim().isEmpty()) {
+				claim.setClaimApprovedBy(claimRO.getClaimApprovedBy().trim());
 			}
-			if (claimHistoryRO.getClaimSettlementBy() != null && !claimHistoryRO.getClaimSettlementBy().trim().isEmpty()) {
-				claimHistory.setClaimSettlementBy(claimHistoryRO.getClaimSettlementBy().trim());
+			if (claimRO.getClaimSettlementBy() != null && !claimRO.getClaimSettlementBy().trim().isEmpty()) {
+				claim.setClaimSettlementBy(claimRO.getClaimSettlementBy().trim());
 			}
-			if (claimHistoryRO.getClaimDeclinedBy() != null && !claimHistoryRO.getClaimDeclinedBy().trim().isEmpty()) {
-				claimHistory.setClaimDeclinedBy(claimHistoryRO.getClaimDeclinedBy().trim());
+			if (claimRO.getClaimDeclinedBy() != null && !claimRO.getClaimDeclinedBy().trim().isEmpty()) {
+				claim.setClaimDeclinedBy(claimRO.getClaimDeclinedBy().trim());
 			}
-			if (claimHistoryRO.getClaimReopenedBy() != null && !claimHistoryRO.getClaimReopenedBy().trim().isEmpty()) {
-				claimHistory.setClaimReopenedBy(claimHistoryRO.getClaimReopenedBy().trim());
+			if (claimRO.getClaimReopenedBy() != null && !claimRO.getClaimReopenedBy().trim().isEmpty()) {
+				claim.setClaimReopenedBy(claimRO.getClaimReopenedBy().trim());
 			}
 			//comments
-			if (claimHistoryRO.getClaimRequestedComments() != null && !claimHistoryRO.getClaimRequestedComments().trim().isEmpty()) {
-				claimHistory.setClaimRequestedComments(claimHistoryRO.getClaimRequestedComments().trim());
+			if (claimRO.getClaimRequestedComments() != null && !claimRO.getClaimRequestedComments().trim().isEmpty()) {
+				claim.setClaimRequestedComments(claimRO.getClaimRequestedComments().trim());
 			}
-			if (claimHistoryRO.getClaimApprovedComments() != null && !claimHistoryRO.getClaimApprovedComments().trim().isEmpty()) {
-				claimHistory.setClaimApprovedComments(claimHistoryRO.getClaimApprovedComments().trim());
+			if (claimRO.getClaimApprovedComments() != null && !claimRO.getClaimApprovedComments().trim().isEmpty()) {
+				claim.setClaimApprovedComments(claimRO.getClaimApprovedComments().trim());
 			}
-			if (claimHistoryRO.getClaimSettlementComments() != null && !claimHistoryRO.getClaimSettlementComments().trim().isEmpty()) {
-				claimHistory.setClaimSettlementComments(claimHistoryRO.getClaimSettlementComments().trim());
+			if (claimRO.getClaimSettlementComments() != null && !claimRO.getClaimSettlementComments().trim().isEmpty()) {
+				claim.setClaimSettlementComments(claimRO.getClaimSettlementComments().trim());
 			}
-			if (claimHistoryRO.getClaimDeclinedComments() != null && !claimHistoryRO.getClaimDeclinedComments().trim().isEmpty()) {
-				claimHistory.setClaimDeclinedComments(claimHistoryRO.getClaimDeclinedComments().trim());
+			if (claimRO.getClaimDeclinedComments() != null && !claimRO.getClaimDeclinedComments().trim().isEmpty()) {
+				claim.setClaimDeclinedComments(claimRO.getClaimDeclinedComments().trim());
 			}
-			if (claimHistoryRO.getClaimReopenedComments() != null && !claimHistoryRO.getClaimReopenedComments().trim().isEmpty()) {
-				claimHistory.setClaimReopenedComments(claimHistoryRO.getClaimReopenedComments().trim());
-			}			
+			if (claimRO.getClaimReopenedComments() != null && !claimRO.getClaimReopenedComments().trim().isEmpty()) {
+				claim.setClaimReopenedComments(claimRO.getClaimReopenedComments().trim());
+			}
+			return claim;
+		} else {
+			return null;
 		}
-		return claimHistory;
 	}
 	
-	private Investigation constructInvestigation(final InvestigationRO investigationRO, final Incident incident) {
+	private Investigation constructNewInvestigation(final InvestigationRO investigationRO, final Incident incident) {
 		final Investigation investigation = new Investigation.Builder().setStatusFlag(StatusFlag.ACTIVE).setIncident(incident).build();
 		if (investigationRO != null) {
 			
@@ -2209,75 +1967,7 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 		}
 		
 		return investigation;
-	}
-	
-	private Investigation constructInvestigationRecordForUpdate(final InvestigationRO investigationRO, final Investigation investigation) {
-		if (investigationRO != null) {
-			
-			YesNoType securityRequested = YesNoType.N;
-			YesNoType trainingRequested = YesNoType.N;
-			YesNoType reviewedInvestigationRecords = YesNoType.N;
-			YesNoType reviewedCCTV = YesNoType.N;
-			YesNoType reviewedPictures = YesNoType.N;
-			YesNoType reviewedWitnessStatement = YesNoType.N;
-			YesNoType reviewedLearnerRecords = YesNoType.N;
-			YesNoType reviewedAssetRecords = YesNoType.N;
-			YesNoType reviewedComplianceRecords = YesNoType.N;
-			
-			if (investigationRO.getSecurityRequested() != null && investigationRO.getSecurityRequested().name().equals("Y")) {
-				securityRequested = YesNoType.Y;
-			}
-			if (investigationRO.getTrainingRequested() != null && investigationRO.getTrainingRequested().name().equals("Y")) {
-				trainingRequested = YesNoType.Y;
-			}
-			if (investigationRO.getReviewedInvestigationRecords() != null && investigationRO.getReviewedInvestigationRecords().name().equals("Y")) {
-				reviewedInvestigationRecords = YesNoType.Y;
-			}
-			if (investigationRO.getReviewedCCTV() != null && investigationRO.getReviewedCCTV().name().equals("Y")) {
-				reviewedCCTV = YesNoType.Y;
-			}
-			if (investigationRO.getReviewedPictures() != null && investigationRO.getReviewedPictures().name().equals("Y")) {
-				reviewedPictures = YesNoType.Y;
-			}
-			if (investigationRO.getReviewedWitnessStatement() != null && investigationRO.getReviewedWitnessStatement().name().equals("Y")) {
-				reviewedWitnessStatement = YesNoType.Y;
-			}
-			if (investigationRO.getReviewedLearnerRecords() != null && investigationRO.getReviewedLearnerRecords().name().equals("Y")) {
-				reviewedLearnerRecords = YesNoType.Y;
-			}
-			if (investigationRO.getReviewedAssetRecords() != null && investigationRO.getReviewedAssetRecords().name().equals("Y")) {
-				reviewedAssetRecords = YesNoType.Y;
-			}
-			if (investigationRO.getReviewedComplianceRecords() != null && investigationRO.getReviewedComplianceRecords().name().equals("Y")) {
-				reviewedComplianceRecords = YesNoType.Y;
-			}
-			
-			investigation.setSecurityRequested(securityRequested);
-			investigation.setTrainingRequested(trainingRequested);
-			investigation.setReviewedInvestigationRecords(reviewedInvestigationRecords);
-			investigation.setReviewedCCTV(reviewedCCTV);
-			investigation.setReviewedPictures(reviewedPictures);
-			investigation.setReviewedWitnessStatement(reviewedWitnessStatement);
-			investigation.setReviewedLearnerRecords(reviewedLearnerRecords);
-			investigation.setReviewedAssetRecords(reviewedAssetRecords);
-			investigation.setReviewedComplianceRecords(reviewedComplianceRecords);
-			
-			if (investigationRO.getInvestigator() != null) {
-				if (investigationRO.getInvestigator().getLoginId() != null && !investigationRO.getInvestigator().getLoginId().trim().isEmpty()) {
-					final User investigator = _userService.getUserByUserLoginId(investigationRO.getInvestigator().getLoginId().trim());
-					if (investigator != null) {
-						investigation.setInvestigator(investigator);
-					}
-				}
-			}
-			
-			if (investigationRO.getInvestigatorStatement() != null && !investigationRO.getInvestigatorStatement().trim().isEmpty()) {
-				investigation.setInvestigatorStatement(investigationRO.getInvestigatorStatement().trim());
-			}
-		}
-		
-		return investigation;
-	}
+	}	
 
 	private Set<CrimeSuspect> constructNewCrimeSuspects(final Set<CrimeSuspectRO> crimeSuspectROs) {
 		final Set<CrimeSuspect> crimeSuspects = new HashSet<CrimeSuspect>(0);
@@ -2405,14 +2095,12 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 			// When there was a weapon involved, weapon type should be
 			// specified.
 			if (weaponType == null) {
-				throw new ResourceNotValidException(
-						_messageBuilder.build(RestMessage.WEAPON_TYPE_MUST_BE_SPECIFIED_WHEN_WEAPON_INVOLVED));
+				throw new ResourceNotValidException(_messageBuilder.build(RestMessage.WEAPON_TYPE_MUST_BE_SPECIFIED_WHEN_WEAPON_INVOLVED));
 			}
 		} else if (weaponInvolved.name().equals(YesNoType.N)) {
 			// Weapon type is only applicable if there was any weapon involved.
 			if (weaponType != null) {
-				throw new ResourceNotValidException(
-						_messageBuilder.build(RestMessage.WEAPON_TYPE_NOT_APPLICABLE_WITHOUT_WEAPON_INVOLVED));
+				throw new ResourceNotValidException(_messageBuilder.build(RestMessage.WEAPON_TYPE_NOT_APPLICABLE_WITHOUT_WEAPON_INVOLVED));
 			}
 		}
 	}
@@ -2423,23 +2111,19 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 		if (externalAgencyContacted.name().equals(YesNoType.Y)) {
 			// External agency should be specified when an agency was contacted
 			if (externalAgency == null) {
-				throw new ResourceNotValidException(
-						_messageBuilder.build(RestMessage.EXTERNAL_AGENCY_MUST_BE_SPECIFIED_WHEN_AGENCY_CONTACTED));
+				throw new ResourceNotValidException(_messageBuilder.build(RestMessage.EXTERNAL_AGENCY_MUST_BE_SPECIFIED_WHEN_AGENCY_CONTACTED));
 			}
 			if (dateTimeContacted == null) {
-				throw new ResourceNotValidException(_messageBuilder
-						.build(RestMessage.EXTERNAL_AGENCY_DATE_TIME_MUST_BE_SPECIFIED_WHEN_AGENCY_CONTACTED));
+				throw new ResourceNotValidException(_messageBuilder.build(RestMessage.EXTERNAL_AGENCY_DATE_TIME_MUST_BE_SPECIFIED_WHEN_AGENCY_CONTACTED));
 			}
 		} else if (externalAgencyContacted.name().equals(YesNoType.N)) {
 			// External agency is only applicable if there was any external
 			// agency contacted.
 			if (externalAgency != null) {
-				throw new ResourceNotValidException(
-						_messageBuilder.build(RestMessage.EXTERNAL_AGENCY_NOT_APPLICABLE_WITHOUT_AGENCY_CONTACTED));
+				throw new ResourceNotValidException(_messageBuilder.build(RestMessage.EXTERNAL_AGENCY_NOT_APPLICABLE_WITHOUT_AGENCY_CONTACTED));
 			}
 			if (dateTimeContacted != null) {
-				throw new ResourceNotValidException(_messageBuilder
-						.build(RestMessage.EXTERNAL_AGENCY_DATE_TIME_NOT_APPLICABLE_WITHOUT_AGENCY_CONTACTED));
+				throw new ResourceNotValidException(_messageBuilder.build(RestMessage.EXTERNAL_AGENCY_DATE_TIME_NOT_APPLICABLE_WITHOUT_AGENCY_CONTACTED));
 			}
 		}
 	}
@@ -2475,15 +2159,116 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 		}
 	}
 	
-	private Incident getIncident(final SuspectWrapper suspectWrapper) {
+	@Override
+	public Incident getIncident(final BaseIncidentDetailRO baseIncidentDetailRO) {
 		Incident incident = null;
-		if (suspectWrapper != null) {
-			if (suspectWrapper.getIncidentId() != null && suspectWrapper.getIncidentId() > 0) {
-				incident = _incidentService.get(suspectWrapper.getIncidentId());
-			} else if (suspectWrapper.getUniqueIncidentId() != null && !suspectWrapper.getUniqueIncidentId().trim().isEmpty()) {
-				incident = _incidentService.getIncidentByUniqueIncidentId(suspectWrapper.getUniqueIncidentId().trim());
+		if (baseIncidentDetailRO != null) {
+			if (baseIncidentDetailRO.getIncidentId() != null && baseIncidentDetailRO.getIncidentId() > 0) {
+				incident = _incidentService.get(baseIncidentDetailRO.getIncidentId());
+			} else if (baseIncidentDetailRO.getUniqueIncidentId() != null && !baseIncidentDetailRO.getUniqueIncidentId().trim().isEmpty()) {
+				incident = _incidentService.getIncidentByUniqueIncidentId(baseIncidentDetailRO.getUniqueIncidentId().trim());
 			}
 		}
 		return incident;
+	}
+	
+	private boolean addOrUpdateCheckForIncident(final LogIncidentRO logIncidentRO) {
+		boolean result = false;
+		if (logIncidentRO != null) {
+			if (logIncidentRO.getIncidentId() != null && logIncidentRO.getIncidentId() > 0) {
+				result = true;
+			} else if (logIncidentRO.getUniqueIncidentId() != null && !logIncidentRO.getUniqueIncidentId().trim().isEmpty()) {
+				result = true;
+			}
+		}
+		return result;
+	}
+	
+	private Incident setOtherValuesForIncident(final Incident incident, final LogIncidentRO logIncidentRO) {
+		if (incident != null && logIncidentRO != null) {
+			// Set other values
+			if (logIncidentRO.getPlaceOfIncident() != null && !logIncidentRO.getPlaceOfIncident().trim().isEmpty()) {
+				incident.setPlaceOfIncident(logIncidentRO.getPlaceOfIncident());
+			}
+			if (logIncidentRO.getIncidentDescription() != null
+					&& !logIncidentRO.getIncidentDescription().trim().isEmpty()) {
+				incident.setIncidentDescription(logIncidentRO.getIncidentDescription());
+			}
+			// incident type
+			if (logIncidentRO.getIncidentType() != null) {
+				if (logIncidentRO.getIncidentType().getId() != null && !logIncidentRO.getIncidentType().getId().trim().isEmpty()) {
+					final IncidentType incidentType = _tableMaintenanceService.getIncidentTypeByCode(logIncidentRO.getIncidentType().getId().trim());
+					if (incidentType != null) {
+						incident.setIncidentType(incidentType);
+					}
+				}
+			}
+			// incident type other
+			if (logIncidentRO.getIncidentTypeOther() != null && !logIncidentRO.getIncidentTypeOther().trim().isEmpty()) {
+				incident.setIncidentTypeOther(logIncidentRO.getIncidentTypeOther().trim());
+			}
+			// entry point
+			if (logIncidentRO.getEntryPoint() != null) {
+				if (logIncidentRO.getEntryPoint().getId() != null && !logIncidentRO.getEntryPoint().getId().trim().isEmpty()) {
+					final EntryPoint entryPoint = _tableMaintenanceService.getEntryPointByCode(logIncidentRO.getEntryPoint().getId().trim());
+					if (entryPoint != null) {
+						incident.setEntryPoint(entryPoint);
+					}
+				}
+			}
+			// entry point other
+			if (logIncidentRO.getEntryPointOther() != null && !logIncidentRO.getEntryPointOther().trim().isEmpty()) {
+				incident.setEntryPointOther(logIncidentRO.getEntryPointOther().trim());
+			}
+			// Incident location
+			if (logIncidentRO.getIncidentLocation() != null) {
+				if (logIncidentRO.getIncidentLocation().getId() != null && !logIncidentRO.getIncidentLocation().getId().trim().isEmpty()) {
+					final IncidentLocation incidentLocation = _tableMaintenanceService.getIncidentLocationByCode(logIncidentRO.getIncidentLocation().getId().trim());
+					if (incidentLocation != null) {
+						incident.setIncidentLocation(incidentLocation);
+					}
+				}
+			}
+			// Incident location detail
+			if (logIncidentRO.getIncidentLocationDetail() != null) {
+				if (logIncidentRO.getIncidentLocationDetail().getId() != null && !logIncidentRO.getIncidentLocationDetail().getId().trim().isEmpty()) {
+					final IncidentLocationDetail incidentLocationDetail = _tableMaintenanceService .getIncidentLocationDetailByCode(logIncidentRO.getIncidentLocationDetail().getId().trim());
+					if (incidentLocationDetail != null) {
+						incident.setIncidentLocationDetail(incidentLocationDetail);
+					}
+				}
+			}
+			// incident location other
+			if (logIncidentRO.getIncidentLocationOther() != null && !logIncidentRO.getIncidentLocationOther().trim().isEmpty()) {
+				incident.setIncidentLocationOther(logIncidentRO.getIncidentLocationOther().trim());
+			}
+			// set office address (obtained from lookup)
+			if (logIncidentRO.getOfficeAddress() != null) {
+				if (logIncidentRO.getOfficeAddress().getId() > 0) {
+					final OfficeAddress officeAddress = _officeAddressService.get(logIncidentRO.getOfficeAddress().getId());
+					if (officeAddress != null) {
+						incident.setOfficeAddress(officeAddress);
+					}
+				}
+			}
+			YesNoType notifyClaimsHandler = YesNoType.N;
+			if (logIncidentRO.getNotifyClaimsHandler() != null && logIncidentRO.getNotifyClaimsHandler().name().equals("Y")) {
+				notifyClaimsHandler = YesNoType.Y;
+			}
+			incident.setNotifyClaimsHandler(notifyClaimsHandler);
+			
+			YesNoType showClaims = YesNoType.N;
+			if (logIncidentRO.getShowClaims() != null && logIncidentRO.getShowClaims().name().equals("Y")) {
+				showClaims = YesNoType.Y;
+			}
+			incident.setShowClaims(showClaims);
+			
+			YesNoType showInvestigation = YesNoType.N;
+			if (logIncidentRO.getShowInvestigation() != null && logIncidentRO.getShowInvestigation().name().equals("Y")) {
+				showInvestigation = YesNoType.Y;
+			}
+			incident.setShowInvestigation(showInvestigation);			
+		} 
+		return incident;		
 	}
 }

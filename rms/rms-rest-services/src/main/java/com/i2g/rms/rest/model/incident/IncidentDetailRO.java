@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.i2g.rms.rest.model.AbstractEntityRO;
 import com.i2g.rms.rest.model.ReportedLossRO;
 import com.i2g.rms.rest.model.SuspectRO;
 import com.i2g.rms.rest.model.UserRO;
@@ -17,22 +16,12 @@ import com.i2g.rms.rest.model.UserRO;
  *
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class IncidentDetailRO extends AbstractEntityRO {
+public class IncidentDetailRO extends BaseIncidentDetailRO {
 
-	private long incidentId;
-	private String uniqueIncidentId;
 	private Set<SuspectRO> existingSuspects = new HashSet<SuspectRO>(0);
 	private Set<SuspectRO> newSuspects = new HashSet<SuspectRO>(0);
 	private Set<UserRO> employeeSuspects = new HashSet<UserRO>(0);
 	private Set<ReportedLossRO> reportedLosses = new HashSet<ReportedLossRO>(0);
-
-	public long getIncidentId() {
-		return incidentId;
-	}
-
-	public void setIncidentId(final long incidentId) {
-		this.incidentId = incidentId;
-	}
 
 	public Set<SuspectRO> getExistingSuspects() {
 		return existingSuspects;
@@ -64,13 +53,5 @@ public class IncidentDetailRO extends AbstractEntityRO {
 
 	public void setReportedLosses(final Set<ReportedLossRO> reportedLosses) {
 		this.reportedLosses = reportedLosses;
-	}
-
-	public String getUniqueIncidentId() {
-		return uniqueIncidentId;
-	}
-
-	public void setUniqueIncidentId(final String uniqueIncidentId) {
-		this.uniqueIncidentId = uniqueIncidentId;
 	}	
 }

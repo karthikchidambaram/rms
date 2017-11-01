@@ -55,7 +55,7 @@ public class InjuredPersonDaoImpl extends AbstractHibernateDao<Long, InjuredPers
 	public List<InjuredPerson> get() {
 		final Criteria criteria = getSession().createCriteria(_modelType);
 		criteria.add(Restrictions.eq("statusFlag", StatusFlag.ACTIVE));
-		return (List<InjuredPerson>) criteria.list();
+		return (List<InjuredPerson>) applySearch(criteria).list();
 	}
 	
 	@Override

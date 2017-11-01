@@ -66,7 +66,7 @@ public class SuspectRestServiceImpl extends AbstractRestService implements Suspe
 	@Transactional(readOnly = true)
 	public List<SuspectRO> get() {
 		List<Suspect> suspects = _suspectService.get();
-		List<SuspectRO> suspectROs = suspects.isEmpty() ? Collections.emptyList() : _mapperService.map(suspects, SuspectRO.class);
+		List<SuspectRO> suspectROs = (suspects == null || suspects.isEmpty()) ? Collections.emptyList() : _mapperService.map(suspects, SuspectRO.class);
 		return suspectROs;
 	}
 
@@ -401,10 +401,8 @@ public class SuspectRestServiceImpl extends AbstractRestService implements Suspe
 			}
 			if (addressRO.getApartmentNumber() != null && !addressRO.getApartmentNumber().trim().isEmpty()) {
 				address.setApartmentNumber(addressRO.getApartmentNumber().trim());
-			}
-			return address;
-		} else {
-			return null;
-		}		
+			}			
+		}
+		return address;
 	}
 }

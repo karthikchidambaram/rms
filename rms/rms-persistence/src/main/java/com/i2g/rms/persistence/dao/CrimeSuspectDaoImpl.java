@@ -54,7 +54,7 @@ public class CrimeSuspectDaoImpl extends AbstractHibernateDao<Long, CrimeSuspect
 	public List<CrimeSuspect> get() {
 		final Criteria criteria = getSession().createCriteria(_modelType);
 		criteria.add(Restrictions.eq("statusFlag", StatusFlag.ACTIVE));
-		return (List<CrimeSuspect>) criteria.list();
+		return (List<CrimeSuspect>) applySearch(criteria).list();
 	}
 	
 	@Override

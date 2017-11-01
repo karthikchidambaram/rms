@@ -30,7 +30,7 @@ import com.i2g.rms.service.incident.IncidentService;
 import com.i2g.rms.service.tablemaintenance.TableMaintenanceService;
 
 /**
- * Rest services for role rest controller.
+ * Rest services for reported loss rest controller.
  * 
  * @since 1.0.0
  * @author Karthikeyan Chidambaram
@@ -55,7 +55,7 @@ public class ReportedLossRestServiceImpl extends AbstractRestService implements 
 	@Transactional(readOnly = true)
 	public List<ReportedLossRO> get() {
 		List<ReportedLoss> reportedLosses = _reportedLossService.get();
-		List<ReportedLossRO> reportedLossROs = reportedLosses.isEmpty() ? Collections.emptyList() : _mapperService.map(reportedLosses, ReportedLossRO.class);
+		List<ReportedLossRO> reportedLossROs = (reportedLosses == null || reportedLosses.isEmpty()) ? Collections.emptyList() : _mapperService.map(reportedLosses, ReportedLossRO.class);
 		return reportedLossROs;
 	}
 
@@ -247,12 +247,9 @@ public class ReportedLossRestServiceImpl extends AbstractRestService implements 
 			// Cost estimation
 			if (reportedLossRO.getCostEstimation() != null) {
 				reportedLoss.setCostEstimation(reportedLossRO.getCostEstimation());
-			}
-			
-			return reportedLoss;
-		} else {
-			return null;
-		}		
+			}			
+		}
+		return reportedLoss;
 	}
 	
 	private Incident getIncident(final ReportedLossRO reportedLossRO) {
