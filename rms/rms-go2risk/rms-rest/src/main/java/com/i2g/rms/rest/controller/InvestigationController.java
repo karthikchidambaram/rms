@@ -70,7 +70,7 @@ public class InvestigationController extends AbstractRestController {
 		return _investigationRestService.updateInvestigation(investigationRO);
 	}
 	
-	@RequestMapping(value = RequestMappingConstants.ADD_OR_UPDATE_INVESTIGATION, method = RequestMethod.PUT)
+	@RequestMapping(value = RequestMappingConstants.ADD_OR_UPDATE_INVESTIGATION, method = RequestMethod.POST)
 	public InvestigationRO addOrUpdateInvestigation(@Valid @RequestBody final InvestigationRO investigationRO) {
 		return _investigationRestService.addOrUpdateInvestigation(investigationRO);
 	}

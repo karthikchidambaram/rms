@@ -70,7 +70,7 @@ public class ClaimController extends AbstractRestController {
 		return _claimRestService.updateClaim(claimRO);
 	}
 	
-	@RequestMapping(value = RequestMappingConstants.ADD_OR_UPDATE_CLAIM, method = RequestMethod.PUT)
+	@RequestMapping(value = RequestMappingConstants.ADD_OR_UPDATE_CLAIM, method = RequestMethod.POST)
 	public ClaimRO addOrUpdateClaim(@Valid @RequestBody final ClaimRO claimRO) {
 		return _claimRestService.addOrUpdateClaim(claimRO);
 	}
