@@ -303,5 +303,10 @@
 		<class-a>com.i2g.rms.domain.model.DocumentView</class-a>
 		<class-b>com.i2g.rms.rest.model.DocumentViewRO</class-b>				
 	</mapping>
+	
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.AdminDashboardHeaderStatistics</class-a>
+		<class-b>com.i2g.rms.rest.model.AdminDashboardHeaderStatisticsRO</class-b>				
+	</mapping>
 
 </mappings>

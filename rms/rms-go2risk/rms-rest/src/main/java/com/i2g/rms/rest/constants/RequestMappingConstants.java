@@ -398,6 +398,8 @@ public interface RequestMappingConstants {
 	String SUSPECT 												= SECURED + "/suspect";
 	String GET_ALL_SUSPECTS										= SUSPECT + "/suspects";
 	String GET_SUSPECT_BY_SUSPECT_ID							= SUSPECT + "/suspectId/{suspectId}";
+	String GET_SUSPECTS_BY_INCIDENT_ID							= SUSPECT + "/incidentId/{incidentId}";
+	String GET_SUSPECTS_BY_UNIQUE_INCIDENT_ID					= SUSPECT + "/uniqueIncidentId/{uniqueIncidentId}";
 	String CREATE_SUSPECT										= SUSPECT + "/create-suspect";
 	String CREATE_SUSPECTS										= SUSPECT + "/create-suspects";
 	String UPDATE_SUSPECT										= SUSPECT + "/update-suspect";
@@ -652,4 +654,8 @@ public interface RequestMappingConstants {
 	String ADD_OR_UPDATE_INVESTIGATION									= INVESTIGATION + "/add-or-update-investigation";
 	String DELETE_INVESTIGATION											= INVESTIGATION + "/delete-investigation/investigationId/{investigationId}";
 	String DELETE_INVESTIGATIONS										= INVESTIGATION + "/delete-investigations";
+	
+	/** Admin dashboard */
+	String ADMIN								= SECURED + "/admin";
+	String ADMIN_DASHBOARD_HEADER_STATISTICS	= ADMIN + "/admin-dashboard-hdr-stat";
 }

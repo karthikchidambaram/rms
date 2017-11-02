@@ -58,6 +58,24 @@ public class SuspectDaoImpl extends AbstractHibernateDao<Long, Suspect> implemen
 	}
 	
 	@Override
+	public List<Suspect> get(final String uniqueIncidentId) {
+		final Criteria criteria = getSession().createCriteria(_modelType);
+		criteria.add(Restrictions.eq("statusFlag", StatusFlag.ACTIVE));
+		criteria.createAlias("incidents", "incident"); 
+		criteria.add(Restrictions.eq("incident.uniqueIncidentId", Objects.requireNonNull(uniqueIncidentId, "Unique incident id cannot be null or empty.")));		
+		return (List<Suspect>) criteria.list();
+	}
+	
+	@Override
+	public List<Suspect> getSuspectsByIncidentId(final Long id) {
+		final Criteria criteria = getSession().createCriteria(_modelType);
+		criteria.add(Restrictions.eq("statusFlag", StatusFlag.ACTIVE));
+		criteria.createAlias("incidents", "incident"); 
+		criteria.add(Restrictions.eq("incident.id", Objects.requireNonNull(id, "Incident id cannot be null or empty.")));
+		return (List<Suspect>) criteria.list();
+	}
+	
+	@Override
 	public Suspect get(final long id) {
 		final Criteria criteria = getSession().createCriteria(_modelType);
 		criteria.add(Restrictions.eq("id", Objects.requireNonNull(id, "Suspect id cannot be null or empty.")));
@@ -131,5 +149,5 @@ public class SuspectDaoImpl extends AbstractHibernateDao<Long, Suspect> implemen
 			}
 		}
 		save(suspect);
-	}		
+	}				
 }

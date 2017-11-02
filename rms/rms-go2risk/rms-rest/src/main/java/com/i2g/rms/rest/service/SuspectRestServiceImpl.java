@@ -85,6 +85,26 @@ public class SuspectRestServiceImpl extends AbstractRestService implements Suspe
 	
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
+	@Transactional(readOnly = true)
+	public List<SuspectRO> getSuspectsByIncidentId(final Long incidentId) {
+		validateKeyId(incidentId);
+		List<Suspect> suspects = _suspectService.getSuspectsByIncidentId(incidentId);
+		List<SuspectRO> suspectROs = (suspects == null || suspects.isEmpty()) ? Collections.emptyList() : _mapperService.map(suspects, SuspectRO.class);
+		return suspectROs;
+	}
+	
+	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
+	@Transactional(readOnly = true)
+	public List<SuspectRO> get(final String uniqueIncidentId) {
+		validateUniqueIncidentId(uniqueIncidentId);
+		List<Suspect> suspects = _suspectService.get(uniqueIncidentId.trim());
+		List<SuspectRO> suspectROs = (suspects == null || suspects.isEmpty()) ? Collections.emptyList() : _mapperService.map(suspects, SuspectRO.class);
+		return suspectROs;
+	}
+	
+	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
 	@Transactional
 	public SuspectRO createSuspect(final SuspectRO suspectRO) {
 		validateObject(suspectRO);
@@ -404,5 +424,5 @@ public class SuspectRestServiceImpl extends AbstractRestService implements Suspe
 			}			
 		}
 		return address;
-	}
+	}	
 }

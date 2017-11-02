@@ -17,6 +17,10 @@ public interface SuspectDao {
 	
 	public List<Suspect> get();
 	
+	public List<Suspect> getSuspectsByIncidentId(final Long id);
+	
+	public List<Suspect> get(final String uniqueIncidentId);
+	
 	public Suspect get(final long id);
 	
 	public Suspect createNewSuspect(final Suspect suspect);
