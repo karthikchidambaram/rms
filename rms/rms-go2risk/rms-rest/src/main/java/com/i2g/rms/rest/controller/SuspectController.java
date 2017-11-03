@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.i2g.rms.domain.model.Suspect;
 import com.i2g.rms.rest.constants.RequestMappingConstants;
 import com.i2g.rms.rest.model.SuspectRO;
+import com.i2g.rms.rest.model.lookup.SuspectTableRO;
 import com.i2g.rms.rest.model.wrapper.DistinguishingFeatureDetailWrapper;
 import com.i2g.rms.rest.model.wrapper.SuspectWrapper;
 import com.i2g.rms.rest.search.Searchable;
@@ -43,6 +44,16 @@ public class SuspectController extends AbstractRestController {
 	@RequestMapping(value = RequestMappingConstants.GET_SUSPECT_BY_SUSPECT_ID, method = RequestMethod.GET)
 	public SuspectRO get(@PathVariable final Long suspectId) {
 		return _suspectRestService.get(suspectId);
+	}
+	
+	@RequestMapping(value = RequestMappingConstants.GET_SUSPECT_TABLE_BY_INCIDENT_ID, method = RequestMethod.GET)
+	public List<SuspectTableRO> getSuspectTableByIncidentId(@PathVariable final Long incidentId) {
+		return _suspectRestService.getSuspectTableByIncidentId(incidentId);
+	}
+	
+	@RequestMapping(value = RequestMappingConstants.GET_SUSPECT_TABLE_BY_UNIQUE_INCIDENT_ID, method = RequestMethod.GET)
+	public List<SuspectTableRO> getSuspectTableByUniqueIncidentId(@PathVariable final String uniqueIncidentId) {
+		return _suspectRestService.getSuspectTableByUniqueIncidentId(uniqueIncidentId);
 	}
 	
 	@RequestMapping(value = RequestMappingConstants.GET_SUSPECTS_BY_INCIDENT_ID, method = RequestMethod.GET)

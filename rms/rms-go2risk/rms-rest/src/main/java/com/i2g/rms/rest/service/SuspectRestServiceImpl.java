@@ -1,5 +1,6 @@
 package com.i2g.rms.rest.service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -21,10 +22,12 @@ import com.i2g.rms.domain.model.Suspect;
 import com.i2g.rms.domain.model.User;
 import com.i2g.rms.domain.model.Witness;
 import com.i2g.rms.domain.model.YesNoType;
+import com.i2g.rms.domain.model.incident.Incident;
 import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeatureDetail;
 import com.i2g.rms.domain.model.tablemaintenance.WeaponType;
 import com.i2g.rms.rest.model.AddressRO;
 import com.i2g.rms.rest.model.SuspectRO;
+import com.i2g.rms.rest.model.lookup.SuspectTableRO;
 import com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeatureDetailRO;
 import com.i2g.rms.rest.model.wrapper.DistinguishingFeatureDetailWrapper;
 import com.i2g.rms.rest.model.wrapper.SuspectWrapper;
@@ -81,6 +84,28 @@ public class SuspectRestServiceImpl extends AbstractRestService implements Suspe
 		} else {
 			throw new ResourceNotValidException(_messageBuilder.build(RestMessage.INVALID_SUSPECT_ID_PASSED_AS_PARAMETER));
 		}
+	}
+	
+	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
+	@Transactional(readOnly = true)
+	public List<SuspectTableRO> getSuspectTableByIncidentId(final Long incidentId) {
+		validateKeyId(incidentId);
+		final Incident incident = _incidentService.get(incidentId);
+		validateGenericObject(incident);
+		final List<SuspectTableRO> suspectTableROs = getSuspectTable(incident);
+		return (suspectTableROs == null || suspectTableROs.isEmpty()) ? Collections.emptyList() : _mapperService.map(suspectTableROs, SuspectTableRO.class);		
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
+	@Transactional(readOnly = true)
+	public List<SuspectTableRO> getSuspectTableByUniqueIncidentId(final String uniqueIncidentId) {
+		validateUniqueIncidentId(uniqueIncidentId);
+		final Incident incident = _incidentService.getIncidentByUniqueIncidentId(uniqueIncidentId);
+		validateGenericObject(incident);
+		final List<SuspectTableRO> suspectTableROs = getSuspectTable(incident);
+		return (suspectTableROs == null || suspectTableROs.isEmpty()) ? Collections.emptyList() : _mapperService.map(suspectTableROs, SuspectTableRO.class);
 	}
 	
 	@Override
@@ -424,5 +449,126 @@ public class SuspectRestServiceImpl extends AbstractRestService implements Suspe
 			}			
 		}
 		return address;
-	}	
+	}
+	
+	private List<SuspectTableRO> getSuspectTable(final Incident incident) {
+		final List<SuspectTableRO> suspectTableROs = new ArrayList<SuspectTableRO>(0);
+		if (incident != null) {
+			//Populate the non-employee suspects first
+			if (incident.getSuspects() != null && !incident.getSuspects().isEmpty()) {
+				for (Suspect suspect : incident.getSuspects()) {
+					if (suspect != null) {
+						final SuspectTableRO suspectTableRO = new SuspectTableRO();
+						//Set the suspect category as non-employee
+						suspectTableRO.setSuspectCategory("NON-EMPLOYEE");
+						suspectTableRO.setSuspectId(suspect.getId());
+						suspectTableRO.setIncidentId(incident.getId());
+						suspectTableRO.setUniqueIncidentId(incident.getUniqueIncidentId());
+						//employee id and employee login id will be null for non-employee suspects
+						suspectTableRO.setEmployeeId(0l);
+						suspectTableRO.setEmployeeLoginId(null);
+						suspectTableRO.setTitle(suspect.getTitle());
+						
+						String firstName = null;
+						String lastName = null;
+						String fullName = null;
+						
+						if (suspect.getFirstName() != null && !suspect.getFirstName().trim().isEmpty()) {
+							firstName = suspect.getFirstName().trim();
+						} else {
+							firstName = "No firstname";
+						}
+						
+						if (suspect.getLastName() != null && !suspect.getLastName().trim().isEmpty()) {
+							lastName = suspect.getLastName().trim();
+						} else {
+							lastName = "No lastname";
+						}
+						fullName = lastName + ", " + firstName;
+						
+						suspectTableRO.setFirstName(firstName);
+						suspectTableRO.setMiddleName(suspect.getMiddleName());
+						suspectTableRO.setLastName(lastName);
+						suspectTableRO.setNameSuffix(suspect.getNameSuffix());
+						suspectTableRO.setFullName(fullName);
+						suspectTableRO.setDateOfBirth(suspect.getDateOfBirth());
+						suspectTableRO.setAge(suspect.getAge());
+						suspectTableRO.setPhone(suspect.getPhone());
+						suspectTableRO.setAlternatePhone(suspect.getAlternatePhone());
+						suspectTableRO.setEmail(suspect.getEmail());
+						if (suspect.getStatusFlag() != null) {
+							suspectTableRO.setStatusFlag(suspect.getStatusFlag().name());
+						}
+						if (suspect.getGenderType() != null) {
+							suspectTableRO.setGenderTypeCode(suspect.getGenderType().getId());
+							suspectTableRO.setGenderTypeDescription(suspect.getGenderType().getDescription());
+						}
+						if (suspect.getSuspectType() != null) {	
+							suspectTableRO.setTypeCode(suspect.getSuspectType().getId());
+							suspectTableRO.setTypeDescription(suspect.getSuspectType().getDescription());
+						}
+						suspectTableRO.setTypeOtherDescription(suspect.getSuspectTypeOther());
+						suspectTableROs.add(suspectTableRO);
+					}
+				}
+			}
+			//Populate the employee suspects if any
+			if (incident.getEmployeeSuspects() != null && !incident.getEmployeeSuspects().isEmpty()) {
+				for (User employeeSuspect : incident.getEmployeeSuspects()) {
+					if (employeeSuspect != null) {
+						final SuspectTableRO suspectTableRO = new SuspectTableRO();
+						//Set the suspect category as employee
+						suspectTableRO.setSuspectCategory("EMPLOYEE");
+						//Suspect id will be null for employee type suspects.
+						suspectTableRO.setSuspectId(0l);
+						suspectTableRO.setIncidentId(incident.getId());
+						suspectTableRO.setUniqueIncidentId(incident.getUniqueIncidentId());
+						suspectTableRO.setEmployeeId(employeeSuspect.getId());
+						suspectTableRO.setEmployeeLoginId(employeeSuspect.getLoginId());
+						suspectTableRO.setTitle(employeeSuspect.getTitle());
+						
+						String firstName = null;
+						String lastName = null;
+						String fullName = null;
+						
+						if (employeeSuspect.getFirstName() != null && !employeeSuspect.getFirstName().trim().isEmpty()) {
+							firstName = employeeSuspect.getFirstName().trim();
+						} else {
+							firstName = "No firstname";
+						}
+						
+						if (employeeSuspect.getLastName() != null && !employeeSuspect.getLastName().trim().isEmpty()) {
+							lastName = employeeSuspect.getLastName().trim();
+						} else {
+							lastName = "No lastname";
+						}
+						fullName = lastName + ", " + firstName;
+						
+						suspectTableRO.setFirstName(firstName);
+						suspectTableRO.setMiddleName(employeeSuspect.getMiddleName());
+						suspectTableRO.setLastName(lastName);
+						suspectTableRO.setNameSuffix(employeeSuspect.getNameSuffix());
+						suspectTableRO.setFullName(fullName);
+						suspectTableRO.setDateOfBirth(employeeSuspect.getDateOfBirth());
+						suspectTableRO.setAge(employeeSuspect.getAge());
+						suspectTableRO.setPhone(employeeSuspect.getPhone());
+						suspectTableRO.setAlternatePhone(employeeSuspect.getAlternatePhone());
+						suspectTableRO.setEmail(employeeSuspect.getEmail());
+						if (employeeSuspect.getStatusFlag() != null) {
+							suspectTableRO.setStatusFlag(employeeSuspect.getStatusFlag().name());
+						}
+						if (employeeSuspect.getGenderType() != null) {
+							suspectTableRO.setGenderTypeCode(employeeSuspect.getGenderType().getId());
+							suspectTableRO.setGenderTypeDescription(employeeSuspect.getGenderType().getDescription());
+						}
+						suspectTableRO.setTypeCode("EMP");
+						suspectTableRO.setTypeDescription("Employee");
+						suspectTableRO.setTypeOtherDescription(null);
+						suspectTableROs.add(suspectTableRO);
+					}
+				}
+			}
+		}		
+		return suspectTableROs;
+	}
 }

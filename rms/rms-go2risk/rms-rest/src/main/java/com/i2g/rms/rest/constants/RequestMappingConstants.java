@@ -398,6 +398,8 @@ public interface RequestMappingConstants {
 	String SUSPECT 												= SECURED + "/suspect";
 	String GET_ALL_SUSPECTS										= SUSPECT + "/suspects";
 	String GET_SUSPECT_BY_SUSPECT_ID							= SUSPECT + "/suspectId/{suspectId}";
+	String GET_SUSPECT_TABLE_BY_INCIDENT_ID						= SUSPECT + "/suspect-table/incidentId/{incidentId}";
+	String GET_SUSPECT_TABLE_BY_UNIQUE_INCIDENT_ID				= SUSPECT + "/suspect-table/uniqueIncidentId/{uniqueIncidentId}";
 	String GET_SUSPECTS_BY_INCIDENT_ID							= SUSPECT + "/incidentId/{incidentId}";
 	String GET_SUSPECTS_BY_UNIQUE_INCIDENT_ID					= SUSPECT + "/uniqueIncidentId/{uniqueIncidentId}";
 	String CREATE_SUSPECT										= SUSPECT + "/create-suspect";

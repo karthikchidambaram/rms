@@ -12,6 +12,7 @@ import com.i2g.rms.domain.model.User;
 import com.i2g.rms.domain.model.Witness;
 import com.i2g.rms.rest.model.AddressRO;
 import com.i2g.rms.rest.model.SuspectRO;
+import com.i2g.rms.rest.model.lookup.SuspectTableRO;
 import com.i2g.rms.rest.model.wrapper.DistinguishingFeatureDetailWrapper;
 import com.i2g.rms.rest.model.wrapper.SuspectWrapper;
 
@@ -27,6 +28,10 @@ public interface SuspectRestService {
 	public List<SuspectRO> get();
 
 	public SuspectRO get(final Long suspectId);
+	
+	public List<SuspectTableRO> getSuspectTableByIncidentId(final Long incidentId);
+	
+	public List<SuspectTableRO> getSuspectTableByUniqueIncidentId(final String uniqueIncidentId);
 	
 	public List<SuspectRO> getSuspectsByIncidentId(final Long incidentId);
 	
