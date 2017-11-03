@@ -5,6 +5,7 @@ import java.util.Set;
 
 import com.i2g.rms.domain.model.InjuredPerson;
 import com.i2g.rms.rest.model.InjuredPersonRO;
+import com.i2g.rms.rest.model.lookup.InjuredPersonTableRO;
 import com.i2g.rms.rest.model.wrapper.BodyPartWrapper;
 import com.i2g.rms.rest.model.wrapper.DistinguishingFeatureDetailWrapper;
 import com.i2g.rms.rest.model.wrapper.InjuredPersonWrapper;
@@ -19,7 +20,9 @@ import com.i2g.rms.rest.model.wrapper.InjuredPersonWrapper;
 public interface InjuredPersonRestService {
 
 	public List<InjuredPersonRO> get();
-
+	
+	public List<InjuredPersonTableRO> getInjuredPersonTableByAccidentId(final Long accidentId);
+	
 	public InjuredPersonRO get(final Long injuredPersonId);
 
 	public InjuredPersonRO createInjuredPerson(final InjuredPersonRO injuredPersonRO);

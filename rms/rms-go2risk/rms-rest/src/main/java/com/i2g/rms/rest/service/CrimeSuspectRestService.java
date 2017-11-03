@@ -3,15 +3,9 @@ package com.i2g.rms.rest.service;
 import java.util.List;
 import java.util.Set;
 
-import com.i2g.rms.domain.model.Address;
-import com.i2g.rms.domain.model.Building;
 import com.i2g.rms.domain.model.CrimeSuspect;
-import com.i2g.rms.domain.model.InjuredPerson;
-import com.i2g.rms.domain.model.Suspect;
-import com.i2g.rms.domain.model.User;
-import com.i2g.rms.domain.model.Witness;
-import com.i2g.rms.rest.model.AddressRO;
 import com.i2g.rms.rest.model.CrimeSuspectRO;
+import com.i2g.rms.rest.model.lookup.CrimeSuspectTableRO;
 import com.i2g.rms.rest.model.wrapper.CrimeSuspectWrapper;
 import com.i2g.rms.rest.model.wrapper.DistinguishingFeatureDetailWrapper;
 
@@ -25,6 +19,8 @@ import com.i2g.rms.rest.model.wrapper.DistinguishingFeatureDetailWrapper;
 public interface CrimeSuspectRestService {
 
 	public List<CrimeSuspectRO> get();
+	
+	public List<CrimeSuspectTableRO> getCrimeSuspectTableByCrimeId(final Long crimeId);
 
 	public CrimeSuspectRO get(final Long crimeSuspectId);
 

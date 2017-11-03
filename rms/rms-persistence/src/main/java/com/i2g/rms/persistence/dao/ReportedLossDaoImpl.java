@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import com.i2g.rms.domain.model.ReportedLoss;
 import com.i2g.rms.domain.model.StatusFlag;
+import com.i2g.rms.domain.model.incident.Incident;
 import com.i2g.rms.persistence.hibernate.AbstractHibernateDao;
 
 /**
@@ -54,6 +55,15 @@ public class ReportedLossDaoImpl extends AbstractHibernateDao<Long, ReportedLoss
 		final Criteria criteria = getSession().createCriteria(_modelType);
 		criteria.add(Restrictions.eq("statusFlag", StatusFlag.ACTIVE));
 		return (List<ReportedLoss>) applySearch(criteria).list();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ReportedLoss> get(final Incident incident) {
+		final Criteria criteria = getSession().createCriteria(_modelType);
+		criteria.add(Restrictions.eq("incident", Objects.requireNonNull(incident, "Incident cannot be null or empty.")));
+		criteria.add(Restrictions.eq("statusFlag", StatusFlag.ACTIVE));
+		return (List<ReportedLoss>) criteria.list();
 	}
 	
 	@Override

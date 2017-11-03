@@ -40,6 +40,16 @@ public class ReportedLossController extends AbstractRestController {
 		return _reportedLossRestService.get();
 	}
 	
+	@RequestMapping(value = RequestMappingConstants.GET_REPORTED_LOSS_TABLE_BY_INCIDENT_ID, method = RequestMethod.GET)
+	public List<ReportedLossRO> getReportedLossTableByIncidentId(@PathVariable final Long incidentId) {
+		return _reportedLossRestService.getReportedLossTableByIncidentId(incidentId);
+	}
+	
+	@RequestMapping(value = RequestMappingConstants.GET_REPORTED_LOSS_TABLE_BY_UNIQUE_INCIDENT_ID, method = RequestMethod.GET)
+	public List<ReportedLossRO> getReportedLossTableByUniqueIncidentId(@PathVariable final String uniqueIncidentId) {
+		return _reportedLossRestService.getReportedLossTableByUniqueIncidentId(uniqueIncidentId);
+	}
+	
 	@RequestMapping(value = RequestMappingConstants.GET_REPORTED_LOSS_BY_REPORTED_LOSS_ID, method = RequestMethod.GET)
 	public ReportedLossRO get(@PathVariable final Long reportedLossId) {
 		return _reportedLossRestService.get(reportedLossId);

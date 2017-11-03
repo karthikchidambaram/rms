@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.i2g.rms.domain.model.ReportedLoss;
+import com.i2g.rms.domain.model.incident.Incident;
 import com.i2g.rms.persistence.dao.ReportedLossDao;
 
 /**
@@ -28,6 +29,11 @@ public class ReportedLossServiceImpl extends AbstractService implements Reported
 	@Override
 	public List<ReportedLoss> get() {
 		return _reportedLossDao.get();
+	}
+	
+	@Override
+	public List<ReportedLoss> get(final Incident incident) {
+		return _reportedLossDao.get(incident);
 	}
 
 	@Override

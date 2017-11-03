@@ -1,5 +1,6 @@
 package com.i2g.rms.rest.service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -12,17 +13,21 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.i2g.rms.domain.model.Accident;
 import com.i2g.rms.domain.model.InjuredPerson;
 import com.i2g.rms.domain.model.StatusFlag;
+import com.i2g.rms.domain.model.User;
 import com.i2g.rms.domain.model.YesNoType;
 import com.i2g.rms.domain.model.tablemaintenance.BodyPart;
 import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeatureDetail;
 import com.i2g.rms.rest.model.InjuredPersonRO;
+import com.i2g.rms.rest.model.lookup.InjuredPersonTableRO;
 import com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeatureDetailRO;
 import com.i2g.rms.rest.model.wrapper.BodyPartWrapper;
 import com.i2g.rms.rest.model.wrapper.DistinguishingFeatureDetailWrapper;
 import com.i2g.rms.rest.model.wrapper.InjuredPersonWrapper;
 import com.i2g.rms.rest.service.incident.IncidentRestService;
+import com.i2g.rms.service.AccidentService;
 import com.i2g.rms.service.InjuredPersonService;
 import com.i2g.rms.service.exception.ResourceNotCreatedException;
 import com.i2g.rms.service.exception.ResourceNotRemovedException;
@@ -51,6 +56,8 @@ public class InjuredPersonRestServiceImpl extends AbstractRestService implements
 	private IncidentRestService _incidentRestService;
 	@Autowired
 	private SuspectRestService _suspectRestService;
+	@Autowired
+	private AccidentService _accidentService;
 	
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
@@ -59,6 +66,17 @@ public class InjuredPersonRestServiceImpl extends AbstractRestService implements
 		List<InjuredPerson> injuredPersons = _injuredPersonService.get();
 		List<InjuredPersonRO> injuredPersonROs = (injuredPersons == null || injuredPersons.isEmpty()) ? Collections.emptyList() : _mapperService.map(injuredPersons, InjuredPersonRO.class);
 		return injuredPersonROs;
+	}
+	
+	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
+	@Transactional(readOnly = true)
+	public List<InjuredPersonTableRO> getInjuredPersonTableByAccidentId(final Long accidentId) {
+		validateKeyId(accidentId);
+		final Accident accident = _accidentService.get(accidentId);
+		validateGenericObject(accident);
+		final List<InjuredPersonTableRO> injuredPersonTableROs = getInjuredPersonTable(accident);
+		return (injuredPersonTableROs == null || injuredPersonTableROs.isEmpty()) ? Collections.emptyList() : _mapperService.map(injuredPersonTableROs, InjuredPersonTableRO.class);		
 	}
 
 	@Override
@@ -346,5 +364,137 @@ public class InjuredPersonRestServiceImpl extends AbstractRestService implements
 			}			
 		}
 		return injuredPerson;
+	}
+	
+	private List<InjuredPersonTableRO> getInjuredPersonTable(final Accident accident) {
+		final List<InjuredPersonTableRO> injuredPersonTableROs = new ArrayList<InjuredPersonTableRO>(0);
+		if (accident != null) {
+			//Populate the non-employee injured persons first
+			if (accident.getInjuredPersons() != null && !accident.getInjuredPersons().isEmpty()) {
+				for (InjuredPerson injuredPerson : accident.getInjuredPersons()) {
+					if (injuredPerson != null) {
+						final InjuredPersonTableRO injuredPersonTableRO = new InjuredPersonTableRO();
+						
+						//Set the Witness category as non-employee
+						injuredPersonTableRO.setInjuredPersonCategory("NON-EMPLOYEE");
+						injuredPersonTableRO.setInjuredPersonId(injuredPerson.getId());
+						
+						if (accident.getIncident() != null) {
+							injuredPersonTableRO.setIncidentId(accident.getIncident().getId());
+							injuredPersonTableRO.setUniqueIncidentId(accident.getIncident().getUniqueIncidentId());
+						}
+						injuredPersonTableRO.setAccidentId(accident.getId());
+						//employee id and employee login id will be null for non-employee witnesses
+						injuredPersonTableRO.setEmployeeId(0l);
+						injuredPersonTableRO.setEmployeeLoginId(null);
+						
+						injuredPersonTableRO.setTitle(injuredPerson.getTitle());
+						
+						String firstName = null;
+						String lastName = null;
+						String fullName = null;
+						
+						if (injuredPerson.getFirstName() != null && !injuredPerson.getFirstName().trim().isEmpty()) {
+							firstName = injuredPerson.getFirstName().trim();
+						} else {
+							firstName = "No firstname";
+						}
+						
+						if (injuredPerson.getLastName() != null && !injuredPerson.getLastName().trim().isEmpty()) {
+							lastName = injuredPerson.getLastName().trim();
+						} else {
+							lastName = "No lastname";
+						}
+						fullName = lastName + ", " + firstName;
+						
+						injuredPersonTableRO.setFirstName(firstName);
+						injuredPersonTableRO.setMiddleName(injuredPerson.getMiddleName());
+						injuredPersonTableRO.setLastName(lastName);
+						injuredPersonTableRO.setNameSuffix(injuredPerson.getNameSuffix());
+						injuredPersonTableRO.setFullName(fullName);
+						injuredPersonTableRO.setDateOfBirth(injuredPerson.getDateOfBirth());
+						injuredPersonTableRO.setAge(injuredPerson.getAge());
+						injuredPersonTableRO.setPhone(injuredPerson.getPhone());
+						injuredPersonTableRO.setAlternatePhone(injuredPerson.getAlternatePhone());
+						injuredPersonTableRO.setEmail(injuredPerson.getEmail());
+						if (injuredPerson.getStatusFlag() != null) {
+							injuredPersonTableRO.setStatusFlag(injuredPerson.getStatusFlag().name());
+						}
+						if (injuredPerson.getGenderType() != null) {
+							injuredPersonTableRO.setGenderTypeCode(injuredPerson.getGenderType().getId());
+							injuredPersonTableRO.setGenderTypeDescription(injuredPerson.getGenderType().getDescription());
+						}
+						if (injuredPerson.getInjuredPersonType() != null) {	
+							injuredPersonTableRO.setTypeCode(injuredPerson.getInjuredPersonType().getId());
+							injuredPersonTableRO.setTypeDescription(injuredPerson.getInjuredPersonType().getDescription());
+						}
+						injuredPersonTableRO.setTypeOtherDescription(injuredPerson.getInjuredPersonTypeOther());
+						injuredPersonTableROs.add(injuredPersonTableRO);
+					}
+				}
+			}
+			//Populate the employee injured persons if any
+			if (accident.getEmployeeInjuredPersons() != null && !accident.getEmployeeInjuredPersons().isEmpty()) {
+				for (User employeeInjuredPerson : accident.getEmployeeInjuredPersons()) {
+					if (employeeInjuredPerson != null) {
+						final InjuredPersonTableRO injuredPersonTableRO = new InjuredPersonTableRO();
+						
+						//Set the Injured Person category as employee
+						injuredPersonTableRO.setInjuredPersonCategory("EMPLOYEE");
+						//Injured person id will be null for employee type injured persons.
+						injuredPersonTableRO.setInjuredPersonId(0l);
+						
+						if (accident.getIncident() != null) {
+							injuredPersonTableRO.setIncidentId(accident.getIncident().getId());
+							injuredPersonTableRO.setUniqueIncidentId(accident.getIncident().getUniqueIncidentId());
+						}
+						injuredPersonTableRO.setAccidentId(accident.getId());
+						injuredPersonTableRO.setEmployeeId(employeeInjuredPerson.getId());
+						injuredPersonTableRO.setEmployeeLoginId(employeeInjuredPerson.getLoginId());
+						injuredPersonTableRO.setTitle(employeeInjuredPerson.getTitle());
+						
+						String firstName = null;
+						String lastName = null;
+						String fullName = null;
+						
+						if (employeeInjuredPerson.getFirstName() != null && !employeeInjuredPerson.getFirstName().trim().isEmpty()) {
+							firstName = employeeInjuredPerson.getFirstName().trim();
+						} else {
+							firstName = "No firstname";
+						}
+						
+						if (employeeInjuredPerson.getLastName() != null && !employeeInjuredPerson.getLastName().trim().isEmpty()) {
+							lastName = employeeInjuredPerson.getLastName().trim();
+						} else {
+							lastName = "No lastname";
+						}
+						fullName = lastName + ", " + firstName;
+						
+						injuredPersonTableRO.setFirstName(firstName);
+						injuredPersonTableRO.setMiddleName(employeeInjuredPerson.getMiddleName());
+						injuredPersonTableRO.setLastName(lastName);
+						injuredPersonTableRO.setNameSuffix(employeeInjuredPerson.getNameSuffix());
+						injuredPersonTableRO.setFullName(fullName);
+						injuredPersonTableRO.setDateOfBirth(employeeInjuredPerson.getDateOfBirth());
+						injuredPersonTableRO.setAge(employeeInjuredPerson.getAge());
+						injuredPersonTableRO.setPhone(employeeInjuredPerson.getPhone());
+						injuredPersonTableRO.setAlternatePhone(employeeInjuredPerson.getAlternatePhone());
+						injuredPersonTableRO.setEmail(employeeInjuredPerson.getEmail());
+						if (employeeInjuredPerson.getStatusFlag() != null) {
+							injuredPersonTableRO.setStatusFlag(employeeInjuredPerson.getStatusFlag().name());
+						}
+						if (employeeInjuredPerson.getGenderType() != null) {
+							injuredPersonTableRO.setGenderTypeCode(employeeInjuredPerson.getGenderType().getId());
+							injuredPersonTableRO.setGenderTypeDescription(employeeInjuredPerson.getGenderType().getDescription());
+						}
+						injuredPersonTableRO.setTypeCode("EMP");
+						injuredPersonTableRO.setTypeDescription("Employee");
+						injuredPersonTableRO.setTypeOtherDescription(null);
+						injuredPersonTableROs.add(injuredPersonTableRO);
+					}
+				}
+			}
+		}
+		return injuredPersonTableROs;
 	}
 }

@@ -1,5 +1,6 @@
 package com.i2g.rms.rest.service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -12,21 +13,22 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.i2g.rms.domain.model.Crime;
 import com.i2g.rms.domain.model.CrimeSuspect;
 import com.i2g.rms.domain.model.StatusFlag;
+import com.i2g.rms.domain.model.User;
 import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeatureDetail;
 import com.i2g.rms.rest.model.CrimeSuspectRO;
+import com.i2g.rms.rest.model.lookup.CrimeSuspectTableRO;
 import com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeatureDetailRO;
 import com.i2g.rms.rest.model.wrapper.CrimeSuspectWrapper;
 import com.i2g.rms.rest.model.wrapper.DistinguishingFeatureDetailWrapper;
 import com.i2g.rms.rest.service.incident.IncidentRestService;
-import com.i2g.rms.service.AddressService;
+import com.i2g.rms.service.CrimeService;
 import com.i2g.rms.service.CrimeSuspectService;
-import com.i2g.rms.service.SuspectService;
 import com.i2g.rms.service.exception.ResourceNotCreatedException;
 import com.i2g.rms.service.exception.ResourceNotUpdatedException;
 import com.i2g.rms.service.exception.ResourceNotValidException;
-import com.i2g.rms.service.incident.IncidentService;
 import com.i2g.rms.service.tablemaintenance.TableMaintenanceService;
 
 /**
@@ -47,15 +49,11 @@ public class CrimeSuspectRestServiceImpl extends AbstractRestService implements 
 	@Autowired
 	private SuspectRestService _suspectRestService;
 	@Autowired
-	private SuspectService _suspectService;
-	@Autowired
 	private TableMaintenanceService _tableMaintenanceService;
 	@Autowired
-	private IncidentRestService _incidentRestService; 
+	private IncidentRestService _incidentRestService;
 	@Autowired
-	private AddressService _addressService;
-	@Autowired
-	private IncidentService _incidentService;
+	private CrimeService _crimeService;
 		
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
@@ -64,6 +62,17 @@ public class CrimeSuspectRestServiceImpl extends AbstractRestService implements 
 		List<CrimeSuspect> crimeSuspects = _crimeSuspectService.get();
 		List<CrimeSuspectRO> crimeSuspectROs = (crimeSuspects == null || crimeSuspects.isEmpty()) ? Collections.emptyList() : _mapperService.map(crimeSuspects, CrimeSuspectRO.class);
 		return crimeSuspectROs;
+	}
+	
+	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
+	@Transactional(readOnly = true)
+	public List<CrimeSuspectTableRO> getCrimeSuspectTableByCrimeId(final Long crimeId) {
+		validateKeyId(crimeId);
+		final Crime crime = _crimeService.get(crimeId);
+		validateGenericObject(crime);
+		final List<CrimeSuspectTableRO> crimeSuspectTableROs = getCrimeSuspectTable(crime);
+		return (crimeSuspectTableROs == null || crimeSuspectTableROs.isEmpty()) ? Collections.emptyList() : _mapperService.map(crimeSuspectTableROs, CrimeSuspectTableRO.class);		
 	}
 
 	@Override
@@ -288,5 +297,138 @@ public class CrimeSuspectRestServiceImpl extends AbstractRestService implements 
 			}			
 		}
 		return crimeSuspect;
-	}	
+	}
+	
+	private List<CrimeSuspectTableRO> getCrimeSuspectTable(final Crime crime) {
+		final List<CrimeSuspectTableRO> crimeSuspectTableROs = new ArrayList<CrimeSuspectTableRO>(0);
+		if (crime != null) {
+			//Populate the non-employee crime suspects first
+			if (crime.getCrimeSuspects() != null && !crime.getCrimeSuspects().isEmpty()) {
+				for (CrimeSuspect crimeSuspect : crime.getCrimeSuspects()) {
+					if (crimeSuspect != null) {
+						final CrimeSuspectTableRO crimeSuspectTableRO = new CrimeSuspectTableRO();
+						
+						//Set the crime suspect category as non-employee
+						crimeSuspectTableRO.setCrimeSuspectCategory("NON-EMPLOYEE");
+						crimeSuspectTableRO.setCrimeSuspectId(crimeSuspect.getId());
+						
+						if (crime.getIncident() != null) {
+							crimeSuspectTableRO.setIncidentId(crime.getIncident().getId());
+							crimeSuspectTableRO.setUniqueIncidentId(crime.getIncident().getUniqueIncidentId());
+						}
+						
+						crimeSuspectTableRO.setCrimeId(crime.getId());						
+						//employee id and employee login id will be null for non-employee crime suspects
+						crimeSuspectTableRO.setEmployeeId(0l);
+						crimeSuspectTableRO.setEmployeeLoginId(null);
+						
+						crimeSuspectTableRO.setTitle(crimeSuspect.getTitle());
+						
+						String firstName = null;
+						String lastName = null;
+						String fullName = null;
+						
+						if (crimeSuspect.getFirstName() != null && !crimeSuspect.getFirstName().trim().isEmpty()) {
+							firstName = crimeSuspect.getFirstName().trim();
+						} else {
+							firstName = "No firstname";
+						}
+						
+						if (crimeSuspect.getLastName() != null && !crimeSuspect.getLastName().trim().isEmpty()) {
+							lastName = crimeSuspect.getLastName().trim();
+						} else {
+							lastName = "No lastname";
+						}
+						fullName = lastName + ", " + firstName;
+						
+						crimeSuspectTableRO.setFirstName(firstName);
+						crimeSuspectTableRO.setMiddleName(crimeSuspect.getMiddleName());
+						crimeSuspectTableRO.setLastName(lastName);
+						crimeSuspectTableRO.setNameSuffix(crimeSuspect.getNameSuffix());
+						crimeSuspectTableRO.setFullName(fullName);
+						crimeSuspectTableRO.setDateOfBirth(crimeSuspect.getDateOfBirth());
+						crimeSuspectTableRO.setAge(crimeSuspect.getAge());
+						crimeSuspectTableRO.setPhone(crimeSuspect.getPhone());
+						crimeSuspectTableRO.setAlternatePhone(crimeSuspect.getAlternatePhone());
+						crimeSuspectTableRO.setEmail(crimeSuspect.getEmail());
+						if (crimeSuspect.getStatusFlag() != null) {
+							crimeSuspectTableRO.setStatusFlag(crimeSuspect.getStatusFlag().name());
+						}
+						if (crimeSuspect.getGenderType() != null) {
+							crimeSuspectTableRO.setGenderTypeCode(crimeSuspect.getGenderType().getId());
+							crimeSuspectTableRO.setGenderTypeDescription(crimeSuspect.getGenderType().getDescription());
+						}
+						if (crimeSuspect.getCrimeSuspectType() != null) {	
+							crimeSuspectTableRO.setTypeCode(crimeSuspect.getCrimeSuspectType().getId());
+							crimeSuspectTableRO.setTypeDescription(crimeSuspect.getCrimeSuspectType().getDescription());
+						}
+						crimeSuspectTableRO.setTypeOtherDescription(crimeSuspect.getCrimeSuspectTypeOther());
+						crimeSuspectTableROs.add(crimeSuspectTableRO);
+					}
+				}
+			}
+			//Populate the employee crime suspects if any
+			if (crime.getEmployeeCrimeSuspects() != null && !crime.getEmployeeCrimeSuspects().isEmpty()) {
+				for (User employeeCrimeSuspects : crime.getEmployeeWitnesses()) {
+					if (employeeCrimeSuspects != null) {
+						final CrimeSuspectTableRO crimeSuspectTableRO = new CrimeSuspectTableRO();
+						//Set the crime suspect category as employee
+						crimeSuspectTableRO.setCrimeSuspectCategory("EMPLOYEE");						
+						//Crime suspect id will be null for employee type crime suspects.
+						crimeSuspectTableRO.setCrimeSuspectId(0l);						
+						crimeSuspectTableRO.setCrimeId(crime.getId());
+						
+						if (crime.getIncident() != null) {
+							crimeSuspectTableRO.setIncidentId(crime.getIncident().getId());
+							crimeSuspectTableRO.setUniqueIncidentId(crime.getIncident().getUniqueIncidentId());
+						}
+						
+						crimeSuspectTableRO.setEmployeeId(employeeCrimeSuspects.getId());
+						crimeSuspectTableRO.setEmployeeLoginId(employeeCrimeSuspects.getLoginId());
+						crimeSuspectTableRO.setTitle(employeeCrimeSuspects.getTitle());
+						
+						String firstName = null;
+						String lastName = null;
+						String fullName = null;
+						
+						if (employeeCrimeSuspects.getFirstName() != null && !employeeCrimeSuspects.getFirstName().trim().isEmpty()) {
+							firstName = employeeCrimeSuspects.getFirstName().trim();
+						} else {
+							firstName = "No firstname";
+						}
+						
+						if (employeeCrimeSuspects.getLastName() != null && !employeeCrimeSuspects.getLastName().trim().isEmpty()) {
+							lastName = employeeCrimeSuspects.getLastName().trim();
+						} else {
+							lastName = "No lastname";
+						}
+						fullName = lastName + ", " + firstName;
+						
+						crimeSuspectTableRO.setFirstName(firstName);
+						crimeSuspectTableRO.setMiddleName(employeeCrimeSuspects.getMiddleName());
+						crimeSuspectTableRO.setLastName(lastName);
+						crimeSuspectTableRO.setNameSuffix(employeeCrimeSuspects.getNameSuffix());
+						crimeSuspectTableRO.setFullName(fullName);
+						crimeSuspectTableRO.setDateOfBirth(employeeCrimeSuspects.getDateOfBirth());
+						crimeSuspectTableRO.setAge(employeeCrimeSuspects.getAge());
+						crimeSuspectTableRO.setPhone(employeeCrimeSuspects.getPhone());
+						crimeSuspectTableRO.setAlternatePhone(employeeCrimeSuspects.getAlternatePhone());
+						crimeSuspectTableRO.setEmail(employeeCrimeSuspects.getEmail());
+						if (employeeCrimeSuspects.getStatusFlag() != null) {
+							crimeSuspectTableRO.setStatusFlag(employeeCrimeSuspects.getStatusFlag().name());
+						}
+						if (employeeCrimeSuspects.getGenderType() != null) {
+							crimeSuspectTableRO.setGenderTypeCode(employeeCrimeSuspects.getGenderType().getId());
+							crimeSuspectTableRO.setGenderTypeDescription(employeeCrimeSuspects.getGenderType().getDescription());
+						}
+						crimeSuspectTableRO.setTypeCode("EMP");
+						crimeSuspectTableRO.setTypeDescription("Employee");
+						crimeSuspectTableRO.setTypeOtherDescription(null);
+						crimeSuspectTableROs.add(crimeSuspectTableRO);
+					}
+				}
+			}
+		}		
+		return crimeSuspectTableROs;
+	}
 }

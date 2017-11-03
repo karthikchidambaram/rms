@@ -58,6 +58,30 @@ public class ReportedLossRestServiceImpl extends AbstractRestService implements 
 		List<ReportedLossRO> reportedLossROs = (reportedLosses == null || reportedLosses.isEmpty()) ? Collections.emptyList() : _mapperService.map(reportedLosses, ReportedLossRO.class);
 		return reportedLossROs;
 	}
+	
+	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
+	@Transactional(readOnly = true)
+	public List<ReportedLossRO> getReportedLossTableByIncidentId(final Long incidentId) {
+		validateKeyId(incidentId);
+		final Incident incident = _incidentService.get(incidentId);
+		validateGenericObject(incident);
+		final List<ReportedLoss> reportedLosses = _reportedLossService.get(incident);
+		List<ReportedLossRO> reportedLossROs = (reportedLosses == null || reportedLosses.isEmpty()) ? Collections.emptyList() : _mapperService.map(reportedLosses, ReportedLossRO.class);
+		return reportedLossROs;		
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
+	@Transactional(readOnly = true)
+	public List<ReportedLossRO> getReportedLossTableByUniqueIncidentId(final String uniqueIncidentId) {
+		validateUniqueIncidentId(uniqueIncidentId);
+		final Incident incident = _incidentService.getIncidentByUniqueIncidentId(uniqueIncidentId);
+		validateGenericObject(incident);
+		final List<ReportedLoss> reportedLosses = _reportedLossService.get(incident);
+		List<ReportedLossRO> reportedLossROs = (reportedLosses == null || reportedLosses.isEmpty()) ? Collections.emptyList() : _mapperService.map(reportedLosses, ReportedLossRO.class);
+		return reportedLossROs;
+	}
 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
@@ -262,5 +286,5 @@ public class ReportedLossRestServiceImpl extends AbstractRestService implements 
 			}
 		}
 		return incident;
-	}
+	}	
 }

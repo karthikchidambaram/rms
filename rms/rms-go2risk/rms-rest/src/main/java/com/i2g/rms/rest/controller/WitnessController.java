@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.i2g.rms.domain.model.Witness;
 import com.i2g.rms.rest.constants.RequestMappingConstants;
 import com.i2g.rms.rest.model.WitnessRO;
+import com.i2g.rms.rest.model.lookup.WitnessTableRO;
 import com.i2g.rms.rest.model.wrapper.DistinguishingFeatureDetailWrapper;
 import com.i2g.rms.rest.model.wrapper.WitnessWrapper;
 import com.i2g.rms.rest.search.Searchable;
@@ -38,7 +39,17 @@ public class WitnessController extends AbstractRestController {
 	@RequestMapping(value = RequestMappingConstants.GET_ALL_WITNESSES, method = RequestMethod.GET)
 	@Searchable(sourceType = WitnessRO.class, value = Witness.class)
 	public List<WitnessRO> get() {
-		return _witnessRestService.get();
+		return _witnessRestService.get();		
+	}
+	
+	@RequestMapping(value = RequestMappingConstants.GET_WITNESS_TABLE_BY_ACCIDENT_ID, method = RequestMethod.GET)
+	public List<WitnessTableRO> getWitnessTableByAccidentId(@PathVariable final Long accidentId) {
+		return _witnessRestService.getWitnessTableByAccidentId(accidentId);
+	}
+	
+	@RequestMapping(value = RequestMappingConstants.GET_WITNESS_TABLE_BY_CRIME_ID, method = RequestMethod.GET)
+	public List<WitnessTableRO> getWitnessTableByCrimeId(@PathVariable final Long crimeId) {
+		return _witnessRestService.getWitnessTableByCrimeId(crimeId);
 	}
 	
 	@RequestMapping(value = RequestMappingConstants.GET_WITNESS_BY_WITNESS_ID, method = RequestMethod.GET)

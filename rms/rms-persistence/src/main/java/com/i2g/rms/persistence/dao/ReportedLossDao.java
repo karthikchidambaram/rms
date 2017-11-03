@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.i2g.rms.domain.model.ReportedLoss;
+import com.i2g.rms.domain.model.incident.Incident;
 
 /**
  * Back-end DAO for Reported Loss related functions.
@@ -15,6 +16,8 @@ import com.i2g.rms.domain.model.ReportedLoss;
 public interface ReportedLossDao {	
 	
 	public List<ReportedLoss> get();
+	
+	public List<ReportedLoss> get(final Incident incident);
 	
 	public ReportedLoss get(final long id);
 	

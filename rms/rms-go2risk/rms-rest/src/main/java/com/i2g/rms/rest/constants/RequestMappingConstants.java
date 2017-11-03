@@ -412,6 +412,8 @@ public interface RequestMappingConstants {
 	String WITNESS 												= SECURED + "/witness";
 	String GET_ALL_WITNESSES									= WITNESS + "/witnesses";
 	String GET_WITNESS_BY_WITNESS_ID							= WITNESS + "/witnessId/{witnessId}";
+	String GET_WITNESS_TABLE_BY_ACCIDENT_ID						= WITNESS + "/witness-table/accidentId/{accidentId}";
+	String GET_WITNESS_TABLE_BY_CRIME_ID						= WITNESS + "/witness-table/crimeId/{crimeId}";
 	String CREATE_WITNESS										= WITNESS + "/create-witness";
 	String CREATE_WITNESSES										= WITNESS + "/create-witnesses";
 	String UPDATE_WITNESS										= WITNESS + "/update-witness";
@@ -461,6 +463,8 @@ public interface RequestMappingConstants {
 	/** Reported Loss flows */
 	String REPORTED_LOSS 												= SECURED + "/reported-loss";
 	String GET_ALL_REPORTED_LOSSES										= REPORTED_LOSS + "/reported-losses";
+	String GET_REPORTED_LOSS_TABLE_BY_INCIDENT_ID						= REPORTED_LOSS + "/reported-loss-table/incidentId/{incidentId}";
+	String GET_REPORTED_LOSS_TABLE_BY_UNIQUE_INCIDENT_ID				= REPORTED_LOSS + "/reported-loss-table/uniqueIncidentId/{uniqueIncidentId}";
 	String GET_REPORTED_LOSS_BY_REPORTED_LOSS_ID						= REPORTED_LOSS + "/reportedLossId/{reportedLossId}";
 	String CREATE_REPORTED_LOSS											= REPORTED_LOSS + "/create-reported-loss";
 	String CREATE_REPORTED_LOSSES										= REPORTED_LOSS + "/create-reported-losses";
@@ -507,6 +511,7 @@ public interface RequestMappingConstants {
 	/** Injured Person flows */
 	String INJURED_PERSON 												= SECURED + "/injured-person";
 	String GET_INJURED_PERSONS											= INJURED_PERSON + "/injured-persons";
+	String GET_INJURED_PERSON_TABLE_BY_ACCIDENT_ID						= INJURED_PERSON + "/injured-person-table/accidentId/{accidentId}";
 	String GET_INJURED_PERSON_BY_INJURED_PERSON_ID						= INJURED_PERSON + "/injuredPersonId/{injuredPersonId}";
 	String CREATE_INJURED_PERSON										= INJURED_PERSON + "/create-injured-person";
 	String CREATE_INJURED_PERSONS										= INJURED_PERSON + "/create-injured-persons";
@@ -624,6 +629,7 @@ public interface RequestMappingConstants {
 	/** Crime Suspect operations */
 	String CRIME_SUSPECT 											= SECURED + "/crime-suspect";
 	String GET_ALL_CRIME_SUSPECTS									= CRIME_SUSPECT + "/crime-suspects";
+	String GET_CRIME_SUSPECT_TABLE_BY_CRIME_ID						= CRIME_SUSPECT + "/crime-suspect-table/crimeId/{crimeId}";
 	String GET_CRIME_SUSPECT_BY_CRIME_SUSPECT_ID					= CRIME_SUSPECT + "/crimeSuspectId/{crimeSuspectId}";
 	String CREATE_CRIME_SUSPECT										= CRIME_SUSPECT + "/create-crime-suspect";
 	String CREATE_CRIME_SUSPECTS									= CRIME_SUSPECT + "/create-crime-suspects";

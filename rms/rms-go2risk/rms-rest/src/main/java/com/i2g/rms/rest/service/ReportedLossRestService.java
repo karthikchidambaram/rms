@@ -18,6 +18,10 @@ import com.i2g.rms.rest.model.wrapper.ReportedLossWrapper;
 public interface ReportedLossRestService {
 
 	public List<ReportedLossRO> get();
+	
+	public List<ReportedLossRO> getReportedLossTableByIncidentId(final Long incidentId);
+	
+	public List<ReportedLossRO> getReportedLossTableByUniqueIncidentId(final String uniqueIncidentId);
 
 	public ReportedLossRO get(final long reportedLossId);
 

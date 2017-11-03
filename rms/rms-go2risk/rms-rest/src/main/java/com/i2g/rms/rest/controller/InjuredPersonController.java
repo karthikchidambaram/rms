@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.i2g.rms.domain.model.InjuredPerson;
 import com.i2g.rms.rest.constants.RequestMappingConstants;
 import com.i2g.rms.rest.model.InjuredPersonRO;
+import com.i2g.rms.rest.model.lookup.InjuredPersonTableRO;
 import com.i2g.rms.rest.model.wrapper.BodyPartWrapper;
 import com.i2g.rms.rest.model.wrapper.DistinguishingFeatureDetailWrapper;
 import com.i2g.rms.rest.model.wrapper.InjuredPersonWrapper;
@@ -40,6 +41,11 @@ public class InjuredPersonController extends AbstractRestController {
 	@Searchable(sourceType = InjuredPersonRO.class, value = InjuredPerson.class)
 	public List<InjuredPersonRO> get() {
 		return _injuredPersonRestService.get();
+	}
+	
+	@RequestMapping(value = RequestMappingConstants.GET_INJURED_PERSON_TABLE_BY_ACCIDENT_ID, method = RequestMethod.GET)
+	public List<InjuredPersonTableRO> getInjuredPersonTableByAccidentId(@PathVariable final Long accidentId) {
+		return _injuredPersonRestService.getInjuredPersonTableByAccidentId(accidentId);
 	}
 	
 	@RequestMapping(value = RequestMappingConstants.GET_INJURED_PERSON_BY_INJURED_PERSON_ID, method = RequestMethod.GET)

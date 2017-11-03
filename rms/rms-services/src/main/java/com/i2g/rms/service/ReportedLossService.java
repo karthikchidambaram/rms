@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.i2g.rms.domain.model.ReportedLoss;
+import com.i2g.rms.domain.model.incident.Incident;
 
 /**
  * Service interface for all reported loss related operations.
@@ -15,6 +16,8 @@ import com.i2g.rms.domain.model.ReportedLoss;
 public interface ReportedLossService {
 	
 	public List<ReportedLoss> get();
+	
+	public List<ReportedLoss> get(final Incident incident);
 	
 	public ReportedLoss get(final long id);
 	

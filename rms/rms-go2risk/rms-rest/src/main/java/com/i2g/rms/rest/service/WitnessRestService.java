@@ -5,6 +5,7 @@ import java.util.Set;
 
 import com.i2g.rms.domain.model.Witness;
 import com.i2g.rms.rest.model.WitnessRO;
+import com.i2g.rms.rest.model.lookup.WitnessTableRO;
 import com.i2g.rms.rest.model.wrapper.DistinguishingFeatureDetailWrapper;
 import com.i2g.rms.rest.model.wrapper.WitnessWrapper;
 
@@ -20,7 +21,11 @@ public interface WitnessRestService {
 	public List<WitnessRO> get();
 
 	public WitnessRO get(final long witnessId);
-
+	
+	public List<WitnessTableRO> getWitnessTableByAccidentId(final Long accidentId);
+	
+	public List<WitnessTableRO> getWitnessTableByCrimeId(final Long crimeId);
+	
 	public WitnessRO createWitness(final WitnessRO witnessRO);
 
 	public Set<WitnessRO> createWitnesses(final WitnessWrapper witnessWrapper);

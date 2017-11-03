@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.i2g.rms.domain.model.CrimeSuspect;
 import com.i2g.rms.rest.constants.RequestMappingConstants;
 import com.i2g.rms.rest.model.CrimeSuspectRO;
+import com.i2g.rms.rest.model.lookup.CrimeSuspectTableRO;
 import com.i2g.rms.rest.model.wrapper.CrimeSuspectWrapper;
 import com.i2g.rms.rest.model.wrapper.DistinguishingFeatureDetailWrapper;
 import com.i2g.rms.rest.search.Searchable;
@@ -39,6 +40,11 @@ public class CrimeSuspectController extends AbstractRestController {
 	@Searchable(sourceType = CrimeSuspectRO.class, value = CrimeSuspect.class)
 	public List<CrimeSuspectRO> get() {
 		return _crimeSuspectRestService.get();
+	}
+	
+	@RequestMapping(value = RequestMappingConstants.GET_CRIME_SUSPECT_TABLE_BY_CRIME_ID, method = RequestMethod.GET)
+	public List<CrimeSuspectTableRO> getCrimeSuspectTableByCrimeId(@PathVariable final Long crimeId) {
+		return _crimeSuspectRestService.getCrimeSuspectTableByCrimeId(crimeId);
 	}
 	
 	@RequestMapping(value = RequestMappingConstants.GET_CRIME_SUSPECT_BY_CRIME_SUSPECT_ID, method = RequestMethod.GET)
