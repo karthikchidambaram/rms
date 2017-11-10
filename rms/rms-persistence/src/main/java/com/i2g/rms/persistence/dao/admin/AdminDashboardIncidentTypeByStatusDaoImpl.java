@@ -1,31 +1,33 @@
-package com.i2g.rms.persistence.dao;
+package com.i2g.rms.persistence.dao.admin;
+
+import java.util.List;
 
 import org.hibernate.Criteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.i2g.rms.domain.model.AdminDashboardHeaderStatistics;
+import com.i2g.rms.domain.model.admin.AdminDashboardIncidentTypeByStatus;
 import com.i2g.rms.persistence.hibernate.AbstractHibernateDao;
 
 /**
- * Implementation class for DocumentViewDao
+ * Implementation class for AdminDashboardIncidentTypeByStatusDao
  * 
  * @since 1.0.0
  * @author Karthikeyan Chidambaram
  *
  */
 @Repository
-public class AdminDashboardHeaderStatisticsDaoImpl extends AbstractHibernateDao<Long, AdminDashboardHeaderStatistics> implements AdminDashboardHeaderStatisticsDao {
+public class AdminDashboardIncidentTypeByStatusDaoImpl extends AbstractHibernateDao<String, AdminDashboardIncidentTypeByStatus> implements AdminDashboardIncidentTypeByStatusDao {
 
 	@Autowired
 	private HibernateTemplate _hibernateTemplate;
 
 	/**
-	 * Creates a new instance of {@link AdminDashboardHeaderStatisticsDaoImpl}.
+	 * Creates a new instance of {@link AdminDashboardIncidentTypeByStatusDaoImpl}.
 	 */
-	private AdminDashboardHeaderStatisticsDaoImpl() {
-		super(AdminDashboardHeaderStatistics.class);
+	private AdminDashboardIncidentTypeByStatusDaoImpl() {
+		super(AdminDashboardIncidentTypeByStatus.class);
 	}
 
 	public HibernateTemplate getHibernateTemplate() {
@@ -38,8 +40,8 @@ public class AdminDashboardHeaderStatisticsDaoImpl extends AbstractHibernateDao<
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public AdminDashboardHeaderStatistics get() {
+	public List<AdminDashboardIncidentTypeByStatus> get() {
 		final Criteria criteria = getSession().createCriteria(_modelType);
-		return (AdminDashboardHeaderStatistics) criteria.uniqueResult();
+		return (List<AdminDashboardIncidentTypeByStatus>) criteria.list();
 	}	
 }

@@ -305,8 +305,43 @@
 	</mapping>
 	
 	<mapping>
-		<class-a>com.i2g.rms.domain.model.AdminDashboardHeaderStatistics</class-a>
-		<class-b>com.i2g.rms.rest.model.AdminDashboardHeaderStatisticsRO</class-b>				
+		<class-a>com.i2g.rms.domain.model.admin.AdminDashboardHeaderStatistics</class-a>
+		<class-b>com.i2g.rms.rest.model.admin.AdminDashboardHeaderStatisticsRO</class-b>				
+	</mapping>
+	
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.admin.AdminDashboardIncidentVolume</class-a>
+		<class-b>com.i2g.rms.rest.model.admin.AdminDashboardIncidentVolumeRO</class-b>				
+	</mapping>
+	
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.admin.AdminDashboardIncidentVolumeByStatus</class-a>
+		<class-b>com.i2g.rms.rest.model.admin.AdminDashboardIncidentVolumeByStatusRO</class-b>				
+	</mapping>
+	
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.admin.AdminDashboardIncidentType</class-a>
+		<class-b>com.i2g.rms.rest.model.admin.AdminDashboardIncidentTypeRO</class-b>				
+	</mapping>
+	
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.admin.AdminDashboardIncidentTypeByStatus</class-a>
+		<class-b>com.i2g.rms.rest.model.admin.AdminDashboardIncidentTypeByStatusRO</class-b>				
+	</mapping>
+	
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.admin.CriminalAttackVolume</class-a>
+		<class-b>com.i2g.rms.rest.model.admin.CriminalAttackVolumeRO</class-b>				
+	</mapping>
+	
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.admin.AssetDamageVolume</class-a>
+		<class-b>com.i2g.rms.rest.model.admin.AssetDamageVolumeRO</class-b>				
+	</mapping>
+	
+	<mapping>
+		<class-a>com.i2g.rms.domain.model.admin.AccidentDamageVolume</class-a>
+		<class-b>com.i2g.rms.rest.model.admin.AccidentDamageVolumeRO</class-b>				
 	</mapping>
 
 </mappings>

@@ -1,6 +1,6 @@
-package com.i2g.rms.persistence.dao;
+package com.i2g.rms.persistence.dao.admin;
 
-import com.i2g.rms.domain.model.AdminDashboardHeaderStatistics;
+import com.i2g.rms.domain.model.admin.AdminDashboardHeaderStatistics;
 
 /**
  * Back-end DAO for Admin dashboard header statistics

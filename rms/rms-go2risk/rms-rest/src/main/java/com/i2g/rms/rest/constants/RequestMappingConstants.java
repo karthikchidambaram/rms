@@ -664,6 +664,14 @@ public interface RequestMappingConstants {
 	String DELETE_INVESTIGATIONS										= INVESTIGATION + "/delete-investigations";
 	
 	/** Admin dashboard */
-	String ADMIN								= SECURED + "/admin";
-	String ADMIN_DASHBOARD_HEADER_STATISTICS	= ADMIN + "/admin-dashboard-hdr-stat";
+	String ADMIN												= SECURED + "/admin";
+	String ADMIN_DASHBOARD_HEADER_STATISTICS					= ADMIN + "/admin-dashboard-hdr-stat";
+	String ADMIN_DASHBOARD_INCIDENT_VOLUME						= ADMIN + "/admin-dashboard-inc-volume";
+	String ADMIN_DASHBOARD_INCIDENT_VOLUME_BY_STATUS			= ADMIN + "/admin-dashboard-inc-volume-by-sts";
+	String ADMIN_DASHBOARD_INCIDENT_TYPE						= ADMIN + "/admin-dashboard-inc-type";
+	String ADMIN_DASHBOARD_INCIDENT_TYPE_BY_STATUS				= ADMIN + "/admin-dashboard-inc-type-by-sts";
+	String ADMIN_DASHBOARD_CRIMINAL_ATTACK_INCIDENT_VOLUME		= ADMIN + "/admin-dashboard-crim-attk-inc-vol";
+	String ADMIN_DASHBOARD_ACCIDENT_DAMAGE_INCIDENT_VOLUME		= ADMIN + "/admin-dashboard-acci-dmge-inc-vol";
+	String ADMIN_DASHBOARD_ASSET_DAMAGE_INCIDENT_VOLUME			= ADMIN + "/admin-dashboard-asst-dmge-inc-vol";
+	String ADMIN_DASHBOARD_INCIDENT_VOLUME_BY_EVENT_TYPE		= ADMIN + "/admin-dashboard-inc-vol-by-event-type";
 }

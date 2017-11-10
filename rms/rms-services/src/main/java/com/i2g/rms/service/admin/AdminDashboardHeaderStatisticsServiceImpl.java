@@ -1,10 +1,11 @@
-package com.i2g.rms.service;
+package com.i2g.rms.service.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.i2g.rms.domain.model.AdminDashboardHeaderStatistics;
-import com.i2g.rms.persistence.dao.AdminDashboardHeaderStatisticsDao;
+import com.i2g.rms.domain.model.admin.AdminDashboardHeaderStatistics;
+import com.i2g.rms.persistence.dao.admin.AdminDashboardHeaderStatisticsDao;
+import com.i2g.rms.service.AbstractService;
 
 /**
  * Back-end service for Document related functions.

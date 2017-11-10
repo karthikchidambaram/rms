@@ -1,6 +1,7 @@
-package com.i2g.rms.rest.model;
+package com.i2g.rms.rest.model.admin;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.i2g.rms.rest.model.AbstractEntityRO;
 
 /**
  * REST Object for Admin dashboard header statistics RO.

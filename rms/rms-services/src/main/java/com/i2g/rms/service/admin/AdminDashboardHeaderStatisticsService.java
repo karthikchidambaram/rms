@@ -1,6 +1,6 @@
-package com.i2g.rms.service;
+package com.i2g.rms.service.admin;
 
-import com.i2g.rms.domain.model.AdminDashboardHeaderStatistics;
+import com.i2g.rms.domain.model.admin.AdminDashboardHeaderStatistics;
 
 /**
  * Service interface for admin header statistics.
