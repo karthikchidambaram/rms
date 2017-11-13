@@ -1,6 +1,7 @@
 package com.i2g.rms.domain.model.admin;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -51,5 +52,28 @@ public class AdminDashboardIncidentType extends AbstractDataModel<String> implem
 
 	public void setIncidentCount(final long incidentCount) {
 		_incidentCount = incidentCount;
+	}
+	
+	@Override
+	public boolean equals(final Object obj) {
+		if (obj == this) {
+			return true;
+		} else if (obj instanceof AdminDashboardIncidentType) {
+			final AdminDashboardIncidentType other = (AdminDashboardIncidentType) obj; 
+			return Objects.equals(_id, other._id); 
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 5;
+		hash = 33 * hash + Objects.hashCode(_id);
+		return hash;
+	}
+
+	@Override
+	public String toString() {
+		return "Incident Type: " + _id + ", Count: " + _incidentCount;
 	}
 }

@@ -18,13 +18,14 @@ import com.i2g.rms.domain.model.AbstractDataModel;
  */
 @Entity
 @Table(name = "RMS_ADMIN_INC_VOL_BY_STS_VW")
-public class AdminDashboardIncidentVolumeByStatus extends AbstractDataModel<String> implements Serializable {
+public class AdminDashboardIncidentVolumeByStatus extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private String _id;
+	private long _id;
+	private String _monthYear;
 	private String _incidentStatus;
 	private long _incidentCount;
 		
@@ -35,13 +36,13 @@ public class AdminDashboardIncidentVolumeByStatus extends AbstractDataModel<Stri
 	}	
 	
 	@Id
-	@Column(name = "MONTH_YEAR")
+	@Column(name = "ID")
 	@Override
-	public String getId() {
+	public Long getId() {
 		return _id;
 	}
 	
-	public void setId(final String id) {
+	public void setId(final long id) {
 		_id = id;
 	}
 
@@ -63,4 +64,12 @@ public class AdminDashboardIncidentVolumeByStatus extends AbstractDataModel<Stri
 		_incidentStatus = incidentStatus;
 	}
 	
+	@Column(name = "MONTH_YEAR")
+	public String getMonthYear() {
+		return _monthYear;
+	}
+
+	public void setMonthYear(final String monthYear) {
+		_monthYear = monthYear;
+	}
 }

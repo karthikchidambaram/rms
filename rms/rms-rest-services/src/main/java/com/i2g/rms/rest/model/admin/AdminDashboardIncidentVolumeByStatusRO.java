@@ -1,7 +1,6 @@
 package com.i2g.rms.rest.model.admin;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.i2g.rms.rest.model.AbstractEntityRO;
 
 /**
@@ -14,17 +13,16 @@ import com.i2g.rms.rest.model.AbstractEntityRO;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AdminDashboardIncidentVolumeByStatusRO extends AbstractEntityRO {
 
-	private String _id;
+	private long _id;
+	private String _monthYear;
 	private String _incidentStatus;
 	private long _incidentCount;
 	
-	@JsonProperty("monthYear")
-	public String getId() {
+	public long getId() {
 		return _id;
 	}
 	
-	@JsonProperty("monthYear")
-	public void setId(final String id) {
+	public void setId(final long id) {
 		_id = id;
 	}
 
@@ -42,5 +40,13 @@ public class AdminDashboardIncidentVolumeByStatusRO extends AbstractEntityRO {
 
 	public void setIncidentStatus(final String incidentStatus) {
 		_incidentStatus = incidentStatus;
+	}
+
+	public String getMonthYear() {
+		return _monthYear;
+	}
+
+	public void setMonthYear(final String monthYear) {
+		_monthYear = monthYear;
 	}	
 }

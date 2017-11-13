@@ -42,6 +42,7 @@ public class AccidentDamageVolumeDaoImpl extends AbstractHibernateDao<String, Ac
 	@Override
 	public List<AccidentDamageVolume> get() {
 		final Criteria criteria = getSession().createCriteria(_modelType);
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		return (List<AccidentDamageVolume>) criteria.list();
 	}	
 }

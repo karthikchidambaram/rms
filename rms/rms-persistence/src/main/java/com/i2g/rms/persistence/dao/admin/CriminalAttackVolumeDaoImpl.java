@@ -42,6 +42,7 @@ public class CriminalAttackVolumeDaoImpl extends AbstractHibernateDao<String, Cr
 	@Override
 	public List<CriminalAttackVolume> get() {
 		final Criteria criteria = getSession().createCriteria(_modelType);
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		return (List<CriminalAttackVolume>) criteria.list();
 	}	
 }

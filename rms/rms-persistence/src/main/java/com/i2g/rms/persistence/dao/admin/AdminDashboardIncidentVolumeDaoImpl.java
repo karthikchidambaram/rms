@@ -42,6 +42,7 @@ public class AdminDashboardIncidentVolumeDaoImpl extends AbstractHibernateDao<St
 	@Override
 	public List<AdminDashboardIncidentVolume> get() {
 		final Criteria criteria = getSession().createCriteria(_modelType);
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		return (List<AdminDashboardIncidentVolume>) criteria.list();
 	}	
 }

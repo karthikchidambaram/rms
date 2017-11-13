@@ -18,7 +18,7 @@ import com.i2g.rms.persistence.hibernate.AbstractHibernateDao;
  *
  */
 @Repository
-public class AdminDashboardIncidentVolumeByStatusDaoImpl extends AbstractHibernateDao<String, AdminDashboardIncidentVolumeByStatus> implements AdminDashboardIncidentVolumeByStatusDao {
+public class AdminDashboardIncidentVolumeByStatusDaoImpl extends AbstractHibernateDao<Long, AdminDashboardIncidentVolumeByStatus> implements AdminDashboardIncidentVolumeByStatusDao {
 
 	@Autowired
 	private HibernateTemplate _hibernateTemplate;

@@ -18,13 +18,14 @@ import com.i2g.rms.domain.model.AbstractDataModel;
  */
 @Entity
 @Table(name = "RMS_ADMIN_INC_TYP_BY_STS_VW")
-public class AdminDashboardIncidentTypeByStatus extends AbstractDataModel<String> implements Serializable {
+public class AdminDashboardIncidentTypeByStatus extends AbstractDataModel<Long> implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private String _id;
+	private long _id;
+	private String _incidentType;
 	private String _incidentStatus;
 	private long _incidentCount;
 		
@@ -35,13 +36,13 @@ public class AdminDashboardIncidentTypeByStatus extends AbstractDataModel<String
 	}	
 	
 	@Id
-	@Column(name = "INC_TYPE")
+	@Column(name = "ID")
 	@Override
-	public String getId() {
+	public Long getId() {
 		return _id;
 	}
 	
-	public void setId(final String id) {
+	public void setId(final long id) {
 		_id = id;
 	}
 
@@ -62,4 +63,13 @@ public class AdminDashboardIncidentTypeByStatus extends AbstractDataModel<String
 	public void setIncidentStatus(final String incidentStatus) {
 		_incidentStatus = incidentStatus;
 	}
+	
+	@Column(name = "INC_TYPE")
+	public String getIncidentType() {
+		return _incidentType;
+	}
+
+	public void setIncidentType(final String incidentType) {
+		_incidentType = incidentType;
+	}	
 }

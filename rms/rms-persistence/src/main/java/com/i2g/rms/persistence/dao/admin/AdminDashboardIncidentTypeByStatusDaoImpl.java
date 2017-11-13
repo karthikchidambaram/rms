@@ -18,7 +18,7 @@ import com.i2g.rms.persistence.hibernate.AbstractHibernateDao;
  *
  */
 @Repository
-public class AdminDashboardIncidentTypeByStatusDaoImpl extends AbstractHibernateDao<String, AdminDashboardIncidentTypeByStatus> implements AdminDashboardIncidentTypeByStatusDao {
+public class AdminDashboardIncidentTypeByStatusDaoImpl extends AbstractHibernateDao<Long, AdminDashboardIncidentTypeByStatus> implements AdminDashboardIncidentTypeByStatusDao {
 
 	@Autowired
 	private HibernateTemplate _hibernateTemplate;
@@ -42,6 +42,7 @@ public class AdminDashboardIncidentTypeByStatusDaoImpl extends AbstractHibernate
 	@Override
 	public List<AdminDashboardIncidentTypeByStatus> get() {
 		final Criteria criteria = getSession().createCriteria(_modelType);
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		return (List<AdminDashboardIncidentTypeByStatus>) criteria.list();
 	}	
 }

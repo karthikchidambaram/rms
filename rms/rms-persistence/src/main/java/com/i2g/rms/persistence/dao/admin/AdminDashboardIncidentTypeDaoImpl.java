@@ -42,6 +42,7 @@ public class AdminDashboardIncidentTypeDaoImpl extends AbstractHibernateDao<Stri
 	@Override
 	public List<AdminDashboardIncidentType> get() {
 		final Criteria criteria = getSession().createCriteria(_modelType);
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		return (List<AdminDashboardIncidentType>) criteria.list();
 	}	
 }
