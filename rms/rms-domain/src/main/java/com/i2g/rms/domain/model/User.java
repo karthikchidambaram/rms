@@ -81,7 +81,7 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	/** Set of Roles associated with the user. */
 	private Set<Role> _roles = new HashSet<Role>(0);
 	@Transient
-	private Long _expires;
+	private long _expires;
 	@Transient
 	private String _username;	
 	private GenderType _genderType;
@@ -411,17 +411,13 @@ public class User extends AbstractDataModel<Long> implements Serializable, org.s
 	}
 	
 	@Transient
-	public Long getExpires() {
+	public long getExpires() {
 		return _expires;
 	}
 
 	@Transient
-	public void setExpires(final Long expires) {
-		if (expires != null) {
-			_expires = expires;
-		} else {
-			_expires = 0l;
-		}
+	public void setExpires(final long expires) {
+		_expires = expires;		
 	}
 
 	@Transient

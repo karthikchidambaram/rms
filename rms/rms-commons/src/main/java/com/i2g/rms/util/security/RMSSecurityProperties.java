@@ -9,18 +9,20 @@ public interface RMSSecurityProperties {
 
 	public static final String AUTH_HEADER_NAME = "X-AUTH-TOKEN";
 	
-	public static final long ONE_DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
-	public static final long FIVE_DAYS_IN_MILLIS = 1000 * 60 * 60 * 24 * 5;
-	public static final long TEN_DAYS_IN_MILLIS = 1000 * 60 * 60 * 24 * 10;
-	public static final long FIFTEEN_DAYS_IN_MILLIS = 1000 * 60 * 60 * 24 * 15;
-	public static final long TWENTY_DAYS_IN_MILLIS = 1000 * 60 * 60 * 24 * 20;
-	public static final long THIRTY_DAYS_IN_MILLIS = 1000 * 60 * 60 * 24 * 30;
+	public static final long ONE_DAY_IN_MILLIS = 86400000l;
+	public static final long FIVE_DAYS_IN_MILLIS = 432000000l;
+	public static final long TEN_DAYS_IN_MILLIS = 864000000l;
+	public static final long FIFTEEN_DAYS_IN_MILLIS = 1296000000l;
+	public static final long TWENTY_DAYS_IN_MILLIS = 1728000000l;
+	public static final long TWENTY_FIVE_DAYS_IN_MILLIS = 2160000000l;
+	public static final long THIRTY_DAYS_IN_MILLIS = 2592000000l;
 	
 	public static final String ONE_DAY_IN_SECONDS = "86400";
 	public static final String FIVE_DAYS_IN_SECONDS = "432000";
 	public static final String TEN_DAYS_IN_SECONDS = "864000";
 	public static final String FIFTEEN_DAYS_IN_SECONDS = "1296000";
 	public static final String TWENTY_DAYS_IN_SECONDS = "1728000";
+	public static final String TWENTY_FIVE_DAYS_IN_SECONDS = "2160000";
 	public static final String THIRTY_DAYS_IN_SECONDS = "2592000";
 	
 	public static final String STATELESS_REALM_NAME = "STATELESS_RESTFUL_REALM";
