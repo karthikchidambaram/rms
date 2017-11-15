@@ -523,6 +523,7 @@ public interface RequestMappingConstants {
 	/** Building flows */
 	String BUILDING 										= SECURED + "/building";
 	String GET_BUILDINGS									= BUILDING + "/buildings";
+	String GET_BUILDING_TABLE_BY_ASSET_ID					= BUILDING + "/building-table/assetId/{assetId}";
 	String GET_BUILDING_BY_BUILDING_ID						= BUILDING + "/buildingId/{buildingId}";
 	String GET_BUILDING_BY_UNIQUE_BUILDING_ID				= BUILDING + "/uniqueBuildingId/{uniqueBuildingId}";
 	String CREATE_BUILDING									= BUILDING + "/create-building";
@@ -533,6 +534,7 @@ public interface RequestMappingConstants {
 	/** Equipment flows */
 	String EQUIPMENT 										= SECURED + "/equipment";
 	String GET_EQUIPMENTS									= EQUIPMENT + "/equipments";
+	String GET_EQUIPMENT_TABLE_BY_ASSET_ID					= EQUIPMENT + "/equipment-table/assetId/{assetId}";
 	String GET_EQUIPMENT_BY_EQUIPMENT_ID					= EQUIPMENT + "/equipmentId/{equipmentId}";
 	String GET_EQUIPMENT_BY_UNIQUE_EQUIPMENT_ID				= EQUIPMENT + "/uniqueEquipmentId/{uniqueEquipmentId}";
 	String CREATE_EQUIPMENT									= EQUIPMENT + "/create-equipment";
@@ -543,6 +545,7 @@ public interface RequestMappingConstants {
 	/** Vehicle flows */
 	String VEHICLE 										= SECURED + "/vehicle";
 	String GET_VEHICLES									= VEHICLE + "/vehicles";
+	String GET_VEHICLE_TABLE_BY_ASSET_ID				= VEHICLE + "/vehicle-table/assetId/{assetId}";
 	String GET_VEHICLE_BY_VEHICLE_ID					= VEHICLE + "/vehicleId/{vehicleId}";
 	String GET_VEHICLE_BY_VEHICLE_REGISTRATION_ID		= VEHICLE + "/vehicleRegistrationId/{vehicleRegistrationId}";
 	String CREATE_VEHICLE								= VEHICLE + "/create-vehicle";

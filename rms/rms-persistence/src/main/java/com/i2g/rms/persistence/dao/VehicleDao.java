@@ -3,6 +3,7 @@ package com.i2g.rms.persistence.dao;
 import java.util.List;
 import java.util.Set;
 
+import com.i2g.rms.domain.model.Asset;
 import com.i2g.rms.domain.model.Vehicle;
 
 /**
@@ -15,6 +16,8 @@ import com.i2g.rms.domain.model.Vehicle;
 public interface VehicleDao {
 	
 	public List<Vehicle> get();
+	
+	public List<Vehicle> get(final Asset asset);
 	
 	public Vehicle get(final long id);
 	

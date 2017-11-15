@@ -1,5 +1,6 @@
 package com.i2g.rms.rest.service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -12,10 +13,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.i2g.rms.domain.model.Asset;
 import com.i2g.rms.domain.model.Building;
 import com.i2g.rms.domain.model.StatusFlag;
 import com.i2g.rms.rest.model.BuildingRO;
 import com.i2g.rms.rest.model.wrapper.BuildingWrapper;
+import com.i2g.rms.service.AssetService;
 import com.i2g.rms.service.BuildingService;
 import com.i2g.rms.service.exception.ResourceNotCreatedException;
 import com.i2g.rms.service.exception.ResourceNotUpdatedException;
@@ -35,6 +38,8 @@ public class BuildingRestServiceImpl extends AbstractRestService implements Buil
 	private final Logger _logger = LoggerFactory.getLogger(BuildingRestServiceImpl.class);
 	
 	@Autowired
+	private AssetService _assetService;
+	@Autowired
 	private BuildingService _buildingService;
 	@Autowired
 	private TableMaintenanceService _tableMaintenanceService;
@@ -48,6 +53,18 @@ public class BuildingRestServiceImpl extends AbstractRestService implements Buil
 		List<Building> buildings = _buildingService.get();
 		List<BuildingRO> buildingROs = (buildings == null || buildings.isEmpty()) ? Collections.emptyList() : _mapperService.map(buildings, BuildingRO.class);
 		return buildingROs;
+	}
+	
+	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
+	@Transactional(readOnly = true)
+	public List<BuildingRO> getBuildingTableByAssetId(final Long assetId) {
+		validateKeyId(assetId);
+		final Asset asset = _assetService.get(assetId);
+		validateGenericObject(asset);
+		List<Building> buildings = new ArrayList<Building>(asset.getBuildings());
+		List<BuildingRO> buildingROs = (buildings == null || buildings.isEmpty()) ? Collections.emptyList() : _mapperService.map(buildings, BuildingRO.class);
+		return buildingROs;		
 	}
 
 	@Override
@@ -202,5 +219,5 @@ public class BuildingRestServiceImpl extends AbstractRestService implements Buil
 			}			
 		}
 		return building;
-	}	
+	}		
 }

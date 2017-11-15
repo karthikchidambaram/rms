@@ -38,6 +38,12 @@ public class BuildingController extends AbstractRestController {
 		return _buildingRestService.get();
 	}
 	
+	@RequestMapping(value = RequestMappingConstants.GET_BUILDING_TABLE_BY_ASSET_ID, method = RequestMethod.GET)
+	@Searchable(sourceType = BuildingRO.class, value = Building.class)
+	public List<BuildingRO> getBuildingTableByAssetId(@PathVariable final Long assetId) {
+		return _buildingRestService.getBuildingTableByAssetId(assetId);
+	}
+	
 	@RequestMapping(value = RequestMappingConstants.GET_BUILDING_BY_BUILDING_ID, method = RequestMethod.GET)
 	public BuildingRO get(@PathVariable final Long buildingId) {
 		return _buildingRestService.get(buildingId);

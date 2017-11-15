@@ -17,6 +17,8 @@ import com.i2g.rms.rest.model.wrapper.EquipmentWrapper;
 public interface EquipmentRestService {
 
 	public List<EquipmentRO> get();
+	
+	public List<EquipmentRO> getEquipmentTableByAssetId(final Long assetId);
 
 	public EquipmentRO get(final Long equipmentId);
 	

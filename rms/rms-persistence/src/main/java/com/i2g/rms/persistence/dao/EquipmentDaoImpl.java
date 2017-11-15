@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.i2g.rms.domain.model.Asset;
 import com.i2g.rms.domain.model.Equipment;
 import com.i2g.rms.domain.model.StatusFlag;
 import com.i2g.rms.persistence.hibernate.AbstractHibernateDao;
@@ -125,5 +126,13 @@ public class EquipmentDaoImpl extends AbstractHibernateDao<Long, Equipment> impl
 			}
 		}
 		return newEquipments;
+	}
+
+	@Override
+	public List<Equipment> get(final Asset asset) {
+		final Criteria criteria = getSession().createCriteria(_modelType);
+		criteria.add(Restrictions.eq("statusFlag", StatusFlag.ACTIVE));
+		criteria.add(Restrictions.eq("asset", Objects.requireNonNull(asset, "Asset object cannot be null or empty.")));
+		return (List<Equipment>) applySearch(criteria).list();
 	}	
 }

@@ -1,5 +1,6 @@
 package com.i2g.rms.rest.service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -12,10 +13,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.i2g.rms.domain.model.Asset;
 import com.i2g.rms.domain.model.Equipment;
 import com.i2g.rms.domain.model.StatusFlag;
 import com.i2g.rms.rest.model.EquipmentRO;
 import com.i2g.rms.rest.model.wrapper.EquipmentWrapper;
+import com.i2g.rms.service.AssetService;
 import com.i2g.rms.service.EquipmentService;
 import com.i2g.rms.service.exception.ResourceNotCreatedException;
 import com.i2g.rms.service.exception.ResourceNotUpdatedException;
@@ -35,6 +38,8 @@ public class EquipmentRestServiceImpl extends AbstractRestService implements Equ
 	private final Logger _logger = LoggerFactory.getLogger(EquipmentRestServiceImpl.class);
 	
 	@Autowired
+	private AssetService _assetService;
+	@Autowired
 	private EquipmentService _equipmentService;
 	@Autowired
 	private TableMaintenanceService _tableMaintenanceService;
@@ -44,6 +49,18 @@ public class EquipmentRestServiceImpl extends AbstractRestService implements Equ
 	@Transactional(readOnly = true)
 	public List<EquipmentRO> get() {
 		List<Equipment> equipments = _equipmentService.get();
+		List<EquipmentRO> equipmentROs = (equipments == null || equipments.isEmpty()) ? Collections.emptyList() : _mapperService.map(equipments, EquipmentRO.class);
+		return equipmentROs;
+	}
+	
+	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
+	@Transactional(readOnly = true)
+	public List<EquipmentRO> getEquipmentTableByAssetId(final Long assetId) {
+		validateKeyId(assetId);
+		final Asset asset = _assetService.get(assetId);
+		validateGenericObject(asset);
+		List<Equipment> equipments = new ArrayList<Equipment>(asset.getEquipments());
 		List<EquipmentRO> equipmentROs = (equipments == null || equipments.isEmpty()) ? Collections.emptyList() : _mapperService.map(equipments, EquipmentRO.class);
 		return equipmentROs;
 	}
@@ -196,5 +213,7 @@ public class EquipmentRestServiceImpl extends AbstractRestService implements Equ
 			}			
 		}
 		return equipment;
-	}	
+	}
+
+		
 }

@@ -38,6 +38,12 @@ public class VehicleController extends AbstractRestController {
 		return _vehicleRestService.get();
 	}
 	
+	@RequestMapping(value = RequestMappingConstants.GET_VEHICLE_TABLE_BY_ASSET_ID, method = RequestMethod.GET)
+	@Searchable(sourceType = VehicleRO.class, value = Vehicle.class)
+	public List<VehicleRO> getVehicleTableByAssetId(@PathVariable final Long assetId) {
+		return _vehicleRestService.getVehicleTableByAssetId(assetId);
+	}
+	
 	@RequestMapping(value = RequestMappingConstants.GET_VEHICLE_BY_VEHICLE_ID, method = RequestMethod.GET)
 	public VehicleRO get(@PathVariable final Long vehicleId) {
 		return _vehicleRestService.get(vehicleId);

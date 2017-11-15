@@ -6,6 +6,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.i2g.rms.domain.model.Asset;
 import com.i2g.rms.domain.model.Equipment;
 import com.i2g.rms.persistence.dao.EquipmentDao;
 
@@ -58,5 +59,10 @@ public class EquipmentServiceImpl extends AbstractService implements EquipmentSe
 	@Override
 	public Set<Equipment> updateEquipments(final Set<Equipment> equipments) {
 		return _equipmentDao.updateEquipments(equipments);
+	}
+
+	@Override
+	public List<Equipment> get(final Asset asset) {
+		return _equipmentDao.get(asset);
 	}
 }

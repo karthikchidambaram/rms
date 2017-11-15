@@ -38,6 +38,12 @@ public class EquipmentController extends AbstractRestController {
 		return _equipmentRestService.get();
 	}
 	
+	@RequestMapping(value = RequestMappingConstants.GET_EQUIPMENT_TABLE_BY_ASSET_ID, method = RequestMethod.GET)
+	@Searchable(sourceType = EquipmentRO.class, value = Equipment.class)
+	public List<EquipmentRO> getEquipmentTableByAssetId(@PathVariable final Long assetId) {
+		return _equipmentRestService.getEquipmentTableByAssetId(assetId);
+	}
+	
 	@RequestMapping(value = RequestMappingConstants.GET_EQUIPMENT_BY_EQUIPMENT_ID, method = RequestMethod.GET)
 	public EquipmentRO get(@PathVariable final Long equipmentId) {
 		return _equipmentRestService.get(equipmentId);

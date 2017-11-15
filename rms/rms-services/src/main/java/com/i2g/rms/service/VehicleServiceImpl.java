@@ -6,6 +6,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.i2g.rms.domain.model.Asset;
 import com.i2g.rms.domain.model.Vehicle;
 import com.i2g.rms.persistence.dao.VehicleDao;
 
@@ -58,5 +59,10 @@ public class VehicleServiceImpl extends AbstractService implements VehicleServic
 	@Override
 	public Set<Vehicle> updateVehicles(final Set<Vehicle> vehicles) {
 		return _vehicleDao.updateVehicles(vehicles);
+	}
+
+	@Override
+	public List<Vehicle> get(final Asset asset) {
+		return _vehicleDao.get(asset);
 	}	
 }

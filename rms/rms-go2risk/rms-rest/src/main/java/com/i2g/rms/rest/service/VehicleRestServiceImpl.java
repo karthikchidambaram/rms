@@ -1,5 +1,6 @@
 package com.i2g.rms.rest.service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -12,10 +13,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.i2g.rms.domain.model.Asset;
 import com.i2g.rms.domain.model.StatusFlag;
 import com.i2g.rms.domain.model.Vehicle;
 import com.i2g.rms.rest.model.VehicleRO;
 import com.i2g.rms.rest.model.wrapper.VehicleWrapper;
+import com.i2g.rms.service.AssetService;
 import com.i2g.rms.service.VehicleService;
 import com.i2g.rms.service.exception.ResourceNotCreatedException;
 import com.i2g.rms.service.exception.ResourceNotUpdatedException;
@@ -35,6 +38,8 @@ public class VehicleRestServiceImpl extends AbstractRestService implements Vehic
 	private final Logger _logger = LoggerFactory.getLogger(VehicleRestServiceImpl.class);
 	
 	@Autowired
+	private AssetService _assetService;
+	@Autowired
 	private VehicleService _vehicleService;
 	@Autowired
 	private TableMaintenanceService _tableMaintenanceService;
@@ -44,6 +49,18 @@ public class VehicleRestServiceImpl extends AbstractRestService implements Vehic
 	@Transactional(readOnly = true)
 	public List<VehicleRO> get() {
 		List<Vehicle> vehicles = _vehicleService.get();
+		List<VehicleRO> vehicleROs = (vehicles == null || vehicles.isEmpty()) ? Collections.emptyList() : _mapperService.map(vehicles, VehicleRO.class);
+		return vehicleROs;
+	}
+	
+	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
+	@Transactional(readOnly = true)
+	public List<VehicleRO> getVehicleTableByAssetId(final Long assetId) {
+		validateKeyId(assetId);
+		final Asset asset = _assetService.get(assetId);
+		validateGenericObject(asset);
+		List<Vehicle> vehicles = new ArrayList<Vehicle>(asset.getVehicles());
 		List<VehicleRO> vehicleROs = (vehicles == null || vehicles.isEmpty()) ? Collections.emptyList() : _mapperService.map(vehicles, VehicleRO.class);
 		return vehicleROs;
 	}
@@ -214,5 +231,5 @@ public class VehicleRestServiceImpl extends AbstractRestService implements Vehic
 			}			
 		}
 		return vehicle;
-	}	
+	}		
 }

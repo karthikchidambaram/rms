@@ -17,6 +17,8 @@ import com.i2g.rms.rest.model.wrapper.VehicleWrapper;
 public interface VehicleRestService {
 
 	public List<VehicleRO> get();
+	
+	public List<VehicleRO> getVehicleTableByAssetId(final Long assetId);
 
 	public VehicleRO get(final Long vehicleId);
 	

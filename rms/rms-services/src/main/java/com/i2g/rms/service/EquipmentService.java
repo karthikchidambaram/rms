@@ -3,6 +3,7 @@ package com.i2g.rms.service;
 import java.util.List;
 import java.util.Set;
 
+import com.i2g.rms.domain.model.Asset;
 import com.i2g.rms.domain.model.Equipment;
 
 /**
@@ -15,6 +16,8 @@ import com.i2g.rms.domain.model.Equipment;
 public interface EquipmentService {
 	
 	public List<Equipment> get();
+	
+	public List<Equipment> get(final Asset asset);
 	
 	public Equipment get(final long id);
 	
@@ -29,3 +32,4 @@ public interface EquipmentService {
 	public Set<Equipment> updateEquipments(final Set<Equipment> equipments);
 	
 }
+

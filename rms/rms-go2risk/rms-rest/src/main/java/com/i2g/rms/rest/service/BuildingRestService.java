@@ -17,6 +17,8 @@ import com.i2g.rms.rest.model.wrapper.BuildingWrapper;
 public interface BuildingRestService {
 
 	public List<BuildingRO> get();
+	
+	public List<BuildingRO> getBuildingTableByAssetId(final Long assetId);
 
 	public BuildingRO get(final Long buildingId);
 	
