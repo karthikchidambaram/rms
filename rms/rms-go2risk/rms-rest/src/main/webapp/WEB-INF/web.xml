@@ -47,8 +47,24 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
+	<listener>
+		<description>Listener for application start/stop.</description>
+		<listener-class>com.i2g.rms.util.ApplicationContextListener</listener-class>
+	</listener>
 
 	<!-- Spring Security -->
+	
+	<!-- Filter configuration -->
+	<filter>
+		<description>Cross Origin Resource Sharing Filter</description>
+		<filter-name>cors</filter-name>
+		<filter-class>com.i2g.rms.rest.filter.CorsFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>cors</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>

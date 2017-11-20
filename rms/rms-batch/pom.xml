@@ -1,0 +1,17 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.i2g</groupId>
+    <artifactId>rms</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>rms-batch</artifactId>
+  <packaging>pom</packaging>
+  <name>rms-batch</name>
+  <description>Module for all batch programs.</description>
+  <modules>
+  	<module>rms-batch-ear</module>
+  	<module>rms-batch-web</module>
+  	<module>rms-batch-services</module>
+  </modules>
+</project>

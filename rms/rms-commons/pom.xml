@@ -69,11 +69,11 @@
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
 		</dependency>
-		
+
 		<!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
 		<dependency>
-		    <groupId>commons-fileupload</groupId>
-		    <artifactId>commons-fileupload</artifactId>		    
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
 		</dependency>
 
 		<dependency>
@@ -153,6 +153,52 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-crypto</artifactId>
 			<version>${spring.security.crypto.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.spec.javax.servlet</groupId>
+			<artifactId>jboss-servlet-api_3.1_spec</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-pool2 -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-pool2</artifactId>			
+		</dependency>
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<version>${quartz.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache-core</artifactId>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/net.sf.ehcache/ehcache-jgroupsreplication -->
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache-jgroupsreplication</artifactId>
+			<version>${ehcache.jgroupsreplication.version}</version>			
+		</dependency>
+		<dependency>
+			<groupId>com.jcraft</groupId>
+			<artifactId>jsch</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.jcraft</groupId>
+			<artifactId>jzlib</artifactId>
+		</dependency>
+		<!-- Used for XML comparisons -->
+		<dependency>
+			<groupId>xmlunit</groupId>
+			<artifactId>xmlunit</artifactId>
 		</dependency>
 
 	</dependencies>

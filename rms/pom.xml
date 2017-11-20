@@ -53,6 +53,17 @@
 		<jackson.databind.version>2.8.6</jackson.databind.version>
 		<jackson.jaxrs.version>1.9.13</jackson.jaxrs.version>
 
+		<!-- Version management at central location -->
+		<spring.security.web.version>4.2.2.RELEASE</spring.security.web.version>
+		<spring.security.config.version>4.2.2.RELEASE</spring.security.config.version>
+		<jackson.datatype.hibernate5.version>2.8.7</jackson.datatype.hibernate5.version>
+		<spring.security.core.version>4.2.2.RELEASE</spring.security.core.version>
+		<aspectjweaver.version>1.8.10</aspectjweaver.version>
+		<dozer.jdk8.support.version>1.0.3</dozer.jdk8.support.version>
+		<quartz.version>2.3.0</quartz.version>
+		<commons.pool2.version>2.4.3</commons.pool2.version>
+		<ehcache.jgroupsreplication.version>1.7</ehcache.jgroupsreplication.version>
+
 	</properties>
 
 	<build>
@@ -361,6 +372,8 @@
 		<module>rms-domain</module>
 		<module>rms-persistence</module>
 		<module>rms-rest-services</module>
+		<!-- Sub applications -->
+		<module>rms-batch</module>
 	</modules>
 
 	<dependencyManagement>
@@ -539,7 +552,7 @@
 				<artifactId>commons-fileupload</artifactId>
 				<version>${commons.fileupload.version}</version>
 			</dependency>
-		
+
 			<!-- https://mvnrepository.com/artifact/junit/junit -->
 			<dependency>
 				<groupId>junit</groupId>
@@ -752,6 +765,12 @@
 				<groupId>org.codehaus.jackson</groupId>
 				<artifactId>jackson-jaxrs</artifactId>
 				<version>${jackson.jaxrs.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-pool2</artifactId>
+				<version>${commons.pool2.version}</version>
 			</dependency>
 
 		</dependencies>

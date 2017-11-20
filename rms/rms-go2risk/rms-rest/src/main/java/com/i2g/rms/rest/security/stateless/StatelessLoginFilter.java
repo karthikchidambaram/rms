@@ -45,7 +45,7 @@ public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException, IOException, ServletException {
 		
-		if (response.getHeader("Access-Control-Allow-Origin") == null || response.getHeader("Access-Control-Allow-Origin").isEmpty()) {
+		/*if (response.getHeader("Access-Control-Allow-Origin") == null || response.getHeader("Access-Control-Allow-Origin").isEmpty()) {
 			// Authorize (allow) all domains to consume the content
 			response.addHeader("Access-Control-Allow-Origin", "*");
 			response.addHeader("Access-Control-Allow-Methods", "API, UPDATE, GET, OPTIONS, HEAD, PUT, POST, DELETE, PATCH");
@@ -53,7 +53,7 @@ public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter
 			response.addHeader("Access-Control-Expose-Headers", "Authorization, Search, Accept, Origin, X-AUTH-TOKEN, X-Requested-With, Content-Type, X-Codingpedia, location, info");
 			response.addHeader("Access-Control-Allow-Credentials", "true");
 			response.addHeader("Access-Control-Max-Age", RMSSecurityProperties.ONE_DAY_IN_SECONDS);
-		}
+		}*/
 		
 		if (!HttpMethod.OPTIONS.name().equals(request.getMethod())) {
 			// Parse the credentials from the request
@@ -73,7 +73,7 @@ public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 			Authentication authentication) throws IOException, ServletException {
 		
-		if (response.getHeader("Access-Control-Allow-Origin") == null || response.getHeader("Access-Control-Allow-Origin").isEmpty()) {
+		/*if (response.getHeader("Access-Control-Allow-Origin") == null || response.getHeader("Access-Control-Allow-Origin").isEmpty()) {
 			// Authorize (allow) all domains to consume the content
 			response.addHeader("Access-Control-Allow-Origin", "*");
 			response.addHeader("Access-Control-Allow-Methods", "API, UPDATE, GET, OPTIONS, HEAD, PUT, POST, DELETE, PATCH");
@@ -81,7 +81,7 @@ public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter
 			response.addHeader("Access-Control-Expose-Headers", "Authorization, Search, Accept, Origin, X-AUTH-TOKEN, X-Requested-With, Content-Type, X-Codingpedia, location, info");
 			response.addHeader("Access-Control-Allow-Credentials", "true");
 			response.addHeader("Access-Control-Max-Age", RMSSecurityProperties.ONE_DAY_IN_SECONDS);
-		}
+		}*/
 				
 		if (!HttpMethod.OPTIONS.name().equals(request.getMethod())) {			
 			// Lookup the complete User object from the database and create an

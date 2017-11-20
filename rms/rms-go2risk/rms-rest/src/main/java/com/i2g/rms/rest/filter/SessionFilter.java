@@ -51,7 +51,7 @@ public class SessionFilter implements Filter {
 		final HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
 		final HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
 		
-		if (httpResponse.getHeader("Access-Control-Allow-Origin") == null || httpResponse.getHeader("Access-Control-Allow-Origin").isEmpty()) {
+		/*if (httpResponse.getHeader("Access-Control-Allow-Origin") == null || httpResponse.getHeader("Access-Control-Allow-Origin").isEmpty()) {
 			// Authorize (allow) all domains to consume the content
 			((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Origin", "*");
 			((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Methods", "API, UPDATE, GET, OPTIONS, HEAD, PUT, POST, DELETE, PATCH");
@@ -59,7 +59,7 @@ public class SessionFilter implements Filter {
 			((HttpServletResponse) servletResponse).addHeader("Access-Control-Expose-Headers", "Authorization, Search, Accept, Origin, X-AUTH-TOKEN, X-Requested-With, Content-Type, X-Codingpedia, location, info");
 			((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Credentials", "true");
 			((HttpServletResponse) servletResponse).addHeader("Access-Control-Max-Age", RMSSecurityProperties.ONE_DAY_IN_SECONDS);			 
-		}
+		}*/
 		
 		if (!HttpMethod.OPTIONS.name().equals(httpRequest.getMethod())) {
 			boolean authenticated = false;
