@@ -1,6 +1,7 @@
 package com.i2g.rms.rest.service;
 
 import java.util.List;
+import java.util.Set;
 
 import com.i2g.rms.domain.model.ReportedLoss;
 import com.i2g.rms.domain.model.incident.Incident;
@@ -19,6 +20,10 @@ public interface ReportedLossRestService {
 
 	public List<ReportedLossRO> get();
 	
+	public Set<ReportedLossRO> getReportedLossesByIncidentId(final Long incidentId);
+	
+	public Set<ReportedLossRO> getReportedLossesByUniqueIncidentId(final String uniqueIncidentId);
+	
 	public List<ReportedLossRO> getReportedLossTableByIncidentId(final Long incidentId);
 	
 	public List<ReportedLossRO> getReportedLossTableByUniqueIncidentId(final String uniqueIncidentId);
@@ -26,6 +31,10 @@ public interface ReportedLossRestService {
 	public ReportedLossRO get(final long reportedLossId);
 
 	public ReportedLossRO createReportedLoss(final ReportedLossRO reportedLossRO);
+	
+	public ReportedLossRO createReportedLossForIncidentId(final Long incidentId, final ReportedLossRO reportedLossRO);
+	
+	public ReportedLossRO createReportedLossForUniqueIncidentId(final String uniqueIncidentId, final ReportedLossRO reportedLossRO);
 
 	public List<ReportedLossRO> createReportedLosses(final ReportedLossWrapper reportedLossWrapper);
 

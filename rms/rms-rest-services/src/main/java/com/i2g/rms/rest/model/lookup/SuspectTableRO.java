@@ -1,9 +1,17 @@
 package com.i2g.rms.rest.model.lookup;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.i2g.rms.rest.model.AbstractEntityRO;
+import com.i2g.rms.rest.model.AddressRO;
+import com.i2g.rms.rest.model.YesNoTypeRO;
+import com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeatureDetailRO;
+import com.i2g.rms.rest.model.tablemaintenance.GenderTypeRO;
+import com.i2g.rms.rest.model.tablemaintenance.SuspectTypeRO;
+import com.i2g.rms.rest.model.tablemaintenance.WeaponTypeRO;
 
 /**
  * Suspect table RO Object
@@ -38,6 +46,18 @@ public class SuspectTableRO extends AbstractEntityRO {
 	private String typeCode;
 	private String typeDescription;
 	private String typeOtherDescription;
+	private Set<AddressRO> addresses = new HashSet<AddressRO>(0);
+	//added later for maintaining consistency with suspectRO
+	private long id;
+	private GenderTypeRO genderType;
+	private YesNoTypeRO weaponInvolved;
+	private WeaponTypeRO weaponType;
+	private SuspectTypeRO suspectType;
+	private String distinguishingFeatureOther;
+	private Set<DistinguishingFeatureDetailRO> distinguishingFeatureDetails = new HashSet<DistinguishingFeatureDetailRO>(0);
+	private String suspectTypeOther;
+	private String weaponTypeOther;
+	private String genderTypeOther;
 
 	/**
 	 * @return the title
@@ -326,5 +346,93 @@ public class SuspectTableRO extends AbstractEntityRO {
 
 	public void setTypeOtherDescription(final String typeOtherDescription) {
 		this.typeOtherDescription = typeOtherDescription;
+	}
+
+	public Set<AddressRO> getAddresses() {
+		return addresses;
+	}
+
+	public void setAddresses(final Set<AddressRO> addresses) {
+		this.addresses = addresses;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(final long id) {
+		this.id = id;
+	}
+
+	public GenderTypeRO getGenderType() {
+		return genderType;
+	}
+
+	public void setGenderType(final GenderTypeRO genderType) {
+		this.genderType = genderType;
+	}
+
+	public YesNoTypeRO getWeaponInvolved() {
+		return weaponInvolved;
+	}
+
+	public void setWeaponInvolved(final YesNoTypeRO weaponInvolved) {
+		this.weaponInvolved = weaponInvolved;
+	}
+
+	public WeaponTypeRO getWeaponType() {
+		return weaponType;
+	}
+
+	public void setWeaponType(final WeaponTypeRO weaponType) {
+		this.weaponType = weaponType;
+	}
+
+	public SuspectTypeRO getSuspectType() {
+		return suspectType;
+	}
+
+	public void setSuspectType(final SuspectTypeRO suspectType) {
+		this.suspectType = suspectType;
+	}
+
+	public String getDistinguishingFeatureOther() {
+		return distinguishingFeatureOther;
+	}
+
+	public void setDistinguishingFeatureOther(final String distinguishingFeatureOther) {
+		this.distinguishingFeatureOther = distinguishingFeatureOther;
+	}
+
+	public Set<DistinguishingFeatureDetailRO> getDistinguishingFeatureDetails() {
+		return distinguishingFeatureDetails;
+	}
+
+	public void setDistinguishingFeatureDetails(final Set<DistinguishingFeatureDetailRO> distinguishingFeatureDetails) {
+		this.distinguishingFeatureDetails = distinguishingFeatureDetails;
+	}
+
+	public String getSuspectTypeOther() {
+		return suspectTypeOther;
+	}
+
+	public void setSuspectTypeOther(final String suspectTypeOther) {
+		this.suspectTypeOther = suspectTypeOther;
+	}
+
+	public String getWeaponTypeOther() {
+		return weaponTypeOther;
+	}
+
+	public void setWeaponTypeOther(final String weaponTypeOther) {
+		this.weaponTypeOther = weaponTypeOther;
+	}
+
+	public String getGenderTypeOther() {
+		return genderTypeOther;
+	}
+
+	public void setGenderTypeOther(final String genderTypeOther) {
+		this.genderTypeOther = genderTypeOther;
 	}	
 }

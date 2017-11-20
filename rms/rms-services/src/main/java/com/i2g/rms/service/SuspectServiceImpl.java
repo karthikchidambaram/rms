@@ -38,8 +38,8 @@ public class SuspectServiceImpl extends AbstractService implements SuspectServic
 	}
 	
 	@Override
-	public List<Suspect> get(final String uniqueIncidentId) {
-		return _suspectDao.get(uniqueIncidentId);
+	public List<Suspect> getSuspectsByUniqueIncidentId(final String uniqueIncidentId) {
+		return _suspectDao.getSuspectsByUniqueIncidentId(uniqueIncidentId);
 	}
 
 	@Override

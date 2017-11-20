@@ -71,6 +71,30 @@ public class WitnessRestServiceImpl extends AbstractRestService implements Witne
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
 	@Transactional(readOnly = true)
+	public Set<WitnessRO> getWitnessesByAccidentId(final Long accidentId) {
+		validateKeyId(accidentId);
+		final Accident accident = _accidentService.get(accidentId);
+		validateGenericObject(accident);
+		Set<Witness> witnesses = accident.getWitnesses();
+		Set<WitnessRO> witnessROs = (witnesses == null || witnesses.isEmpty()) ? Collections.emptySet() : _mapperService.map(witnesses, WitnessRO.class);
+		return witnessROs;
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
+	@Transactional(readOnly = true)
+	public Set<WitnessRO> getWitnessesByCrimeId(final Long crimeId) {
+		validateKeyId(crimeId);
+		final Crime crime = _crimeService.get(crimeId);
+		validateGenericObject(crime);
+		Set<Witness> witnesses = crime.getWitnesses();
+		Set<WitnessRO> witnessROs = (witnesses == null || witnesses.isEmpty()) ? Collections.emptySet() : _mapperService.map(witnesses, WitnessRO.class);
+		return witnessROs;		
+	}
+	
+	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
+	@Transactional(readOnly = true)
 	public List<WitnessTableRO> getWitnessTableByAccidentId(final Long accidentId) {
 		validateKeyId(accidentId);
 		final Accident accident = _accidentService.get(accidentId);
@@ -583,5 +607,5 @@ public class WitnessRestServiceImpl extends AbstractRestService implements Witne
 			}
 		}		
 		return witnessTableROs;
-	}
+	}	
 }

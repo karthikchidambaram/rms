@@ -62,8 +62,8 @@ public class SuspectController extends AbstractRestController {
 	}
 	
 	@RequestMapping(value = RequestMappingConstants.GET_SUSPECTS_BY_UNIQUE_INCIDENT_ID, method = RequestMethod.GET)
-	public List<SuspectRO> get(@PathVariable final String uniqueIncidentId) {
-		return _suspectRestService.get(uniqueIncidentId);
+	public List<SuspectRO> getSuspectsByUniqueIncidentId(@PathVariable final String uniqueIncidentId) {
+		return _suspectRestService.getSuspectsByUniqueIncidentId(uniqueIncidentId);
 	}
 	
 	@RequestMapping(value = RequestMappingConstants.CREATE_SUSPECT, method = RequestMethod.POST)

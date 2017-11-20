@@ -62,6 +62,30 @@ public class ReportedLossRestServiceImpl extends AbstractRestService implements 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
 	@Transactional(readOnly = true)
+	public Set<ReportedLossRO> getReportedLossesByIncidentId(final Long incidentId) {
+		validateKeyId(incidentId);
+		final Incident incident = _incidentService.get(incidentId);
+		validateGenericObject(incident);
+		Set<ReportedLoss> reportedLosses = incident.getReportedLosses();
+		Set<ReportedLossRO> reportedLossROs = (reportedLosses == null || reportedLosses.isEmpty()) ? Collections.emptySet() : _mapperService.map(reportedLosses, ReportedLossRO.class);
+		return reportedLossROs;		
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
+	@Transactional(readOnly = true)
+	public Set<ReportedLossRO> getReportedLossesByUniqueIncidentId(final String uniqueIncidentId) {
+		validateUniqueIncidentId(uniqueIncidentId);
+		final Incident incident = _incidentService.getIncidentByUniqueIncidentId(uniqueIncidentId);
+		validateGenericObject(incident);
+		Set<ReportedLoss> reportedLosses = incident.getReportedLosses();
+		Set<ReportedLossRO> reportedLossROs = (reportedLosses == null || reportedLosses.isEmpty()) ? Collections.emptySet() : _mapperService.map(reportedLosses, ReportedLossRO.class);
+		return reportedLossROs;		
+	}
+	
+	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
+	@Transactional(readOnly = true)
 	public List<ReportedLossRO> getReportedLossTableByIncidentId(final Long incidentId) {
 		validateKeyId(incidentId);
 		final Incident incident = _incidentService.get(incidentId);
@@ -111,6 +135,42 @@ public class ReportedLossRestServiceImpl extends AbstractRestService implements 
 		} else {
 			throw new ResourceNotCreatedException(_messageBuilder.build(RestMessage.UNABLE_TO_CREATE_RECORD));
 		}	
+	}
+	
+	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
+	@Transactional
+	public ReportedLossRO createReportedLossForIncidentId(final Long incidentId, final ReportedLossRO reportedLossRO) {
+		validateKeyId(incidentId);
+		validateObject(reportedLossRO);
+		final Incident incident = _incidentService.get(incidentId);
+		validateGenericObject(incident);
+		final ReportedLoss reportedLoss = constructNewReportedLoss(incident, reportedLossRO);
+		validateGenericObject(reportedLoss);
+		final ReportedLoss newReportedLoss = _reportedLossService.createReportedLoss(reportedLoss);
+		if (newReportedLoss != null) {
+			return _mapperService.map(newReportedLoss, ReportedLossRO.class);
+		} else {
+			throw new ResourceNotCreatedException(_messageBuilder.build(RestMessage.UNABLE_TO_CREATE_RECORD));
+		}
+	}
+
+	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
+	@Transactional
+	public ReportedLossRO createReportedLossForUniqueIncidentId(final String uniqueIncidentId, final ReportedLossRO reportedLossRO) {
+		validateUniqueIncidentId(uniqueIncidentId);
+		validateObject(reportedLossRO);
+		final Incident incident = _incidentService.getIncidentByUniqueIncidentId(uniqueIncidentId.trim());
+		validateGenericObject(incident);
+		final ReportedLoss reportedLoss = constructNewReportedLoss(incident, reportedLossRO);
+		validateGenericObject(reportedLoss);
+		final ReportedLoss newReportedLoss = _reportedLossService.createReportedLoss(reportedLoss);
+		if (newReportedLoss != null) {
+			return _mapperService.map(newReportedLoss, ReportedLossRO.class);
+		} else {
+			throw new ResourceNotCreatedException(_messageBuilder.build(RestMessage.UNABLE_TO_CREATE_RECORD));
+		}
 	}
 
 	@Override

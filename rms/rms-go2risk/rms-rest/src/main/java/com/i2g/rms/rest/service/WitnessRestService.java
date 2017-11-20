@@ -19,6 +19,10 @@ import com.i2g.rms.rest.model.wrapper.WitnessWrapper;
 public interface WitnessRestService {
 
 	public List<WitnessRO> get();
+	
+	public Set<WitnessRO> getWitnessesByAccidentId(final Long accidentId);
+	
+	public Set<WitnessRO> getWitnessesByCrimeId(final Long crimeId);
 
 	public WitnessRO get(final long witnessId);
 	

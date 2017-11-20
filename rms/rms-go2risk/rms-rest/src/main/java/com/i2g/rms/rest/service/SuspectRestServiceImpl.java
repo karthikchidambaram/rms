@@ -24,11 +24,17 @@ import com.i2g.rms.domain.model.Witness;
 import com.i2g.rms.domain.model.YesNoType;
 import com.i2g.rms.domain.model.incident.Incident;
 import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeatureDetail;
+import com.i2g.rms.domain.model.tablemaintenance.GenderType;
+import com.i2g.rms.domain.model.tablemaintenance.SuspectType;
 import com.i2g.rms.domain.model.tablemaintenance.WeaponType;
 import com.i2g.rms.rest.model.AddressRO;
 import com.i2g.rms.rest.model.SuspectRO;
+import com.i2g.rms.rest.model.YesNoTypeRO;
 import com.i2g.rms.rest.model.lookup.SuspectTableRO;
 import com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeatureDetailRO;
+import com.i2g.rms.rest.model.tablemaintenance.GenderTypeRO;
+import com.i2g.rms.rest.model.tablemaintenance.SuspectTypeRO;
+import com.i2g.rms.rest.model.tablemaintenance.WeaponTypeRO;
 import com.i2g.rms.rest.model.wrapper.DistinguishingFeatureDetailWrapper;
 import com.i2g.rms.rest.model.wrapper.SuspectWrapper;
 import com.i2g.rms.rest.service.incident.IncidentRestService;
@@ -121,9 +127,9 @@ public class SuspectRestServiceImpl extends AbstractRestService implements Suspe
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
 	@Transactional(readOnly = true)
-	public List<SuspectRO> get(final String uniqueIncidentId) {
+	public List<SuspectRO> getSuspectsByUniqueIncidentId(final String uniqueIncidentId) {
 		validateUniqueIncidentId(uniqueIncidentId);
-		List<Suspect> suspects = _suspectService.get(uniqueIncidentId.trim());
+		List<Suspect> suspects = _suspectService.getSuspectsByUniqueIncidentId(uniqueIncidentId.trim());
 		List<SuspectRO> suspectROs = (suspects == null || suspects.isEmpty()) ? Collections.emptyList() : _mapperService.map(suspects, SuspectRO.class);
 		return suspectROs;
 	}
@@ -502,12 +508,50 @@ public class SuspectRestServiceImpl extends AbstractRestService implements Suspe
 						if (suspect.getGenderType() != null) {
 							suspectTableRO.setGenderTypeCode(suspect.getGenderType().getId());
 							suspectTableRO.setGenderTypeDescription(suspect.getGenderType().getDescription());
+							final GenderType genderType = suspect.getGenderType();
+							final GenderTypeRO genderTypeRO = _mapperService.map(genderType, GenderTypeRO.class);
+							suspectTableRO.setGenderType(genderTypeRO);
 						}
 						if (suspect.getSuspectType() != null) {	
 							suspectTableRO.setTypeCode(suspect.getSuspectType().getId());
 							suspectTableRO.setTypeDescription(suspect.getSuspectType().getDescription());
+							final SuspectType suspectType = suspect.getSuspectType();
+							final SuspectTypeRO suspectTypeRO = _mapperService.map(suspectType, SuspectTypeRO.class);
+							suspectTableRO.setSuspectType(suspectTypeRO);
 						}
 						suspectTableRO.setTypeOtherDescription(suspect.getSuspectTypeOther());
+						//set addresses if any
+						if (suspect.getAddresses() != null && !suspect.getAddresses().isEmpty()) {
+							Set<Address> addresses = suspect.getAddresses();
+							Set<AddressRO> addressROs = _mapperService.map(addresses, AddressRO.class);
+							suspectTableRO.setAddresses(addressROs);
+						}
+						//other fields added for consistency with suspectRO
+						suspectTableRO.setId(suspect.getId());
+						
+						YesNoTypeRO weaponInvolved = YesNoTypeRO.N;
+						if (suspect.getWeaponInvolved() != null && suspect.getWeaponInvolved().name().equals("Y")) {
+							weaponInvolved = YesNoTypeRO.Y;
+						}
+						suspectTableRO.setWeaponInvolved(weaponInvolved);
+						
+						if (suspect.getWeaponType() != null) {
+							final WeaponType weaponType = suspect.getWeaponType();
+							final WeaponTypeRO weaponTypeRO = _mapperService.map(weaponType, WeaponTypeRO.class);
+							suspectTableRO.setWeaponType(weaponTypeRO);
+						}
+						suspectTableRO.setDistinguishingFeatureOther(suspect.getDistinguishingFeatureOther());
+						
+						if (suspect.getDistinguishingFeatureDetails() != null) {
+							final Set<DistinguishingFeatureDetail> distinguishingFeatureDetails = suspect.getDistinguishingFeatureDetails();
+							final Set<DistinguishingFeatureDetailRO> distinguishingFeatureDetailROs = _mapperService.map(distinguishingFeatureDetails, DistinguishingFeatureDetailRO.class);
+							suspectTableRO.setDistinguishingFeatureDetails(distinguishingFeatureDetailROs);
+						}
+						
+						suspectTableRO.setSuspectTypeOther(suspect.getSuspectTypeOther());
+						suspectTableRO.setWeaponTypeOther(suspect.getWeaponTypeOther());
+						suspectTableRO.setGenderTypeOther(suspect.getGenderTypeOther());
+						
 						suspectTableROs.add(suspectTableRO);
 					}
 				}
@@ -560,10 +604,31 @@ public class SuspectRestServiceImpl extends AbstractRestService implements Suspe
 						if (employeeSuspect.getGenderType() != null) {
 							suspectTableRO.setGenderTypeCode(employeeSuspect.getGenderType().getId());
 							suspectTableRO.setGenderTypeDescription(employeeSuspect.getGenderType().getDescription());
+							final GenderType genderType = employeeSuspect.getGenderType();
+							final GenderTypeRO genderTypeRO = _mapperService.map(genderType, GenderTypeRO.class);
+							suspectTableRO.setGenderType(genderTypeRO);
 						}
+						//Can hard code the suspect type to employee
 						suspectTableRO.setTypeCode("EMP");
 						suspectTableRO.setTypeDescription("Employee");
+						final SuspectTypeRO suspectTypeRO = new SuspectTypeRO();
+						suspectTypeRO.setId("EMP");
+						suspectTypeRO.setDescription("Employee");
+						suspectTableRO.setSuspectType(suspectTypeRO);
 						suspectTableRO.setTypeOtherDescription(null);
+						
+						//set addresses if any
+						if (employeeSuspect.getAddresses() != null && !employeeSuspect.getAddresses().isEmpty()) {
+							Set<Address> addresses = employeeSuspect.getAddresses();
+							Set<AddressRO> addressROs = _mapperService.map(addresses, AddressRO.class);
+							suspectTableRO.setAddresses(addressROs);
+						}
+						
+						//other fields added for consistency with suspectRO
+						suspectTableRO.setId(employeeSuspect.getId());
+						suspectTableRO.setGenderTypeOther(employeeSuspect.getGenderTypeOther());
+						suspectTableRO.setSuspectTypeOther(null);
+						suspectTableRO.setWeaponTypeOther(null);
 						suspectTableROs.add(suspectTableRO);
 					}
 				}

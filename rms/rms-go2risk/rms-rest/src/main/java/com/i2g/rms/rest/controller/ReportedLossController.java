@@ -1,6 +1,7 @@
 package com.i2g.rms.rest.controller;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -40,6 +41,18 @@ public class ReportedLossController extends AbstractRestController {
 		return _reportedLossRestService.get();
 	}
 	
+	@RequestMapping(value = RequestMappingConstants.GET_REPORTED_LOSSES_BY_INCIDENT_ID, method = RequestMethod.GET)
+	@Searchable(sourceType = ReportedLossRO.class, value = ReportedLoss.class)
+	public Set<ReportedLossRO> getReportedLossesByIncidentId(@PathVariable final Long incidentId) {
+		return _reportedLossRestService.getReportedLossesByIncidentId(incidentId);
+	}
+	
+	@RequestMapping(value = RequestMappingConstants.GET_REPORTED_LOSSES_BY_UNIQUE_INCIDENT_ID, method = RequestMethod.GET)
+	@Searchable(sourceType = ReportedLossRO.class, value = ReportedLoss.class)
+	public Set<ReportedLossRO> getReportedLossesByUniqueIncidentId(@PathVariable final String uniqueIncidentId) {
+		return _reportedLossRestService.getReportedLossesByUniqueIncidentId(uniqueIncidentId);
+	}
+	
 	@RequestMapping(value = RequestMappingConstants.GET_REPORTED_LOSS_TABLE_BY_INCIDENT_ID, method = RequestMethod.GET)
 	public List<ReportedLossRO> getReportedLossTableByIncidentId(@PathVariable final Long incidentId) {
 		return _reportedLossRestService.getReportedLossTableByIncidentId(incidentId);
@@ -58,6 +71,16 @@ public class ReportedLossController extends AbstractRestController {
 	@RequestMapping(value = RequestMappingConstants.CREATE_REPORTED_LOSS, method = RequestMethod.POST)
 	public ReportedLossRO createReportedLoss(@Valid @RequestBody final ReportedLossRO reportedLossRO) {
 		return _reportedLossRestService.createReportedLoss(reportedLossRO);
+	}
+	
+	@RequestMapping(value = RequestMappingConstants.CREATE_REPORTED_LOSS_FOR_INCIDENT_ID, method = RequestMethod.POST)
+	public ReportedLossRO createReportedLossForIncidentId(@PathVariable final Long incidentId, @Valid @RequestBody final ReportedLossRO reportedLossRO) {
+		return _reportedLossRestService.createReportedLossForIncidentId(incidentId, reportedLossRO);
+	}
+	
+	@RequestMapping(value = RequestMappingConstants.CREATE_REPORTED_LOSS_FOR_UNIQUE_INCIDENT_ID, method = RequestMethod.POST)
+	public ReportedLossRO createReportedLossForUniqueIncidentId(@PathVariable final String uniqueIncidentId, @Valid @RequestBody final ReportedLossRO reportedLossRO) {
+		return _reportedLossRestService.createReportedLossForUniqueIncidentId(uniqueIncidentId, reportedLossRO);
 	}
 	
 	@RequestMapping(value = RequestMappingConstants.CREATE_REPORTED_LOSSES, method = RequestMethod.POST)

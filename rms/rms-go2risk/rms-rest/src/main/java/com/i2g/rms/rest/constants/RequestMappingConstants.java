@@ -400,8 +400,8 @@ public interface RequestMappingConstants {
 	String GET_SUSPECT_BY_SUSPECT_ID							= SUSPECT + "/suspectId/{suspectId}";
 	String GET_SUSPECT_TABLE_BY_INCIDENT_ID						= SUSPECT + "/suspect-table/incidentId/{incidentId}";
 	String GET_SUSPECT_TABLE_BY_UNIQUE_INCIDENT_ID				= SUSPECT + "/suspect-table/uniqueIncidentId/{uniqueIncidentId}";
-	String GET_SUSPECTS_BY_INCIDENT_ID							= SUSPECT + "/incidentId/{incidentId}";
-	String GET_SUSPECTS_BY_UNIQUE_INCIDENT_ID					= SUSPECT + "/uniqueIncidentId/{uniqueIncidentId}";
+	String GET_SUSPECTS_BY_INCIDENT_ID							= SUSPECT + "/suspects/incidentId/{incidentId}";
+	String GET_SUSPECTS_BY_UNIQUE_INCIDENT_ID					= SUSPECT + "/suspects/uniqueIncidentId/{uniqueIncidentId}";
 	String CREATE_SUSPECT										= SUSPECT + "/create-suspect";
 	String CREATE_SUSPECTS										= SUSPECT + "/create-suspects";
 	String UPDATE_SUSPECT										= SUSPECT + "/update-suspect";
@@ -411,6 +411,8 @@ public interface RequestMappingConstants {
 	/** Witness operations */
 	String WITNESS 												= SECURED + "/witness";
 	String GET_ALL_WITNESSES									= WITNESS + "/witnesses";
+	String GET_WITNESSES_BY_ACCIDENT_ID							= WITNESS + "/witnesses/accidentId/{accidentId}";
+	String GET_WITNESSES_BY_CRIME_ID							= WITNESS + "/witnesses/crimeId/{crimeId}";
 	String GET_WITNESS_BY_WITNESS_ID							= WITNESS + "/witnessId/{witnessId}";
 	String GET_WITNESS_TABLE_BY_ACCIDENT_ID						= WITNESS + "/witness-table/accidentId/{accidentId}";
 	String GET_WITNESS_TABLE_BY_CRIME_ID						= WITNESS + "/witness-table/crimeId/{crimeId}";
@@ -462,11 +464,15 @@ public interface RequestMappingConstants {
 	
 	/** Reported Loss flows */
 	String REPORTED_LOSS 												= SECURED + "/reported-loss";
+	String GET_REPORTED_LOSSES_BY_INCIDENT_ID							= REPORTED_LOSS + "/reported-losses/incidentId/{incidentId}";
+	String GET_REPORTED_LOSSES_BY_UNIQUE_INCIDENT_ID					= REPORTED_LOSS + "/reported-losses/uniqueIncidentId/{uniqueIncidentId}";
 	String GET_ALL_REPORTED_LOSSES										= REPORTED_LOSS + "/reported-losses";
 	String GET_REPORTED_LOSS_TABLE_BY_INCIDENT_ID						= REPORTED_LOSS + "/reported-loss-table/incidentId/{incidentId}";
 	String GET_REPORTED_LOSS_TABLE_BY_UNIQUE_INCIDENT_ID				= REPORTED_LOSS + "/reported-loss-table/uniqueIncidentId/{uniqueIncidentId}";
 	String GET_REPORTED_LOSS_BY_REPORTED_LOSS_ID						= REPORTED_LOSS + "/reportedLossId/{reportedLossId}";
 	String CREATE_REPORTED_LOSS											= REPORTED_LOSS + "/create-reported-loss";
+	String CREATE_REPORTED_LOSS_FOR_INCIDENT_ID							= REPORTED_LOSS + "/create-reported-loss/incidentId/{incidentId}";
+	String CREATE_REPORTED_LOSS_FOR_UNIQUE_INCIDENT_ID							= REPORTED_LOSS + "/create-reported-loss/uniqueIncidentId/{uniqueIncidentId}";
 	String CREATE_REPORTED_LOSSES										= REPORTED_LOSS + "/create-reported-losses";
 	String UPDATE_REPORTED_LOSS											= REPORTED_LOSS + "/update-reported-loss";
 	String UPDATE_REPORTED_LOSSES										= REPORTED_LOSS + "/update-reported-losses";

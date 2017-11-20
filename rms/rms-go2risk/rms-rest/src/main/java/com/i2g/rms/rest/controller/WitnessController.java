@@ -42,6 +42,18 @@ public class WitnessController extends AbstractRestController {
 		return _witnessRestService.get();		
 	}
 	
+	@RequestMapping(value = RequestMappingConstants.GET_WITNESSES_BY_ACCIDENT_ID, method = RequestMethod.GET)
+	@Searchable(sourceType = WitnessRO.class, value = Witness.class)
+	public Set<WitnessRO> getWitnessesByAccidentId(@PathVariable final Long accidentId) {
+		return _witnessRestService.getWitnessesByAccidentId(accidentId);
+	}
+	
+	@RequestMapping(value = RequestMappingConstants.GET_WITNESSES_BY_CRIME_ID, method = RequestMethod.GET)
+	@Searchable(sourceType = WitnessRO.class, value = Witness.class)
+	public Set<WitnessRO> getWitnessesByCrimeId(@PathVariable final Long crimeId) {
+		return _witnessRestService.getWitnessesByCrimeId(crimeId);
+	}
+	
 	@RequestMapping(value = RequestMappingConstants.GET_WITNESS_TABLE_BY_ACCIDENT_ID, method = RequestMethod.GET)
 	public List<WitnessTableRO> getWitnessTableByAccidentId(@PathVariable final Long accidentId) {
 		return _witnessRestService.getWitnessTableByAccidentId(accidentId);

@@ -138,5 +138,5 @@ public class ReportedLossDaoImpl extends AbstractHibernateDao<Long, ReportedLoss
 				}
 			}
 		}
-	}
+	}	
 }
