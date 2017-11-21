@@ -551,6 +551,7 @@ public class SuspectRestServiceImpl extends AbstractRestService implements Suspe
 						suspectTableRO.setSuspectTypeOther(suspect.getSuspectTypeOther());
 						suspectTableRO.setWeaponTypeOther(suspect.getWeaponTypeOther());
 						suspectTableRO.setGenderTypeOther(suspect.getGenderTypeOther());
+						suspectTableRO.setWebsite(suspect.getWebsite());
 						
 						suspectTableROs.add(suspectTableRO);
 					}
@@ -629,6 +630,8 @@ public class SuspectRestServiceImpl extends AbstractRestService implements Suspe
 						suspectTableRO.setGenderTypeOther(employeeSuspect.getGenderTypeOther());
 						suspectTableRO.setSuspectTypeOther(null);
 						suspectTableRO.setWeaponTypeOther(null);
+						suspectTableRO.setWebsite(null);
+						
 						suspectTableROs.add(suspectTableRO);
 					}
 				}

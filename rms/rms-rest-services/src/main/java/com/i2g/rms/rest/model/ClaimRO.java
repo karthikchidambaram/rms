@@ -53,6 +53,9 @@ public class ClaimRO extends AbstractEntityRO {
 	private String claimSettlementComments;
 	private String claimDeclinedComments;
 	private String claimReopenedComments;
+	private String claimTypeOther;
+	private String claimRequestRegistrationTypeOther;
+	private String policyTypeOther;
 
 	public long getId() {
 		return id;
@@ -316,5 +319,29 @@ public class ClaimRO extends AbstractEntityRO {
 
 	public void setClaimReopenedComments(final String claimReopenedComments) {
 		this.claimReopenedComments = claimReopenedComments;
+	}
+
+	public String getClaimTypeOther() {
+		return claimTypeOther;
+	}
+
+	public void setClaimTypeOther(final String claimTypeOther) {
+		this.claimTypeOther = claimTypeOther;
+	}
+
+	public String getClaimRequestRegistrationTypeOther() {
+		return claimRequestRegistrationTypeOther;
+	}
+
+	public void setClaimRequestRegistrationTypeOther(final String claimRequestRegistrationTypeOther) {
+		this.claimRequestRegistrationTypeOther = claimRequestRegistrationTypeOther;
+	}
+
+	public String getPolicyTypeOther() {
+		return policyTypeOther;
+	}
+
+	public void setPolicyTypeOther(final String policyTypeOther) {
+		this.policyTypeOther = policyTypeOther;
 	}	
 }

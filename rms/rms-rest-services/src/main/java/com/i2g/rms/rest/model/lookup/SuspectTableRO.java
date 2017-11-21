@@ -40,14 +40,15 @@ public class SuspectTableRO extends AbstractEntityRO {
 	private String phone;
 	private String alternatePhone;
 	private String email;
+	private String website;
 	private String statusFlag;
 	private String genderTypeCode;
 	private String genderTypeDescription;
 	private String typeCode;
 	private String typeDescription;
 	private String typeOtherDescription;
+	//added later for maintaining consistency with SuspectRO
 	private Set<AddressRO> addresses = new HashSet<AddressRO>(0);
-	//added later for maintaining consistency with suspectRO
 	private long id;
 	private GenderTypeRO genderType;
 	private YesNoTypeRO weaponInvolved;
@@ -434,5 +435,13 @@ public class SuspectTableRO extends AbstractEntityRO {
 
 	public void setGenderTypeOther(final String genderTypeOther) {
 		this.genderTypeOther = genderTypeOther;
+	}
+
+	public String getWebsite() {
+		return website;
+	}
+
+	public void setWebsite(final String website) {
+		this.website = website;
 	}	
 }

@@ -79,6 +79,9 @@ public class Claim extends AbstractDataModel<Long> implements Serializable {
 	private String _claimSettlementComments;
 	private String _claimDeclinedComments;
 	private String _claimReopenedComments;
+	private String _claimTypeOther;
+	private String _claimRequestRegistrationTypeOther;
+	private String _policyTypeOther;
 
 	/**
 	 * Default empty constructor required for Hibernate.
@@ -617,6 +620,33 @@ public class Claim extends AbstractDataModel<Long> implements Serializable {
 
 	public void setClaimReopenedComments(final String claimReopenedComments) {
 		_claimReopenedComments = claimReopenedComments;
+	}	
+
+	@Column(name = "CLIM_TYP_OTHR", length = 32)	
+	public String getClaimTypeOther() {
+		return _claimTypeOther;
+	}
+
+	public void setClaimTypeOther(final String claimTypeOther) {
+		_claimTypeOther = claimTypeOther;
+	}
+	
+	@Column(name = "CLREQ_REG_TYP_OTHR", length = 32)
+	public String getClaimRequestRegistrationTypeOther() {
+		return _claimRequestRegistrationTypeOther;
+	}
+
+	public void setClaimRequestRegistrationTypeOther(final String claimRequestRegistrationTypeOther) {
+		_claimRequestRegistrationTypeOther = claimRequestRegistrationTypeOther;
+	}
+
+	@Column(name = "POL_TYP_OTHR", length = 32)
+	public String getPolicyTypeOther() {
+		return _policyTypeOther;
+	}
+
+	public void setPolicyTypeOther(final String policyTypeOther) {
+		_policyTypeOther = policyTypeOther;
 	}
 
 	/**

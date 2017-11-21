@@ -1,9 +1,15 @@
 package com.i2g.rms.rest.model.lookup;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.i2g.rms.rest.model.AbstractEntityRO;
+import com.i2g.rms.rest.model.AddressRO;
+import com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeatureDetailRO;
+import com.i2g.rms.rest.model.tablemaintenance.GenderTypeRO;
+import com.i2g.rms.rest.model.tablemaintenance.SuspectTypeRO;
 
 /**
  * Suspect table RO Object
@@ -39,6 +45,16 @@ public class CrimeSuspectTableRO extends AbstractEntityRO {
 	private String typeCode;
 	private String typeDescription;
 	private String typeOtherDescription;
+	//added later for maintaining consistency with CrimeSuspectRO
+	private Set<AddressRO> addresses = new HashSet<AddressRO>(0);
+	private long id;
+	private GenderTypeRO genderType;
+	private SuspectTypeRO crimeSuspectType;
+	private String distinguishingFeatureOther;
+	private Set<DistinguishingFeatureDetailRO> distinguishingFeatureDetails = new HashSet<DistinguishingFeatureDetailRO>(0);
+	private String crimeSuspectTypeOther;
+	private String genderTypeOther;
+	private String website;
 
 	/**
 	 * @return the title
@@ -335,5 +351,77 @@ public class CrimeSuspectTableRO extends AbstractEntityRO {
 
 	public void setTypeOtherDescription(final String typeOtherDescription) {
 		this.typeOtherDescription = typeOtherDescription;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(final long id) {
+		this.id = id;
+	}
+
+	public GenderTypeRO getGenderType() {
+		return genderType;
+	}
+
+	public void setGenderType(final GenderTypeRO genderType) {
+		this.genderType = genderType;
+	}
+
+	public SuspectTypeRO getCrimeSuspectType() {
+		return crimeSuspectType;
+	}
+
+	public void setCrimeSuspectType(final SuspectTypeRO crimeSuspectType) {
+		this.crimeSuspectType = crimeSuspectType;
+	}
+
+	public String getDistinguishingFeatureOther() {
+		return distinguishingFeatureOther;
+	}
+
+	public void setDistinguishingFeatureOther(final String distinguishingFeatureOther) {
+		this.distinguishingFeatureOther = distinguishingFeatureOther;
+	}
+
+	public Set<DistinguishingFeatureDetailRO> getDistinguishingFeatureDetails() {
+		return distinguishingFeatureDetails;
+	}
+
+	public void setDistinguishingFeatureDetails(final Set<DistinguishingFeatureDetailRO> distinguishingFeatureDetails) {
+		this.distinguishingFeatureDetails = distinguishingFeatureDetails;
+	}
+
+	public String getCrimeSuspectTypeOther() {
+		return crimeSuspectTypeOther;
+	}
+
+	public void setCrimeSuspectTypeOther(final String crimeSuspectTypeOther) {
+		this.crimeSuspectTypeOther = crimeSuspectTypeOther;
+	}
+
+	public String getGenderTypeOther() {
+		return genderTypeOther;
+	}
+
+	public void setGenderTypeOther(final String genderTypeOther) {
+		this.genderTypeOther = genderTypeOther;
+	}
+
+	public Set<AddressRO> getAddresses() {
+		return addresses;
+	}
+
+	public void setAddresses(final Set<AddressRO> addresses) {
+		this.addresses = addresses;
+	}
+
+	public String getWebsite() {
+		return website;
+	}
+
+	public void setWebsite(final String website) {
+		this.website = website;
 	}	
 }

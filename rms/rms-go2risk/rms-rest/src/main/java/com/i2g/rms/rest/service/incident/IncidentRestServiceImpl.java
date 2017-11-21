@@ -1894,6 +1894,16 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 			if (claimRO.getClaimReopenedComments() != null && !claimRO.getClaimReopenedComments().trim().isEmpty()) {
 				claim.setClaimReopenedComments(claimRO.getClaimReopenedComments().trim());
 			}
+			//fields for others
+			if (claimRO.getClaimTypeOther() != null && !claimRO.getClaimTypeOther().trim().isEmpty()) {
+				claim.setClaimTypeOther(claimRO.getClaimTypeOther().trim());
+			}
+			if (claimRO.getClaimRequestRegistrationTypeOther() != null && !claimRO.getClaimRequestRegistrationTypeOther().trim().isEmpty()) {
+				claim.setClaimRequestRegistrationTypeOther(claimRO.getClaimRequestRegistrationTypeOther().trim());
+			}
+			if (claimRO.getPolicyTypeOther() != null && !claimRO.getPolicyTypeOther().trim().isEmpty()) {
+				claim.setPolicyTypeOther(claimRO.getPolicyTypeOther());
+			}
 			return claim;
 		} else {
 			return null;

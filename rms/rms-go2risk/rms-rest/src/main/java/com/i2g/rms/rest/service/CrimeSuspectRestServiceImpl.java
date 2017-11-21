@@ -13,14 +13,20 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.i2g.rms.domain.model.Address;
 import com.i2g.rms.domain.model.Crime;
 import com.i2g.rms.domain.model.CrimeSuspect;
 import com.i2g.rms.domain.model.StatusFlag;
 import com.i2g.rms.domain.model.User;
 import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeatureDetail;
+import com.i2g.rms.domain.model.tablemaintenance.GenderType;
+import com.i2g.rms.domain.model.tablemaintenance.SuspectType;
+import com.i2g.rms.rest.model.AddressRO;
 import com.i2g.rms.rest.model.CrimeSuspectRO;
 import com.i2g.rms.rest.model.lookup.CrimeSuspectTableRO;
 import com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeatureDetailRO;
+import com.i2g.rms.rest.model.tablemaintenance.GenderTypeRO;
+import com.i2g.rms.rest.model.tablemaintenance.SuspectTypeRO;
 import com.i2g.rms.rest.model.wrapper.CrimeSuspectWrapper;
 import com.i2g.rms.rest.model.wrapper.DistinguishingFeatureDetailWrapper;
 import com.i2g.rms.rest.service.incident.IncidentRestService;
@@ -357,20 +363,45 @@ public class CrimeSuspectRestServiceImpl extends AbstractRestService implements 
 						if (crimeSuspect.getGenderType() != null) {
 							crimeSuspectTableRO.setGenderTypeCode(crimeSuspect.getGenderType().getId());
 							crimeSuspectTableRO.setGenderTypeDescription(crimeSuspect.getGenderType().getDescription());
+							final GenderType genderType = crimeSuspect.getGenderType();
+							final GenderTypeRO genderTypeRO = _mapperService.map(genderType, GenderTypeRO.class);
+							crimeSuspectTableRO.setGenderType(genderTypeRO);
 						}
 						if (crimeSuspect.getCrimeSuspectType() != null) {	
 							crimeSuspectTableRO.setTypeCode(crimeSuspect.getCrimeSuspectType().getId());
 							crimeSuspectTableRO.setTypeDescription(crimeSuspect.getCrimeSuspectType().getDescription());
+							final SuspectType crimeSuspectType = crimeSuspect.getCrimeSuspectType();
+							final SuspectTypeRO crimeSuspectTypeRO = _mapperService.map(crimeSuspectType, SuspectTypeRO.class);
+							crimeSuspectTableRO.setCrimeSuspectType(crimeSuspectTypeRO);
 						}
 						crimeSuspectTableRO.setTypeOtherDescription(crimeSuspect.getCrimeSuspectTypeOther());
+						//fields added later for consistency with CrimeSuspectRO
+						//set addresses if any
+						if (crimeSuspect.getAddresses() != null && !crimeSuspect.getAddresses().isEmpty()) {
+							Set<Address> addresses = crimeSuspect.getAddresses();
+							Set<AddressRO> addressROs = _mapperService.map(addresses, AddressRO.class);
+							crimeSuspectTableRO.setAddresses(addressROs);
+						}
+						crimeSuspectTableRO.setId(crimeSuspect.getId());
+						
+						if (crimeSuspect.getDistinguishingFeatureDetails() != null) {
+							final Set<DistinguishingFeatureDetail> distinguishingFeatureDetails = crimeSuspect.getDistinguishingFeatureDetails();
+							final Set<DistinguishingFeatureDetailRO> distinguishingFeatureDetailROs = _mapperService.map(distinguishingFeatureDetails, DistinguishingFeatureDetailRO.class);
+							crimeSuspectTableRO.setDistinguishingFeatureDetails(distinguishingFeatureDetailROs);
+						}
+						crimeSuspectTableRO.setCrimeSuspectTypeOther(crimeSuspect.getCrimeSuspectTypeOther());
+						crimeSuspectTableRO.setGenderTypeOther(crimeSuspect.getGenderTypeOther());
+						crimeSuspectTableRO.setDistinguishingFeatureOther(crimeSuspect.getDistinguishingFeatureOther());
+						crimeSuspectTableRO.setWebsite(crimeSuspect.getWebsite());
+						
 						crimeSuspectTableROs.add(crimeSuspectTableRO);
 					}
 				}
 			}
 			//Populate the employee crime suspects if any
 			if (crime.getEmployeeCrimeSuspects() != null && !crime.getEmployeeCrimeSuspects().isEmpty()) {
-				for (User employeeCrimeSuspects : crime.getEmployeeWitnesses()) {
-					if (employeeCrimeSuspects != null) {
+				for (User employeeCrimeSuspect : crime.getEmployeeWitnesses()) {
+					if (employeeCrimeSuspect != null) {
 						final CrimeSuspectTableRO crimeSuspectTableRO = new CrimeSuspectTableRO();
 						//Set the crime suspect category as employee
 						crimeSuspectTableRO.setCrimeSuspectCategory("EMPLOYEE");						
@@ -383,48 +414,66 @@ public class CrimeSuspectRestServiceImpl extends AbstractRestService implements 
 							crimeSuspectTableRO.setUniqueIncidentId(crime.getIncident().getUniqueIncidentId());
 						}
 						
-						crimeSuspectTableRO.setEmployeeId(employeeCrimeSuspects.getId());
-						crimeSuspectTableRO.setEmployeeLoginId(employeeCrimeSuspects.getLoginId());
-						crimeSuspectTableRO.setTitle(employeeCrimeSuspects.getTitle());
+						crimeSuspectTableRO.setEmployeeId(employeeCrimeSuspect.getId());
+						crimeSuspectTableRO.setEmployeeLoginId(employeeCrimeSuspect.getLoginId());
+						crimeSuspectTableRO.setTitle(employeeCrimeSuspect.getTitle());
 						
 						String firstName = null;
 						String lastName = null;
 						String fullName = null;
 						
-						if (employeeCrimeSuspects.getFirstName() != null && !employeeCrimeSuspects.getFirstName().trim().isEmpty()) {
-							firstName = employeeCrimeSuspects.getFirstName().trim();
+						if (employeeCrimeSuspect.getFirstName() != null && !employeeCrimeSuspect.getFirstName().trim().isEmpty()) {
+							firstName = employeeCrimeSuspect.getFirstName().trim();
 						} else {
 							firstName = "No firstname";
 						}
 						
-						if (employeeCrimeSuspects.getLastName() != null && !employeeCrimeSuspects.getLastName().trim().isEmpty()) {
-							lastName = employeeCrimeSuspects.getLastName().trim();
+						if (employeeCrimeSuspect.getLastName() != null && !employeeCrimeSuspect.getLastName().trim().isEmpty()) {
+							lastName = employeeCrimeSuspect.getLastName().trim();
 						} else {
 							lastName = "No lastname";
 						}
 						fullName = lastName + ", " + firstName;
 						
 						crimeSuspectTableRO.setFirstName(firstName);
-						crimeSuspectTableRO.setMiddleName(employeeCrimeSuspects.getMiddleName());
+						crimeSuspectTableRO.setMiddleName(employeeCrimeSuspect.getMiddleName());
 						crimeSuspectTableRO.setLastName(lastName);
-						crimeSuspectTableRO.setNameSuffix(employeeCrimeSuspects.getNameSuffix());
+						crimeSuspectTableRO.setNameSuffix(employeeCrimeSuspect.getNameSuffix());
 						crimeSuspectTableRO.setFullName(fullName);
-						crimeSuspectTableRO.setDateOfBirth(employeeCrimeSuspects.getDateOfBirth());
-						crimeSuspectTableRO.setAge(employeeCrimeSuspects.getAge());
-						crimeSuspectTableRO.setPhone(employeeCrimeSuspects.getPhone());
-						crimeSuspectTableRO.setAlternatePhone(employeeCrimeSuspects.getAlternatePhone());
-						crimeSuspectTableRO.setEmail(employeeCrimeSuspects.getEmail());
-						if (employeeCrimeSuspects.getStatusFlag() != null) {
-							crimeSuspectTableRO.setStatusFlag(employeeCrimeSuspects.getStatusFlag().name());
+						crimeSuspectTableRO.setDateOfBirth(employeeCrimeSuspect.getDateOfBirth());
+						crimeSuspectTableRO.setAge(employeeCrimeSuspect.getAge());
+						crimeSuspectTableRO.setPhone(employeeCrimeSuspect.getPhone());
+						crimeSuspectTableRO.setAlternatePhone(employeeCrimeSuspect.getAlternatePhone());
+						crimeSuspectTableRO.setEmail(employeeCrimeSuspect.getEmail());
+						if (employeeCrimeSuspect.getStatusFlag() != null) {
+							crimeSuspectTableRO.setStatusFlag(employeeCrimeSuspect.getStatusFlag().name());
 						}
-						if (employeeCrimeSuspects.getGenderType() != null) {
-							crimeSuspectTableRO.setGenderTypeCode(employeeCrimeSuspects.getGenderType().getId());
-							crimeSuspectTableRO.setGenderTypeDescription(employeeCrimeSuspects.getGenderType().getDescription());
+						if (employeeCrimeSuspect.getGenderType() != null) {
+							crimeSuspectTableRO.setGenderTypeCode(employeeCrimeSuspect.getGenderType().getId());
+							crimeSuspectTableRO.setGenderTypeDescription(employeeCrimeSuspect.getGenderType().getDescription());
+							final GenderType genderType = employeeCrimeSuspect.getGenderType();
+							final GenderTypeRO genderTypeRO = _mapperService.map(genderType, GenderTypeRO.class);
+							crimeSuspectTableRO.setGenderType(genderTypeRO);
 						}
+						//can hard code the type
 						crimeSuspectTableRO.setTypeCode("EMP");
 						crimeSuspectTableRO.setTypeDescription("Employee");
+						final SuspectTypeRO crimeSuspectTypeRO = new SuspectTypeRO();
+						crimeSuspectTypeRO.setId("EMP");
+						crimeSuspectTypeRO.setDescription("Employee");
+						crimeSuspectTableRO.setCrimeSuspectType(crimeSuspectTypeRO);
 						crimeSuspectTableRO.setTypeOtherDescription(null);
-						crimeSuspectTableROs.add(crimeSuspectTableRO);
+						//fields added for consistency sake
+						crimeSuspectTableRO.setId(employeeCrimeSuspect.getId());
+						//set addresses if any
+						if (employeeCrimeSuspect.getAddresses() != null && !employeeCrimeSuspect.getAddresses().isEmpty()) {
+							Set<Address> addresses = employeeCrimeSuspect.getAddresses();
+							Set<AddressRO> addressROs = _mapperService.map(addresses, AddressRO.class);
+							crimeSuspectTableRO.setAddresses(addressROs);
+						}
+						crimeSuspectTableRO.setWebsite(null);
+						
+						crimeSuspectTableROs.add(crimeSuspectTableRO);						
 					}
 				}
 			}
