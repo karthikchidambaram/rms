@@ -14,15 +14,32 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.i2g.rms.domain.model.Accident;
+import com.i2g.rms.domain.model.Address;
 import com.i2g.rms.domain.model.InjuredPerson;
 import com.i2g.rms.domain.model.StatusFlag;
 import com.i2g.rms.domain.model.User;
 import com.i2g.rms.domain.model.YesNoType;
 import com.i2g.rms.domain.model.tablemaintenance.BodyPart;
 import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeatureDetail;
+import com.i2g.rms.domain.model.tablemaintenance.GenderType;
+import com.i2g.rms.domain.model.tablemaintenance.InjuredPersonType;
+import com.i2g.rms.domain.model.tablemaintenance.InjuryCause;
+import com.i2g.rms.domain.model.tablemaintenance.InjuryType;
+import com.i2g.rms.domain.model.tablemaintenance.InjuryTypeDetail;
+import com.i2g.rms.domain.model.tablemaintenance.InjuryTypeDetailSpec;
+import com.i2g.rms.rest.model.AddressRO;
 import com.i2g.rms.rest.model.InjuredPersonRO;
+import com.i2g.rms.rest.model.StatusFlagRO;
+import com.i2g.rms.rest.model.YesNoTypeRO;
 import com.i2g.rms.rest.model.lookup.InjuredPersonTableRO;
+import com.i2g.rms.rest.model.tablemaintenance.BodyPartRO;
 import com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeatureDetailRO;
+import com.i2g.rms.rest.model.tablemaintenance.GenderTypeRO;
+import com.i2g.rms.rest.model.tablemaintenance.InjuredPersonTypeRO;
+import com.i2g.rms.rest.model.tablemaintenance.InjuryCauseRO;
+import com.i2g.rms.rest.model.tablemaintenance.InjuryTypeDetailRO;
+import com.i2g.rms.rest.model.tablemaintenance.InjuryTypeDetailSpecRO;
+import com.i2g.rms.rest.model.tablemaintenance.InjuryTypeRO;
 import com.i2g.rms.rest.model.wrapper.BodyPartWrapper;
 import com.i2g.rms.rest.model.wrapper.DistinguishingFeatureDetailWrapper;
 import com.i2g.rms.rest.model.wrapper.InjuredPersonWrapper;
@@ -417,18 +434,77 @@ public class InjuredPersonRestServiceImpl extends AbstractRestService implements
 						injuredPersonTableRO.setPhone(injuredPerson.getPhone());
 						injuredPersonTableRO.setAlternatePhone(injuredPerson.getAlternatePhone());
 						injuredPersonTableRO.setEmail(injuredPerson.getEmail());
-						if (injuredPerson.getStatusFlag() != null) {
-							injuredPersonTableRO.setStatusFlag(injuredPerson.getStatusFlag().name());
-						}
 						if (injuredPerson.getGenderType() != null) {
 							injuredPersonTableRO.setGenderTypeCode(injuredPerson.getGenderType().getId());
 							injuredPersonTableRO.setGenderTypeDescription(injuredPerson.getGenderType().getDescription());
+							GenderType genderType = injuredPerson.getGenderType();
+							GenderTypeRO genderTypeRO = _mapperService.map(genderType, GenderTypeRO.class);
+							injuredPersonTableRO.setGenderType(genderTypeRO);
 						}
 						if (injuredPerson.getInjuredPersonType() != null) {	
 							injuredPersonTableRO.setTypeCode(injuredPerson.getInjuredPersonType().getId());
 							injuredPersonTableRO.setTypeDescription(injuredPerson.getInjuredPersonType().getDescription());
+							InjuredPersonType injuredPersonType = injuredPerson.getInjuredPersonType();
+							InjuredPersonTypeRO injuredPersonTypeRO = _mapperService.map(injuredPersonType, InjuredPersonTypeRO.class);
+							injuredPersonTableRO.setInjuredPersonType(injuredPersonTypeRO);
 						}
 						injuredPersonTableRO.setTypeOtherDescription(injuredPerson.getInjuredPersonTypeOther());
+						//additional fields added for consistency with InjuredPersonRO
+						injuredPersonTableRO.setId(injuredPerson.getId());
+						injuredPersonTableRO.setWebsite(injuredPerson.getWebsite());
+						
+						StatusFlagRO statusFlagRO = StatusFlagRO.ACTIVE; 
+						if (injuredPerson.getStatusFlag() != null && injuredPerson.getStatusFlag().name().equals("INACTIVE")) {
+							statusFlagRO = StatusFlagRO.INACTIVE;
+						}
+						injuredPersonTableRO.setStatusFlag(statusFlagRO);
+						
+						YesNoTypeRO firstAidGiven = YesNoTypeRO.N;
+						if (injuredPerson.getFirstAidGiven() != null && injuredPerson.getFirstAidGiven().name().equals("Y") ) {
+							firstAidGiven = YesNoTypeRO.N;
+						}
+						injuredPersonTableRO.setFirstAidGiven(firstAidGiven);
+						if (injuredPerson.getBodyParts() != null && !injuredPerson.getBodyParts().isEmpty()) {
+							final Set<BodyPart> bodyParts = injuredPerson.getBodyParts();
+							final Set<BodyPartRO> bodyPartROs = _mapperService.map(bodyParts, BodyPartRO.class);
+							injuredPersonTableRO.setBodyParts(bodyPartROs);
+						}
+						if (injuredPerson.getAddresses() != null && !injuredPerson.getAddresses().isEmpty()) {
+							final Set<Address> addresses = injuredPerson.getAddresses();
+							final Set<AddressRO> addressROs = _mapperService.map(addresses, AddressRO.class);
+							injuredPersonTableRO.setAddresses(addressROs);
+						}
+						if (injuredPerson.getInjuryCause() != null) {
+							final InjuryCause injuryCause = injuredPerson.getInjuryCause();
+							final InjuryCauseRO injuryCauseRO = _mapperService.map(injuryCause, InjuryCauseRO.class);
+							injuredPersonTableRO.setInjuryCause(injuryCauseRO);
+						}
+						if (injuredPerson.getInjuryType() != null) {
+							final InjuryType injuryType = injuredPerson.getInjuryType();
+							final InjuryTypeRO injuryTypeRO = _mapperService.map(injuryType, InjuryTypeRO.class);
+							injuredPersonTableRO.setInjuryType(injuryTypeRO);
+						}
+						if(injuredPerson.getInjuryTypeDetail() != null) {
+							final InjuryTypeDetail injuryTypeDetail = injuredPerson.getInjuryTypeDetail();
+							final InjuryTypeDetailRO injuryTypeDetailRO = _mapperService.map(injuryTypeDetail, InjuryTypeDetailRO.class);
+							injuredPersonTableRO.setInjuryTypeDetail(injuryTypeDetailRO);
+						}
+						if(injuredPerson.getInjuryTypeDetailSpec() != null) {
+							final InjuryTypeDetailSpec injuryTypeDetailSpec = injuredPerson.getInjuryTypeDetailSpec();
+							final InjuryTypeDetailSpecRO injuryTypeDetailSpecRO = _mapperService.map(injuryTypeDetailSpec, InjuryTypeDetailSpecRO.class);
+							injuredPersonTableRO.setInjuryTypeDetailSpec(injuryTypeDetailSpecRO);
+						}
+						if(injuredPerson.getDistinguishingFeatureDetails() != null && !injuredPerson.getDistinguishingFeatureDetails().isEmpty()) {
+							final Set<DistinguishingFeatureDetail> distinguishingFeatureDetails = injuredPerson.getDistinguishingFeatureDetails();
+							final Set<DistinguishingFeatureDetailRO> distinguishingFeatureDetailROs = _mapperService.map(distinguishingFeatureDetails, DistinguishingFeatureDetailRO.class);
+							injuredPersonTableRO.setDistinguishingFeatureDetails(distinguishingFeatureDetailROs);
+						}
+						injuredPersonTableRO.setDistinguishingFeatureOther(injuredPerson.getDistinguishingFeatureOther());
+						injuredPersonTableRO.setInjuredPersonTypeOther(injuredPerson.getInjuredPersonTypeOther());
+						injuredPersonTableRO.setInjuryTypeOther(injuredPerson.getInjuredPersonTypeOther());
+						injuredPersonTableRO.setGenderTypeOther(injuredPerson.getGenderTypeOther());
+						injuredPersonTableRO.setInjuryCauseOther(injuredPerson.getInjuryCauseOther());
+						
 						injuredPersonTableROs.add(injuredPersonTableRO);
 					}
 				}
@@ -480,16 +556,37 @@ public class InjuredPersonRestServiceImpl extends AbstractRestService implements
 						injuredPersonTableRO.setPhone(employeeInjuredPerson.getPhone());
 						injuredPersonTableRO.setAlternatePhone(employeeInjuredPerson.getAlternatePhone());
 						injuredPersonTableRO.setEmail(employeeInjuredPerson.getEmail());
-						if (employeeInjuredPerson.getStatusFlag() != null) {
-							injuredPersonTableRO.setStatusFlag(employeeInjuredPerson.getStatusFlag().name());
-						}
+						
 						if (employeeInjuredPerson.getGenderType() != null) {
 							injuredPersonTableRO.setGenderTypeCode(employeeInjuredPerson.getGenderType().getId());
 							injuredPersonTableRO.setGenderTypeDescription(employeeInjuredPerson.getGenderType().getDescription());
+							final GenderType genderType = employeeInjuredPerson.getGenderType();
+							final GenderTypeRO genderTypeRO = _mapperService.map(genderType, GenderTypeRO.class);
+							injuredPersonTableRO.setGenderType(genderTypeRO);
 						}
 						injuredPersonTableRO.setTypeCode("EMP");
 						injuredPersonTableRO.setTypeDescription("Employee");
 						injuredPersonTableRO.setTypeOtherDescription(null);
+						final InjuredPersonTypeRO injuredPersonTypeRO = new InjuredPersonTypeRO();
+						injuredPersonTypeRO.setId("EMP");
+						injuredPersonTypeRO.setDescription("Employee");
+						injuredPersonTableRO.setInjuredPersonType(injuredPersonTypeRO);
+						//additional fields added for consistency with InjuredPersonRO
+						injuredPersonTableRO.setId(employeeInjuredPerson.getId());
+						
+						StatusFlagRO statusFlagRO = StatusFlagRO.ACTIVE; 
+						if (employeeInjuredPerson.getStatusFlag() != null && employeeInjuredPerson.getStatusFlag().name().equals("INACTIVE")) {
+							statusFlagRO = StatusFlagRO.INACTIVE;
+						}
+						injuredPersonTableRO.setStatusFlag(statusFlagRO);
+						
+						if (employeeInjuredPerson.getAddresses() != null && !employeeInjuredPerson.getAddresses().isEmpty()) {
+							final Set<Address> addresses = employeeInjuredPerson.getAddresses();
+							final Set<AddressRO> addressROs = _mapperService.map(addresses, AddressRO.class);
+							injuredPersonTableRO.setAddresses(addressROs);
+						}
+						injuredPersonTableRO.setGenderTypeOther(employeeInjuredPerson.getGenderTypeOther());						
+						
 						injuredPersonTableROs.add(injuredPersonTableRO);
 					}
 				}

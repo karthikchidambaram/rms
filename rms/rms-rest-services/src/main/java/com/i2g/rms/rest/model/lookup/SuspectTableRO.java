@@ -7,6 +7,7 @@ import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.i2g.rms.rest.model.AbstractEntityRO;
 import com.i2g.rms.rest.model.AddressRO;
+import com.i2g.rms.rest.model.StatusFlagRO;
 import com.i2g.rms.rest.model.YesNoTypeRO;
 import com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeatureDetailRO;
 import com.i2g.rms.rest.model.tablemaintenance.GenderTypeRO;
@@ -41,7 +42,6 @@ public class SuspectTableRO extends AbstractEntityRO {
 	private String alternatePhone;
 	private String email;
 	private String website;
-	private String statusFlag;
 	private String genderTypeCode;
 	private String genderTypeDescription;
 	private String typeCode;
@@ -59,6 +59,7 @@ public class SuspectTableRO extends AbstractEntityRO {
 	private String suspectTypeOther;
 	private String weaponTypeOther;
 	private String genderTypeOther;
+	private StatusFlagRO statusFlag;
 
 	/**
 	 * @return the title
@@ -208,21 +209,6 @@ public class SuspectTableRO extends AbstractEntityRO {
 	 */
 	public void setEmail(final String email) {
 		this.email = email;
-	}
-
-	/**
-	 * @return the statusFlag
-	 */
-	public String getStatusFlag() {
-		return statusFlag;
-	}
-
-	/**
-	 * @param statusFlag
-	 *            the statusFlag to set
-	 */
-	public void setStatusFlag(final String statusFlag) {
-		this.statusFlag = statusFlag;
 	}
 
 	/**
@@ -443,5 +429,13 @@ public class SuspectTableRO extends AbstractEntityRO {
 
 	public void setWebsite(final String website) {
 		this.website = website;
+	}
+	
+	public StatusFlagRO getStatusFlag() {
+		return statusFlag;
+	}
+
+	public void setStatusFlag(final StatusFlagRO statusFlag) {
+		this.statusFlag = statusFlag;
 	}	
 }

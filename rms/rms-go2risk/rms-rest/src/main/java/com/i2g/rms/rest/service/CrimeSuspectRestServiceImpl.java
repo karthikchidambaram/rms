@@ -23,6 +23,7 @@ import com.i2g.rms.domain.model.tablemaintenance.GenderType;
 import com.i2g.rms.domain.model.tablemaintenance.SuspectType;
 import com.i2g.rms.rest.model.AddressRO;
 import com.i2g.rms.rest.model.CrimeSuspectRO;
+import com.i2g.rms.rest.model.StatusFlagRO;
 import com.i2g.rms.rest.model.lookup.CrimeSuspectTableRO;
 import com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeatureDetailRO;
 import com.i2g.rms.rest.model.tablemaintenance.GenderTypeRO;
@@ -357,9 +358,13 @@ public class CrimeSuspectRestServiceImpl extends AbstractRestService implements 
 						crimeSuspectTableRO.setPhone(crimeSuspect.getPhone());
 						crimeSuspectTableRO.setAlternatePhone(crimeSuspect.getAlternatePhone());
 						crimeSuspectTableRO.setEmail(crimeSuspect.getEmail());
-						if (crimeSuspect.getStatusFlag() != null) {
-							crimeSuspectTableRO.setStatusFlag(crimeSuspect.getStatusFlag().name());
+						
+						StatusFlagRO statusFlagRO = StatusFlagRO.ACTIVE; 
+						if (crimeSuspect.getStatusFlag() != null && crimeSuspect.getStatusFlag().name().equals("INACTIVE")) {
+							statusFlagRO = StatusFlagRO.INACTIVE;
 						}
+						crimeSuspectTableRO.setStatusFlag(statusFlagRO);
+						
 						if (crimeSuspect.getGenderType() != null) {
 							crimeSuspectTableRO.setGenderTypeCode(crimeSuspect.getGenderType().getId());
 							crimeSuspectTableRO.setGenderTypeDescription(crimeSuspect.getGenderType().getDescription());
@@ -445,9 +450,13 @@ public class CrimeSuspectRestServiceImpl extends AbstractRestService implements 
 						crimeSuspectTableRO.setPhone(employeeCrimeSuspect.getPhone());
 						crimeSuspectTableRO.setAlternatePhone(employeeCrimeSuspect.getAlternatePhone());
 						crimeSuspectTableRO.setEmail(employeeCrimeSuspect.getEmail());
-						if (employeeCrimeSuspect.getStatusFlag() != null) {
-							crimeSuspectTableRO.setStatusFlag(employeeCrimeSuspect.getStatusFlag().name());
+						
+						StatusFlagRO statusFlagRO = StatusFlagRO.ACTIVE; 
+						if (employeeCrimeSuspect.getStatusFlag() != null && employeeCrimeSuspect.getStatusFlag().name().equals("INACTIVE")) {
+							statusFlagRO = StatusFlagRO.INACTIVE;
 						}
+						crimeSuspectTableRO.setStatusFlag(statusFlagRO);
+						
 						if (employeeCrimeSuspect.getGenderType() != null) {
 							crimeSuspectTableRO.setGenderTypeCode(employeeCrimeSuspect.getGenderType().getId());
 							crimeSuspectTableRO.setGenderTypeDescription(employeeCrimeSuspect.getGenderType().getDescription());

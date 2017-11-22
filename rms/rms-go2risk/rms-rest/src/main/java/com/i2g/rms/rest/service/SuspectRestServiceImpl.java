@@ -28,6 +28,7 @@ import com.i2g.rms.domain.model.tablemaintenance.GenderType;
 import com.i2g.rms.domain.model.tablemaintenance.SuspectType;
 import com.i2g.rms.domain.model.tablemaintenance.WeaponType;
 import com.i2g.rms.rest.model.AddressRO;
+import com.i2g.rms.rest.model.StatusFlagRO;
 import com.i2g.rms.rest.model.SuspectRO;
 import com.i2g.rms.rest.model.YesNoTypeRO;
 import com.i2g.rms.rest.model.lookup.SuspectTableRO;
@@ -502,9 +503,13 @@ public class SuspectRestServiceImpl extends AbstractRestService implements Suspe
 						suspectTableRO.setPhone(suspect.getPhone());
 						suspectTableRO.setAlternatePhone(suspect.getAlternatePhone());
 						suspectTableRO.setEmail(suspect.getEmail());
-						if (suspect.getStatusFlag() != null) {
-							suspectTableRO.setStatusFlag(suspect.getStatusFlag().name());
+						
+						StatusFlagRO statusFlagRO = StatusFlagRO.ACTIVE; 
+						if (suspect.getStatusFlag() != null && suspect.getStatusFlag().name().equals("INACTIVE")) {
+							statusFlagRO = StatusFlagRO.INACTIVE;
 						}
+						suspectTableRO.setStatusFlag(statusFlagRO);
+						
 						if (suspect.getGenderType() != null) {
 							suspectTableRO.setGenderTypeCode(suspect.getGenderType().getId());
 							suspectTableRO.setGenderTypeDescription(suspect.getGenderType().getDescription());
@@ -599,9 +604,11 @@ public class SuspectRestServiceImpl extends AbstractRestService implements Suspe
 						suspectTableRO.setPhone(employeeSuspect.getPhone());
 						suspectTableRO.setAlternatePhone(employeeSuspect.getAlternatePhone());
 						suspectTableRO.setEmail(employeeSuspect.getEmail());
-						if (employeeSuspect.getStatusFlag() != null) {
-							suspectTableRO.setStatusFlag(employeeSuspect.getStatusFlag().name());
+						StatusFlagRO statusFlagRO = StatusFlagRO.ACTIVE; 
+						if (employeeSuspect.getStatusFlag() != null && employeeSuspect.getStatusFlag().name().equals("INACTIVE")) {
+							statusFlagRO = StatusFlagRO.INACTIVE;
 						}
+						suspectTableRO.setStatusFlag(statusFlagRO);
 						if (employeeSuspect.getGenderType() != null) {
 							suspectTableRO.setGenderTypeCode(employeeSuspect.getGenderType().getId());
 							suspectTableRO.setGenderTypeDescription(employeeSuspect.getGenderType().getDescription());

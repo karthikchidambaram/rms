@@ -1,9 +1,16 @@
 package com.i2g.rms.rest.model.lookup;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.i2g.rms.rest.model.AbstractEntityRO;
+import com.i2g.rms.rest.model.AddressRO;
+import com.i2g.rms.rest.model.StatusFlagRO;
+import com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeatureDetailRO;
+import com.i2g.rms.rest.model.tablemaintenance.GenderTypeRO;
+import com.i2g.rms.rest.model.tablemaintenance.WitnessTypeRO;
 
 /**
  * Suspect table RO Object
@@ -34,12 +41,22 @@ public class WitnessTableRO extends AbstractEntityRO {
 	private String phone;
 	private String alternatePhone;
 	private String email;
-	private String statusFlag;
 	private String genderTypeCode;
 	private String genderTypeDescription;
 	private String typeCode;
 	private String typeDescription;
 	private String typeOtherDescription;
+	//additional fields added to make it consistent with WitnessRO
+	private long id;
+	private StatusFlagRO statusFlag;
+	private GenderTypeRO genderType;
+	private String website;
+	private Set<AddressRO> addresses = new HashSet<AddressRO>(0);
+	private WitnessTypeRO witnessType;
+	private String distinguishingFeatureOther;
+	private Set<DistinguishingFeatureDetailRO> distinguishingFeatureDetails = new HashSet<DistinguishingFeatureDetailRO>(0);
+	private String witnessTypeOther;
+	private String genderTypeOther;
 
 	/**
 	 * @return the title
@@ -192,21 +209,6 @@ public class WitnessTableRO extends AbstractEntityRO {
 	}
 
 	/**
-	 * @return the statusFlag
-	 */
-	public String getStatusFlag() {
-		return statusFlag;
-	}
-
-	/**
-	 * @param statusFlag
-	 *            the statusFlag to set
-	 */
-	public void setStatusFlag(final String statusFlag) {
-		this.statusFlag = statusFlag;
-	}
-
-	/**
 	 * @return the genderTypeCode
 	 */
 	public String getGenderTypeCode() {
@@ -344,5 +346,85 @@ public class WitnessTableRO extends AbstractEntityRO {
 
 	public void setTypeOtherDescription(final String typeOtherDescription) {
 		this.typeOtherDescription = typeOtherDescription;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(final long id) {
+		this.id = id;
+	}
+
+	public StatusFlagRO getStatusFlag() {
+		return statusFlag;
+	}
+
+	public void setStatusFlag(final StatusFlagRO statusFlag) {
+		this.statusFlag = statusFlag;
+	}
+
+	public String getWebsite() {
+		return website;
+	}
+
+	public void setWebsite(final String website) {
+		this.website = website;
+	}
+
+	public Set<AddressRO> getAddresses() {
+		return addresses;
+	}
+
+	public void setAddresses(final Set<AddressRO> addresses) {
+		this.addresses = addresses;
+	}
+
+	public WitnessTypeRO getWitnessType() {
+		return witnessType;
+	}
+
+	public void setWitnessType(final WitnessTypeRO witnessType) {
+		this.witnessType = witnessType;
+	}
+
+	public String getDistinguishingFeatureOther() {
+		return distinguishingFeatureOther;
+	}
+
+	public void setDistinguishingFeatureOther(final String distinguishingFeatureOther) {
+		this.distinguishingFeatureOther = distinguishingFeatureOther;
+	}
+
+	public Set<DistinguishingFeatureDetailRO> getDistinguishingFeatureDetails() {
+		return distinguishingFeatureDetails;
+	}
+
+	public void setDistinguishingFeatureDetails(final Set<DistinguishingFeatureDetailRO> distinguishingFeatureDetails) {
+		this.distinguishingFeatureDetails = distinguishingFeatureDetails;
+	}
+
+	public String getWitnessTypeOther() {
+		return witnessTypeOther;
+	}
+
+	public void setWitnessTypeOther(final String witnessTypeOther) {
+		this.witnessTypeOther = witnessTypeOther;
+	}
+
+	public String getGenderTypeOther() {
+		return genderTypeOther;
+	}
+
+	public void setGenderTypeOther(final String genderTypeOther) {
+		this.genderTypeOther = genderTypeOther;
+	}
+
+	public GenderTypeRO getGenderType() {
+		return genderType;
+	}
+
+	public void setGenderType(final GenderTypeRO genderType) {
+		this.genderType = genderType;
 	}	
 }

@@ -1,9 +1,22 @@
 package com.i2g.rms.rest.model.lookup;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.i2g.rms.rest.model.AbstractEntityRO;
+import com.i2g.rms.rest.model.AddressRO;
+import com.i2g.rms.rest.model.StatusFlagRO;
+import com.i2g.rms.rest.model.YesNoTypeRO;
+import com.i2g.rms.rest.model.tablemaintenance.BodyPartRO;
+import com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeatureDetailRO;
+import com.i2g.rms.rest.model.tablemaintenance.GenderTypeRO;
+import com.i2g.rms.rest.model.tablemaintenance.InjuredPersonTypeRO;
+import com.i2g.rms.rest.model.tablemaintenance.InjuryCauseRO;
+import com.i2g.rms.rest.model.tablemaintenance.InjuryTypeDetailRO;
+import com.i2g.rms.rest.model.tablemaintenance.InjuryTypeDetailSpecRO;
+import com.i2g.rms.rest.model.tablemaintenance.InjuryTypeRO;
 
 /**
  * Suspect table RO Object
@@ -33,12 +46,30 @@ public class InjuredPersonTableRO extends AbstractEntityRO {
 	private String phone;
 	private String alternatePhone;
 	private String email;
-	private String statusFlag;
 	private String genderTypeCode;
 	private String genderTypeDescription;
 	private String typeCode;
 	private String typeDescription;
 	private String typeOtherDescription;
+	//additional fields added for consistency sake with InjuredPersonRO object
+	private long id;
+	private String website;
+	private StatusFlagRO statusFlag;
+	private InjuredPersonTypeRO injuredPersonType;
+	private GenderTypeRO genderType;
+	private YesNoTypeRO firstAidGiven;
+	private Set<BodyPartRO> bodyParts = new HashSet<BodyPartRO>(0);
+	private Set<AddressRO> addresses = new HashSet<AddressRO>(0);
+	private InjuryCauseRO injuryCause;
+	private InjuryTypeRO injuryType;
+	private InjuryTypeDetailRO injuryTypeDetail;
+	private InjuryTypeDetailSpecRO injuryTypeDetailSpec;
+	private Set<DistinguishingFeatureDetailRO> distinguishingFeatureDetails = new HashSet<DistinguishingFeatureDetailRO>(0);
+	private String distinguishingFeatureOther;
+	private String injuredPersonTypeOther;
+	private String injuryTypeOther;
+	private String genderTypeOther;
+	private String injuryCauseOther;
 
 	/**
 	 * @return the title
@@ -191,21 +222,6 @@ public class InjuredPersonTableRO extends AbstractEntityRO {
 	}
 
 	/**
-	 * @return the statusFlag
-	 */
-	public String getStatusFlag() {
-		return statusFlag;
-	}
-
-	/**
-	 * @param statusFlag
-	 *            the statusFlag to set
-	 */
-	public void setStatusFlag(final String statusFlag) {
-		this.statusFlag = statusFlag;
-	}
-
-	/**
 	 * @return the genderTypeCode
 	 */
 	public String getGenderTypeCode() {
@@ -335,5 +351,149 @@ public class InjuredPersonTableRO extends AbstractEntityRO {
 
 	public void setTypeOtherDescription(final String typeOtherDescription) {
 		this.typeOtherDescription = typeOtherDescription;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(final long id) {
+		this.id = id;
+	}
+
+	public String getWebsite() {
+		return website;
+	}
+
+	public void setWebsite(final String website) {
+		this.website = website;
+	}
+
+	public StatusFlagRO getStatusFlag() {
+		return statusFlag;
+	}
+
+	public void setStatusFlag(final StatusFlagRO statusFlag) {
+		this.statusFlag = statusFlag;
+	}
+
+	public InjuredPersonTypeRO getInjuredPersonType() {
+		return injuredPersonType;
+	}
+
+	public void setInjuredPersonType(final InjuredPersonTypeRO injuredPersonType) {
+		this.injuredPersonType = injuredPersonType;
+	}
+
+	public GenderTypeRO getGenderType() {
+		return genderType;
+	}
+
+	public void setGenderType(final GenderTypeRO genderType) {
+		this.genderType = genderType;
+	}
+
+	public YesNoTypeRO getFirstAidGiven() {
+		return firstAidGiven;
+	}
+
+	public void setFirstAidGiven(final YesNoTypeRO firstAidGiven) {
+		this.firstAidGiven = firstAidGiven;
+	}
+
+	public Set<BodyPartRO> getBodyParts() {
+		return bodyParts;
+	}
+
+	public void setBodyParts(final Set<BodyPartRO> bodyParts) {
+		this.bodyParts = bodyParts;
+	}
+
+	public Set<AddressRO> getAddresses() {
+		return addresses;
+	}
+
+	public void setAddresses(final Set<AddressRO> addresses) {
+		this.addresses = addresses;
+	}
+
+	public InjuryCauseRO getInjuryCause() {
+		return injuryCause;
+	}
+
+	public void setInjuryCause(final InjuryCauseRO injuryCause) {
+		this.injuryCause = injuryCause;
+	}
+
+	public InjuryTypeRO getInjuryType() {
+		return injuryType;
+	}
+
+	public void setInjuryType(final InjuryTypeRO injuryType) {
+		this.injuryType = injuryType;
+	}
+
+	public InjuryTypeDetailRO getInjuryTypeDetail() {
+		return injuryTypeDetail;
+	}
+
+	public void setInjuryTypeDetail(final InjuryTypeDetailRO injuryTypeDetail) {
+		this.injuryTypeDetail = injuryTypeDetail;
+	}
+
+	public InjuryTypeDetailSpecRO getInjuryTypeDetailSpec() {
+		return injuryTypeDetailSpec;
+	}
+
+	public void setInjuryTypeDetailSpec(final InjuryTypeDetailSpecRO injuryTypeDetailSpec) {
+		this.injuryTypeDetailSpec = injuryTypeDetailSpec;
+	}
+
+	public Set<DistinguishingFeatureDetailRO> getDistinguishingFeatureDetails() {
+		return distinguishingFeatureDetails;
+	}
+
+	public void setDistinguishingFeatureDetails(final Set<DistinguishingFeatureDetailRO> distinguishingFeatureDetails) {
+		this.distinguishingFeatureDetails = distinguishingFeatureDetails;
+	}
+
+	public String getDistinguishingFeatureOther() {
+		return distinguishingFeatureOther;
+	}
+
+	public void setDistinguishingFeatureOther(final String distinguishingFeatureOther) {
+		this.distinguishingFeatureOther = distinguishingFeatureOther;
+	}
+
+	public String getInjuredPersonTypeOther() {
+		return injuredPersonTypeOther;
+	}
+
+	public void setInjuredPersonTypeOther(final String injuredPersonTypeOther) {
+		this.injuredPersonTypeOther = injuredPersonTypeOther;
+	}
+
+	public String getInjuryTypeOther() {
+		return injuryTypeOther;
+	}
+
+	public void setInjuryTypeOther(final String injuryTypeOther) {
+		this.injuryTypeOther = injuryTypeOther;
+	}
+
+	public String getGenderTypeOther() {
+		return genderTypeOther;
+	}
+
+	public void setGenderTypeOther(final String genderTypeOther) {
+		this.genderTypeOther = genderTypeOther;
+	}
+
+	public String getInjuryCauseOther() {
+		return injuryCauseOther;
+	}
+
+	public void setInjuryCauseOther(final String injuryCauseOther) {
+		this.injuryCauseOther = injuryCauseOther;
 	}	
 }

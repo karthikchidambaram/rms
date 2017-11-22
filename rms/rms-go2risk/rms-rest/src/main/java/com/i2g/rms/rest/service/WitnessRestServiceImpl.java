@@ -14,14 +14,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.i2g.rms.domain.model.Accident;
+import com.i2g.rms.domain.model.Address;
 import com.i2g.rms.domain.model.Crime;
 import com.i2g.rms.domain.model.StatusFlag;
 import com.i2g.rms.domain.model.User;
 import com.i2g.rms.domain.model.Witness;
 import com.i2g.rms.domain.model.tablemaintenance.DistinguishingFeatureDetail;
+import com.i2g.rms.domain.model.tablemaintenance.GenderType;
+import com.i2g.rms.domain.model.tablemaintenance.WitnessType;
+import com.i2g.rms.rest.model.AddressRO;
+import com.i2g.rms.rest.model.StatusFlagRO;
 import com.i2g.rms.rest.model.WitnessRO;
 import com.i2g.rms.rest.model.lookup.WitnessTableRO;
 import com.i2g.rms.rest.model.tablemaintenance.DistinguishingFeatureDetailRO;
+import com.i2g.rms.rest.model.tablemaintenance.GenderTypeRO;
+import com.i2g.rms.rest.model.tablemaintenance.WitnessTypeRO;
 import com.i2g.rms.rest.model.wrapper.DistinguishingFeatureDetailWrapper;
 import com.i2g.rms.rest.model.wrapper.WitnessWrapper;
 import com.i2g.rms.rest.service.incident.IncidentRestService;
@@ -340,66 +347,10 @@ public class WitnessRestServiceImpl extends AbstractRestService implements Witne
 			if (accident.getWitnesses() != null && !accident.getWitnesses().isEmpty()) {
 				for (Witness witness : accident.getWitnesses()) {
 					if (witness != null) {
-						final WitnessTableRO witnessTableRO = new WitnessTableRO();
-						
-						//Set the Witness category as non-employee						
-						witnessTableRO.setWitnessCategory("NON-EMPLOYEE");
-						witnessTableRO.setWitnessId(witness.getId());
-						
-						if (accident.getIncident() != null) {
-							witnessTableRO.setIncidentId(accident.getIncident().getId());
-							witnessTableRO.setUniqueIncidentId(accident.getIncident().getUniqueIncidentId());
+						final WitnessTableRO witnessTableRO = constructWitnessTableRO(witness, accident, null);
+						if (witnessTableRO != null) {
+							witnessTableROs.add(witnessTableRO);
 						}
-						
-						//crime id will be null for accident witness
-						witnessTableRO.setCrimeId(0l);						
-						witnessTableRO.setAccidentId(accident.getId());						
-						//employee id and employee login id will be null for non-employee witnesses
-						witnessTableRO.setEmployeeId(0l);
-						witnessTableRO.setEmployeeLoginId(null);
-						
-						witnessTableRO.setTitle(witness.getTitle());
-						
-						String firstName = null;
-						String lastName = null;
-						String fullName = null;
-						
-						if (witness.getFirstName() != null && !witness.getFirstName().trim().isEmpty()) {
-							firstName = witness.getFirstName().trim();
-						} else {
-							firstName = "No firstname";
-						}
-						
-						if (witness.getLastName() != null && !witness.getLastName().trim().isEmpty()) {
-							lastName = witness.getLastName().trim();
-						} else {
-							lastName = "No lastname";
-						}
-						fullName = lastName + ", " + firstName;
-						
-						witnessTableRO.setFirstName(firstName);
-						witnessTableRO.setMiddleName(witness.getMiddleName());
-						witnessTableRO.setLastName(lastName);
-						witnessTableRO.setNameSuffix(witness.getNameSuffix());
-						witnessTableRO.setFullName(fullName);
-						witnessTableRO.setDateOfBirth(witness.getDateOfBirth());
-						witnessTableRO.setAge(witness.getAge());
-						witnessTableRO.setPhone(witness.getPhone());
-						witnessTableRO.setAlternatePhone(witness.getAlternatePhone());
-						witnessTableRO.setEmail(witness.getEmail());
-						if (witness.getStatusFlag() != null) {
-							witnessTableRO.setStatusFlag(witness.getStatusFlag().name());
-						}
-						if (witness.getGenderType() != null) {
-							witnessTableRO.setGenderTypeCode(witness.getGenderType().getId());
-							witnessTableRO.setGenderTypeDescription(witness.getGenderType().getDescription());
-						}
-						if (witness.getWitnessType() != null) {	
-							witnessTableRO.setTypeCode(witness.getWitnessType().getId());
-							witnessTableRO.setTypeDescription(witness.getWitnessType().getDescription());
-						}
-						witnessTableRO.setTypeOtherDescription(witness.getWitnessTypeOther());
-						witnessTableROs.add(witnessTableRO);
 					}
 				}
 			}
@@ -407,63 +358,10 @@ public class WitnessRestServiceImpl extends AbstractRestService implements Witne
 			if (accident.getEmployeeWitnesses() != null && !accident.getEmployeeWitnesses().isEmpty()) {
 				for (User employeeWitness : accident.getEmployeeWitnesses()) {
 					if (employeeWitness != null) {
-						final WitnessTableRO witnessTableRO = new WitnessTableRO();
-						
-						//Set the witness category as employee
-						witnessTableRO.setWitnessCategory("EMPLOYEE");						
-						//Witness id will be null for employee type Witnesses.
-						witnessTableRO.setWitnessId(0l);
-						//crime id will be null for accident witness
-						witnessTableRO.setCrimeId(0l);
-						witnessTableRO.setAccidentId(accident.getId());
-						
-						if (accident.getIncident() != null) {
-							witnessTableRO.setIncidentId(accident.getIncident().getId());
-							witnessTableRO.setUniqueIncidentId(accident.getIncident().getUniqueIncidentId());
+						final WitnessTableRO witnessTableRO = constructEmployeeWitnessTableRO(employeeWitness, accident, null);
+						if (witnessTableRO != null) {						
+							witnessTableROs.add(witnessTableRO);
 						}
-						
-						witnessTableRO.setEmployeeId(employeeWitness.getId());
-						witnessTableRO.setEmployeeLoginId(employeeWitness.getLoginId());
-						witnessTableRO.setTitle(employeeWitness.getTitle());
-						
-						String firstName = null;
-						String lastName = null;
-						String fullName = null;
-						
-						if (employeeWitness.getFirstName() != null && !employeeWitness.getFirstName().trim().isEmpty()) {
-							firstName = employeeWitness.getFirstName().trim();
-						} else {
-							firstName = "No firstname";
-						}
-						
-						if (employeeWitness.getLastName() != null && !employeeWitness.getLastName().trim().isEmpty()) {
-							lastName = employeeWitness.getLastName().trim();
-						} else {
-							lastName = "No lastname";
-						}
-						fullName = lastName + ", " + firstName;
-						
-						witnessTableRO.setFirstName(firstName);
-						witnessTableRO.setMiddleName(employeeWitness.getMiddleName());
-						witnessTableRO.setLastName(lastName);
-						witnessTableRO.setNameSuffix(employeeWitness.getNameSuffix());
-						witnessTableRO.setFullName(fullName);
-						witnessTableRO.setDateOfBirth(employeeWitness.getDateOfBirth());
-						witnessTableRO.setAge(employeeWitness.getAge());
-						witnessTableRO.setPhone(employeeWitness.getPhone());
-						witnessTableRO.setAlternatePhone(employeeWitness.getAlternatePhone());
-						witnessTableRO.setEmail(employeeWitness.getEmail());
-						if (employeeWitness.getStatusFlag() != null) {
-							witnessTableRO.setStatusFlag(employeeWitness.getStatusFlag().name());
-						}
-						if (employeeWitness.getGenderType() != null) {
-							witnessTableRO.setGenderTypeCode(employeeWitness.getGenderType().getId());
-							witnessTableRO.setGenderTypeDescription(employeeWitness.getGenderType().getDescription());
-						}
-						witnessTableRO.setTypeCode("EMP");
-						witnessTableRO.setTypeDescription("Employee");
-						witnessTableRO.setTypeOtherDescription(null);
-						witnessTableROs.add(witnessTableRO);
 					}
 				}
 			}
@@ -478,65 +376,10 @@ public class WitnessRestServiceImpl extends AbstractRestService implements Witne
 			if (crime.getWitnesses() != null && !crime.getWitnesses().isEmpty()) {
 				for (Witness witness : crime.getWitnesses()) {
 					if (witness != null) {
-						final WitnessTableRO witnessTableRO = new WitnessTableRO();
-						
-						//Set the Witness category as non-employee
-						witnessTableRO.setWitnessCategory("NON-EMPLOYEE");
-						witnessTableRO.setWitnessId(witness.getId());
-						
-						if (crime.getIncident() != null) {
-							witnessTableRO.setIncidentId(crime.getIncident().getId());
-							witnessTableRO.setUniqueIncidentId(crime.getIncident().getUniqueIncidentId());
+						final WitnessTableRO witnessTableRO = constructWitnessTableRO(witness, null, crime);
+						if (witnessTableRO != null) {
+							witnessTableROs.add(witnessTableRO);
 						}
-						witnessTableRO.setCrimeId(crime.getId());
-						//accident id will be null or zero for crime witnesses
-						witnessTableRO.setAccidentId(0l);
-						//employee id and employee login id will be null for non-employee witnesses
-						witnessTableRO.setEmployeeId(0l);
-						witnessTableRO.setEmployeeLoginId(null);
-						
-						witnessTableRO.setTitle(witness.getTitle());
-						
-						String firstName = null;
-						String lastName = null;
-						String fullName = null;
-						
-						if (witness.getFirstName() != null && !witness.getFirstName().trim().isEmpty()) {
-							firstName = witness.getFirstName().trim();
-						} else {
-							firstName = "No firstname";
-						}
-						
-						if (witness.getLastName() != null && !witness.getLastName().trim().isEmpty()) {
-							lastName = witness.getLastName().trim();
-						} else {
-							lastName = "No lastname";
-						}
-						fullName = lastName + ", " + firstName;
-						
-						witnessTableRO.setFirstName(firstName);
-						witnessTableRO.setMiddleName(witness.getMiddleName());
-						witnessTableRO.setLastName(lastName);
-						witnessTableRO.setNameSuffix(witness.getNameSuffix());
-						witnessTableRO.setFullName(fullName);
-						witnessTableRO.setDateOfBirth(witness.getDateOfBirth());
-						witnessTableRO.setAge(witness.getAge());
-						witnessTableRO.setPhone(witness.getPhone());
-						witnessTableRO.setAlternatePhone(witness.getAlternatePhone());
-						witnessTableRO.setEmail(witness.getEmail());
-						if (witness.getStatusFlag() != null) {
-							witnessTableRO.setStatusFlag(witness.getStatusFlag().name());
-						}
-						if (witness.getGenderType() != null) {
-							witnessTableRO.setGenderTypeCode(witness.getGenderType().getId());
-							witnessTableRO.setGenderTypeDescription(witness.getGenderType().getDescription());
-						}
-						if (witness.getWitnessType() != null) {	
-							witnessTableRO.setTypeCode(witness.getWitnessType().getId());
-							witnessTableRO.setTypeDescription(witness.getWitnessType().getDescription());
-						}
-						witnessTableRO.setTypeOtherDescription(witness.getWitnessTypeOther());
-						witnessTableROs.add(witnessTableRO);
 					}
 				}
 			}
@@ -544,68 +387,207 @@ public class WitnessRestServiceImpl extends AbstractRestService implements Witne
 			if (crime.getEmployeeWitnesses() != null && !crime.getEmployeeWitnesses().isEmpty()) {
 				for (User employeeWitness : crime.getEmployeeWitnesses()) {
 					if (employeeWitness != null) {
-						final WitnessTableRO witnessTableRO = new WitnessTableRO();
-						
-						//Set the witness category as employee
-						witnessTableRO.setWitnessCategory("EMPLOYEE");
-						//Witness id will be null for employee type Witnesses.
-						witnessTableRO.setWitnessId(0l);
-						//crime suspect id will be null for accident witness
-						witnessTableRO.setCrimeId(crime.getId());
-						//accident id will be null for crime witnesses
-						witnessTableRO.setAccidentId(0l);
-						
-						if (crime.getIncident() != null) {
-							witnessTableRO.setIncidentId(crime.getIncident().getId());
-							witnessTableRO.setUniqueIncidentId(crime.getIncident().getUniqueIncidentId());
+						final WitnessTableRO witnessTableRO = constructEmployeeWitnessTableRO(employeeWitness, null, crime);
+						if (witnessTableRO != null) {
+							witnessTableROs.add(witnessTableRO);
 						}
-						
-						witnessTableRO.setEmployeeId(employeeWitness.getId());
-						witnessTableRO.setEmployeeLoginId(employeeWitness.getLoginId());
-						witnessTableRO.setTitle(employeeWitness.getTitle());
-						
-						String firstName = null;
-						String lastName = null;
-						String fullName = null;
-						
-						if (employeeWitness.getFirstName() != null && !employeeWitness.getFirstName().trim().isEmpty()) {
-							firstName = employeeWitness.getFirstName().trim();
-						} else {
-							firstName = "No firstname";
-						}
-						
-						if (employeeWitness.getLastName() != null && !employeeWitness.getLastName().trim().isEmpty()) {
-							lastName = employeeWitness.getLastName().trim();
-						} else {
-							lastName = "No lastname";
-						}
-						fullName = lastName + ", " + firstName;
-						
-						witnessTableRO.setFirstName(firstName);
-						witnessTableRO.setMiddleName(employeeWitness.getMiddleName());
-						witnessTableRO.setLastName(lastName);
-						witnessTableRO.setNameSuffix(employeeWitness.getNameSuffix());
-						witnessTableRO.setFullName(fullName);
-						witnessTableRO.setDateOfBirth(employeeWitness.getDateOfBirth());
-						witnessTableRO.setAge(employeeWitness.getAge());
-						witnessTableRO.setPhone(employeeWitness.getPhone());
-						witnessTableRO.setAlternatePhone(employeeWitness.getAlternatePhone());
-						witnessTableRO.setEmail(employeeWitness.getEmail());
-						if (employeeWitness.getStatusFlag() != null) {
-							witnessTableRO.setStatusFlag(employeeWitness.getStatusFlag().name());
-						}
-						if (employeeWitness.getGenderType() != null) {
-							witnessTableRO.setGenderTypeCode(employeeWitness.getGenderType().getId());
-							witnessTableRO.setGenderTypeDescription(employeeWitness.getGenderType().getDescription());
-						}
-						witnessTableRO.setTypeCode("EMP");
-						witnessTableRO.setTypeDescription("Employee");
-						witnessTableRO.setTypeOtherDescription(null);
-						witnessTableROs.add(witnessTableRO);
 					}
 				}
 			}
 		}		
 		return witnessTableROs;
-	}	
+	}
+	
+	private WitnessTableRO constructWitnessTableRO(final Witness witness, final Accident accident, final Crime crime) {
+		final WitnessTableRO witnessTableRO = new WitnessTableRO();
+		if (witness != null) {
+			//Set the Witness category as non-employee						
+			witnessTableRO.setWitnessCategory("NON-EMPLOYEE");
+			witnessTableRO.setWitnessId(witness.getId());
+			
+			if (accident != null) {
+				witnessTableRO.setAccidentId(accident.getId());
+				//crime id will be null for accident witness
+				witnessTableRO.setCrimeId(0l);
+				if (accident.getIncident() != null) {
+					witnessTableRO.setIncidentId(accident.getIncident().getId());
+					witnessTableRO.setUniqueIncidentId(accident.getIncident().getUniqueIncidentId());							
+				}
+			}
+			
+			if (crime != null) {
+				witnessTableRO.setCrimeId(crime.getId());
+				//accident id will be null or zero for crime witnesses
+				witnessTableRO.setAccidentId(0l);
+				if (crime.getIncident() != null) {
+					witnessTableRO.setIncidentId(crime.getIncident().getId());
+					witnessTableRO.setUniqueIncidentId(crime.getIncident().getUniqueIncidentId());
+				}
+			}
+			
+			//employee id and employee login id will be null for non-employee witnesses
+			witnessTableRO.setEmployeeId(0l);
+			witnessTableRO.setEmployeeLoginId(null);
+			
+			witnessTableRO.setTitle(witness.getTitle());
+			
+			String firstName = null;
+			String lastName = null;
+			String fullName = null;
+			
+			if (witness.getFirstName() != null && !witness.getFirstName().trim().isEmpty()) {
+				firstName = witness.getFirstName().trim();
+			} else {
+				firstName = "No firstname";
+			}
+			
+			if (witness.getLastName() != null && !witness.getLastName().trim().isEmpty()) {
+				lastName = witness.getLastName().trim();
+			} else {
+				lastName = "No lastname";
+			}
+			fullName = lastName + ", " + firstName;
+			
+			witnessTableRO.setFirstName(firstName);
+			witnessTableRO.setMiddleName(witness.getMiddleName());
+			witnessTableRO.setLastName(lastName);
+			witnessTableRO.setNameSuffix(witness.getNameSuffix());
+			witnessTableRO.setFullName(fullName);
+			witnessTableRO.setDateOfBirth(witness.getDateOfBirth());
+			witnessTableRO.setAge(witness.getAge());
+			witnessTableRO.setPhone(witness.getPhone());
+			witnessTableRO.setAlternatePhone(witness.getAlternatePhone());
+			witnessTableRO.setEmail(witness.getEmail());
+			
+			StatusFlagRO statusFlagRO = StatusFlagRO.ACTIVE; 
+			if (witness.getStatusFlag() != null && witness.getStatusFlag().name().equals("INACTIVE")) {
+				statusFlagRO = StatusFlagRO.INACTIVE;
+			}
+			witnessTableRO.setStatusFlag(statusFlagRO);
+			
+			if (witness.getGenderType() != null) {
+				witnessTableRO.setGenderTypeCode(witness.getGenderType().getId());
+				witnessTableRO.setGenderTypeDescription(witness.getGenderType().getDescription());
+				final GenderType genderType = witness.getGenderType();
+				final GenderTypeRO genderTypeRO = _mapperService.map(genderType, GenderTypeRO.class);
+				witnessTableRO.setGenderType(genderTypeRO);
+			}
+			if (witness.getWitnessType() != null) {	
+				witnessTableRO.setTypeCode(witness.getWitnessType().getId());
+				witnessTableRO.setTypeDescription(witness.getWitnessType().getDescription());
+				final WitnessType witnessType = witness.getWitnessType();
+				final WitnessTypeRO witnessTypeRO = _mapperService.map(witnessType, WitnessTypeRO.class);
+				witnessTableRO.setWitnessType(witnessTypeRO);
+			}
+			witnessTableRO.setTypeOtherDescription(witness.getWitnessTypeOther());
+			//other fields added to be in sync with WitnessRO
+			witnessTableRO.setId(witness.getId());
+			witnessTableRO.setWebsite(witness.getWebsite());
+			if (witness.getAddresses() != null && !witness.getAddresses().isEmpty()) {
+				final Set<Address> addresses = witness.getAddresses();
+				final Set<AddressRO> addressROs = _mapperService.map(addresses, AddressRO.class);
+				witnessTableRO.setAddresses(addressROs);
+			}
+			witnessTableRO.setDistinguishingFeatureOther(witness.getDistinguishingFeatureOther());
+			witnessTableRO.setWitnessTypeOther(witness.getWitnessTypeOther());
+			witnessTableRO.setGenderTypeOther(witness.getGenderTypeOther());
+			if (witness.getDistinguishingFeatureDetails() != null && !witness.getDistinguishingFeatureDetails().isEmpty()) {
+				final Set<DistinguishingFeatureDetail> distinguishingFeatureDetails = witness.getDistinguishingFeatureDetails();
+				final Set<DistinguishingFeatureDetailRO> distinguishingFeatureDetailROs = _mapperService.map(distinguishingFeatureDetails, DistinguishingFeatureDetailRO.class);
+				witnessTableRO.setDistinguishingFeatureDetails(distinguishingFeatureDetailROs);							
+			}
+		}
+		return witnessTableRO;
+	}
+	
+	private WitnessTableRO constructEmployeeWitnessTableRO(final User employeeWitness, final Accident accident, final Crime crime) {
+		final WitnessTableRO witnessTableRO = new WitnessTableRO();
+		if (employeeWitness != null) {
+			//Set the witness category as employee
+			witnessTableRO.setWitnessCategory("EMPLOYEE");						
+			//Witness id will be null for employee type Witnesses.
+			witnessTableRO.setWitnessId(0l);
+			
+			if (accident != null) {
+				//crime id will be null for accident witness
+				witnessTableRO.setCrimeId(0l);
+				witnessTableRO.setAccidentId(accident.getId());
+				if (accident.getIncident() != null) {
+					witnessTableRO.setIncidentId(accident.getIncident().getId());
+					witnessTableRO.setUniqueIncidentId(accident.getIncident().getUniqueIncidentId());
+				}
+			}
+			
+			if (crime != null) {
+				//accident id will be null for crime witness
+				witnessTableRO.setCrimeId(crime.getId());
+				witnessTableRO.setAccidentId(0l);
+				if (crime.getIncident() != null) {
+					witnessTableRO.setIncidentId(crime.getIncident().getId());
+					witnessTableRO.setUniqueIncidentId(crime.getIncident().getUniqueIncidentId());
+				}
+			}
+						
+			witnessTableRO.setEmployeeId(employeeWitness.getId());
+			witnessTableRO.setEmployeeLoginId(employeeWitness.getLoginId());
+			witnessTableRO.setTitle(employeeWitness.getTitle());
+			
+			String firstName = null;
+			String lastName = null;
+			String fullName = null;
+			
+			if (employeeWitness.getFirstName() != null && !employeeWitness.getFirstName().trim().isEmpty()) {
+				firstName = employeeWitness.getFirstName().trim();
+			} else {
+				firstName = "No firstname";
+			}
+			
+			if (employeeWitness.getLastName() != null && !employeeWitness.getLastName().trim().isEmpty()) {
+				lastName = employeeWitness.getLastName().trim();
+			} else {
+				lastName = "No lastname";
+			}
+			fullName = lastName + ", " + firstName;
+			
+			witnessTableRO.setFirstName(firstName);
+			witnessTableRO.setMiddleName(employeeWitness.getMiddleName());
+			witnessTableRO.setLastName(lastName);
+			witnessTableRO.setNameSuffix(employeeWitness.getNameSuffix());
+			witnessTableRO.setFullName(fullName);
+			witnessTableRO.setDateOfBirth(employeeWitness.getDateOfBirth());
+			witnessTableRO.setAge(employeeWitness.getAge());
+			witnessTableRO.setPhone(employeeWitness.getPhone());
+			witnessTableRO.setAlternatePhone(employeeWitness.getAlternatePhone());
+			witnessTableRO.setEmail(employeeWitness.getEmail());
+			
+			StatusFlagRO statusFlagRO = StatusFlagRO.ACTIVE; 
+			if (employeeWitness.getStatusFlag() != null && employeeWitness.getStatusFlag().name().equals("INACTIVE")) {
+				statusFlagRO = StatusFlagRO.INACTIVE;
+			}
+			witnessTableRO.setStatusFlag(statusFlagRO);
+			
+			if (employeeWitness.getGenderType() != null) {
+				witnessTableRO.setGenderTypeCode(employeeWitness.getGenderType().getId());
+				witnessTableRO.setGenderTypeDescription(employeeWitness.getGenderType().getDescription());
+				final GenderType genderType = employeeWitness.getGenderType();
+				final GenderTypeRO genderTypeRO = _mapperService.map(genderType, GenderTypeRO.class);
+				witnessTableRO.setGenderType(genderTypeRO);
+			}
+			witnessTableRO.setTypeCode("EMP");
+			witnessTableRO.setTypeDescription("Employee");
+			final WitnessTypeRO witnessTypeRO = new WitnessTypeRO();
+			witnessTypeRO.setId("EMP");
+			witnessTypeRO.setDescription("Employee");
+			witnessTableRO.setWitnessType(witnessTypeRO);
+			//other fields added for consistency with WitnessRO
+			witnessTableRO.setId(employeeWitness.getId());						
+			if (employeeWitness.getAddresses() != null && !employeeWitness.getAddresses().isEmpty()) {
+				final Set<Address> addresses = employeeWitness.getAddresses();
+				final Set<AddressRO> addressROs = _mapperService.map(addresses, AddressRO.class);
+				witnessTableRO.setAddresses(addressROs);
+			}
+			witnessTableRO.setGenderTypeOther(employeeWitness.getGenderTypeOther());
+		}
+		return witnessTableRO;
+	}
 }

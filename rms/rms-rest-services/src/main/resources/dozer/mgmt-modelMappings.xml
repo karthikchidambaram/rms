@@ -270,7 +270,7 @@
 		<field-exclude>
 			<a>accidents</a>
 			<b>accidents</b>
-		</field-exclude>		
+		</field-exclude>
 	</mapping>
 	
 	<mapping>
