@@ -48,6 +48,6 @@ public class SearchIncidentDaoImpl extends AbstractHibernateDao<Long, SearchInci
 		if (!isAdmin) {
 			criteria.add(Restrictions.in("userLoginId", loginIds));
 		}
-		return (List<SearchIncident>) criteria.list();
+		return (List<SearchIncident>) applySearch(criteria).list();
 	}
 }
