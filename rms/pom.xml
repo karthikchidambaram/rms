@@ -52,6 +52,7 @@
 		<jackson.annotations.version>2.8.6</jackson.annotations.version>
 		<jackson.databind.version>2.8.6</jackson.databind.version>
 		<jackson.jaxrs.version>1.9.13</jackson.jaxrs.version>
+		<spring.webflow.version>2.4.6.RELEASE</spring.webflow.version>
 
 		<!-- Version management at central location -->
 		<spring.security.web.version>4.2.2.RELEASE</spring.security.web.version>
@@ -772,6 +773,12 @@
 				<artifactId>commons-pool2</artifactId>
 				<version>${commons.pool2.version}</version>
 			</dependency>
+			<!-- https://mvnrepository.com/artifact/org.springframework.webflow/spring-webflow -->
+			<dependency>
+			    <groupId>org.springframework.webflow</groupId>
+			    <artifactId>spring-webflow</artifactId>
+			    <version>${spring.webflow.version}</version>			    
+			</dependency>						
 
 		</dependencies>
 
