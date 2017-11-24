@@ -372,9 +372,7 @@
 		<module>rms-services</module>
 		<module>rms-domain</module>
 		<module>rms-persistence</module>
-		<module>rms-rest-services</module>
-		<!-- Sub applications -->
-		<module>rms-batch</module>
+		<module>rms-rest-services</module>		
 	</modules>
 
 	<dependencyManagement>
