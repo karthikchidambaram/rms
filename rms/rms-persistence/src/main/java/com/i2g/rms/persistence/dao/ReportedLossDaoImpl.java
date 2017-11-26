@@ -61,7 +61,7 @@ public class ReportedLossDaoImpl extends AbstractHibernateDao<Long, ReportedLoss
 	@Override
 	public List<ReportedLoss> get(final Incident incident) {
 		final Criteria criteria = getSession().createCriteria(_modelType);
-		criteria.add(Restrictions.eq("incident", Objects.requireNonNull(incident, "Incident cannot be null or empty.")));
+		criteria.add(Restrictions.eq("incident", Objects.requireNonNull(incident, "Incident object cannot be null or empty while trying to fetch its reported losses.")));
 		criteria.add(Restrictions.eq("statusFlag", StatusFlag.ACTIVE));
 		return (List<ReportedLoss>) criteria.list();
 	}
@@ -137,6 +137,18 @@ public class ReportedLossDaoImpl extends AbstractHibernateDao<Long, ReportedLoss
 					super.delete(reportedLoss);
 				}
 			}
+		}
+	}
+
+	@Override
+	public List<ReportedLoss> createAndAddToReportedLossTable(final ReportedLoss reportedLoss) {
+		validateObject(reportedLoss);
+		final Incident incident = reportedLoss.getIncident();		
+		final Long id = save(reportedLoss);
+		if (id != null) {
+			return get(incident);
+		} else {
+			return null;
 		}
 	}	
 }

@@ -22,6 +22,7 @@ public interface ReportedLossDao {
 	public ReportedLoss get(final long id);
 	
 	public ReportedLoss createReportedLoss(final ReportedLoss reportedLoss);
+	public List<ReportedLoss> createAndAddToReportedLossTable(final ReportedLoss reportedLoss);
 	public List<ReportedLoss> createReportedLosses(final Set<ReportedLoss> reportedLosses);
 	
 	public ReportedLoss updateReportedLoss(final ReportedLoss reportedLoss);

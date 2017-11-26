@@ -73,6 +73,11 @@ public class ReportedLossController extends AbstractRestController {
 		return _reportedLossRestService.createReportedLoss(reportedLossRO);
 	}
 	
+	@RequestMapping(value = RequestMappingConstants.CREATE_AND_ADD_TO_REPORTED_LOSS_TABLE, method = RequestMethod.POST)
+	public List<ReportedLossRO> createAndAddToReportedLossTable(@Valid @RequestBody final ReportedLossRO reportedLossRO) {
+		return _reportedLossRestService.createAndAddToReportedLossTable(reportedLossRO);
+	}
+	
 	@RequestMapping(value = RequestMappingConstants.CREATE_REPORTED_LOSS_FOR_INCIDENT_ID, method = RequestMethod.POST)
 	public ReportedLossRO createReportedLossForIncidentId(@PathVariable final Long incidentId, @Valid @RequestBody final ReportedLossRO reportedLossRO) {
 		return _reportedLossRestService.createReportedLossForIncidentId(incidentId, reportedLossRO);

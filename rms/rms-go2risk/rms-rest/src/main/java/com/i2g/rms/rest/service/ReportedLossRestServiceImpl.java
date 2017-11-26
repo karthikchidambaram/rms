@@ -140,6 +140,23 @@ public class ReportedLossRestServiceImpl extends AbstractRestService implements 
 	@Override
 	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
 	@Transactional
+	public List<ReportedLossRO> createAndAddToReportedLossTable(ReportedLossRO reportedLossRO) {
+		validateObject(reportedLossRO);
+		final Incident incident = getIncident(reportedLossRO);
+		validateGenericObject(incident);
+		final ReportedLoss reportedLoss = constructNewReportedLoss(incident, reportedLossRO);
+		validateGenericObject(reportedLoss);
+		final List<ReportedLoss> reportedLosses = _reportedLossService.createAndAddToReportedLossTable(reportedLoss);
+		if (reportedLosses != null) {
+			return _mapperService.map(reportedLosses, ReportedLossRO.class);
+		} else {
+			throw new ResourceNotCreatedException(_messageBuilder.build(RestMessage.UNABLE_TO_CREATE_RECORD));
+		}
+	}
+	
+	@Override
+	@PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'CLAIMS_HANDLER', 'INVESTIGATOR', 'SUPERVISOR')")
+	@Transactional
 	public ReportedLossRO createReportedLossForIncidentId(final Long incidentId, final ReportedLossRO reportedLossRO) {
 		validateKeyId(incidentId);
 		validateObject(reportedLossRO);
@@ -346,5 +363,5 @@ public class ReportedLossRestServiceImpl extends AbstractRestService implements 
 			}
 		}
 		return incident;
-	}	
+	}		
 }

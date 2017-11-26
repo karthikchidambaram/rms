@@ -471,8 +471,9 @@ public interface RequestMappingConstants {
 	String GET_REPORTED_LOSS_TABLE_BY_UNIQUE_INCIDENT_ID				= REPORTED_LOSS + "/reported-loss-table/uniqueIncidentId/{uniqueIncidentId}";
 	String GET_REPORTED_LOSS_BY_REPORTED_LOSS_ID						= REPORTED_LOSS + "/reportedLossId/{reportedLossId}";
 	String CREATE_REPORTED_LOSS											= REPORTED_LOSS + "/create-reported-loss";
+	String CREATE_AND_ADD_TO_REPORTED_LOSS_TABLE						= REPORTED_LOSS + "/create-and-add-rpt-loss-table";
 	String CREATE_REPORTED_LOSS_FOR_INCIDENT_ID							= REPORTED_LOSS + "/create-reported-loss/incidentId/{incidentId}";
-	String CREATE_REPORTED_LOSS_FOR_UNIQUE_INCIDENT_ID							= REPORTED_LOSS + "/create-reported-loss/uniqueIncidentId/{uniqueIncidentId}";
+	String CREATE_REPORTED_LOSS_FOR_UNIQUE_INCIDENT_ID					= REPORTED_LOSS + "/create-reported-loss/uniqueIncidentId/{uniqueIncidentId}";
 	String CREATE_REPORTED_LOSSES										= REPORTED_LOSS + "/create-reported-losses";
 	String UPDATE_REPORTED_LOSS											= REPORTED_LOSS + "/update-reported-loss";
 	String UPDATE_REPORTED_LOSSES										= REPORTED_LOSS + "/update-reported-losses";

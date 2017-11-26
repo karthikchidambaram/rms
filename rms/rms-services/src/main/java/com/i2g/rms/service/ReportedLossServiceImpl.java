@@ -70,4 +70,9 @@ public class ReportedLossServiceImpl extends AbstractService implements Reported
 	public void deleteReportedLosses(final Set<ReportedLoss> reportedLosses) {
 		_reportedLossDao.deleteReportedLosses(reportedLosses);
 	}
+
+	@Override
+	public List<ReportedLoss> createAndAddToReportedLossTable(final ReportedLoss reportedLoss) {
+		return _reportedLossDao.createAndAddToReportedLossTable(reportedLoss);
+	}
 }

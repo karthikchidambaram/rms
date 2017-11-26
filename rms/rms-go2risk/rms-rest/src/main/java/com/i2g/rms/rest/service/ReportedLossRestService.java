@@ -32,6 +32,8 @@ public interface ReportedLossRestService {
 
 	public ReportedLossRO createReportedLoss(final ReportedLossRO reportedLossRO);
 	
+	public List<ReportedLossRO> createAndAddToReportedLossTable(final ReportedLossRO reportedLossRO);
+	
 	public ReportedLossRO createReportedLossForIncidentId(final Long incidentId, final ReportedLossRO reportedLossRO);
 	
 	public ReportedLossRO createReportedLossForUniqueIncidentId(final String uniqueIncidentId, final ReportedLossRO reportedLossRO);

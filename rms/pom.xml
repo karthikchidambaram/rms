@@ -17,6 +17,9 @@
 		<java.source.version>1.8</java.source.version>
 		<java.target.version>1.8</java.target.version>
 
+		<!-- Maven version -->
+		<maven.version>3.3</maven.version>
+
 		<!-- Other global verion properties -->
 		<org.slf4j.version>1.7.24</org.slf4j.version>
 		<org.apache.cxf.version>3.0.6</org.apache.cxf.version>
@@ -97,7 +100,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
-					<version>3.3</version>
+					<version>${maven.version}</version>
 					<configuration>
 						<source>${java.source.version}</source>
 						<target>${java.target.version}</target>
@@ -372,7 +375,8 @@
 		<module>rms-services</module>
 		<module>rms-domain</module>
 		<module>rms-persistence</module>
-		<module>rms-rest-services</module>		
+		<module>rms-rest-services</module>
+		<module>rms-batch</module>
 	</modules>
 
 	<dependencyManagement>
@@ -679,6 +683,12 @@
 			</dependency>
 
 			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-web</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+
+			<dependency>
 				<groupId>org.springframework.data</groupId>
 				<artifactId>spring-data-jpa</artifactId>
 				<version>${spring.data.jpa.version}</version>
@@ -773,10 +783,17 @@
 			</dependency>
 			<!-- https://mvnrepository.com/artifact/org.springframework.webflow/spring-webflow -->
 			<dependency>
-			    <groupId>org.springframework.webflow</groupId>
-			    <artifactId>spring-webflow</artifactId>
-			    <version>${spring.webflow.version}</version>			    
-			</dependency>						
+				<groupId>org.springframework.webflow</groupId>
+				<artifactId>spring-webflow</artifactId>
+				<version>${spring.webflow.version}</version>
+			</dependency>
+
+			<!-- https://mvnrepository.com/artifact/org.quartz-scheduler/quartz -->
+			<dependency>
+				<groupId>org.quartz-scheduler</groupId>
+				<artifactId>quartz</artifactId>
+				<version>${quartz.version}</version>				
+			</dependency>
 
 		</dependencies>
 

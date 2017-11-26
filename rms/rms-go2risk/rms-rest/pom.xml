@@ -76,27 +76,23 @@
 		<!-- JSON Mapping Dependencies -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-core</artifactId>
-			<version>${jackson.core.version}</version>
+			<artifactId>jackson-core</artifactId>			
 		</dependency>
 
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-annotations</artifactId>
-			<version>${jackson.annotations.version}</version>
+			<artifactId>jackson-annotations</artifactId>			
 		</dependency>
 
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-			<version>${jackson.databind.version}</version>
+			<artifactId>jackson-databind</artifactId>			
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.codehaus.jackson/jackson-jaxrs -->
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-jaxrs</artifactId>
-			<version>${jackson.jaxrs.version}</version>
+			<artifactId>jackson-jaxrs</artifactId>			
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/com.querydsl/querydsl-apt -->
