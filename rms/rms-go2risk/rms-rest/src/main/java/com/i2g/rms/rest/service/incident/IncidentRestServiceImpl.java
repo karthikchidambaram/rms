@@ -2261,6 +2261,25 @@ public class IncidentRestServiceImpl extends AbstractRestService implements Inci
 					}
 				}
 			}
+			// Set yes or no type fields
+			YesNoType assetDamage = YesNoType.N; 
+			if (logIncidentRO.getAssetDamage() != null && logIncidentRO.getAssetDamage().name().equals("Y")) {
+				assetDamage = YesNoType.Y;
+			}
+			incident.setAssetDamage(assetDamage);
+			
+			YesNoType criminalAttack = YesNoType.N;
+			if (logIncidentRO.getCriminalAttack() != null && logIncidentRO.getCriminalAttack().name().equals("Y")) {
+				criminalAttack = YesNoType.Y;
+			}
+			incident.setCriminalAttack(criminalAttack);
+			
+			YesNoType accidentDamage = YesNoType.N;
+			if (logIncidentRO.getAccidentDamage() != null && logIncidentRO.getAccidentDamage().name().equals("Y")) {
+				accidentDamage = YesNoType.Y;
+			}
+			incident.setAccidentDamage(accidentDamage);
+			
 			YesNoType notifyClaimsHandler = YesNoType.N;
 			if (logIncidentRO.getNotifyClaimsHandler() != null && logIncidentRO.getNotifyClaimsHandler().name().equals("Y")) {
 				notifyClaimsHandler = YesNoType.Y;
